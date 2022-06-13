@@ -11,8 +11,21 @@
 # production
 /build
 
+# commands
+/scripts
+
+# config
+/config/jest
+/config/webpack
+/config/env.js
+/config/getHttpsConfig.js
+/config/modules.js
+/config/paths.js
+/config/webpackDevServer.config.js
+
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
