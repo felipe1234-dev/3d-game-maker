@@ -1,5 +1,5 @@
 import React from "react";
-import * as Game from "@local/modules/Game";
+import * as Game from "@local/classes/Game";
 
 const ScreenContext = React.createContext<{
     setScreen: (newScreen: Game.Screen | null) => void,
