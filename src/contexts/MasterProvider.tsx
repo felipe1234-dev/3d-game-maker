@@ -1,4 +1,5 @@
 import React from "react";
+import { ScreenProvider } from "./Screen";
 
 const ProviderComposer = (
     props: {
@@ -7,14 +8,15 @@ const ProviderComposer = (
     }
 ) => (
     <>
-        {props.providers.reduceRight((acc, Provider) => (
-            <Provider>{acc}</Provider>
+        {props.providers.reduceRight((otherProviders, Provider) => (
+            <Provider>{otherProviders}</Provider>
         ), props.children)}
     </>
 )
 
 const MasterProvider = (props: { children: React.ReactNode }) => (
     <ProviderComposer providers={[
+        ScreenProvider
     ]}>
         {props.children}
     </ProviderComposer>
