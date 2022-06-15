@@ -1,28 +1,33 @@
+@import "../_colors.scss";
+
 .Editor {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     min-width: 100%;
     
+    $menubar-height: 37px;
+    
     &-menubar {
         position: relative !important;
-        background-color: #ddd !important;
+        background-color: $primary-color !important;
         box-shadow: none !important;
         
         .MuiToolbar-root {
             padding: 0;
-            min-height: 32px;
+            min-height: $menubar-height;
+            max-height: $menubar-height;
         }
         
         .MuiButton-root {
             text-transform: none;
-            color: #666;
+            color: $text-color;
             min-width: 50px;
             border-radius: 0;
             
             &:hover, &[aria-expanded] {
-                background-color: #2271b1;
-                color: #fff;
+                background-color: darken($primary-color, 5%);
+                color: $secondary-color;
             }
         }
     }
@@ -31,5 +36,36 @@
         position: relative;
         width: 100%;
         flex: 1;
+    }
+    
+    &-accordions {
+        $extra-space: 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: #{$menubar-height + $extra-space} $extra-space;
+        max-width: 300px;
+        
+        .MuiAccordion-root {
+            background-color: $primary-color;
+            border-radius: 0 !important;
+            color: $text-color;
+            
+            .MuiAccordionSummary { 
+                &-content {
+                    margin: 0;
+                }
+                
+                &-root {
+                    min-height: $menubar-height;
+                    max-height: $menubar-height;
+                    
+                    &:hover, &[aria-expanded="true"] {
+                        background-color: darken($primary-color, 5%);
+                        color: $secondary-color;
+                    }
+                }
+            }
+        }
     }
 }
