@@ -64,6 +64,10 @@ class Screen {
         this.container.appendChild(this.webGLRenderer.domElement);
     }
     
+    public get canvas(): HTMLCanvasElement {
+        return this.renderer.domElement;
+    }
+    
     public animate(callback?: () => void) {
         const startAnimation = () => {
             requestAnimationFrame(startAnimation);
