@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import {
     AddRounded as ZoomInIcon,
     RemoveRounded as ZoomOutIcon
@@ -24,22 +24,29 @@ function Toolbar() {
     
     return (
         <Box className="Editor-toolbar" component="aside">
-            <Pressable 
-                component={IconButton}
-                aria-label="Zoom In"
-                onMousePress={() => onZoom("in")}
-                ms={50}
-            >
-                <ZoomInIcon />
-            </Pressable>
-            <Pressable 
-                component={IconButton}
-                aria-label="Zoom Out"
-                onMousePress={() => onZoom("out")}
-                ms={50}
-            >
-                <ZoomOutIcon />
-            </Pressable>
+            <Tooltip title="Zoom In" placement="right">
+                <Pressable 
+                    component={IconButton}
+                    aria-label="Zoom In"
+                    onMousePress={() => onZoom("in")}
+                    ms={50}
+                >
+                    <ZoomInIcon />
+                </Pressable>
+            </Tooltip>
+            <Tooltip title="Zoom Out" placement="right">
+                <Pressable 
+                    component={IconButton}
+                    aria-label="Zoom Out"
+                    onMousePress={() => onZoom("out")}
+                    ms={50}
+                >
+                    <ZoomOutIcon />
+                </Pressable>
+            </Tooltip>
+            {/*<Tooltip title="Move ">
+                <IconButton></IconButton>
+            </Tooltip>*/}
         </Box>
     );
 }
