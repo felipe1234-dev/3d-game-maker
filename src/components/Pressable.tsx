@@ -14,6 +14,7 @@ function Pressable(props: PressableProps) {
         onMousePress, 
         onMouseRelease,
         children,
+        ms,
         ...rest
     } = props;
     
@@ -31,7 +32,7 @@ function Pressable(props: PressableProps) {
         
         intervalRef.current = setInterval(() => {
             onMousePress();
-        }, props.ms ?? 100);
+        }, ms ?? 100);
     };
 
     const onStopPressing = () => {
