@@ -2,7 +2,10 @@ import React from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import {
     AddRounded as ZoomInIcon,
-    RemoveRounded as ZoomOutIcon
+    RemoveRounded as ZoomOutIcon,
+    OpenWithRounded as MoveIcon,
+    FitScreenRounded as ResizeIcon,
+    CropRotateRounded as RotateIcon
 } from "@mui/icons-material";
 
 import { Pressable } from "@local/components";
@@ -44,9 +47,28 @@ function Toolbar() {
                     <ZoomOutIcon />
                 </Pressable>
             </Tooltip>
-            {/*<Tooltip title="Move ">
-                <IconButton></IconButton>
-            </Tooltip>*/}
+            
+            <Tooltip title="Move object" placement="right">
+                <IconButton
+                    aria-label="Move object"
+                >
+                    <MoveIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Resize object" placement="right">
+                <IconButton
+                    aria-label="Resize object"
+                >
+                    <ResizeIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Rotate object" placement="right">
+                <IconButton
+                    aria-label="Rotate object"
+                >
+                    <RotateIcon />
+                </IconButton>
+            </Tooltip>
         </Box>
     );
 }
