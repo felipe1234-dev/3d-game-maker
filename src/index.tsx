@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { MasterProvider } from "./contexts";
+import { AppProvider } from "./contexts";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -9,8 +9,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <MasterProvider>
+        <AppProvider>
             <App />
-        </MasterProvider>
+        </AppProvider>
     </React.StrictMode>
 );
