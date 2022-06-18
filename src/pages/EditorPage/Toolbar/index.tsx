@@ -9,21 +9,11 @@ import {
 } from "@mui/icons-material";
 
 import { Pressable } from "@local/components";
-import { ScreenContext } from "@local/contexts";
+import { EditorContext } from "@local/contexts";
 
 function Toolbar() {
-    const { screen } = React.useContext(ScreenContext);
-    
-    const onZoom = (type: "in" | "out") => {
-        if (screen) {
-            const wheelEvent = new WheelEvent("wheel", {
-                deltaY: type === "in" ? -240 : +240,
-                bubbles: true, 
-                cancelable: true
-            });
-            screen.canvas.dispatchEvent(wheelEvent);
-        }
-    }
+    const editor = React.useContext(EditorContext);
+    const zoomSpeed = editor ? editor.orbitControls.zoomSpeed*50 : 1;
     
     return (
         <Box className="Editor-toolbar" component="aside">
@@ -31,8 +21,8 @@ function Toolbar() {
                 <Pressable 
                     component={IconButton}
                     aria-label="Zoom In"
-                    onMousePress={() => onZoom("in")}
-                    ms={50}
+                    onMousePress={() => editor?.orbitControls.zoomIn()}
+                    ms={zoomSpeed}
                 >
                     <ZoomInIcon />
                 </Pressable>
@@ -41,8 +31,8 @@ function Toolbar() {
                 <Pressable 
                     component={IconButton}
                     aria-label="Zoom Out"
-                    onMousePress={() => onZoom("out")}
-                    ms={50}
+                    onMousePress={() => editor?.orbitControls.zoomOut()}
+                    ms={zoomSpeed}
                 >
                     <ZoomOutIcon />
                 </Pressable>
