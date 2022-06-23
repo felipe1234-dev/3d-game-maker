@@ -58,47 +58,62 @@ function Toolbar() {
     
     return (
         <Box className="Editor-toolbar" component="aside">
-            <Tooltip title="Zoom In" placement="right">
-                <Pressable 
-                    component={IconButton}
-                    aria-label="Zoom In"
-                    onMousePress={() => editor?.orbitControls.zoomIn()}
-                    ms={zoomSpeed}
-                >
+            <Pressable
+                component={IconButton}
+                aria-label="Zoom In"
+                onMousePress={() => editor?.orbitControls.zoomIn()}
+                ms={zoomSpeed}
+            >
+                <Tooltip title="Zoom In" placement="right">
                     <ZoomInIcon />
-                </Pressable>
-            </Tooltip>
-            <Tooltip title="Zoom Out" placement="right">
-                <Pressable 
-                    component={IconButton}
-                    aria-label="Zoom Out"
-                    onMousePress={() => editor?.orbitControls.zoomOut()}
-                    ms={zoomSpeed}
-                >
+                </Tooltip>
+            </Pressable>
+            <Pressable 
+                component={IconButton}
+                aria-label="Zoom Out"
+                onMousePress={() => editor?.orbitControls.zoomOut()}
+                ms={zoomSpeed}
+            >
+                <Tooltip title="Zoom Out" placement="right">
                     <ZoomOutIcon />
-                </Pressable>
-            </Tooltip>
+                </Tooltip>
+            </Pressable>
             
             <Tooltip title="Move object" placement="right">
-                <IconButton
-                    aria-label="Move object"
-                >
-                    <MoveIcon />
-                </IconButton>
+                <span>
+                    <IconButton
+                        aria-label="Move object"
+                        onClick={() => onSetMode("translate")}
+                        data-selected={mode === "translate"}
+                        disabled={isDisabled}
+                    >
+                        <MoveIcon />
+                    </IconButton>
+                </span>
             </Tooltip>
             <Tooltip title="Resize object" placement="right">
-                <IconButton
-                    aria-label="Resize object"
-                >
-                    <ResizeIcon />
-                </IconButton>
+                <span>
+                    <IconButton
+                        aria-label="Resize object"
+                        onClick={() => onSetMode("scale")}
+                        data-selected={mode === "scale"}
+                        disabled={isDisabled}
+                    >
+                        <ResizeIcon />
+                    </IconButton>
+                </span>
             </Tooltip>
             <Tooltip title="Rotate object" placement="right">
-                <IconButton
-                    aria-label="Rotate object"
-                >
-                    <RotateIcon />
-                </IconButton>
+                <span>
+                    <IconButton
+                        aria-label="Rotate object"
+                        onClick={() => onSetMode("rotate")}
+                        data-selected={mode === "rotate"}
+                        disabled={isDisabled}
+                    >
+                        <RotateIcon />
+                    </IconButton>
+                </span>
             </Tooltip>
         </Box>
     );
