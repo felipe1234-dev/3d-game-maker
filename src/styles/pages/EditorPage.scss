@@ -84,9 +84,14 @@
             color: $text-color;
             border-radius: 0;
             
-            &:hover {
+            &:hover:not(:disabled) {
                 background-color: $secondary-color;
                 color: lighten($primary-color, 100%);
+            }
+            
+            &:disabled {
+                opacity: .5;
+                cursor: not-allowed;
             }
         }
     }
