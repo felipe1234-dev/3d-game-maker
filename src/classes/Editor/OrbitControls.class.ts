@@ -1,12 +1,12 @@
 import * as THREE from "three";
-import * as Controls from "three-controls";
+import * as ThreeControls from "@local/three-controls";
 import * as Editor from "./index";
 
-class OrbitControls extends Controls.OrbitControls {
+class OrbitControls extends ThreeControls.OrbitControls {
     private core: Editor.Core;
     
     constructor(
-        camera: THREE.Camera, 
+        camera: THREE.PerspectiveCamera | THREE.OrthographicCamera, 
         canvas: HTMLCanvasElement, 
         core: Editor.Core
     ) {
@@ -18,19 +18,9 @@ class OrbitControls extends Controls.OrbitControls {
         return this.core.renderer.domElement;
     }
     
-    private zoom(type: "in" | "out"): void {
-        const wheelEvent = new WheelEvent("wheel", {
-            deltaY: type === "in" ? -240 : +240,
-            bubbles: true, 
-            cancelable: true
-        });
-            
-        this.canvas.dispatchEvent(wheelEvent);
-    }
+    public zoomIn = (): void => this.dollyOut(this.zoomScale);
     
-    public zoomIn = (): void => this.zoom("in");
-    
-    public zoomOut = (): void => this.zoom("out");
+    public zoomOut = (): void => this.dollyIn(this.zoomScale);
 }
 
 export default OrbitControls;
