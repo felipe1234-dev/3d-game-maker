@@ -136,13 +136,23 @@ class TransformControls extends ThreeControls.TransformControls {
             this.detach();
             currentScene.remove(this);
             this.core.orbitControls.enableRotate = true;
+            
+            this.dispatchEvent({ type: "unselect" });
         } else if (this.gizmos.includes(this.intersected.object)) {
             this.canvas.style.cursor = "grabbing";
         } else if (!this.object) {
             this.attach(this.intersected.object);
             currentScene.add(this);
             this.core.orbitControls.enableRotate = false;
+            
+            this.dispatchEvent({ type: "select" });
         }
+    }
+    
+    public setMode = (mode: "translate" | "scale" | "rotate"): void => {
+        this.mode = mode;
+        
+        this.dispatchEvent({ type: "set-mode" });
     }
 }
 
