@@ -16,9 +16,7 @@ function GameProvider(props: { children: React.ReactNode }) {
         
         scene.add(cube);
         
-        const obj = new Game.Core();
-        obj.addScene(scene);
-        obj.setCurrentScene("Scene 1");
+        const obj = new Game.Core([ scene ]);
         
         setGame(obj);
     }, []);

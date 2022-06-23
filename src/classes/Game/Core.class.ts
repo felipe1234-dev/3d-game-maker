@@ -2,10 +2,11 @@ import * as Game from "./index";
 
 class Core {
     public readonly scenes: Array<Game.Scene>;
-    private currentScene?: Game.Scene;
+    public currentScene: Game.Scene;
     
-    constructor() {
-        this.scenes = [];
+    constructor(scenes: Array<Game.Scene>) {
+        this.scenes = scenes;
+        this.currentScene = scenes[0];
     }
     
     public addScene(scene: Game.Scene): void {
@@ -20,12 +21,9 @@ class Core {
         return this.scenes.filter((scene) => scene.name === name)[0] ?? undefined
     }
     
-    public getCurrentScene(): Game.Scene | undefined {
-        return this.currentScene;
-    }
-    
     public setCurrentScene(name: string): void {
-        this.currentScene = this.getScene(name);
+        const scene = this.getScene(name);
+        this.currentScene = scene ?? this.currentScene;
     }
 }
 
