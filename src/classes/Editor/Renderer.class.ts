@@ -53,14 +53,18 @@ class Renderer extends THREE.WebGLRenderer {
     
     public startAnimation(callback: Function): void {
         const animate = () => {
-            const { game, orbitControls, camera } = this.core;
+            const { 
+                game, 
+                orbitControls,
+                camera 
+            } = this.core;
+            const { currentScene } = game;
             
-            orbitControls.update();
-            
-            callback();
-            
-            const currentScene = game.getCurrentScene();
             if (currentScene) {
+                orbitControls.update();
+                
+                callback();
+                
                 this.render(currentScene, camera);
                 window.requestAnimationFrame(animate); 
             }
