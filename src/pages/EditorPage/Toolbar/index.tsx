@@ -16,7 +16,45 @@ function Toolbar() {
     const [isDisabled, setIsDisabled] = React.useState<boolean>(true);
     const [mode, setMode] = React.useState<string>("translate");
     const editor = React.useContext(EditorContext);
-    const zoomSpeed = editor ? editor.orbitControls.zoomSpeed*50 : 1;
+    
+    const onSetStates = () => {
+        if (!editor) {
+            return;
+        }
+        
+        setZoomSpeed(editor.orbitControls.zoomSpeed*50);
+        setIsDisabled(!editor.transformControls.object);
+        setMode(editor.transformControls.mode);
+    }
+    
+    React.useEffect(() => {
+        if (!editor) {
+            return;
+        }
+        
+        const { transformControls: transform } = editor;
+        const events = ["select", "unselect", "set-mode"]; 
+        
+        events.forEach((type) => {
+            if (!transform.hasEventListener(type, onSetStates)) {
+                transform.addEventListener(type, onSetStates);
+                transform.dispatchEvent({ type });
+            }
+        });
+    }, [editor]);
+    
+    const onSetMode = (mode: "translate" | "rotate" | "scale") => {
+        if (isDisabled) {
+            return;
+        }
+        
+        if (!editor) {
+            return;
+        }
+        
+        editor.transformControls.setMode(mode);
+        setMode(mode);
+    }
     
     return (
         <Box className="Editor-toolbar" component="aside">
