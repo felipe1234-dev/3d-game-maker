@@ -12,6 +12,9 @@ import { Pressable } from "@local/components";
 import { EditorContext } from "@local/contexts";
 
 function Toolbar() {
+    const [zoomSpeed, setZoomSpeed] = React.useState<number>(50);
+    const [isDisabled, setIsDisabled] = React.useState<boolean>(true);
+    const [mode, setMode] = React.useState<string>("translate");
     const editor = React.useContext(EditorContext);
     const zoomSpeed = editor ? editor.orbitControls.zoomSpeed*50 : 1;
     
