@@ -84,7 +84,7 @@
             color: $text-color;
             border-radius: 0;
             
-            &:hover:not(:disabled) {
+            &:hover:not(:disabled), &[data-selected="true"] {
                 background-color: $secondary-color;
                 color: lighten($primary-color, 100%);
             }
