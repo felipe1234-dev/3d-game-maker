@@ -61,8 +61,6 @@ class Renderer extends THREE.WebGLRenderer {
             const { currentScene } = game;
             
             if (currentScene) {
-                orbitControls.update();
-                
                 callback();
                 
                 this.render(currentScene, camera);

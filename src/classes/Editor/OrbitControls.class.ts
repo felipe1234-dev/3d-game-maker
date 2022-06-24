@@ -12,6 +12,8 @@ class OrbitControls extends ThreeControls.OrbitControls {
     ) {
         super(camera, canvas);
         this.core = core;
+        this.canvas.addEventListener("pointerdown", () => this.update());
+        this.canvas.addEventListener("pointermove", () => this.update());
     }
     
     public get canvas(): HTMLCanvasElement {
