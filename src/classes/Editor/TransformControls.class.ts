@@ -7,6 +7,7 @@ class TransformControls extends ThreeControls.TransformControls {
     public readonly raycaster: THREE.Raycaster;
     public readonly mouse: THREE.Vector2;
     public intersected?: THREE.Intersection;
+    public helper?: THREE.BoxHelper;
     
     constructor(
         camera: THREE.Camera,
@@ -17,7 +18,7 @@ class TransformControls extends ThreeControls.TransformControls {
         this.core = core;
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
-
+        
         this.canvas.addEventListener("pointermove", this.onMouseMove, false);
         this.canvas.addEventListener("pointerdown", this.onMouseDown, false);
     }
@@ -62,6 +63,10 @@ class TransformControls extends ThreeControls.TransformControls {
 
         if (!container && !this.canvas) {
             return;
+        }
+        
+        if (this.dragging && this.helper) {
+            this.helper.update();
         }
         
         const view = container ?? this.canvas;
@@ -132,19 +137,40 @@ class TransformControls extends ThreeControls.TransformControls {
     protected onMouseDown = (): void => {
         const currentScene = this.core.game.currentScene;
         
-        if (!this.intersected) {
+        if (
+            !this.intersected && 
+            this.object && 
+            this.helper
+        ) {
             this.detach();
+                
+            currentScene.remove(this.helper);
             currentScene.remove(this);
+                
+            this.helper = undefined;
             this.core.orbitControls.enableRotate = true;
-            
+                
             this.dispatchEvent({ type: "unselect" });
-        } else if (this.gizmos.includes(this.intersected.object)) {
+        } else if (
+            this.intersected && 
+            this.gizmos.includes(this.intersected.object) &&
+            this.helper    
+        ) {
             this.canvas.style.cursor = "grabbing";
-        } else if (!this.object) {
-            this.attach(this.intersected.object);
-            currentScene.add(this);
-            this.core.orbitControls.enableRotate = false;
+        } else if (
+            this.intersected &&
+            !this.object &&
+            !this.helper
+        ) {
+            const boxHelper = new THREE.BoxHelper(this.intersected.object, 0xffff00);
+            this.helper = boxHelper;
             
+            this.attach(this.intersected.object);
+    
+            currentScene.add(this);
+            currentScene.add(boxHelper);
+            
+            this.core.orbitControls.enableRotate = false;
             this.dispatchEvent({ type: "select" });
         }
     }
@@ -153,6 +179,22 @@ class TransformControls extends ThreeControls.TransformControls {
         this.mode = mode;
         
         this.dispatchEvent({ type: "set-mode" });
+    }
+    
+    public delete = (): void => {
+        if (!this.object) {
+            return;
+        }
+        
+        const { game } = this.core;
+        const { currentScene } = game;
+        
+        currentScene.remove(this.object);
+        this.detach();
+        currentScene.remove(this);
+        this.core.orbitControls.enableRotate = true;
+        
+        this.dispatchEvent({ type: "unselect" });
     }
 }
 

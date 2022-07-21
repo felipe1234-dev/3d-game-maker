@@ -1,16 +1,21 @@
-import React from "react";
+// Libs
 import ReactDOM from "react-dom/client";
+import { HashRouter as Router } from "react-router-dom";
+
+// Local components
 import App from "./App";
-import { AppProvider } from "./contexts";
+
+// Providers
+import { App as AppProvider } from "./providers";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
 
 root.render(
-    <React.StrictMode>
-        <AppProvider>
+    <AppProvider>
+        <Router>
             <App />
-        </AppProvider>
-    </React.StrictMode>
+        </Router>
+    </AppProvider>
 );

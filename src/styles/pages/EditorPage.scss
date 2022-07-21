@@ -4,6 +4,11 @@ $menubar-height: 37px;
 $sidebar-width: 250px;
 
 .Editor {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    
     &-menubar {
         position: relative !important;
         background-color: $primary-color !important;
@@ -38,26 +43,12 @@ $sidebar-width: 250px;
         }
     }
     
-    &-main, 
-    &-sidebar, 
-    &-sidebar .MuiPaper-root {
-        transition: width .8s !important;
-    }
-    
-    &-main {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        width: 100%;
-        
-        &[aria-expanded="false"] {
-            width: calc(100% - $sidebar-width);
-        }
-    }
-    
     &-sidebar {
         &, .MuiPaper-root {
+            color: $text-color;
+            background-color: transparent;
             width: 0;
+            transition: width .8s !important;
         }
         
         &[aria-expanded="true"] {
@@ -79,22 +70,45 @@ $sidebar-width: 250px;
         position: absolute;
         margin: #{$menubar-height + $extra-space} $extra-space;
         top: 0;
-        left: 0;
-        background-color: $primary-color;
+        right: 0;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        height: calc(100% - $menubar-height - 2*$extra-space);
+        
+        .MuiBox-root {
+            display: flex;
+            flex-direction: column;
+            
+            &:first-child {
+                justify-content: flex-start;
+            }
+            
+            &:last-child {
+                justify-content: flex-end;
+            }
+        }
         
         .MuiButtonBase-root {
+            background-color: $primary-color;
             padding: 3px 5px;
             color: $text-color;
-            border-radius: 0;
+            border-radius: 5px;
+            margin: 3px 0;
             
-            &:hover:not(:disabled), &[data-selected="true"] {
+            &:hover:not(:disabled, [aria-disabled="true"]), 
+            &[data-selected="true"] {
                 background-color: $secondary-color;
                 color: lighten($primary-color, 100%);
             }
             
-            &:disabled {
+            &:disabled, &[aria-disabled="true"] {
+                &:not([data-selected="true"]) {
+                    background-color: $primary-color;
+                }  
+            }
+            
+            &:disabled, &[aria-disabled="true"] {
                 opacity: .5;
                 cursor: not-allowed;
             }

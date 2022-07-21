@@ -14,11 +14,12 @@ class Core {
     }
     
     public goToScene(name: string): void {
-        this.currentScene = this.scenes.filter((scene) => scene.name === name)[0] ?? undefined;
+        const foundScene = this.scenes.find((scene) => scene.name === name);
+        this.currentScene = foundScene ?? this.currentScene;
     }
     
     public getScene(name: string): Game.Scene | undefined {
-        return this.scenes.filter((scene) => scene.name === name)[0] ?? undefined
+        return this.scenes.find((scene) => scene.name === name);
     }
     
     public setCurrentScene(name: string): void {

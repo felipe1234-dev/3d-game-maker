@@ -20,9 +20,15 @@ class OrbitControls extends ThreeControls.OrbitControls {
         return this.core.renderer.domElement;
     }
     
-    public zoomIn = (): void => this.dollyOut(this.zoomScale);
+    public zoomIn = (): void => {
+        this.dollyOut(this.zoomScale);
+        this.update();
+    }
     
-    public zoomOut = (): void => this.dollyIn(this.zoomScale);
+    public zoomOut = (): void => {
+        this.dollyIn(this.zoomScale);
+        this.update();
+    }
 }
 
 export default OrbitControls;
