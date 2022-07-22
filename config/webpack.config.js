@@ -1,5 +1,12 @@
 'use strict';
 
+/* Use Ctrl + f and search for the "Edit" to find
+ * the modified settings
+ */
+
+// Edit
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -188,8 +195,11 @@ module.exports = function (webpackEnv) {
 
   return {
     target: ['browserslist'],
-    // Webpack noise constrained to errors and warnings
-    stats: 'errors-warnings',
+    
+    // Edit
+    stats: "errors-warnings",
+    // ---
+    
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
@@ -309,32 +319,40 @@ module.exports = function (webpackEnv) {
       extensions: paths.moduleFileExtensions
         .map(ext => `.${ext}`)
         .filter(ext => useTypeScript || !ext.includes('ts')),
-      alias: {
-        // Support React Native Web
-        // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-        'react-native': 'react-native-web',
-        // Allows for better profiling with ReactDevTools
-        ...(isEnvProductionProfile && {
-          'react-dom$': 'react-dom/profiling',
-          'scheduler/tracing': 'scheduler/tracing-profiling',
-        }),
-        ...(modules.webpackAliases || {}),
-      },
-      plugins: [
-        // Prevents users from importing files from outside of src/ (or node_modules/).
-        // This often causes confusion because we only process files within src/ with babel.
-        // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
-        // please link the files into your node_modules/ and let module-resolution kick in.
-        // Make sure your source files are compiled, as they will not be processed in any way.
-        new ModuleScopePlugin(paths.appSrc, [
-          paths.appPackageJson,
-          reactRefreshRuntimeEntry,
-          reactRefreshWebpackPluginRuntimeEntry,
-          babelRuntimeEntry,
-          babelRuntimeEntryHelpers,
-          babelRuntimeRegenerator,
-        ]),
-      ],
+        alias: {
+          // Support React Native Web
+          // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+          'react-native': 'react-native-web',
+          
+          // Edit
+          "@local": path.resolve(__dirname, "../src/"),
+          
+          // Allows for better profiling with ReactDevTools
+          ...(isEnvProductionProfile && {
+            'react-dom$': 'react-dom/profiling',
+            'scheduler/tracing': 'scheduler/tracing-profiling',
+          }),
+          ...(modules.webpackAliases || {}),
+        },
+        plugins: [
+          
+          // Edit
+          new TsconfigPathsPlugin(),
+          
+          // Prevents users from importing files from outside of src/ (or node_modules/).
+          // This often causes confusion because we only process files within src/ with babel.
+          // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
+          // please link the files into your node_modules/ and let module-resolution kick in.
+          // Make sure your source files are compiled, as they will not be processed in any way.
+          new ModuleScopePlugin(paths.appSrc, [
+            paths.appPackageJson,
+            reactRefreshRuntimeEntry,
+            reactRefreshWebpackPluginRuntimeEntry,
+            babelRuntimeEntry,
+            babelRuntimeEntryHelpers,
+            babelRuntimeRegenerator,
+          ]),
+        ],
     },
     module: {
       strictExportPresence: true,
