@@ -4,32 +4,40 @@ import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 
-function CheckboxField(props: FieldProps) {
+const CheckboxField = React.forwardRef((props: FieldProps, ref) => {
     const [isChecked, setIsChecked] = React.useState<boolean>(false);
 
-    const { label, attribute: attrPath } = props;
+    const { labels, attributes, scope } = props;
+    const label = labels[0];
+    const attrPath = attributes[0];
     const editor = React.useContext(EditorContext);
 
     React.useEffect(() => {
-        const { object } = editor?.transformControls || {};
+        if (!editor) {
+            return;
+        }
 
-        setIsChecked(
-            object ? (
-                getProperty<boolean>(attrPath, object)
-            ) : false
-        );
+        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
+
+        if (object) {
+            setIsChecked(getProperty<boolean>(attrPath, object));
+        }
     }, [editor?.transformControls.object]);
 
     React.useEffect(() => {
-        const { object } = editor?.transformControls || {};
+        if (!editor) {
+            return;
+        }
 
+        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
+        
         if (object) {
             setProperty(attrPath, isChecked, object);
         }
     }, [isChecked]);
 
     return (
-        <FormGroup>
+        <FormGroup {...props} ref={ref}>
             <FormControlLabel 
                 label={label}
                 control={
@@ -41,6 +49,6 @@ function CheckboxField(props: FieldProps) {
             />
         </FormGroup>
     );
-}
+});
 
 export default CheckboxField;
