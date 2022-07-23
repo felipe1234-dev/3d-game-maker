@@ -25,10 +25,10 @@ const objectList: {
             "name",
             "uuid",
             "position",
-            "scale",
             "rotation",
             "scale",
-            "shadow",
+            "castShadow",
+            "receiveShadow",
             "visible",
             "frustumCulled",
             "renderOrder"
