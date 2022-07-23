@@ -1,15 +1,19 @@
 import React from "react";
-import { TextField } from "@mui/material";
+import { TextField, TextFieldProps } from "@mui/material";
 import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
+import "@local/styles/fields/SingleNumberField.scss";
 
-function SingleNumberField(props: FieldProps) {
+function SingleNumberField(props: FieldProps & TextFieldProps) {
     const { 
         attributes, 
         labels, 
         step,
-        scope 
+        min,
+        max,
+        scope,
+        ...textFieldProps
     } = props;
     const attrPath = attributes[0];
     const label = labels[0];
@@ -47,6 +51,8 @@ function SingleNumberField(props: FieldProps) {
 
     return (
         <TextField 
+            className="SingleNumberField"
+
             label={label}
 
             onChange={evt => setValue(Number(evt.target.value))}
@@ -54,8 +60,12 @@ function SingleNumberField(props: FieldProps) {
 
             inputProps={{
                 type: "number",
-                step: step || 1
+                step: step || 1,
+                min,
+                max
             }}
+
+            {...textFieldProps}
         />
     );
 }

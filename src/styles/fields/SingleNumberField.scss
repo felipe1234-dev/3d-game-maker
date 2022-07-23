@@ -1,0 +1,15 @@
+.SingleNumberField {
+    &:not(:first-child) {
+        margin-top: 10px !important;
+    }
+
+    .MuiInputLabel {
+        &-root {
+
+        }
+    }
+
+    input {
+        padding: 10px !important;
+    }
+}
