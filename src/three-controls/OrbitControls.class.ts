@@ -741,7 +741,8 @@ class OrbitControls extends THREE.EventDispatcher {
         if (
             !this.enabled ||
             !this.enableKeys ||
-            !this.enablePan
+            !this.enablePan ||
+            document.activeElement?.tagName === "INPUT"
         ) return;
 
         this.handleKeyDown(event);
