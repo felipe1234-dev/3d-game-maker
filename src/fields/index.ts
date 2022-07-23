@@ -2,7 +2,9 @@ export interface FieldProps {
     scope: "object" | "object.geometry" | "object.material",
     labels: Array<string>,
     attributes: Array<string>,
-    step?: number
+    step?: number,
+    min?: number,
+    max?: number
 }
 
 export { default as CheckboxField } from "./CheckboxField";
