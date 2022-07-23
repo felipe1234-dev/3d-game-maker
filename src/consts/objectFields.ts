@@ -2,7 +2,7 @@ import {
     ColorField,
     CheckboxField,
     MultiNumberField,
-    // SingleNumberField,
+    SingleNumberField,
     // RangeField
 } from "@local/fields";
 
@@ -35,40 +35,58 @@ const objectFields = [
         ],
         step: 0.01
     },
-    // {
-    //     Component: MultiNumberField,
-    //     attributes: [ "rotation" ],
-    //     labels: [ "Rotation" ],
-    //     step: 0.01,
-    //     data_type: "Float"
-    // },
-    // {
-    //     Component: MultiNumberField,
-    //     attributes: [ "scale" ],
-    //     labels: [ "Escala" ],
-    //     step: 0.01,
-    //     data_type: "Float"
-    // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "intensidade",
-    //     labels: [ "Intensidade",
-    //     data_type: "Float",
-    //     step: 0.01
-    // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "distance",
-    //     labels: [ "Distância",
-    //     data_type: "Float",
-    //     step: 0.01,
-    //     min: 0.00
-    // },
+    {
+        key: "rotation",
+        Component: MultiNumberField,
+        attributes: [ 
+            "rotation.x",
+            "rotation.y",
+            "rotation.z"
+        ],
+        labels: [ 
+            "Rotation",
+            "X",
+            "Y",
+            "Z"
+        ],
+        step: 0.01
+    },
+    {
+        key: "scale",
+        Component: MultiNumberField,
+        attributes: [ 
+            "scale.x", 
+            "scale.y", 
+            "scale.z", 
+        ],
+        labels: [ 
+            "Scale", 
+            "X",
+            "Y",
+            "Z"
+        ],
+        step: 0.01
+    },
+    {
+        key: "intensity",
+        Component: SingleNumberField,
+        attributes: [ "intensity" ],
+        labels: [ "Intensity" ],
+        step: 0.01
+    },
+    {
+        key: "distance",
+        Component: SingleNumberField,
+        attributes: [ "distance" ],
+        labels: [ "Distance" ],
+        step: 0.01,
+        min: 0.00
+    },
     // {
     //     Component: RangeField,
     //     attributes: [ "angle",
     //     labels: [ "Ângulo (radianos)",
-    //     data_type: "Float",
+    //     ,
     //     step: 0.001,
     //     max: 1.571,
     //     min: 0.000
@@ -77,7 +95,7 @@ const objectFields = [
     //     Component: RangeField,
     //     attributes: [ "angle",
     //     labels: [ "Ângulo (radianos)",
-    //     data_type: "Float",
+    //     ,
     //     step: 0.001,
     //     max: 1.571,
     //     min: 0.000
@@ -86,60 +104,46 @@ const objectFields = [
     //     Component: RangeField,
     //     attributes: [ "penumbra",
     //     labels: [ "Penumbra",
-    //     data_type: "Float",
+    //     ,
     //     step: 0.01,
     //     max: 1.00,
     //     min: 0.00
     // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "decay",
-    //     labels: [ "Decaimento",
-    //     data_type: "Float",
-    //     step: 0.01,
-    //     min: 0.00
-    // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "shadowBias",
-    //     labels: [ "Viés da Sombra",
-    //     data_type: "Float",
-    //     step: 0.00001
-    // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "shadowBias",
-    //     labels: [ "Viés da Sombra",
-    //     data_type: "Float",
-    //     step: 0.00001
-    // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "shadowNormalBias",
-    //     labels: [ "Viés Normal da Sombra",
-    //     data_type: "Float",
-    //     step: 0.01
-    // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "shadowNormalBias",
-    //     labels: [ "Viés Normal da Sombra",
-    //     data_type: "Float",
-    //     step: 0.01
-    // },
-    // {
-    //     Component: SingleNumberField,
-    //     attributes: [ "shadowRadius",
-    //     labels: [ "Raio da Sombra",
-    //     data_type: "Float",
-    //     step: 0.01
-    // },
+    {
+        key: "decay",
+        Component: SingleNumberField,
+        attributes: [ "decay" ],
+        labels: [ "Decay" ],
+        step: 0.01,
+        min: 0.00
+    },
+    {
+        key: "shadowBias",
+        Component: SingleNumberField,
+        attributes: [ "shadowBias" ],
+        labels: [ "Shadow bias" ],
+        step: 0.00001
+    },
+    {
+        key: "shadowNormalBias",
+        Component: SingleNumberField,
+        attributes: [ "shadowNormalBias" ],
+        labels: [ "Shadow normal bias" ],
+        step: 0.01
+    },
+    {
+        key: "shadowRadius",
+        Component: SingleNumberField,
+        attributes: [ "shadowRadius" ],
+        labels: [ "Shadow radius" ],
+        step: 0.01
+    },
     {
         key: "visible",
         Component: CheckboxField,
         attributes: [ "visible" ],
         labels: [ "Visible" ],
-        data_type: "Bool"
+        
     },
     {
         key: "frustumCulled",
@@ -147,7 +151,27 @@ const objectFields = [
         attributes: [ "frustumCulled" ],
         labels: [ "Frustum Culled" ],
         helpText: "If checked, this object will not be rendered if it is out of the camera field of view"
-    }
+    },
+    {
+        key: "castShadow",
+        Component: CheckboxField,
+        attributes: [ "castShadow" ],
+        labels: [ "Cast shadow" ]
+    },
+    {
+        key: "receiveShadow",
+        Component: CheckboxField,
+        attributes: [ "receiveShadow" ],
+        labels: [ "Receive shadow" ]
+    },
+    {
+        key: "renderOrder",
+        Component: SingleNumberField,
+        attributes: [ "renderOrder" ],
+        labels: [ "Render order" ],
+        step: 1,
+        min: 0
+    },
 ];
 
 export default objectFields;
