@@ -3,6 +3,7 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
+import "@local/styles/fields/CheckboxField.scss";
 
 const CheckboxField = React.forwardRef((props: FieldProps, ref) => {
     const [isChecked, setIsChecked] = React.useState<boolean>(false);
@@ -37,11 +38,13 @@ const CheckboxField = React.forwardRef((props: FieldProps, ref) => {
     }, [isChecked]);
 
     return (
-        <FormGroup {...props} ref={ref}>
-            <FormControlLabel 
+        <FormGroup ref={ref} {...props} className="CheckboxField">
+            <FormControlLabel
+                className="CheckboxField-label"
                 label={label}
                 control={
                     <Checkbox 
+                        className="CheckboxField-input"
                         onChange={(evt) => setIsChecked(evt.target.checked)}
                         checked={isChecked}
                     />
