@@ -58,7 +58,7 @@ function Bottom() {
                 onMousePress={() => editor?.orbitControls.zoomIn()}
                 ms={zoomSpeed}
             >
-                <Tooltip title="Zoom In" placement="left">
+                <Tooltip title="Zoom In" placement="left" arrow>
                     <ZoomInIcon />
                 </Tooltip>
             </Pressable>
@@ -68,12 +68,12 @@ function Bottom() {
                 onMousePress={() => editor?.orbitControls.zoomOut()}
                 ms={zoomSpeed}
             >
-                <Tooltip title="Zoom Out" placement="left">
+                <Tooltip title="Zoom Out" placement="left" arrow>
                     <ZoomOutIcon />
                 </Tooltip>
             </Pressable>
             
-            <Tooltip title="Edit object" placement="left">
+            <Tooltip title="Edit object" placement="left" arrow>
                 <span>
                     <IconButton
                         component={Link}
@@ -89,7 +89,7 @@ function Bottom() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Edit geometry" placement="left">
+            <Tooltip title="Edit geometry" placement="left" arrow>
                 <span>
                     <IconButton
                         component={Link}
@@ -105,7 +105,7 @@ function Bottom() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Edit texture" placement="left">
+            <Tooltip title="Edit texture" placement="left" arrow>
                 <span>
                     <IconButton
                         component={Link}

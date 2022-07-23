@@ -53,7 +53,7 @@ function Top() {
     
     return (
         <Box>
-            <Tooltip title="Delete object" placement="right">
+            <Tooltip title="Delete object" placement="left" arrow>
                 <span>
                     <IconButton
                         aria-label="Delete object"
@@ -64,7 +64,7 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Move object" placement="right">
+            <Tooltip title="Move object" placement="left" arrow>
                 <span>
                     <IconButton
                         aria-label="Move object"
@@ -76,7 +76,7 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Resize object" placement="right">
+            <Tooltip title="Resize object" placement="left" arrow>
                 <span>
                     <IconButton
                         aria-label="Resize object"
@@ -88,7 +88,7 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Rotate object" placement="right">
+            <Tooltip title="Rotate object" placement="left" arrow>
                 <span>
                     <IconButton
                         aria-label="Rotate object"
