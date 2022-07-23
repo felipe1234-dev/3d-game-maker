@@ -1,7 +1,12 @@
-export default {
+const objectList: {
+    [objectName: string]: {
+        label: string,
+        keys: Array<string>
+    }
+} = {
     HotSpot: {
         label: "HotSpot",
-        fields: [
+        keys: [
             "type",
             "name",
             "uuid",
@@ -15,7 +20,7 @@ export default {
     },
     Mesh: {
         label: "Mesh",
-        fields: [
+        keys: [
             "type",
             "name",
             "uuid",
@@ -31,7 +36,7 @@ export default {
     },
     AmbientLight: {
         label: "Ambient light",
-        fields: [
+        keys: [
             "type",
             "name",
             "uuid",
@@ -48,7 +53,7 @@ export default {
     },
     DirectionalLight: {
         label: "Directional light",
-        fields: [
+        keys: [
             "type",
             "name",
             "uuid",
@@ -67,7 +72,7 @@ export default {
     },
     HemisphereLight: {
         label: "Luz de Hemisfério",
-        fields: [
+        keys: [
             "type",
             "name",
             "uuid",
@@ -84,7 +89,7 @@ export default {
     },
     PointLight: {
         label: "Lâmpada",
-        fields: [
+        keys: [
             "type",
             "name",
             "uuid",
@@ -106,7 +111,7 @@ export default {
     },
     SpotLight: {
         label: "Holofote",
-        fields: [
+        keys: [
             "type",
             "name",
             "uuid",
@@ -129,3 +134,5 @@ export default {
         ]
     }
 };
+
+export default objectList;

@@ -1,62 +1,73 @@
 import { 
     ColorField,
     CheckboxField,
-    // TriadNumberField,
+    MultiNumberField,
     // SingleNumberField,
     // RangeField
 } from "@local/fields";
 
-export default [
+const objectFields = [
     {
+        key: "color",
         Component: ColorField,
-        attribute: "color",
-        label: "Cor"
+        attributes: [ "color" ],
+        labels: [ "Color" ]
     },
     {
+        key: "groundColor",
         Component: ColorField,
-        attribute: "groundColor",
-        label: "Cor do Solo"
+        attributes: [ "groundColor" ],
+        labels: [ "Ground color" ]
+    },
+    {
+        key: "position",
+        Component: MultiNumberField,
+        attributes: [
+            "position.x",
+            "position.y",
+            "position.z"
+        ],
+        labels: [
+            "Position",
+            "X",
+            "Y",
+            "Z"
+        ],
+        step: 0.01
     },
     // {
-    //     Component: TriadNumberField,
-    //     attribute: "position",
-    //     label: "Posição",
+    //     Component: MultiNumberField,
+    //     attributes: [ "rotation" ],
+    //     labels: [ "Rotation" ],
     //     step: 0.01,
     //     data_type: "Float"
     // },
     // {
-    //     Component: TriadNumberField,
-    //     attribute: "rotation",
-    //     label: "Rotação",
-    //     step: 0.01,
-    //     data_type: "Float"
-    // },
-    // {
-    //     Component: TriadNumberField,
-    //     attribute: "scale",
-    //     label: "Escala",
+    //     Component: MultiNumberField,
+    //     attributes: [ "scale" ],
+    //     labels: [ "Escala" ],
     //     step: 0.01,
     //     data_type: "Float"
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "intensidade",
-    //     label: "Intensidade",
+    //     attributes: [ "intensidade",
+    //     labels: [ "Intensidade",
     //     data_type: "Float",
     //     step: 0.01
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "distance",
-    //     label: "Distância",
+    //     attributes: [ "distance",
+    //     labels: [ "Distância",
     //     data_type: "Float",
     //     step: 0.01,
     //     min: 0.00
     // },
     // {
     //     Component: RangeField,
-    //     attribute: "angle",
-    //     label: "Ângulo (radianos)",
+    //     attributes: [ "angle",
+    //     labels: [ "Ângulo (radianos)",
     //     data_type: "Float",
     //     step: 0.001,
     //     max: 1.571,
@@ -64,8 +75,8 @@ export default [
     // },
     // {
     //     Component: RangeField,
-    //     attribute: "angle",
-    //     label: "Ângulo (radianos)",
+    //     attributes: [ "angle",
+    //     labels: [ "Ângulo (radianos)",
     //     data_type: "Float",
     //     step: 0.001,
     //     max: 1.571,
@@ -73,8 +84,8 @@ export default [
     // },
     // {
     //     Component: RangeField,
-    //     attribute: "penumbra",
-    //     label: "Penumbra",
+    //     attributes: [ "penumbra",
+    //     labels: [ "Penumbra",
     //     data_type: "Float",
     //     step: 0.01,
     //     max: 1.00,
@@ -82,57 +93,61 @@ export default [
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "decay",
-    //     label: "Decaimento",
+    //     attributes: [ "decay",
+    //     labels: [ "Decaimento",
     //     data_type: "Float",
     //     step: 0.01,
     //     min: 0.00
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "shadowBias",
-    //     label: "Viés da Sombra",
+    //     attributes: [ "shadowBias",
+    //     labels: [ "Viés da Sombra",
     //     data_type: "Float",
     //     step: 0.00001
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "shadowBias",
-    //     label: "Viés da Sombra",
+    //     attributes: [ "shadowBias",
+    //     labels: [ "Viés da Sombra",
     //     data_type: "Float",
     //     step: 0.00001
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "shadowNormalBias",
-    //     label: "Viés Normal da Sombra",
+    //     attributes: [ "shadowNormalBias",
+    //     labels: [ "Viés Normal da Sombra",
     //     data_type: "Float",
     //     step: 0.01
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "shadowNormalBias",
-    //     label: "Viés Normal da Sombra",
+    //     attributes: [ "shadowNormalBias",
+    //     labels: [ "Viés Normal da Sombra",
     //     data_type: "Float",
     //     step: 0.01
     // },
     // {
     //     Component: SingleNumberField,
-    //     attribute: "shadowRadius",
-    //     label: "Raio da Sombra",
+    //     attributes: [ "shadowRadius",
+    //     labels: [ "Raio da Sombra",
     //     data_type: "Float",
     //     step: 0.01
     // },
     {
+        key: "visible",
         Component: CheckboxField,
-        attribute: "visible",
-        label: "Visível",
+        attributes: [ "visible" ],
+        labels: [ "Visible" ],
         data_type: "Bool"
     },
     {
+        key: "frustumCulled",
         Component: CheckboxField,
-        attribute: "frustumCulled",
-        label: "Frustum Cull",
-        data_type: "Bool"
+        attributes: [ "frustumCulled" ],
+        labels: [ "Frustum Culled" ],
+        helpText: "If checked, this object will not be rendered if it is out of the camera field of view"
     }
 ];
+
+export default objectFields;
