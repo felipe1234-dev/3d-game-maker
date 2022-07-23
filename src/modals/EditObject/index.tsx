@@ -32,6 +32,8 @@ const Transition = (
 );
 
 function EditObject() {
+    const [open, setOpen] = React.useState<boolean>(true);
+
     const editor = React.useContext(EditorContext);
     const object = editor?.transformControls.object || null; 
     const abstract: typeof objectList[string] = !object ? {
@@ -42,23 +44,27 @@ function EditObject() {
     const navigate = useNavigate();
     
     const goBack = () => {
-        navigate("/editor/", {
-            state: { 
-                useLoader: false 
-            }
-        });
+        setOpen(false);
+
+        setTimeout(() => {
+            navigate("/editor/", {
+                state: { 
+                    useLoader: false 
+                }
+            });
+        }, 1000);
     }
     
     return (
         <Dialog
-            open
+            open={open}
             TransitionComponent={Transition}
             keepMounted
             onClose={goBack}
             aria-describedby="alert-dialog-slide-description"
         >
             <DialogTitle>
-                {abstract.label}
+                {abstract.label} {object?.name}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
