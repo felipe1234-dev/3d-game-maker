@@ -191,6 +191,12 @@ class TransformControls extends ThreeControls.TransformControls {
         
         currentScene.remove(this.object);
         this.detach();
+
+        if (this.helper) {
+            currentScene.remove(this.helper);
+            this.helper = undefined;
+        }
+
         currentScene.remove(this);
         this.core.orbitControls.enableRotate = true;
         
