@@ -67,34 +67,47 @@ $sidebar-width: 250px;
     
     &-toolbar {
         $extra-space: 10px;
-        position: absolute;
-        margin: #{$menubar-height + $extra-space} $extra-space;
-        top: 0;
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: calc(100% - $menubar-height - 2*$extra-space);
-        
-        .MuiBox-root {
+
+        @mixin toolbarContainer {
             display: flex;
             flex-direction: column;
-            
-            &:first-child {
-                justify-content: flex-start;
+            justify-content: space-between;
+            height: calc(100% - $menubar-height - 2*$extra-space);
+            margin: #{$menubar-height + $extra-space} $extra-space;
+
+            .MuiBox-root {
+                display: flex;
+                flex-direction: column;
+                
+                &:first-child {
+                    justify-content: flex-start;
+                }
+                
+                &:last-child {
+                    justify-content: flex-end;
+                }
             }
-            
-            &:last-child {
-                justify-content: flex-end;
-            }
+        }
+
+        &-rightContainer {
+            @include toolbarContainer();
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        &-leftContainer {
+            @include toolbarContainer();
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
         .MuiButtonBase-root {
             background-color: $primary-color;
-            padding: 3px 5px;
             color: $text-color;
-            border-radius: 5px;
             margin: 3px 0;
+            text-transform: none;
             
             &:hover:not(:disabled, [aria-disabled="true"]), 
             &[data-selected="true"] {
@@ -112,6 +125,11 @@ $sidebar-width: 250px;
                 opacity: .5;
                 cursor: not-allowed;
             }
+        }
+
+        .MuiIconButton-root {
+            padding: 3px 5px;
+            border-radius: 5px;
         }
     }
 }
