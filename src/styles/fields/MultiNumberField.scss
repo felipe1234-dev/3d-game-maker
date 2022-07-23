@@ -1,0 +1,21 @@
+.MultiNumberField {
+    &-label {
+        padding: 10px 0 !important;
+    }
+
+    &-row {
+        padding-bottom: 10px;
+
+        &-input {
+            width: 30% !important;
+
+            input {
+                padding: 10px !important;
+            }
+
+            &:not(:last-child) {
+                margin-right: 10px !important;
+            }
+        }
+    }
+}

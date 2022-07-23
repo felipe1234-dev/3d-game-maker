@@ -7,6 +7,7 @@ import {
 import { getProperty } from "@local/functions";
 import { EditorContext } from "@local/contexts";
 import { FieldProps, SingleNumberField } from "../index";
+import "@local/styles/fields/MultiNumberField.scss";
 
 function MultiNumberField(props: FieldProps) {
     const { labels, attributes, scope, step } = props;
@@ -15,21 +16,22 @@ function MultiNumberField(props: FieldProps) {
     const object = editor ? getProperty<Object | undefined>(scope, editor.transformControls) : null;
 
     return (
-        <FormControl component="fieldset">
+        <FormControl className="MultiNumberField">
             {(object && labels.length > 0) && (
-                <FormLabel component="legend">
+                <FormLabel className="MultiNumberField-label">
                     {labels[0]}
                 </FormLabel>
             )}
-            <FormGroup aria-label="position" row>
+            <FormGroup className="MultiNumberField-row" aria-label="position" row>
                 {object && (
                     (attributes || []).map((attrPath, i) => (
                         <SingleNumberField 
                             key={i}
+                            className="MultiNumberField-row-input"
                             labels={[ labels[i + 1] ]}
                             attributes={[ attrPath ]}
                             scope={scope}
-                            step={step}                                
+                            step={step}                            
                         />
                     ))
                 )}
