@@ -4,3 +4,5 @@ export { default as view } from "./view";
 
 export { default as objectList } from "./objectList";
 export { default as objectFields } from "./objectFields";
+
+export { default as backgroundTypes } from "./backgroundTypes";
