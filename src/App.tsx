@@ -21,7 +21,10 @@ import { isRouteState } from "@local/functions";
 import { EditorPage } from "@local/pages";
 
 // Local modals
-import { EditObjectModal as EditObject } from "@local/modals";
+import { 
+    EditObjectModal as EditObject,
+    EditSceneModal as EditScene
+} from "@local/modals";
 
 // Local styles
 import "./styles/reset.css";
@@ -75,6 +78,12 @@ function App() {
                             path="/editor/object/"
                             element={(
                                 <EditObject />
+                            )}
+                        />
+                        <Route 
+                            path="/editor/scene/"
+                            element={(
+                                <EditScene />
                             )}
                         />
                     </Switch>
