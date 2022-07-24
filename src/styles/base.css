@@ -11,9 +11,3 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
-
-.MuiDialog-container {
-    max-width: 500px !important;
-    align-items: flex-end !important;
-    justify-content: flex-start !important;
-}
