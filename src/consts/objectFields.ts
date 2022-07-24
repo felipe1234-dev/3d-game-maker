@@ -33,7 +33,7 @@ const objectFields = [
             "Y",
             "Z"
         ],
-        step: 0.01
+        step: 0.1
     },
     {
         key: "rotation",
@@ -49,7 +49,7 @@ const objectFields = [
             "Y",
             "Z"
         ],
-        step: 0.01
+        step: 0.1
     },
     {
         key: "scale",
@@ -65,7 +65,7 @@ const objectFields = [
             "Y",
             "Z"
         ],
-        step: 0.01
+        step: 0.1
     },
     {
         key: "intensity",
