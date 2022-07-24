@@ -1,0 +1,74 @@
+.Modal {
+    // .MuiPaper-root {
+    //     max-width: 500px !important;
+    // }
+
+    &--isResizable {
+        .MuiPaper-root {
+            max-height: fit-content !important;
+            max-width: fit-content !important;
+        }
+
+        &-container {
+
+        }
+
+        &-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            cursor: se-resize;
+            width: 20px;
+            height: 20px;
+            background-repeat: no-repeat;
+            background-origin: content-box;
+            box-sizing: border-box;
+            background-image: url(
+                data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+
+            );
+            background-position: bottom right;
+            padding: 0 3px 3px 0;
+        }
+    }
+
+    &--isDraggable {
+        &-handle {
+            cursor: move;
+        }
+    }
+
+    &--isCenter .MuiDialog-container {
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    &--isTopCenter .MuiDialog-container {
+        align-items: flex-start !important;
+        justify-content: center !important;
+    }
+
+    &--isBottomCenter .MuiDialog-container {
+        align-items: flex-end !important;
+        justify-content: center !important;
+    }
+
+    &--isBottomLeft .MuiDialog-container {
+        align-items: flex-end !important;
+        justify-content: flex-start !important;
+    }
+
+    &--isTopLeft .MuiDialog-container {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+    }
+
+    &--isBottomRight .MuiDialog-container {
+        align-items: flex-end !important;
+        justify-content: flex-end !important;
+    }
+
+    &--isTopRight .MuiDialog-container {
+        align-items: flex-start !important;
+        justify-content: flex-end !important;
+    }
+}
