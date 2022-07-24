@@ -8,7 +8,7 @@ function GameProvider(props: { children: React.ReactNode }) {
     const [game, setGame] = React.useState<Game.Core>();
     
     React.useEffect(() => {
-        const scene = new Game.Scene("Scene 1");
+        const scene = new Game.Scene("Stage 1");
             
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
