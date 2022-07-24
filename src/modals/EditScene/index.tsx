@@ -1,11 +1,10 @@
 import React from "react";
 import { Modal } from "@local/components";
-import { EditorContext } from "@local/contexts";
+import { GameContext } from "@local/contexts";
 import Form from "./Form";
 
 function EditSceneModal() {
-    const editor = React.useContext(EditorContext);
-    const game = editor ? editor.game : null;
+    const game = React.useContext(GameContext);
 
     return (
         <Modal
