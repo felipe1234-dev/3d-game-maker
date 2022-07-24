@@ -11,3 +11,11 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
+
+.MuiTextField-root {
+    width: 100%;
+}
+
+.MuiTextField-root:not(:first-child):not([class*="MultiNumberField-row"]) {
+    margin-top: 10px;
+}
