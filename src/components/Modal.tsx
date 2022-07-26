@@ -51,6 +51,7 @@ interface ModalProps {
     placement?: 
         "center" | "top-center" | "bottom-center" | "top-right" | 
         "top-left" | "bottom-left" | "bottom-right",
+    onClose?: () => void,
     resizable?: boolean,
     draggable?: boolean,
     height?: number,
@@ -62,6 +63,7 @@ interface ModalProps {
 
 function Modal(props: ModalProps & Omit<DialogProps, "open">) {
     let {
+        onClose,
         placement,
         resizable,
         draggable,
@@ -101,15 +103,11 @@ function Modal(props: ModalProps & Omit<DialogProps, "open">) {
     const navigate = useNavigate();
     
     const goBack = () => {
-        setOpen(false);
-
-        setTimeout(() => {
-            navigate("/editor/", {
-                state: { 
-                    useLoader: false 
-                }
-            });
-        }, 1000);
+        navigate("/editor/", {
+            state: { 
+                useLoader: false 
+            }
+        });
     }
 
     const Content = () => (
@@ -140,7 +138,17 @@ function Modal(props: ModalProps & Omit<DialogProps, "open">) {
             keepMounted
             open={open}
             TransitionComponent={Transition}
-            onClose={goBack}
+            onClose={() => {
+                setOpen(false);
+
+                setTimeout(() => {
+                    if (onClose) {
+                        onClose();
+                    } else {
+                        goBack();
+                    }
+                }, 1000);
+            }}
             PaperComponent={draggable ? DraggablePaper : Paper}
             PaperProps={{ style: { width, height } }}
             {...dialogProps}
@@ -150,7 +158,6 @@ function Modal(props: ModalProps & Omit<DialogProps, "open">) {
                     height={height}
                     width={width}
                     onResize={(evt: any, data: any) => {
-                        console.log(data, evt);
                         setHeight(data.size.height);
                         setWidth(data.size.width);
                     }}
