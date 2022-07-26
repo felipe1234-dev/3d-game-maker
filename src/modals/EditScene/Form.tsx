@@ -5,13 +5,16 @@ import { GameContext } from "@local/contexts";
 import { backgroundTypes } from "@local/consts";
 import { threeColorToHex } from "@local/functions";
 import ColorPicker from "material-ui-color-picker";
+import MediaModal from "../Media";
 
 function Form() {
     const game = React.useContext(GameContext);
-
     const defaultColor = "#aaa";
-    const [backgroundType, setBackgroundType] = React.useState<string>("default");
-    const [backgroundColor, setBackgroundColor] = React.useState<string>(defaultColor);
+
+    const [openModal, setOpenModal] = React.useState<boolean>(false);
+
+    const [backgroundType, setBackgroundType] = React.useState<string>();
+    const [backgroundColor, setBackgroundColor] = React.useState<string>();
 
     React.useEffect(() => {
         if (!game) {
@@ -40,7 +43,7 @@ function Form() {
         }
     }, [game]);
 
-    const updateBackground = () => {
+    React.useEffect(() => {
         if (!game) {
             return;
         }
@@ -55,22 +58,22 @@ function Form() {
             case "color": 
                 currentScene.background = new THREE.Color(backgroundColor);
                 break;
+            case "uvTexture":
+                setOpenModal(true); 
+                break;
             default: 
                 currentScene.background = new THREE.Color(defaultColor);
                 break;
         }
-    }
+    }, [backgroundColor, backgroundType]);
 
     return (
         <div style={{ paddingTop: 10 }}>
             <TextField
                 select
                 label="Background"
-                onChange={evt => {
-                    setBackgroundType(evt.target.value);
-                    updateBackground();
-                }}
-                value={backgroundType}
+                onChange={evt => setBackgroundType(evt.target.value)}
+                value={backgroundType ?? "default"}
             >
                 {backgroundTypes.map((option, i) => (
                     <MenuItem key={i} value={option.value}>
@@ -82,19 +85,22 @@ function Form() {
             {backgroundType === "color" && (
                 <ColorPicker 
                     variant="outlined"
-                    onChange={color => {
-                        setBackgroundColor(color);
-                        updateBackground();
-                    }}
-                    value={backgroundColor}
+                    onChange={color => setBackgroundColor(color)}
+                    value={backgroundColor ?? defaultColor}
                     InputProps={{
-                        value: backgroundColor,
-                        style: { color: backgroundColor }
+                        value: backgroundColor ?? defaultColor,
+                        style: { color: backgroundColor ?? defaultColor }
                     }}
                 />
             )}
 
-
+            {openModal && (
+                <MediaModal
+                    title="Upload an image"
+                    onClose={() => setOpenModal(false)}
+                    folders={[]}
+                />
+            )}
         </div>
     );
 }
