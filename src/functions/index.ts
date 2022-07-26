@@ -1,3 +1,4 @@
+export { default as generatePushID } from "./generatePushID";
 export { default as getEnv } from "./getEnv";
 export { default as getProperty } from "./getProperty";
 export { default as isLocation } from "./isLocation";
