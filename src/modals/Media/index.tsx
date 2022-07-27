@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal } from "@local/components";
+import Body from "./Body";
 
 interface MediaModalProps {
     title: string,
@@ -9,13 +10,16 @@ interface MediaModalProps {
 
 function MediaModal(props: MediaModalProps) {
     const { title, onClose, folders } = props;
-
+    
     return (
         <Modal
-            header={title}
             width={600}
             height={600}
             onClose={onClose}
+
+            header={title}
+            body={<Body />}
+
             draggable
         />
     );
