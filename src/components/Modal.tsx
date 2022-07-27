@@ -12,8 +12,7 @@ import {
     DialogTitleProps,
 
     DialogContent,
-    DialogContentText,
-    DialogActions,
+    DialogActions
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import { useNavigate } from "react-router-dom";
@@ -119,9 +118,7 @@ function Modal(props: ModalProps & Omit<DialogProps, "open">) {
             )}
             {body && (
                 <DialogContent>
-                    <DialogContentText>
-                        {body}
-                    </DialogContentText>
+                    {body}
                 </DialogContent>
             )}
             {footer && (
