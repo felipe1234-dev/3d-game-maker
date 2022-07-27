@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-import { generatePushID } from "@local/functions";
+import { generatePushID } from "@local/api/functions";
 
 class BaseModel {
     public uid: string;
