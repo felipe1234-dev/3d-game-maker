@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "@local/components";
 import { GameContext } from "@local/contexts";
-import Form from "./Form";
+import Body from "./Body";
 
 function EditSceneModal() {
     const game = React.useContext(GameContext);
@@ -14,7 +14,7 @@ function EditSceneModal() {
             draggable
 
             header={`Scene ${game?.currentScene.name ?? ""}`}
-            body={<Form />}
+            body={<Body />}
             
         />
     );

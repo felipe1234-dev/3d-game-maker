@@ -7,7 +7,7 @@ import { threeColorToHex } from "@local/functions";
 import ColorPicker from "material-ui-color-picker";
 import MediaModal from "../Media";
 
-function Form() {
+function Body() {
     const game = React.useContext(GameContext);
     const defaultColor = "#aaa";
 
@@ -105,4 +105,4 @@ function Form() {
     );
 }
 
-export default Form;
+export default Body;
