@@ -10,21 +10,29 @@ function ColorField(props: FieldProps) {
     const defaultColor = "#fff";
     const [color, setColor] = React.useState<string>(defaultColor);
 
-    const { label, attribute: attrPath } = props;
+    const { labels, attributes, scope } = props;
+    const label = labels[0];
+    const attrPath = attributes[0];
     const editor = React.useContext(EditorContext);
 
     React.useEffect(() => {
-        const { object } = editor?.transformControls || {};
+        if (!editor) {
+            return;
+        }
 
-        setColor(
-            object ? (
-                getProperty<string>(attrPath, object)
-            ) : defaultColor
-        );
+        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
+
+        if (object) {
+            setColor(getProperty<string>(attrPath, object));
+        }
     }, [editor?.transformControls.object]);
 
     React.useEffect(() => {
-        const { object } = editor?.transformControls || {};
+        if (!editor) {
+            return;
+        }
+
+        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
 
         if (object) {
             setProperty(attrPath, color, object);
@@ -32,19 +40,11 @@ function ColorField(props: FieldProps) {
     }, [color]);
 
     return (
-        <FormGroup>
-            <FormControlLabel 
-                label={label}
-                control={
-                    <ColorPicker 
-                        variant="outlined"
-                        onChange={(value) => setColor(value)}
-                        value={color}
-                        defaultValue={color}
-                    />
-                }  
-            />
-        </FormGroup>
+        <ColorPicker 
+            variant="outlined"
+            onChange={(value) => setColor(value)}
+            value={color}
+        />
     );
 }
 
