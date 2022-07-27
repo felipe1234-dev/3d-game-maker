@@ -1,6 +1,10 @@
 import { ToneMapping, ShadowMapType } from "three";
 import { Location } from "react-router-dom";
-import { Severity } from "@local/types";
+import { 
+    Severity, 
+    WhereClasule, 
+    OrderByClasule 
+} from "@local/types";
 
 export interface Alert { 
     severity: Severity,
@@ -77,4 +81,11 @@ export interface WebGLRendererProperties {
     },
 
     pixelRation?: number
+}
+
+export interface Filter {
+    where?: WhereClasule[];
+    orderBy?: OrderByClasule[];
+    startAfter?: string;
+    limit?: number;
 }
