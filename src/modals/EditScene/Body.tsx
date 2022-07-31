@@ -1,10 +1,19 @@
 import React from "react";
+import ColorPicker from "material-ui-color-picker";
+import { 
+    Box, 
+    Button,
+    TextField, 
+    MenuItem, 
+    Typography 
+} from "@mui/material";
 import * as THREE from "three";
-import { TextField, MenuItem } from "@mui/material";
+
 import { GameContext } from "@local/contexts";
 import { backgroundTypes } from "@local/consts";
 import { threeColorToHex } from "@local/functions";
-import ColorPicker from "material-ui-color-picker";
+import { Media } from "@local/api/models";
+
 import MediaModal from "../Media";
 
 function Body() {
@@ -12,9 +21,9 @@ function Body() {
     const defaultColor = "#aaa";
 
     const [openModal, setOpenModal] = React.useState<boolean>(false);
-
     const [backgroundType, setBackgroundType] = React.useState<string>();
     const [backgroundColor, setBackgroundColor] = React.useState<string>();
+    const [backgroundImage, setBackgroundImage] = React.useState<Media>();
 
     React.useEffect(() => {
         if (!game) {
@@ -27,19 +36,28 @@ function Body() {
             return;
         }
 
-        switch (true) {
-            case currentScene.background instanceof THREE.Color:
-                const color = threeColorToHex(currentScene.background as THREE.Color);
-                const pattern = new RegExp(
-                    `#(${defaultColor.replace("#", "")})+`, 
-                    "g"
-                );
+        if (currentScene.background instanceof THREE.Color) {
+            const color = threeColorToHex(currentScene.background);
+            const pattern = new RegExp(
+                `#(${defaultColor.replace("#", "")})+`,
+                "g"
+            );
 
-                if (!color.match(pattern)) {
-                    setBackgroundType("color");
-                    setBackgroundColor(color);
+            if (!color.match(pattern)) {
+                setBackgroundType("color");
+                setBackgroundColor(color);
+            }
+        } else if (currentScene.background instanceof THREE.Texture) {
+            if (Media.testType(currentScene.background.userData)) {
+                const media = currentScene.background.userData;
+                setBackgroundImage(media);
+
+                if (currentScene.background.mapping === THREE.UVMapping) {
+                    setBackgroundType("uvTexture");
+                } else {
+                    setBackgroundType("equirectTexture");
                 }
-                break;
+            }
         }
     }, [game]);
 
@@ -59,13 +77,21 @@ function Body() {
                 currentScene.background = new THREE.Color(backgroundColor);
                 break;
             case "uvTexture":
-                setOpenModal(true); 
+                if (!backgroundImage) {
+                    setOpenModal(true); 
+                } else {
+                    setOpenModal(false);
+                    
+                    currentScene.background = new THREE.TextureLoader().load(backgroundImage.url);
+                    currentScene.background.name = backgroundImage.title;
+                    currentScene.background.userData = { ...backgroundImage };
+                }
                 break;
             default: 
                 currentScene.background = new THREE.Color(defaultColor);
                 break;
         }
-    }, [backgroundColor, backgroundType]);
+    }, [backgroundColor, backgroundType, backgroundImage]);
 
     return (
         <div style={{ paddingTop: 10 }}>
@@ -94,11 +120,28 @@ function Body() {
                 />
             )}
 
-            {openModal && (
+            {(backgroundType === "uvTexture" && backgroundImage) && (
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    margin: "10px 0"
+                }}>
+                    <Typography variant="subtitle1" component="p">
+                        {backgroundImage.title} ({backgroundImage.mimeType})
+                    </Typography>
+
+                    <Button onClick={() => setOpenModal(true)}>
+                        Change Image
+                    </Button>
+                </Box>
+            )}
+
+            {(openModal && backgroundType === "uvTexture") && (
                 <MediaModal
                     title="Upload an image"
                     onClose={() => setOpenModal(false)}
-                    onFinish={media => console.log(media)}
+                    onFinish={media => setBackgroundImage(media)}
                     folders={[ "textures", "uv" ]}
                 />
             )}
