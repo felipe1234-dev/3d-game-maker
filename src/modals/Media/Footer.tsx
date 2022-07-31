@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { LoadingButton as Button } from "@mui/lab";
 import { MediaModalContext } from "./Context";
 import { AlertContext, FirebaseContext } from "@local/contexts";
 import * as users from "@local/api/collections/users";
@@ -17,6 +18,7 @@ function Footer(props: FooterProps) {
     const { db } = React.useContext(FirebaseContext);
     const { setSeverity, setMessage } = React.useContext(AlertContext);
 
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [uploader, setUploader] = React.useState<User>();
 
     React.useEffect(() => {
@@ -32,6 +34,14 @@ function Footer(props: FooterProps) {
         });
     }, [selectedMedia]);
 
+    const withLoadingEffect = (callback: Function, ms: number) => {
+        setIsLoading(true);
+        setTimeout(() => {
+            callback();
+            setIsLoading(false);
+        }, ms);
+    }
+
     return (
         <div className="MediaModal-footer">
             <Typography variant="subtitle1" component="p">
@@ -42,8 +52,12 @@ function Footer(props: FooterProps) {
             </Typography>
             <Button 
                 className="MediaModal-footer-finishButton" 
-                onClick={() => selectedMedia ? onUseMedia(selectedMedia) : {}}
+                onClick={() => withLoadingEffect(
+                    () => selectedMedia ? onUseMedia(selectedMedia) : {},
+                    1500
+                )}
                 disabled={!selectedMedia}
+                loading={isLoading}
             >
                 Use this file
             </Button>
