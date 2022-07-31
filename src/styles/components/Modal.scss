@@ -1,7 +1,8 @@
 .Modal {
-    // .MuiPaper-root {
-    //     max-width: 500px !important;
-    // }
+    .MuiPaper-root {
+        max-width: none !important;
+        max-height: none !important;
+    }
 
     &--isResizable {
         .MuiPaper-root {
