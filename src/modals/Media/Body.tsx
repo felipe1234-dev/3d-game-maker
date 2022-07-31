@@ -1,33 +1,60 @@
 import React from "react";
-import * as gallery from "@local/api/collections/gallery";
-import { Media } from "@local/api/models";
-import { FirebaseContext } from "@local/contexts";
-import { Alert, Filter } from "@local/interfaces";
+import { 
+    Box, 
+    Tabs, 
+    Tab, 
+    TextField,
+    Typography
+} from "@mui/material";
+
+import Library from "./Library";
+import { MediaModalContext } from "./Context";
+// import Upload from "./Upload";
 
 function Body() {
-    const [medias, setMedias] = React.useState<Media[]>([]);
-    const [search, setSearch] = React.useState<string>("");
-    const { db } = React.useContext(FirebaseContext);
-
-    React.useEffect(() => {
-        const filter: Filter = {};
-
-        if (search) {
-            filter.where = [
-                ["tags", "array-contains", search]
-            ];
-        }
-
-        gallery.list(db, filter).then(resp => {
-            console.log(resp);
-            setMedias(resp);
-        }).catch((error: Alert) => {
-            console.error(error);
-        });
-    }, []);
+    const [tab, setTab] = React.useState<number>(1);
+    const { 
+        folders, 
+        search, 
+        setSearch,
+        mediaList
+    } = React.useContext(MediaModalContext);
+    const path = folders.join("/");
 
     return (
-        <></>
+        <>
+            <TextField
+                placeholder={`Search in "${path}/"`}
+                onChange={evt => setSearch(evt.target.value)}
+                value={search}
+            />
+            <Tabs
+                value={tab} 
+                onChange={(evt, newTab) => setTab(Number(newTab))}
+            >
+                <Tab label="Upload files" />
+                <Tab label="Media library" />
+            </Tabs>
+            <Box role="tabpanel" hidden={tab !== 0}>
+                
+            </Box>
+            <Box role="tabpanel" hidden={tab !== 1}>
+                {mediaList.length > 0 ? (
+                    <Library />
+                ) : ( 
+                    <Box sx={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center", 
+                        paddingTop: "20%"
+                    }}>
+                        <Typography variant="h6">
+                            No files correspond to "{search}"
+                        </Typography>
+                    </Box>
+                )}
+            </Box>
+        </>
     );
 }
 
