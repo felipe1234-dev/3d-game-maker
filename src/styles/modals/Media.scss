@@ -1,0 +1,44 @@
+@import "../colors";
+
+.MediaModal {
+    &-gallery {
+        &-media {
+            cursor: pointer;
+            transition: 
+                opacity ease-in 500ms, 
+                height ease-in 100ms, 
+                border ease-in 200ms;
+            opacity: 1;
+
+            &:hover {
+                opacity: .7;
+            }
+
+            &--isSelected {
+                border: 5px solid $secondary-color;
+                border-radius: 5px;
+                height: 140px !important;
+            }
+        }
+    }
+
+    &-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        &-finishButton {
+            text-transform: none !important;
+
+            &:disabled {
+                cursor: not-allowed !important;
+                pointer-events: auto !important; 
+
+                &:hover {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+}
