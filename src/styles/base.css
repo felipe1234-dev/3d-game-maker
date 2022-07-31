@@ -12,10 +12,24 @@ code {
         monospace;
 }
 
+main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    min-width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+}
+
 .MuiTextField-root {
     width: 100%;
 }
 
 .MuiTextField-root:not(:first-child):not([class*="MultiNumberField-row"]) {
     margin-top: 10px;
+}
+
+*[role="tabpanel"] {
+    padding: 10px;
 }
