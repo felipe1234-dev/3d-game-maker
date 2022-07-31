@@ -47,6 +47,7 @@ const DraggablePaper = (props: PaperProps) => (
 );
 
 interface ModalProps {
+    className?: string,
     placement?: 
         "center" | "top-center" | "bottom-center" | "top-right" | 
         "top-left" | "bottom-left" | "bottom-right",
@@ -62,6 +63,7 @@ interface ModalProps {
 
 function Modal(props: ModalProps & Omit<DialogProps, "open">) {
     let {
+        className: customClassName,
         onClose,
         placement,
         resizable,
@@ -73,9 +75,11 @@ function Modal(props: ModalProps & Omit<DialogProps, "open">) {
         footer,
         ...dialogProps 
     } = props;
+
+    customClassName = customClassName ?? "";
     placement = placement ?? "center";
 
-    let className = "Modal";
+    let className = "Modal " + customClassName;
     className += " Modal--" + ("is-" + placement)
         .toLowerCase()
         .replace(
