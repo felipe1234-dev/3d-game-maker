@@ -1,4 +1,3 @@
-// Libs
 import React from "react";
 import {
     Routes as Switch,
@@ -7,26 +6,15 @@ import {
     Location
 } from "react-router-dom";
 import { Box } from "@mui/material";
-
-// Local components
-import { AlertMessage } from "@local/components";
-
-// Local contexts
+import { AlertMessage, PageLoader } from "@local/components";
 import { AlertContext } from "@local/contexts";
-
-// Local functions
 import { isRouteState } from "@local/functions";
-
-// Local pages
 import { EditorPage } from "@local/pages";
-
-// Local modals
 import { 
     EditObjectModal as EditObject,
     EditSceneModal as EditScene
 } from "@local/modals";
 
-// Local styles
 import "./styles/reset.css";
 import "./styles/base.css";
 
@@ -57,12 +45,12 @@ function App() {
     React.useEffect(() => {
         setTimeout(() => {
             setPageIsLoading(false);
-        }, 8000);
+        }, 3000);
     });
     
     return (
         <>
-            <Box component="main" sx={{ display: pageIsLoading ? "none" : "block" }}>
+            <Box component="main">
                 <Switch location={backgroundLocation ?? pageLocation}>
                     <Route
                         path="/editor"
@@ -100,6 +88,8 @@ function App() {
                     }}
                 />
             </Box>
+
+            <PageLoader hidden={!pageIsLoading} />
         </>
     );
 }

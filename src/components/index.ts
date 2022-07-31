@@ -12,3 +12,6 @@ export type { PressableProps } from "./Pressable";
 
 export { default as ProviderComposer } from "./ProviderComposer";
 export type { ProviderComposerProps } from "./ProviderComposer";
+
+export { default as PageLoader } from "./PageLoader";
+export type { PageLoaderProps } from "./PageLoader";
