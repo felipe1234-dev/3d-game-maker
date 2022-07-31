@@ -13,6 +13,6 @@ export default [
     },
     {
         label: "Equirectangular Texture",
-        value: "equirectangularTexture"
+        value: "equirectTexture"
     }
 ];
