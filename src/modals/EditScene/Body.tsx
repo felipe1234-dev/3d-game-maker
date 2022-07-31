@@ -98,7 +98,8 @@ function Body() {
                 <MediaModal
                     title="Upload an image"
                     onClose={() => setOpenModal(false)}
-                    folders={[]}
+                    onFinish={media => console.log(media)}
+                    folders={[ "textures", "uv" ]}
                 />
             )}
         </div>
