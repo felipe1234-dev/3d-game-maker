@@ -54,7 +54,9 @@ function Body() {
 
                 if (currentScene.background.mapping === THREE.UVMapping) {
                     setBackgroundType("uvTexture");
-                } else {
+                } 
+                
+                if (currentScene.background.mapping === THREE.EquirectangularReflectionMapping) {
                     setBackgroundType("equirectTexture");
                 }
             }
@@ -76,6 +78,7 @@ function Body() {
             case "color": 
                 currentScene.background = new THREE.Color(backgroundColor);
                 break;
+            case "equirecTexture":
             case "uvTexture":
                 if (!backgroundImage) {
                     setOpenModal(true); 
@@ -85,6 +88,12 @@ function Body() {
                     currentScene.background = new THREE.TextureLoader().load(backgroundImage.url);
                     currentScene.background.name = backgroundImage.title;
                     currentScene.background.userData = { ...backgroundImage };
+
+                    currentScene.background.mapping = backgroundType === "uvTexture"
+                        ? THREE.UVMapping
+                        : backgroundType === "equirecTexture"
+                        ? THREE.EquirectangularReflectionMapping
+                        : THREE.Texture.DEFAULT_MAPPING;
                 }
                 break;
             default: 
