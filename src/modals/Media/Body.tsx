@@ -8,8 +8,9 @@ import {
 } from "@mui/material";
 
 import Library from "./Library";
+import Upload from "./Upload";
+
 import { MediaModalContext } from "./Context";
-// import Upload from "./Upload";
 
 function Body() {
     const [tab, setTab] = React.useState<number>(1);
@@ -36,7 +37,7 @@ function Body() {
                 <Tab label="Media library" />
             </Tabs>
             <Box role="tabpanel" hidden={tab !== 0}>
-                
+                <Upload />
             </Box>
             <Box role="tabpanel" hidden={tab !== 1}>
                 {mediaList.length > 0 ? (
