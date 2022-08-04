@@ -14,7 +14,7 @@ interface MediaModalProps {
     folders: Array<string>
 }
 
-function MediaModal(props: MediaModalProps) {
+function Content(props: MediaModalProps) {
     const { 
         title, 
         onClose, 
@@ -25,25 +25,29 @@ function MediaModal(props: MediaModalProps) {
 
     React.useEffect(() => {
         setFolders(newFolders);
-    }, [newFolders]);
+    }, [JSON.stringify(newFolders)]);
 
     return (
-        <MediaModalProvider>
-            <Modal
-                className="MediaModal"
+        <Modal
+            className="MediaModal"
 
-                width={800}
-                height={600}
-                onClose={onClose}
+            width={800}
+            height={600}
+            onClose={onClose}
 
-                header={title}
-                body={<Body />}
-                footer={<Footer onUseMedia={onFinish} />}
+            header={title}
+            body={<Body />}
+            footer={<Footer onUseMedia={onFinish} />}
 
-                draggable
-            />
-        </MediaModalProvider>
+            draggable
+        />
     );
 }
+
+const MediaModal = (props: MediaModalProps) => (
+    <MediaModalProvider>
+        <Content {...props}/>
+    </MediaModalProvider>
+);
 
 export default MediaModal;
