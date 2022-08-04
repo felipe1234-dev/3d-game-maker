@@ -1,7 +1,7 @@
 import React from "react";
 import * as gallery from "@local/api/collections/gallery";
 import { Media } from "@local/api/models";
-import { AlertContext, FirebaseContext } from "@local/contexts";
+import { AlertContext } from "@local/contexts";
 import { Alert, Filter } from "@local/interfaces";
 
 interface MediaModalValue {
@@ -30,7 +30,6 @@ const MediaModalContext = React.createContext<MediaModalValue>({
 
 function MediaModalProvider(props: { children: React.ReactNode }) {
     const { setSeverity, setMessage } = React.useContext(AlertContext);
-    const { db } = React.useContext(FirebaseContext);
 
     const [folders, setFolders] = React.useState<string[]>([]);
     const [mediaList, setMediaList] = React.useState<Media[]>([]);
@@ -46,7 +45,7 @@ function MediaModalProvider(props: { children: React.ReactNode }) {
             filter.where!.push(["tags", "array-contains-any", search.toLowerCase().split(" ")]);
         }
 
-        gallery.list(db, filter).then(resp => {
+        gallery.list(filter).then(resp => {
             if (folders.length === 0) {
                 setMediaList(resp);
             } else {
@@ -61,8 +60,12 @@ function MediaModalProvider(props: { children: React.ReactNode }) {
     }, [search]);
 
     React.useEffect(() => {
-        console.log(mediaList);
+        console.log("mediaList ", mediaList);
     }, [selectedMedia]);
+
+    React.useEffect(() => {
+        console.log("folders ", folders);
+    }, [folders]);
 
     return (
         <MediaModalContext.Provider value={{

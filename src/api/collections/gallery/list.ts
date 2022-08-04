@@ -1,11 +1,12 @@
-import { Firestore, getDocs } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 import { FirebaseError } from "@firebase/util";
 import { collectionName } from "./index";
 import { Filter } from "@local/interfaces";
 import { Media } from "@local/api/models";
 import { generateQuery, toAlert } from "@local/api/functions";
+import { db } from "@local/api";
 
-function list(db: Firestore, filter?: Filter): Promise<Media[]> {
+function list(filter?: Filter): Promise<Media[]> {
     return new Promise(async (resolve, reject) => {
         if (!filter) {
             filter = {};

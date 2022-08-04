@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { MediaModalContext } from "./Context";
-import { AlertContext, FirebaseContext } from "@local/contexts";
+import { AlertContext } from "@local/contexts";
 import * as users from "@local/api/collections/users";
 import { Alert } from "@local/interfaces";
 import { Media, User } from "@local/api/models";
@@ -15,7 +15,6 @@ function Footer(props: FooterProps) {
     const { onUseMedia } = props;
 
     const { selectedMedia } = React.useContext(MediaModalContext);
-    const { db } = React.useContext(FirebaseContext);
     const { setSeverity, setMessage } = React.useContext(AlertContext);
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -26,7 +25,7 @@ function Footer(props: FooterProps) {
             return;
         }
         
-        users.byUid(db, selectedMedia.createdBy).then(resp => {
+        users.byUid(selectedMedia.createdBy).then(resp => {
             setUploader(resp);
         }).catch((error: Alert) => {
             setSeverity(error.severity);

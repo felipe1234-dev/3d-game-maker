@@ -1,13 +1,10 @@
-// Firebase
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
-import { Firestore } from "@firebase/firestore";
-
-// Local
 import { User } from "@local/api/models";
 import * as users from "../collections/users";
 import logOut from "./logOut";
+import { db, storage } from "@local/api";
 
-export default function currentUser(db: Firestore): Promise<User | null> {
+export default function currentUser(): Promise<User | null> {
     return new Promise((resolve, reject) => {
         const refreshToken = sessionStorage.getItem("Auth Token");
         const auth = getAuth();
@@ -32,7 +29,7 @@ export default function currentUser(db: Firestore): Promise<User | null> {
             if (!!user) {
                 const { uid } = user; 
                 
-                users.byUid(db, uid)
+                users.byUid(uid)
                     .then((user) => (
                         resolve(user)
                     ))

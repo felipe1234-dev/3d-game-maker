@@ -1,10 +1,11 @@
-import { Firestore, getDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { FirebaseError } from "@firebase/util";
 import { collectionName } from "./index";
 import { User } from "@local/api/models";
 import { toAlert } from "@local/api/functions";
+import { db } from "@local/api";
 
-function byUid(db: Firestore, uid: string): Promise<User> {
+function byUid(uid: string): Promise<User> {
     return new Promise(async (resolve, reject) => {
         try {
             const docRef = doc(db, `${collectionName}/${uid}`);

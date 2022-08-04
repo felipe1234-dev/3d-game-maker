@@ -2,17 +2,18 @@ import { FirebaseError } from "firebase/app";
 import { 
     addDoc, 
     collection,
-    Firestore, 
     Timestamp,
     updateDoc
 } from "firebase/firestore";
 import { Media } from "@local/api/models";
+
 import * as auth from "@local/api/auth";
 import * as gallery from "./index";
+
+import { db, storage } from "@local/api";
 import { toAlert } from "@local/api/functions";
 
 export default function add(
-    db: Firestore, 
     props: {
         title: string, 
         description: string, 
@@ -44,7 +45,7 @@ export default function add(
             );
 
             try {
-                const user = await auth.currentUser(db);
+                const user = await auth.currentUser();
                 
                 if (!!user) {
                     newMedia.createdBy = user.uid;
@@ -77,7 +78,7 @@ export default function add(
             });
 
             try {
-                const media = await gallery.byUid(db, docRef.id);
+                const media = await gallery.byUid(docRef.id);
 
                 resolve(media);
             } catch (error) {
