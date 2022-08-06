@@ -1,0 +1,73 @@
+@import "../colors";
+@import "../animations";
+
+.AuthPage {
+    display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	min-width: 100vw;
+	background-color: $primary-color;
+
+    &-container {
+        display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 10px;
+		width: Max(300px, 23%);
+
+		&-logo {
+			height: 20vmin;
+			cursor: pointer;
+
+			&:hover {
+				@include shakeAnimation;
+			}
+		}
+
+		form {
+			display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+		}
+
+		.MuiTypography-root {
+			color: $text-color;
+			margin: 1.5em 0;
+		}
+
+		.MuiTextField-root {
+			label, input, .MuiInputAdornment-root, .MuiButtonBase-root {
+				color: $text-color;
+			}
+
+			fieldset {
+				border-color: $text-color;
+			}
+
+			.MuiButtonBase-root {
+				padding: 12px !important;
+			}
+
+			.MuiInput-root {
+				&, &:hover {
+					&::before {
+						border-bottom-color: $text-color;
+					}
+				}
+			}
+		}
+
+		.MuiLoadingButton-root {
+			background-color: $secondary-color;
+
+			&:hover {
+				background-color: darken($secondary-color, 20%);
+			}
+		}
+    }
+}
