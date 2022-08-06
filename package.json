@@ -1,6 +1,7 @@
 {
   "name": "3d-gamemaker",
   "version": "0.1.0",
+  "homepage": "https://felipe1234-dev.github.io/3d-game-maker/",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -83,7 +84,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -157,5 +159,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
