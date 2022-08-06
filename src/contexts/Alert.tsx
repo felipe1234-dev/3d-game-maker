@@ -26,16 +26,16 @@ function AlertProvider(props: { children: React.ReactNode }) {
         
         switch (severity) {
             case "error": 
-                console.error("Error! ", message);
+                console.error("Error!", message);
                 break;
             case "warning": 
-                console.warn("Warning! ", message);
+                console.warn("Warning!", message);
                 break;
             case "info": 
-                console.info("Info! ", message);
+                console.info("Info!", message);
                 break;
             case "success": 
-                console.log("Success! ", message);
+                console.log("Success!", message);
                 break;
         }
     }, [message, severity])
