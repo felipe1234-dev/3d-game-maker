@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import * as auth from "@local/api/auth";
 import { isRouteState } from "@local/functions";
-import { AlertContext, UserContext } from "@local/contexts";
+import { AlertContext } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 
 interface RequireAuthProps {
@@ -20,10 +20,7 @@ interface RequireAuthProps {
 function RequireAuth({ children }: RequireAuthProps) {
     const [ready, setReady]     = useState<boolean>(false);
     const [allowed, setAllowed] = useState<boolean>(false);
-    const location = useLocation();
-    
     const { setSeverity, setMessage } = useContext(AlertContext);
-    const { setUser } = useContext(UserContext);
     
     const locationNow = useLocation();
     const { state } = locationNow;
@@ -39,7 +36,6 @@ function RequireAuth({ children }: RequireAuthProps) {
         (async () => {
             try {
                 const user = await auth.currentUser();
-                setUser(user);
                 setAllowed(!!user);
                         
                 setReady(true);
