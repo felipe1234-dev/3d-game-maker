@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, TextField } from "@mui/material";
+import { LoadingButton as Button } from "@mui/lab";
 import { DropzoneArea } from "material-ui-dropzone";
 
 import * as gallery from "@local/api/collections/gallery";
@@ -10,6 +11,8 @@ import { MediaModalContext } from "./Context";
 import { Alert } from "@local/interfaces";
 
 function Upload() {
+    const [loading, setLoading] = React.useState<boolean>(false);
+
     const [title, setTitle] = React.useState<string>("");
     const [description, setDescription] = React.useState<string>("");
     const [file, setFile] = React.useState<File>();
@@ -22,17 +25,26 @@ function Upload() {
             return;
         }
 
-        gallery.add({
-            title, 
-            description,
-            folders,
-            file
-        }).then(media => {
-            console.log(media);
-        }).catch((err: Alert) => {
-            setSeverity(err.severity);
-            setMessage(err.message);
-        });
+        setLoading(true);
+
+        setTimeout(() => {
+            gallery.add({
+                title, 
+                description,
+                folders,
+                file
+            }).then(media => {
+                console.log(media);
+
+                setSeverity("success");
+                setMessage("File added successfully");
+            }).catch((err: Alert) => {
+                setSeverity(err.severity);
+                setMessage(err.message);
+            }).finally(() => (
+                setLoading(false)
+            ));
+        }, 3000);
     }
 
     return (
@@ -55,6 +67,9 @@ function Upload() {
                     setFile(files[0]); console.log(files)}}
                 filesLimit={1}
             />
+            <Button onClick={addMedia} loading={loading}>
+                Upload file
+            </Button>
         </Box>
     );
 }
