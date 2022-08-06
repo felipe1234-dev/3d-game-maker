@@ -1,0 +1,65 @@
+@import "colors";
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
+
+main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    min-width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+
+    --primary-color: #{$primary-color};
+    --secondary-color: #{$secondary-color};
+    --text-color: #{$text-color};
+
+    --autofill-bg-color: #{$primary-color};
+    --autofill-text-color: #{$text-color};
+}
+
+.MuiTextField-root {
+    width: 100%;
+    
+    &:not(:first-child):not([class*="MultiNumberField-row"]) {
+        margin-top: 10px;
+    }
+}
+
+*[role="tabpanel"] {
+    padding: 10px;
+}
+
+.MuiInputBase-input {
+    &::-ms-reveal,
+    &::-ms-clear {
+        display: none !important;
+    }
+
+    &:-internal-autofill-selected {
+        -webkit-box-shadow: 0 0 0 1000px var(--autofill-bg-color) inset !important;
+        box-shadow: 0 0 0 1000px var(--autofill-bg-color) inset !important;
+        -webkit-text-fill-color: var(--autofill-text-color) !important;
+
+        &:hover,
+        &:focus,
+        &:active {
+            -webkit-box-shadow: 0 0 0 1000px var(--autofill-bg-color) inset !important;
+            box-shadow: 0 0 0 1000px var(--autofill-bg-color) inset !important;
+            -webkit-text-fill-color: var(--autofill-text-color) !important;
+        }
+    }
+}
