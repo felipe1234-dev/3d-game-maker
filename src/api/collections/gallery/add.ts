@@ -12,7 +12,7 @@ import * as auth from "@local/api/auth";
 import * as gallery from "./index";
 
 import { db, storage } from "@local/api";
-import { toAlert } from "@local/api/functions";
+import { toAlert, split } from "@local/api/functions";
 
 export default function add(props: {
     title: string,
@@ -38,10 +38,6 @@ export default function add(props: {
             newMedia.folders = folders;
             newMedia.description = description;
             newMedia.title = title;
-
-            const split = (text: string) => (
-                text.replace(/[-_\s]/g, " ").replace(/\s+/g, " ").split(" ")
-            );
 
             try {
                 const user = await auth.currentUser();
