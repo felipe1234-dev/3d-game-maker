@@ -1,11 +1,11 @@
 import { FirebaseError } from "firebase/app";
-import { 
-    addDoc, 
+import {
+    addDoc,
     collection,
     Timestamp,
     updateDoc
 } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from  "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Media } from "@local/api/models";
 
 import * as auth from "@local/api/auth";
@@ -14,18 +14,16 @@ import * as gallery from "./index";
 import { db, storage } from "@local/api";
 import { toAlert } from "@local/api/functions";
 
-export default function add(
-    props: {
-        title: string, 
-        description: string, 
-        folders: string[],
-        file: File
-    }
-): Promise<Media> {    
+export default function add(props: {
+    title: string,
+    description: string,
+    folders: string[],
+    file: File
+}): Promise<Media> {
     return new Promise(async (resolve, reject) => {
         const {
-            title, 
-            description, 
+            title,
+            description,
             folders,
             file
         } = props;
@@ -40,17 +38,17 @@ export default function add(
             newMedia.folders = folders;
             newMedia.description = description;
             newMedia.title = title;
-            
+
             const split = (text: string) => (
                 text.replace(/[-_\s]/g, " ").replace(/\s+/g, " ").split(" ")
             );
 
             try {
                 const user = await auth.currentUser();
-                
+
                 if (!!user) {
                     newMedia.createdBy = user.uid;
-                    
+
                     newMedia.tags.push(user.uid, user.email);
                     newMedia.tags.push(...split(user.firstName));
                     newMedia.tags.push(...split(user.lastName));
@@ -81,11 +79,11 @@ export default function add(
             const docRef = await addDoc(collectionRef, newMedia);
             await updateDoc(docRef, {
                 uid: docRef.id,
-                tags: [ docRef.id, ...newMedia.tags ]
+                tags: [docRef.id, ...newMedia.tags]
             });
 
             newMedia.uid = docRef.id;
-            newMedia.tags = [ docRef.id, ...newMedia.tags ];
+            newMedia.tags = [docRef.id, ...newMedia.tags];
 
             resolve(newMedia);
         } catch (error) {
