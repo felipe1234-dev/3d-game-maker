@@ -6,17 +6,24 @@ import {
     Location
 } from "react-router-dom";
 import { Box } from "@mui/material";
-import { AlertMessage, PageLoader } from "@local/components";
+import { 
+    AlertMessage, 
+    PageLoader,
+    RequireAuth
+} from "@local/components";
 import { AlertContext } from "@local/contexts";
 import { isRouteState } from "@local/functions";
-import { EditorPage } from "@local/pages";
+import { 
+    EditorPage,
+    AuthPage
+} from "@local/pages";
 import { 
     EditObjectModal as EditObject,
     EditSceneModal as EditScene
 } from "@local/modals";
 
 import "./styles/reset.css";
-import "./styles/base.css";
+import "./styles/base.scss";
 
 function App() {
     const [pageIsLoading, setPageIsLoading] = React.useState<boolean>(true);
@@ -53,9 +60,17 @@ function App() {
             <Box component="main">
                 <Switch location={backgroundLocation ?? pageLocation}>
                     <Route
+                        path="/auth"
+                        element={(
+                            <AuthPage />
+                        )}
+                    />
+                    <Route
                         path="/editor"
                         element={(
-                            <EditorPage />
+                            // <RequireAuth>
+                                <EditorPage />
+                            // </RequireAuth>
                         )}
                     />
                 </Switch>
@@ -65,13 +80,17 @@ function App() {
                         <Route 
                             path="/editor/object/"
                             element={(
-                                <EditObject />
+                                <RequireAuth>
+                                    <EditObject />
+                                </RequireAuth>
                             )}
                         />
                         <Route 
                             path="/editor/scene/"
                             element={(
-                                <EditScene />
+                                <RequireAuth>
+                                    <EditScene />
+                                </RequireAuth>
                             )}
                         />
                     </Switch>
