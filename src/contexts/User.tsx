@@ -6,7 +6,10 @@ interface UserValue {
     setUser(user: User | null): void
 }
 
-const UserContext = React.createContext<UserValue | undefined>(undefined);
+const UserContext = React.createContext<UserValue>({
+    user: null,
+    setUser: () => {}
+});
 
 function UserProvider(props: { children: React.ReactNode }) {
     const [user, setUser] = React.useState<User | null>(null);
