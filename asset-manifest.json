@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.5d4fd974.css",
-    "main.js": "/static/js/main.5970b417.js",
-    "index.html": "/index.html",
-    "main.5d4fd974.css.map": "/static/css/main.5d4fd974.css.map",
-    "main.5970b417.js.map": "/static/js/main.5970b417.js.map"
+    "main.css": "/3d-game-maker/static/css/main.ff652f9c.css",
+    "main.js": "/3d-game-maker/static/js/main.9dac95e2.js",
+    "static/media/logo.svg": "/3d-game-maker/static/media/logo.270e6f78090c780ce0f64c7f503acc54.svg",
+    "index.html": "/3d-game-maker/index.html",
+    "main.ff652f9c.css.map": "/3d-game-maker/static/css/main.ff652f9c.css.map",
+    "main.9dac95e2.js.map": "/3d-game-maker/static/js/main.9dac95e2.js.map"
   },
   "entrypoints": [
-    "static/css/main.5d4fd974.css",
-    "static/js/main.5970b417.js"
+    "static/css/main.ff652f9c.css",
+    "static/js/main.9dac95e2.js"
   ]
 }
