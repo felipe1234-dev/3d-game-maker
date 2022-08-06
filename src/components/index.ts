@@ -15,3 +15,6 @@ export type { ProviderComposerProps } from "./ProviderComposer";
 
 export { default as PageLoader } from "./PageLoader";
 export type { PageLoaderProps } from "./PageLoader";
+
+export { default as RequireAuth } from "./RequireAuth";
+export type { RequireAuthProps } from "./RequireAuth";
