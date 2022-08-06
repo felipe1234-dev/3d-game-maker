@@ -1,6 +1,11 @@
 import { Alert } from "@local/interfaces";
 import { FirebaseError } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    sendEmailVerification,
+    ActionCodeSettings
+} from "firebase/auth";
 
 import * as users from "../collections/users";
 import * as auth from "./index";
@@ -25,6 +30,8 @@ export default function register(props: {
 
         try {
             const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+            await sendEmailVerification(userCredential.user);
+
             let user = new User();
 
             user.uid = userCredential.user.uid;
@@ -35,7 +42,7 @@ export default function register(props: {
             try {
                 user = await users.create(user);
                 await auth.logIn(email, password);
-                
+
                 resolve(user);
             } catch (error) {
                 reject(error as Alert);
