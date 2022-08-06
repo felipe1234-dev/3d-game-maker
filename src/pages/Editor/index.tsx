@@ -9,21 +9,11 @@ import Sidebar from "../Editor/Sidebar";
 import "@local/styles/pages/EditorPage.scss";
 
 function EditorPage() {
-    const [open, setOpen] = React.useState<boolean>(true);
-    
     return (
         <Box component="div" className="Editor">
-            <Menubar
-                open={open}
-                setOpen={setOpen}
-            /> 
+            <Menubar /> 
             <Viewport />
             <Toolbar />
-            <Sidebar
-                aria-expanded={open}
-                onClose={() => setOpen(false)}
-                onOpen={() => setOpen(true)}
-            />
         </Box>
     );
 }
