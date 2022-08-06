@@ -5,6 +5,7 @@ import {
     Timestamp,
     updateDoc
 } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from  "firebase/storage";
 import { Media } from "@local/api/models";
 
 import * as auth from "@local/api/auth";
@@ -70,20 +71,23 @@ export default function add(
             } catch (error) {
                 reject(error);
             }
-            
+
+            const storageRef = ref(storage, `${folders.join("/")}/${file.name}`);
+            await uploadBytes(storageRef, file);
+
+            const url = await getDownloadURL(storageRef);
+            newMedia.url = url;
+
             const docRef = await addDoc(collectionRef, newMedia);
             await updateDoc(docRef, {
                 uid: docRef.id,
                 tags: [ docRef.id, ...newMedia.tags ]
             });
 
-            try {
-                const media = await gallery.byUid(docRef.id);
+            newMedia.uid = docRef.id;
+            newMedia.tags = [ docRef.id, ...newMedia.tags ];
 
-                resolve(media);
-            } catch (error) {
-                reject(error);
-            }
+            resolve(newMedia);
         } catch (error) {
             reject(toAlert(error as FirebaseError))
         }
