@@ -21,13 +21,14 @@
 		&-logo {
 			height: 20vmin;
 			cursor: pointer;
+			margin-bottom: 30px;
 
 			&:hover {
 				@include shakeAnimation;
 			}
 		}
 
-		form {
+		&-form {
 			display: flex;
             flex-direction: column;
             align-items: center;
@@ -35,12 +36,40 @@
             width: 100%;
 		}
 
-		.MuiTypography-root {
+		&-row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+
+			.MuiTextField-root {
+				&:not(:first-child):not([class*="MultiNumberField-row"]) {
+					margin-top: 16px;
+				}
+			}
+
+			.MuiFormControl-root {
+				margin-right: 10px;
+				margin-left: 10px;
+
+				&:first-child {
+					margin-right: 10px;
+					margin-left: 0;
+				}
+
+				&:last-child {
+					margin-left: 10px;
+					margin-right: 0;
+				}
+			}
+		}
+
+		&-catchline {
 			color: $text-color;
 			margin: 1.5em 0;
 		}
 
-		.MuiTextField-root {
+		&-input {
 			label, input, .MuiInputAdornment-root, .MuiButtonBase-root {
 				color: $text-color;
 			}
@@ -56,17 +85,38 @@
 			.MuiInput-root {
 				&, &:hover {
 					&::before {
-						border-bottom-color: $text-color;
+						border-bottom-color: $text-color !important;
 					}
 				}
 			}
 		}
 
-		.MuiLoadingButton-root {
-			background-color: $secondary-color;
+		&-button {
+			background-color: $secondary-color !important;
 
 			&:hover {
-				background-color: darken($secondary-color, 20%);
+				background-color: darken($secondary-color, 20%) !important;
+			}
+		}
+
+		&-footer {
+			display: flex; 
+			justify-content: space-between; 
+			width: 100%;
+			color: $text-color;
+
+			span {
+				cursor: pointer;
+				text-decoration-color: transparent;  
+				transition: 
+					text-decoration ease-in .2s, 
+					text-decoration-color ease-in .2s;
+				flex-wrap: nowrap;
+
+				&:hover {
+					text-decoration: underline;
+					text-decoration-color: $secondary-color;  
+				}
 			}
 		}
     }
