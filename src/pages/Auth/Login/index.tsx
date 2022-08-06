@@ -12,28 +12,22 @@ import {
     Visibility as VisibilityOnIcon,
     VisibilityOff as VisibilityOffIcon
 } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
-import { isRouteState } from "@local/functions";
 import * as auth from "@local/api/auth";
 import { AlertContext } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 
-function Login() {
+interface LoginProps {
+    redirect: string
+}
+
+function Login(props: LoginProps) {
     const [formIsLoading, setFormIsLoading] = React.useState<boolean>(false);
     const [submitIsDisabled, setSubmitIsDisabled] = React.useState<boolean>(false);
     const [passIsMasked, setPassIsMasked] = React.useState<boolean>(true);
     
-    const navigate  = useNavigate();
-    const { state, pathname: pathNow } = useLocation();
-    let from = "/";
-    
-    if (isRouteState(state) && "from" in state) {
-        if (state.from!.pathname !== pathNow) {
-            from = state.from!.pathname;
-        }
-    }
-    
+	const navigate  = useNavigate();
     const { setSeverity, setMessage } = React.useContext(AlertContext);
     
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,7 +49,7 @@ function Login() {
 
             setSeverity("success");
             setMessage("Logged in successfully");
-            setTimeout(() => navigate(from, { replace: true }), 3000);
+            setTimeout(() => navigate(props.redirect, { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
 
@@ -75,6 +69,7 @@ function Login() {
     }
     
     const baseTextField: TextFieldProps = {
+        className: "AuthPage-container-input",
         margin: "normal",
         fullWidth: true,
         required: true,
@@ -84,6 +79,7 @@ function Login() {
     return (
         <Box
             component="form"
+            className="AuthPage-container-form"
             onSubmit={onSubmit}
             onChange={onChange}
         >
@@ -103,7 +99,7 @@ function Login() {
             <TextField
                 {...baseTextField}
                 name="password"
-                label="Senha"
+                label="Password"
                 type={passIsMasked ? "password" : "text"}
                 InputProps={{
                     autoComplete: "new-password",
@@ -117,6 +113,7 @@ function Login() {
                 }}
             />
             <Button
+                className="AuthPage-container-button"
                 variant="contained"
                 type="submit"
                 disabled={submitIsDisabled}
