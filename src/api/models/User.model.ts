@@ -6,6 +6,7 @@ class User extends BaseModel {
     public lastName: string;
     public email: string;
     public admin: boolean;
+    public emailVerified: boolean;
 
     constructor() {
         super();
@@ -15,6 +16,7 @@ class User extends BaseModel {
         this.lastName = "";
         this.email = "";
         this.admin = false;
+        this.emailVerified = false;
     }
 }
 
