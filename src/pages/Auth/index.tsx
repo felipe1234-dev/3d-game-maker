@@ -6,6 +6,7 @@ import { isRouteState } from "@local/functions";
 
 import Login from "./Login";
 import Register from "./Register";
+import VerifyEmail from "./VerifyEmail";
 
 import "@local/styles/pages/AuthPage.scss";
 
@@ -20,6 +21,13 @@ function AuthPage() {
             from = state.from!.pathname;
         }
     }
+
+	React.useEffect(() => {
+        const params = new URLSearchParams("?" + window.location.href.replace(/^[^\?]+\/\?/g, ""));
+		const verify = params.get("verify") === "true";
+		
+		setTab(verify ? 3 : 0);
+	}, [pathNow]);
 
 	return (
 		<div className="AuthPage">
@@ -56,6 +64,7 @@ function AuthPage() {
 						</Box>
 					</>
 				)}
+				{tab === 3 && <VerifyEmail />}
 			</div>
 		</div>
 	);
