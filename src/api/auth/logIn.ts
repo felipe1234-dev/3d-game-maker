@@ -1,8 +1,8 @@
 import { FirebaseError } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { toAlert } from "../functions";
 
-export default function logIn(email: string, password: string): Promise<void> {
+export default function logIn(email: string, password: string): Promise<UserCredential> {
     return new Promise(async (resolve, reject) => {
         const auth = getAuth();
         
@@ -11,8 +11,8 @@ export default function logIn(email: string, password: string): Promise<void> {
             
             sessionStorage.setItem("Auth Token", userCredential.user.refreshToken);
             sessionStorage.setItem("Assign Date", (new Date().getTime()).toString());
-            
-            resolve();
+                
+            resolve(userCredential);
         } catch (error) {
             reject(toAlert(error as FirebaseError))
         }
