@@ -1,0 +1,16 @@
+@import "../colors";
+
+.HomePage {
+    &-navbar {
+        background-color: $primary-color !important;
+        box-shadow: none;
+
+        .MuiToolbar-root {
+            min-height: 50px !important;
+        }
+
+        &-logo {
+            width: 1.5em;
+        }
+    }
+}
