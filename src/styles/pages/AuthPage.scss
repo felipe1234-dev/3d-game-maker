@@ -64,7 +64,7 @@
 			}
 		}
 
-		&-catchline {
+		&-catchline, .MuiTypography-root {
 			color: $text-color;
 			margin: 1.5em 0;
 		}
@@ -118,6 +118,13 @@
 					text-decoration-color: $secondary-color;  
 				}
 			}
+		}
+
+		&-verify {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
 		}
     }
 }
