@@ -3,8 +3,7 @@ import { FirebaseError } from "firebase/app";
 import { 
     getAuth, 
     createUserWithEmailAndPassword, 
-    sendEmailVerification,
-    ActionCodeSettings
+    sendEmailVerification
 } from "firebase/auth";
 
 import * as users from "../collections/users";
@@ -30,7 +29,12 @@ export default function register(props: {
 
         try {
             const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
-            await sendEmailVerification(userCredential.user);
+            
+            const { origin, pathname } = window.location;
+            await sendEmailVerification(userCredential.user, {
+                url: `${origin + pathname}#/auth/?verify=true&email=${email}&password=${password}`,
+                handleCodeInApp: true
+            });
 
             let user = new User();
 
