@@ -80,15 +80,14 @@ function VerifyEmail() {
         const email = params.get("email");
         const password = params.get("password");
         
+        if (!email || !password) {
+            return;
+        }
+
         setIsLoading(true);
 
         try {
-            const { origin, pathname } = window.location;
-
-            await sendEmailVerification(userCredential.user, {
-                url: `${origin + pathname}#/auth/?verify=true&email=${email}&password=${password}`,
-                handleCodeInApp: true
-            });
+            await auth.sendConfirmationEmail(userCredential, email, password);
 
             setSeverity("success");
             setMessage("Email verification sent successfully. Check your spam box.");

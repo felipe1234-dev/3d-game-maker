@@ -2,8 +2,7 @@ import { Alert } from "@local/interfaces";
 import { FirebaseError } from "firebase/app";
 import { 
     getAuth, 
-    createUserWithEmailAndPassword, 
-    sendEmailVerification
+    createUserWithEmailAndPassword
 } from "firebase/auth";
 
 import * as users from "../collections/users";
@@ -29,12 +28,12 @@ export default function register(props: {
 
         try {
             const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
-            
-            const { origin, pathname } = window.location;
-            await sendEmailVerification(userCredential.user, {
-                url: `${origin + pathname}#/auth/?verify=true&email=${email}&password=${password}`,
-                handleCodeInApp: true
-            });
+
+            try {
+                await auth.sendConfirmationEmail(userCredential, email, password);
+            } catch (error) {
+                reject(error as Alert);
+            }
 
             let user = new User();
 
