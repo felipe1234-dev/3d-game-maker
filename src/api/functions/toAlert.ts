@@ -11,6 +11,12 @@ function toAlert(error: FirebaseError): Alert {
             });
         
         // Auth
+        case "auth/weak-password":
+            return ({
+                severity: "error",
+                message: "Password should be at least 6 characters."
+            });
+
         case "auth/network-request-failed":
             return ({
                 severity: "warning",
