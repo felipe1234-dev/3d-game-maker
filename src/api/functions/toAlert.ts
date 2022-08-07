@@ -38,7 +38,7 @@ function toAlert(error: FirebaseError): Alert {
         case "auth/user-not-found":
             return ({
                 severity: "error",
-                message: "User not found. Check both your email and password."
+                message: "User not found. Maybe you don't have an account?"
             });
             
         // Storage
