@@ -15,12 +15,16 @@ import { AlertContext } from "@local/contexts";
 import { isRouteState } from "@local/functions";
 import { 
     EditorPage,
-    AuthPage
+    AuthPage,
+    HomePage
 } from "@local/pages";
 import { 
     EditObjectModal as EditObject,
     EditSceneModal as EditScene
 } from "@local/modals";
+import {
+    Editor as EditorProvider
+} from "@local/providers";
 
 import "./styles/reset.css";
 import "./styles/base.scss";
@@ -66,11 +70,21 @@ function App() {
                         )}
                     />
                     <Route
+                        path="/"
+                        element={(
+                            <RequireAuth>
+                                <HomePage />
+                            </RequireAuth>
+                        )}
+                    />
+                    <Route
                         path="/editor"
                         element={(
-                            // <RequireAuth>
-                                <EditorPage />
-                            // </RequireAuth>
+                            <RequireAuth>
+                                <EditorProvider>
+                                    <EditorPage />
+                                </EditorProvider>
+                            </RequireAuth>
                         )}
                     />
                 </Switch>
