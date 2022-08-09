@@ -12,19 +12,19 @@ const i18n: {
 
 const getLang = () => {
     const langInURL = window.location.href.replace(/^.+\/#\/(\w+)\/.+$/, "$1");
-    const fixedLang = langInURL.replace("-", "_").replace(/_(\w+)$/g, m => m.toUpperCase());
+    const fixedLang = langInURL.replace("-", "_").replace(/_(\w+)$/g, m => m.toUpperCase()); // pt-br -> pt_BR
 
     let trans = i18n[fixedLang];
         
     if (!trans) {
-        const closestMatch = Object.keys(i18n).find(langItem => (
-            langItem.includes(fixedLang) || fixedLang.includes(langItem)
+        const closestMatch = Object.keys(i18n).find(lang => (
+            lang.includes(fixedLang) || fixedLang.includes(lang)
         ));
             
         if (closestMatch) {
             return closestMatch;
         } else {
-            return "en_US";
+            return "en_US"; // default
         }
     } else {
         return fixedLang;
