@@ -1,12 +1,12 @@
 import { Avatar, AvatarProps } from "@mui/material";
 import { stringToAvatar } from "@local/functions";
 
-export interface ProfileImageProps {
+interface ProfileImageProps {
     src?: string, 
     alt: string
 };
 
-export default function ProfileImage({ src, alt, ...rest }: ProfileImageProps & AvatarProps) {
+function ProfileImage({ src, alt, ...rest }: ProfileImageProps & AvatarProps) {
     const colorAvatar = stringToAvatar(alt);
 
     const avatar = !src? ({
@@ -21,4 +21,7 @@ export default function ProfileImage({ src, alt, ...rest }: ProfileImageProps & 
     });
     
     return <Avatar {...avatar} {...rest}/>;
-};
+}
+
+export default ProfileImage;
+export type { ProfileImageProps };
