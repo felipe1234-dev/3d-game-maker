@@ -1,59 +1,43 @@
 import { Alert } from "@local/interfaces";
 import { FirebaseError } from "firebase/app";
+import i18n, { getLang } from "@local/i18n";
+import { Severity } from "@local/types";
 
 function toAlert(error: FirebaseError): Alert {
+    const lang = getLang();
+    const trans = (key: string) => i18n[lang]["api.functions.toAlert." + key] || key;
+
+    let severity: Severity = "error";
+    let message = `${trans("unknown-error")}: (${error.code}) ${error.message}`;
+
     switch (error.code) {
         // Extra
-        case "permission-denied": 
-            return ({
-                severity: "error",
-                message: "Session expired (max duration: 1h). Reload the page and log in again."
-            });
-        
+        case "permission-denied":
         // Auth
         case "auth/weak-password":
-            return ({
-                severity: "error",
-                message: "Password should be at least 6 characters."
-            });
+        case "auth/email-already-in-use":
+        case "auth/wrong-password":
+        case "auth/user-not-found":
+            severity = "error";
+            break;
 
         case "auth/network-request-failed":
-            return ({
-                severity: "warning",
-                message: "Your Internet connection might be slow. Please, try again later."
-            });
-        
-        case "auth/email-already-in-use":
-            return ({
-                severity: "error",
-                message: "Email already in use. Choose another email."
-            });  
-        
-        case "auth/wrong-password":
-            return ({
-                severity: "error",
-                message: "Wrong password. Check your password."
-            });
-    
-        case "auth/user-not-found":
-            return ({
-                severity: "error",
-                message: "User not found. Maybe you don't have an account?"
-            });
-            
         // Storage
         case "storage/object-not-found":
-            return ({
-                severity: "warning",
-                message: "File not found."
-            });
-            
+            severity = "warning";    
+            break;
+
         default: 
             return ({
-                severity: "error",
-                message: `Unknown error: (${error.code}) ${error.message}`
+                severity,
+                message
             });
     }
+
+    return {
+        severity,
+        message: trans(error.code)
+    };
 }
 
 export default toAlert;

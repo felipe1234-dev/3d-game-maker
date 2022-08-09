@@ -1,5 +1,6 @@
 import React from "react";
 import { Severity } from "@local/types";
+import { I18nContext } from "./index";
 
 interface AlertValue {
     message: string|null,
@@ -19,23 +20,38 @@ function AlertProvider(props: { children: React.ReactNode }) {
     const [message, setMessage]   = React.useState<string|null>(null);
     const [severity, setSeverity] = React.useState<Severity|null>("error");
     
+    const i18n = React.useContext(I18nContext);
+    const scope = "contexts.alert.";
+
     React.useEffect(() => {
         if (!message || !severity) {
             return;
         }
-        
+
         switch (severity) {
             case "error": 
-                console.error("Error!", message);
+                console.error(
+                    i18n.get(scope + "error"), 
+                    message
+                );
                 break;
             case "warning": 
-                console.warn("Warning!", message);
+                console.warn(
+                    i18n.get(scope + "warning"), 
+                    message
+                );
                 break;
             case "info": 
-                console.info("Info!", message);
+                console.info(
+                    i18n.get(scope + "info"), 
+                    message
+                );
                 break;
             case "success": 
-                console.log("Success!", message);
+                console.log(
+                    i18n.get(scope + "success"), 
+                    message
+                );
                 break;
         }
     }, [message, severity])
