@@ -3,7 +3,8 @@ import {
     Routes as Switch,
     Route,
     useLocation,
-    Location
+    Location,
+    Outlet
 } from "react-router-dom";
 import { Box } from "@mui/material";
 import { 
@@ -23,6 +24,7 @@ import {
     EditSceneModal as EditScene
 } from "@local/modals";
 import {
+    App as AppProvider,
     Editor as EditorProvider
 } from "@local/providers";
 
@@ -63,30 +65,35 @@ function App() {
         <>
             <Box component="main">
                 <Switch location={backgroundLocation ?? pageLocation}>
-                    <Route
-                        path="/auth"
-                        element={(
-                            <AuthPage />
-                        )}
-                    />
-                    <Route
-                        path="/"
-                        element={(
-                            <RequireAuth>
-                                <HomePage />
-                            </RequireAuth>
-                        )}
-                    />
-                    <Route
-                        path="/editor"
-                        element={(
-                            <RequireAuth>
-                                <EditorProvider>
-                                    <EditorPage />
-                                </EditorProvider>
-                            </RequireAuth>
-                        )}
-                    />
+                    <Route 
+                        path="/:lang/" 
+                        element={<Outlet />}
+                    >
+                        <Route
+                            path="auth"
+                            element={(
+                                <AuthPage />
+                            )}
+                        />
+                        <Route
+                            path="home"
+                            element={(
+                                <RequireAuth>
+                                    <HomePage />
+                                </RequireAuth>
+                            )}
+                        />
+                        <Route
+                            path="editor"
+                            element={(
+                                <RequireAuth>
+                                    <EditorProvider>
+                                        <EditorPage />
+                                    </EditorProvider>
+                                </RequireAuth>
+                            )}
+                        />
+                    </Route>
                 </Switch>
                 
                 {backgroundLocation && (
