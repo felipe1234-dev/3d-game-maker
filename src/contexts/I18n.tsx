@@ -1,24 +1,24 @@
 import React from "react";
-import { useParams, useLocation } from "react-router-dom";
-import i18n from "@local/i18n";
+import { useLocation } from "react-router-dom";
+import i18n, { getLang } from "@local/i18n";
 
 const I18nContext = React.createContext<{
     get: (key: string, fallback?: string) => string,
-    use: (scope: string) => void
+    use: (scope: string) => void,
+    lang: () => string
 }>({
     get: () => "",
-    use: () => {}
+    use: () => {},
+    lang: () => ""
 });
 
 function I18nProvider(props: { children: React.ReactNode }) {
-    const [translations, setTranslations] = React.useState<{
-        [key: string]: string
-    }>({});
+    const [translations, setTranslations] = React.useState<{ [key: string]: string }>({});
     const [scope, setScope] = React.useState<string>("");
-
-    const { lang } = useParams();
     const { pathname } = useLocation();
-    
+
+    const lang = getLang();
+
     const getTranslation = (key: string, fallback?: string) => (
         translations[scope + key] || i18n[fallback ?? "en_US"][scope + key] || fallback || key
     );
@@ -32,30 +32,18 @@ function I18nProvider(props: { children: React.ReactNode }) {
             return;
         }
         
-        const fixedLang = lang.replace("-", "_").replace(/_(\w+)$/g, m => m.toUpperCase());
-        let trans = i18n[fixedLang];
-        
-        if (!trans) {
-            const closestMatch = Object.keys(i18n).find(langItem => (
-                langItem.includes(fixedLang) || fixedLang.includes(langItem)
-            ));
-            
-            if (closestMatch) {
-                trans = i18n[closestMatch];
-            }
-        }
+        const trans = i18n[lang];
+        setTranslations(trans);
 
-        if (trans) {
-            setTranslations(trans);
-            const langAttr = fixedLang.replace("_", "-");
-            document.querySelector("html")?.setAttribute("lang", langAttr);
-        }
+        const langInHTML = lang.replace("_", "-");
+        document.querySelector("html")?.setAttribute("lang", langInHTML);
     }, [pathname]);
     
     return (
         <I18nContext.Provider value={{
             get: getTranslation,
-            use: useScope
+            use: useScope,
+            lang: getLang
         }}>
             {props.children}
         </I18nContext.Provider>
