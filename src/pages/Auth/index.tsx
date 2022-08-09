@@ -10,6 +10,7 @@ import Register from "./Register";
 import VerifyEmail from "./VerifyEmail";
 
 import "@local/styles/pages/AuthPage.scss";
+import { I18nContext } from "@local/contexts";
 
 const VERIFY = 3;
 const RECOVER = 2;
@@ -28,6 +29,9 @@ function AuthPage() {
 		}
 	}
 
+	const i18n = React.useContext(I18nContext);
+	const scope = "pages.auth.index.";
+
 	React.useEffect(() => {
 		const params = new URLSearchParams("?" + window.location.href.replace(/^[^\?]+\/\?/g, ""));
 		const verify = params.get("verify") === "true";
@@ -44,14 +48,14 @@ function AuthPage() {
 					variant="h5"
 					className="AuthPage-container-catchline"
 				>
-					Where games come true
+					{i18n.get(scope + "catchline")}
 				</Typography>
 				{tab === LOGIN && (
 					<>
 						<Login redirect={from} />
 						<Box component="footer" className="AuthPage-container-footer">
 							<span onClick={() => setTab(1)}>
-								Create an account?
+								{i18n.get(scope + "createAnAccount")}
 							</span>
 							&#8226;
 							<span onClick={() => setTab(2)}>

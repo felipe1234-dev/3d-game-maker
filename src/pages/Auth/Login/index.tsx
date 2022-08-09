@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router";
 
 import * as auth from "@local/api/auth";
-import { AlertContext } from "@local/contexts";
+import { AlertContext, I18nContext } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 
 interface LoginProps {
@@ -29,6 +29,9 @@ function Login(props: LoginProps) {
     
 	const navigate  = useNavigate();
     const { setSeverity, setMessage } = React.useContext(AlertContext);
+
+    const i18n = React.useContext(I18nContext);
+    const scope = "pages.auth.login.";
     
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); 
@@ -48,7 +51,9 @@ function Login(props: LoginProps) {
             await auth.logIn(email, password);
 
             setSeverity("success");
-            setMessage("Logged in successfully");
+            setMessage(
+                i18n.get("success", "Logged in successfully")
+            );
             setTimeout(() => navigate(props.redirect, { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
@@ -99,7 +104,7 @@ function Login(props: LoginProps) {
             <TextField
                 {...baseTextField}
                 name="password"
-                label="Password"
+                label={i18n.get(scope + "password")}
                 type={passIsMasked ? "password" : "text"}
                 InputProps={{
                     autoComplete: "new-password",
@@ -122,7 +127,7 @@ function Login(props: LoginProps) {
                 disableElevation
                 sx={{ mt: 3, mb: 2 }}
             >
-                Login
+                {i18n.get(scope + "submit")}
             </Button>
         </Box>
     );
