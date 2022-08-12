@@ -18,6 +18,7 @@ function toAlert(error: FirebaseError): Alert {
         case "auth/email-already-in-use":
         case "auth/wrong-password":
         case "auth/user-not-found":
+        case "auth/too-many-requests":
             severity = "error";
             break;
 
