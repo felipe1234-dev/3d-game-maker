@@ -51,9 +51,7 @@ function Login(props: LoginProps) {
             await auth.logIn(email, password);
 
             setSeverity("success");
-            setMessage(
-                i18n.get("success", "Logged in successfully")
-            );
+            setMessage(i18n.get(scope + "success"));
             setTimeout(() => navigate(props.redirect, { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
