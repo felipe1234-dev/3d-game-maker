@@ -12,6 +12,7 @@ import * as auth from "@local/api/auth";
 import { isRouteState } from "@local/functions";
 import { AlertContext } from "@local/contexts";
 import { Alert } from "@local/interfaces";
+import { getLang } from "@local/i18n";
 
 interface RequireAuthProps {
     children: JSX.Element
@@ -50,11 +51,13 @@ function RequireAuth({ children }: RequireAuthProps) {
     if (!ready) {
         return <></>;
     }
+
+    const lang = getLang();
     
     if (!allowed) {
         return (
             <Navigate 
-                to="/auth" 
+                to={`/${lang}/auth`}
                 state={{ from: bgLocation || locationNow }} 
                 replace 
             />
