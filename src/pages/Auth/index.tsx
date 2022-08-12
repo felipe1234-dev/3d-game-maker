@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { ReactComponent as Logo } from "@local/images/logo.svg";
 import { useLocation } from "react-router-dom";
 import { isRouteState } from "@local/functions";
+import { I18nContext } from "@local/contexts";
 
 import Login from "./Login";
 import RecoverPassword from "./RecoverPassword";
@@ -10,7 +11,6 @@ import Register from "./Register";
 import VerifyEmail from "./VerifyEmail";
 
 import "@local/styles/pages/AuthPage.scss";
-import { I18nContext } from "@local/contexts";
 
 const VERIFY = 3;
 const RECOVER = 2;
@@ -20,16 +20,11 @@ const LOGIN = 0;
 function AuthPage() {
 	const [tab, setTab] = React.useState<number>(LOGIN);
 
-	const { state, pathname: pathNow } = useLocation();
-	let from = "/";
-
-	if (isRouteState(state) && "from" in state) {
-		if (state.from!.pathname !== pathNow) {
-			from = state.from!.pathname;
-		}
-	}
+	const { pathname: pathNow } = useLocation();
 
 	const i18n = React.useContext(I18nContext);
+	const lang = i18n.lang();
+	const redirect = `/${lang}/home`;
 	const scope = "pages.auth.index.";
 
 	React.useEffect(() => {
@@ -52,28 +47,28 @@ function AuthPage() {
 				</Typography>
 				{tab === LOGIN && (
 					<>
-						<Login redirect={from} />
+						<Login redirect={redirect} />
 						<Box component="footer" className="AuthPage-container-footer">
-							<span onClick={() => setTab(1)}>
+							<span onClick={() => setTab(REGISTER)}>
 								{i18n.get(scope + "createAnAccount")}
 							</span>
 							&#8226;
-							<span onClick={() => setTab(2)}>
-								Recover password
+							<span onClick={() => setTab(RECOVER)}>
+								{i18n.get(scope + "recoverPassword")}
 							</span>
 						</Box>
 					</>
 				)}
 				{tab === REGISTER && (
 					<>
-						<Register redirect={from} />
+						<Register redirect={redirect} />
 						<Box component="footer" className="AuthPage-container-footer">
-							<span onClick={() => setTab(0)}>
-								Have an account?
+							<span onClick={() => setTab(LOGIN)}>
+								{i18n.get(scope + "haveAnAccount")}
 							</span>
 							&#8226;
-							<span onClick={() => setTab(2)}>
-								Recover password
+							<span onClick={() => setTab(RECOVER)}>
+								{i18n.get(scope + "recoverPassword")}
 							</span>
 						</Box>
 					</>
@@ -82,12 +77,12 @@ function AuthPage() {
 					<>
 						<RecoverPassword />
 						<Box component="footer" className="AuthPage-container-footer">
-							<span onClick={() => setTab(0)}>
-								Have an account?
+							<span onClick={() => setTab(LOGIN)}>
+								{i18n.get(scope + "haveAnAccount")}
 							</span>
 							&#8226;
-							<span onClick={() => setTab(1)}>
-								Create an account?
+							<span onClick={() => setTab(REGISTER)}>
+								{i18n.get(scope + "createAnAccount")}
 							</span>
 						</Box>
 					</>
