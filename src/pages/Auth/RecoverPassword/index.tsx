@@ -2,7 +2,7 @@ import React from "react";
 import { Box, TextField } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import * as auth from "@local/api/auth";
-import { AlertContext } from "@local/contexts";
+import { AlertContext, I18nContext } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ function RecoverPassword() {
 
     const navigate  = useNavigate();
     const { setSeverity, setMessage } = React.useContext(AlertContext);
+    const i18n = React.useContext(I18nContext);
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); 
