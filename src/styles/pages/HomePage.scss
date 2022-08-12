@@ -1,16 +1,26 @@
 @import "../colors";
 
 .HomePage {
+    background-color: $primary-color;
+    min-height: 100vh;
+
     &-navbar {
         background-color: $primary-color !important;
-        box-shadow: none;
+        box-shadow: none !important;
 
         .MuiToolbar-root {
             min-height: 50px !important;
+            display: flex;
         }
 
         &-logo {
-            width: 1.5em;
+            width: 2em;
+        }
+
+        &-goToEditor {
+            color: $text-color !important;
+            background-color: $orange !important;
+            text-transform: none !important;
         }
     }
 }
