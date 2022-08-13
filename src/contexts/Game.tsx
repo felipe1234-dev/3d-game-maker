@@ -1,12 +1,14 @@
 import React from "react";
 import * as THREE from "three";
 import { Game } from "@local/classes";
+import { useLocation } from "react-router-dom";
 
 const GameContext = React.createContext<Game.Core | undefined>(undefined);
 
 function GameProvider(props: { children: React.ReactNode }) {
     const [game, setGame] = React.useState<Game.Core>();
-    
+    const { pathname: pathNow } = useLocation();
+
     React.useEffect(() => {
         const scene = new Game.Scene("Stage 1");
             
@@ -19,7 +21,7 @@ function GameProvider(props: { children: React.ReactNode }) {
         const obj = new Game.Core([ scene ]);
         
         setGame(obj);
-    }, []);
+    }, [pathNow]);
     
     return (
         <GameContext.Provider value={game}>
