@@ -16,8 +16,9 @@ import {
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import { useNavigate } from "react-router-dom";
-import Draggable from "react-draggable";
 import { Resizable } from "react-resizable";
+import { getLang } from "@local/i18n";
+import Draggable from "react-draggable";
 import "@local/styles/components/Modal.scss";
 
 const Transition = (
@@ -102,11 +103,11 @@ function Modal(props: ModalProps & Omit<DialogProps, "open">) {
     const [open, setOpen] = React.useState<boolean>(true);
     const [height, setHeight] = React.useState<number>(initialHeight ?? 100);
     const [width, setWidth] = React.useState<number>(initialWidth ?? 300);
-
+    const lang = getLang();
     const navigate = useNavigate();
     
     const goBack = () => {
-        navigate("/editor/", {
+        navigate(`/${lang}/editor/`, {
             state: { 
                 useLoader: false 
             }
