@@ -13,8 +13,8 @@ export type { PressableProps } from "./Pressable";
 export { default as ProfileImage } from "./ProfileImage";
 export type { ProfileImageProps } from "./ProfileImage";
 
-export { default as ProviderComposer } from "./ProviderComposer";
-export type { ProviderComposerProps } from "./ProviderComposer";
+export { default as Composer } from "./Composer";
+export type { ComposerProps } from "./Composer";
 
 export { default as PageLoader } from "./PageLoader";
 export type { PageLoaderProps } from "./PageLoader";
