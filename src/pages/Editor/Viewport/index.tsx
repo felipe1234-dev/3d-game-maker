@@ -27,8 +27,7 @@ function Viewport() {
     }, [viewportElement, editor]);
     
     return (
-        <Box ref={viewportElement} component="section" className="Editor-viewport">
-        </Box>
+        <Box ref={viewportElement} component="section" className="Editor-viewport" />
     );
 }
 
