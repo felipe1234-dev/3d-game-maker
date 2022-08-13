@@ -1,4 +1,5 @@
-import { Box, Tooltip, Button } from "@mui/material";
+import React from "react";
+import { Box, Button } from "@mui/material";
 import { Terrain as TerrainIcon } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
 
@@ -7,22 +8,18 @@ function Bottom() {
 
     return (
         <Box>
-            <Tooltip title="Edit scene" placement="right" arrow>
-                <span>
-                    <Button 
-                        component={Link}
-                        aria-label="Edit scene" 
-                        startIcon={<TerrainIcon />}
-                        to="/editor/scene/"
-                        state={{
-                            background: location,
-                            useLoader: false
-                        }}
-                    >
-                        Edit scene
-                    </Button>
-                </span>
-            </Tooltip>
+            <Button
+                component={Link}
+                aria-label="Edit scene"
+                startIcon={<TerrainIcon />}
+                to="scene/"
+                state={{
+                    background: location,
+                    useLoader: false
+                }}
+            >
+                Edit scene
+            </Button>
         </Box>
     );
 }
