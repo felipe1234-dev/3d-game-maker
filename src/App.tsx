@@ -3,30 +3,18 @@ import {
     Routes as Switch,
     Route,
     useLocation,
-    Location,
-    Outlet
+    Location
 } from "react-router-dom";
 import { Box } from "@mui/material";
 import { 
     AlertMessage, 
     PageLoader,
-    RequireAuth
+    Composer
 } from "@local/components";
 import { AlertContext } from "@local/contexts";
 import { isRouteState } from "@local/functions";
-import { 
-    EditorPage,
-    AuthPage,
-    HomePage
-} from "@local/pages";
-import { 
-    EditObjectModal as EditObject,
-    EditSceneModal as EditScene
-} from "@local/modals";
-import {
-    App as AppProvider,
-    Editor as EditorProvider
-} from "@local/providers";
+import { I18nProvider, AlertProvider } from "@local/contexts";
+import { routes } from "@local/consts";
 
 import "./styles/reset.css";
 import "./styles/base.scss";
@@ -60,60 +48,46 @@ function App() {
             setPageIsLoading(false);
         }, 3000);
     });
+
+    const appProviders = [
+        I18nProvider,
+        AlertProvider
+    ];
     
     return (
         <>
             <Box component="main">
                 <Switch location={backgroundLocation ?? pageLocation}>
-                    <Route 
-                        path="/:lang/" 
-                        element={<Outlet />}
-                    >
+                    {routes.pages.map((item, i) => (
                         <Route
-                            path="auth"
+                            key={i}
+                            path={`/:lang${item.path}`}
                             element={(
-                                <AuthPage />
+                                <Composer components={[
+                                    ...appProviders,
+                                    ...item.wrappers,
+                                    item.Element
+                                ]} />
                             )}
                         />
-                        <Route
-                            path="home"
-                            element={(
-                                <RequireAuth>
-                                    <HomePage />
-                                </RequireAuth>
-                            )}
-                        />
-                        <Route
-                            path="editor"
-                            element={(
-                                <RequireAuth>
-                                    <EditorProvider>
-                                        <EditorPage />
-                                    </EditorProvider>
-                                </RequireAuth>
-                            )}
-                        />
-                    </Route>
+                    ))}
                 </Switch>
                 
                 {backgroundLocation && (
                     <Switch>
-                        <Route 
-                            path="/editor/object/"
-                            element={(
-                                <RequireAuth>
-                                    <EditObject />
-                                </RequireAuth>
-                            )}
-                        />
-                        <Route 
-                            path="/editor/scene/"
-                            element={(
-                                <RequireAuth>
-                                    <EditScene />
-                                </RequireAuth>
-                            )}
-                        />
+                        {routes.modals.map((item, i) => (
+                            <Route
+                                key={i}
+                                path={`/:lang${item.path}`}
+                                element={(
+                                    <Composer components={[
+                                        ...appProviders,
+                                        ...item.wrappers,
+                                        item.Element
+                                    ]} />
+                                )}
+                            />  
+                        ))}
                     </Switch>
                 )}
                 
