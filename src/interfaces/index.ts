@@ -89,3 +89,9 @@ export interface Filter {
     startAfter?: string;
     limit?: number;
 }
+
+export interface RouteInfo {
+    path: string;
+    Element: () => JSX.Element;
+    wrappers: Function[];
+}
