@@ -13,13 +13,9 @@ import {
 } from "@local/components";
 import { AlertContext } from "@local/contexts";
 import { isRouteState } from "@local/functions";
-import { I18nProvider, AlertProvider } from "@local/contexts";
 import { routes } from "@local/consts";
 
-import "./styles/reset.css";
-import "./styles/base.scss";
-
-function App() {
+function Root() {
     const [pageIsLoading, setPageIsLoading] = React.useState<boolean>(true);
     const {
         message,
@@ -48,11 +44,6 @@ function App() {
             setPageIsLoading(false);
         }, 3000);
     });
-
-    const appProviders = [
-        I18nProvider,
-        AlertProvider
-    ];
     
     return (
         <>
@@ -64,7 +55,6 @@ function App() {
                             path={`/:lang${item.path}`}
                             element={(
                                 <Composer components={[
-                                    ...appProviders,
                                     ...item.wrappers,
                                     item.Element
                                 ]} />
@@ -81,7 +71,6 @@ function App() {
                                 path={`/:lang${item.path}`}
                                 element={(
                                     <Composer components={[
-                                        ...appProviders,
                                         ...item.wrappers,
                                         item.Element
                                     ]} />
@@ -108,4 +97,4 @@ function App() {
     );
 }
 
-export default App;
+export default Root;
