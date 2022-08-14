@@ -1,7 +1,8 @@
-import React from "react";
+import { useContext, useState } from "react";
 import { Box, TextField, Divider } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { DropzoneArea } from "material-ui-dropzone";
+import { Upload as UploadIcon } from "@styled-icons/bootstrap";
 
 import * as gallery from "@local/api/collections/gallery";
 
@@ -11,14 +12,14 @@ import { MediaModalContext } from "../Context";
 import { Alert } from "@local/interfaces";
 
 function Upload() {
-    const [loading, setLoading] = React.useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const [title, setTitle] = React.useState<string>("");
-    const [description, setDescription] = React.useState<string>("");
-    const [file, setFile] = React.useState<File>();
+    const [title, setTitle] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [file, setFile] = useState<File>();
 
-    const { folders } = React.useContext(MediaModalContext);
-    const { setMessage, setSeverity } = React.useContext(AlertContext);
+    const { folders } = useContext(MediaModalContext);
+    const { setMessage, setSeverity } = useContext(AlertContext);
 
     const addMedia = () => {
         if (!file) {
@@ -66,7 +67,11 @@ function Upload() {
                 maxFileSize={10000000}
             />
             <Divider />
-            <Button onClick={addMedia} loading={loading}>
+            <Button 
+                startIcon={<UploadIcon style={{ width: 20 }} />}
+                onClick={addMedia} 
+                loading={loading}
+            >
                 Upload file
             </Button>
         </Box>
