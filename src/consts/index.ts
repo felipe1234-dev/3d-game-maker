@@ -6,5 +6,6 @@ export { default as objectList } from "./editor/objectList";
 export { default as objectFields } from "./editor/objectFields";
 
 export { default as backgroundTypes } from "./editor/backgroundTypes";
+export { default as environmentTypes } from "./editor/environmentTypes";
 
 export { default as routes } from "./routes";
