@@ -8,6 +8,15 @@ const pt_BR = {
     "api.functions.toAlert.storage/object-not-found": "Arquivo não encontrado",
     "api.functions.toAlert.auth/too-many-requests": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login fracassadas. Você pode restaurá-la imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
     "api.functions.toAlert.unknown-error": "Erro desconhecido",
+    
+    "consts.editor.environmentTypes[0]": "Nenhum",
+    "consts.editor.environmentTypes[1]": "UV",
+    "consts.editor.environmentTypes[2]": "Equirectangular",
+
+    "consts.editor.backgroundTypes[0]": "Padrão",
+    "consts.editor.backgroundTypes[1]": "Cor",
+    "consts.editor.backgroundTypes[2]": "Textura UV",
+    "consts.editor.backgroundTypes[3]": "Textura Equirectangular",
 
     "contexts.alert.error": "Erro!",
     "contexts.alert.warning": "Atenção!",
@@ -23,7 +32,12 @@ const pt_BR = {
     "pages.auth.login.password": "Senha",
     "pages.auth.login.submit": "Entrar",
     
-    "pages.home.navbar.goToEditor": "Criar um jogo"
+    "pages.home.navbar.goToEditor": "Criar um jogo",
+
+    "modals.editScene.body.environment.type.help": "A imagem que todos os objetos na cena refletirão por padrão, mas, você pode mudar isso para objetos individuais.",
+    "modals.editScene.body.environment.type.label": "Ambiente",
+
+    "modals.editScene.body.background.type.label": "Fundo"
 }
 
 export default pt_BR;
