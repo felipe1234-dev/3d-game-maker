@@ -47,7 +47,7 @@ const DraggablePaper = (props: PaperProps) => (
     </Draggable>
 );
 
-interface ModalProps {
+interface ModalProps extends Omit<DialogProps, "open"> {
     className?: string,
     placement?: 
         "center" | "top-center" | "bottom-center" | "top-right" | 
@@ -62,7 +62,7 @@ interface ModalProps {
     footer?: React.ReactNode
 }
 
-function Modal(props: ModalProps & Omit<DialogProps, "open">) {
+function Modal(props: ModalProps) {
     let {
         className: customClassName,
         onClose,
