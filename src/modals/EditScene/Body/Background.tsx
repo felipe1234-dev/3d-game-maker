@@ -37,17 +37,22 @@ function Background() {
         }
 
         if (currentScene.background instanceof THREE.Color) {
+            console.log("isColor")
             const color = threeColorToHex(currentScene.background);
             const pattern = new RegExp(
                 `#(${defaultColor.replace("#", "")})+`,
                 "g"
             );
 
+            console.log(color);
+
             if (!color.match(pattern)) {
                 setBgType("color");
                 setBgColor(color);
             }
-        } else if (currentScene.background instanceof THREE.Texture) {
+        } 
+        
+        if (currentScene.background instanceof THREE.Texture) {
             if (Media.testType(currentScene.background.userData)) {
                 const media = currentScene.background.userData;
                 setBgImage(media);
@@ -100,11 +105,7 @@ function Background() {
                 currentScene.background = new THREE.Color(defaultColor);
                 break;
         }
-    }, [
-        bgColor, 
-        bgType, 
-        bgImage
-    ]);
+    }, [bgColor, bgType, bgImage]);
 
     return (
         <div style={{ paddingTop: 10 }}>
