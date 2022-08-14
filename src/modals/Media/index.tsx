@@ -11,7 +11,7 @@ interface MediaModalProps {
     title: string,
     onClose: () => void,
     onFinish: (selectedMedia: Media) => void,
-    folders: Array<string>
+    folders: string
 }
 
 function Content(props: MediaModalProps) {
@@ -25,7 +25,7 @@ function Content(props: MediaModalProps) {
 
     React.useEffect(() => {
         setFolders(newFolders);
-    }, [JSON.stringify(newFolders)]);
+    }, [newFolders]);
 
     return (
         <Modal

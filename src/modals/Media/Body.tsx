@@ -13,21 +13,16 @@ import Upload from "./Upload";
 import { MediaModalContext } from "./Context";
 
 function Body() {
+    const [search, setSearch] = React.useState<string>("");
     const [tab, setTab] = React.useState<number>(1);
-    const { 
-        folders, 
-        search, 
-        setSearch,
-        mediaList
-    } = React.useContext(MediaModalContext);
-    const path = folders.join("/");
+    const { folders } = React.useContext(MediaModalContext);
 
     return (
         <>
             <TextField
-                placeholder={`Search in "${path}/"`}
+                placeholder={`Search in "${folders}"`}
                 onChange={evt => setSearch(evt.target.value)}
-                value={search}
+                defaultValue={search}
             />
             <Tabs
                 value={tab} 
@@ -40,20 +35,7 @@ function Body() {
                 <Upload />
             </Box>
             <Box role="tabpanel" hidden={tab !== 1}>
-                {mediaList.length > 0 ? (
-                    <Library />
-                ) : ( 
-                    <Box sx={{ 
-                        display: "flex", 
-                        alignItems: "center", 
-                        justifyContent: "center", 
-                        paddingTop: "20%"
-                    }}>
-                        <Typography variant="h6">
-                            No files correspond to "{search}"
-                        </Typography>
-                    </Box>
-                )}
+                <Library search={search} />
             </Box>
         </>
     );
