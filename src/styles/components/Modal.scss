@@ -2,8 +2,8 @@
 
 .Modal {
     .MuiPaper-root {
-        background-color: $primary-color !important;
-        color: $text-color !important;
+        background-color: $primary-color  !important;
+        color: $text-color  !important;
         max-width: none !important;
         max-height: none !important;
         opacity: .5;
@@ -13,29 +13,29 @@
             opacity: 1;
         }
 
-        .MuiTextField-root {
-            label, 
-            input, 
-            .MuiInputAdornment-root, 
-            .MuiButtonBase-root, 
-            .MuiInputBase-input, 
-            .MuiSvgIcon-root {
-                color: $text-color;
-            }
+        label,
+        input,
+        .MuiInputAdornment-root,
+        .MuiButtonBase-root,
+        .MuiInputBase-input,
+        .MuiSvgIcon-root {
+            color: $text-color  !important;
+        }
 
-            fieldset {
-                border-color: $text-color;
-            }
+        fieldset {
+            border-color: $text-color;
+        }
 
-            .MuiButtonBase-root {
-                padding: 12px !important;
-            }
+        .MuiButtonBase-root {
+            padding: 12px !important;
+        }
 
-            .MuiInput-root {
-                &, &:hover {
-                    &::before {
-                        border-bottom-color: $text-color !important;
-                    }
+        .MuiInput-root {
+
+            &,
+            &:hover {
+                &::before {
+                    border-bottom-color: $text-color  !important;
                 }
             }
         }
@@ -57,9 +57,8 @@
             background-repeat: no-repeat;
             background-origin: content-box;
             box-sizing: border-box;
-            background-image: url(
-                data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+
-            );
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+
+);
             background-position: bottom right;
             padding: 0 3px 3px 0;
         }
@@ -75,7 +74,7 @@
         align-items: center !important;
         justify-content: center !important;
     }
-    
+
     &--isTopCenter .MuiDialog-container {
         align-items: flex-start !important;
         justify-content: center !important;
