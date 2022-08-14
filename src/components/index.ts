@@ -10,6 +10,9 @@ export type { ComposerProps } from "./Composer";
 export { default as Helper } from "./Helper";
 export type { HelperProps } from "./Helper";
 
+export { default as MediaModal } from "./MediaModal";
+export type { MediaModalProps } from "./MediaModal";
+
 export { default as Modal } from "./Modal";
 export type { ModalProps } from "./Modal";
 
