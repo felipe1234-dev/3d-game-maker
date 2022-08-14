@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext, useState, useEffect } from "react";
 import { 
     Box, 
     Button,
@@ -7,25 +7,25 @@ import {
     Typography 
 } from "@mui/material";
 import * as THREE from "three";
-
-import { GameContext } from "@local/contexts";
+import { GameContext, I18nContext } from "@local/contexts";
 import { backgroundTypes } from "@local/consts";
 import { threeColorToHex } from "@local/functions";
 import { Media } from "@local/api/models";
-import { ColorInput } from "@local/components";
+import { ColorInput, MediaModal } from "@local/components";
 
-import MediaModal from "../Media";
+function Background() {
+    const game = useContext(GameContext);
+    const i18n = useContext(I18nContext);
+    
+    const scope = "modals.editScene.body.background.";
+    const defaultColor = "#444";
 
-function Body() {
-    const game = React.useContext(GameContext);
-    const defaultColor = "#aaa";
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [bgType, setBgType] = useState<string>();
+    const [bgColor, setBgColor] = useState<string>();
+    const [bgImage, setBgImage] = useState<Media>();
 
-    const [openModal, setOpenModal] = React.useState<boolean>(false);
-    const [backgroundType, setBackgroundType] = React.useState<string>();
-    const [backgroundColor, setBackgroundColor] = React.useState<string>();
-    const [backgroundImage, setBackgroundImage] = React.useState<Media>();
-
-    React.useEffect(() => {
+    useEffect(() => {
         if (!game) {
             return;
         }
@@ -44,26 +44,26 @@ function Body() {
             );
 
             if (!color.match(pattern)) {
-                setBackgroundType("color");
-                setBackgroundColor(color);
+                setBgType("color");
+                setBgColor(color);
             }
         } else if (currentScene.background instanceof THREE.Texture) {
             if (Media.testType(currentScene.background.userData)) {
                 const media = currentScene.background.userData;
-                setBackgroundImage(media);
+                setBgImage(media);
 
                 if (currentScene.background.mapping === THREE.UVMapping) {
-                    setBackgroundType("uvTexture");
+                    setBgType("uvTexture");
                 } 
                 
                 if (currentScene.background.mapping === THREE.EquirectangularReflectionMapping) {
-                    setBackgroundType("equirectTexture");
+                    setBgType("equirectTexture");
                 }
             }
         }
     }, [game]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!game) {
             return;
         }
@@ -74,25 +74,24 @@ function Body() {
             return;
         }
 
-        switch (backgroundType) {
+        switch (bgType) {
             case "color": 
-                console.log(new THREE.Color(backgroundColor));
-                currentScene.background = new THREE.Color(backgroundColor);
+                currentScene.background = new THREE.Color(bgColor);
                 break;
             case "equirectTexture":
             case "uvTexture":
-                if (!backgroundImage) {
+                if (!bgImage) {
                     setOpenModal(true); 
                 } else {
                     setOpenModal(false);
                     
-                    currentScene.background = new THREE.TextureLoader().load(backgroundImage.url);
-                    currentScene.background.name = backgroundImage.title;
-                    currentScene.background.userData = { ...backgroundImage };
+                    currentScene.background = new THREE.TextureLoader().load(bgImage.url);
+                    currentScene.background.name = bgImage.title;
+                    currentScene.background.userData = { ...bgImage };
 
-                    currentScene.background.mapping = backgroundType === "uvTexture"
+                    currentScene.background.mapping = bgType === "uvTexture"
                         ? THREE.UVMapping
-                        : backgroundType === "equirectTexture"
+                        : bgType === "equirectTexture"
                         ? THREE.EquirectangularReflectionMapping
                         : THREE.Texture.DEFAULT_MAPPING;
                 }
@@ -102,38 +101,38 @@ function Body() {
                 break;
         }
     }, [
-        backgroundColor, 
-        backgroundType, 
-        backgroundImage
+        bgColor, 
+        bgType, 
+        bgImage
     ]);
 
     return (
         <div style={{ paddingTop: 10 }}>
             <TextField
                 select
-                label="Background"
-                onChange={evt => setBackgroundType(evt.target.value)}
-                value={backgroundType ?? "default"}
+                label={i18n.get(scope + "type.label")}
+                onChange={evt => setBgType(evt.target.value)}
+                value={bgType ?? "default"}
             >
-                {backgroundTypes.map((option, i) => (
-                    <MenuItem key={i} value={option.value}>
-                        {option.label}
+                {backgroundTypes.map((value, i) => (
+                    <MenuItem key={i} value={value}>
+                        {i18n.get(`consts.editor.backgroundTypes[${i}]`)}
                     </MenuItem>
                 ))}
             </TextField>
 
-            {backgroundType === "color" && (
+            {bgType === "color" && (
                 <ColorInput 
                     variant="outlined"
-                    onChange={color => setBackgroundColor(color)}
-                    value={backgroundColor ?? defaultColor}
+                    onChange={color => setBgColor(color)}
+                    value={bgColor ?? defaultColor}
                 />
             )}
 
             {(
-                backgroundType && 
-                ["uvTexture", "equirectTexture"].includes(backgroundType) && 
-                backgroundImage
+                bgType && 
+                ["uvTexture", "equirectTexture"].includes(bgType) && 
+                bgImage
             ) && (
                 <Box sx={{
                     display: "flex",
@@ -142,7 +141,7 @@ function Body() {
                     margin: "10px 0"
                 }}>
                     <Typography variant="subtitle1" component="p">
-                        {backgroundImage.title} ({backgroundImage.mimeType})
+                        {bgImage.title} ({bgImage.mimeType})
                     </Typography>
 
                     <Button onClick={() => setOpenModal(true)}>
@@ -151,20 +150,20 @@ function Body() {
                 </Box>
             )}
 
-            {(openModal && backgroundType === "uvTexture") && (
+            {(openModal && bgType === "uvTexture") && (
                 <MediaModal
                     title="Upload an image"
                     onClose={() => setOpenModal(false)}
-                    onFinish={media => setBackgroundImage(media)}
+                    onFinish={media => setBgImage(media)}
                     folders="textures/uv"
                 />
             )}
 
-            {(openModal && backgroundType === "equirectTexture") && (
+            {(openModal && bgType === "equirectTexture") && (
                 <MediaModal
                     title="Upload an image"
                     onClose={() => setOpenModal(false)}
-                    onFinish={media => setBackgroundImage(media)}
+                    onFinish={media => setBgImage(media)}
                     folders="textures/equirec"
                 />
             )}
@@ -172,4 +171,4 @@ function Body() {
     );
 }
 
-export default Body;
+export default Background;
