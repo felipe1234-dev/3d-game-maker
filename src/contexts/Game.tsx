@@ -7,7 +7,6 @@ const GameContext = React.createContext<Game.Core | undefined>(undefined);
 
 function GameProvider(props: { children: React.ReactNode }) {
     const [game, setGame] = React.useState<Game.Core>();
-    const { pathname: pathNow } = useLocation();
 
     React.useEffect(() => {
         const scene = new Game.Scene("Stage 1");
