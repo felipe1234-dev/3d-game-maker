@@ -94,4 +94,5 @@ export interface RouteInfo {
     path: string;
     Element: () => JSX.Element;
     wrappers: Function[];
+    providers: Function[];
 }
