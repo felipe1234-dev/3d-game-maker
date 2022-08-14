@@ -63,3 +63,14 @@ main {
         }
     }
 }
+
+.MuiTooltip {
+    &-tooltip {
+        background-color: darken($secondary-color, 20%) !important;
+        font-size: 1em !important;
+    }
+
+    &-arrow {
+        color: darken($secondary-color, 20%) !important;
+    }
+}
