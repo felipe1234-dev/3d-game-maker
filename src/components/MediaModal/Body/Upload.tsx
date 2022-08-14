@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Divider } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { DropzoneArea } from "material-ui-dropzone";
 
@@ -58,13 +58,14 @@ function Upload() {
                 label="Description"
                 value={description}
                 onChange={evt => setDescription(evt.target.value)}
-                sx={{ marginBottom: 10 }}
             />
+            <Divider />
             <DropzoneArea
                 onChange={files => setFile(files[0])}
                 filesLimit={1}
                 maxFileSize={10000000}
             />
+            <Divider />
             <Button onClick={addMedia} loading={loading}>
                 Upload file
             </Button>

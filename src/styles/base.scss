@@ -74,3 +74,10 @@ main {
         color: darken($secondary-color, 20%) !important;
     }
 }
+
+.MuiDivider-root {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    width: 100%;
+    background-color: lighten($primary-color, 10%);
+}
