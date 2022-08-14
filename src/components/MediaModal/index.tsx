@@ -6,7 +6,7 @@ import { Media } from "@local/api/models";
 import Body from "./Body";
 import Footer from "./Footer";
 
-import "@local/styles/modals/Media.scss";
+import "@local/styles/components/MediaModal.scss";
 
 interface MediaModalProps {
     title: string,
