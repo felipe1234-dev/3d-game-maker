@@ -1,5 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { TextField, MenuItem, Checkbox, FormControlLabel } from "@mui/material";
+import {
+    TextField,
+    MenuItem,
+    Checkbox,
+    FormControlLabel,
+    InputAdornment,
+    Box
+} from "@mui/material";
+import { HelpCircle as HelpIcon } from "@styled-icons/feather";
 import * as THREE from "three";
 
 import { environmentTypes } from "@local/consts";
@@ -46,12 +54,21 @@ function Environment() {
 
     return (
         <div style={{ paddingTop: 10 }}>
-            <Helper text={i18n.get(scope + "type.help")} placement="top" arrow>
+            <Box >
                 <TextField
                     select
                     label={i18n.get(scope + "type.label")}
                     onChange={evt => setEnvType(evt.target.value)}
                     value={envType ?? "none"}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <Helper text={i18n.get(scope + "type.help")} placement="top" arrow>
+                                    <HelpIcon style={{ width: 30, cursor: "pointer" }} />
+                                </Helper>
+                            </InputAdornment>
+                        )
+                    }}
                 >
                     {environmentTypes.map((value, i) => (
                         <MenuItem key={i} value={value}>
@@ -59,17 +76,23 @@ function Environment() {
                         </MenuItem>
                     ))}
                 </TextField>
-            </Helper>
+                {/*<Box sx={{ mr: 1, my: 0.5, cursor: "pointer" }}>
+                    <Helper text={i18n.get(scope + "type.help")} placement="top" arrow>
+                        <HelpIcon />
+                    </Helper>
+                </Box>*/}
+            </Box>
+            
 
             {envType !== "none" && (
-                <FormControlLabel 
+                <FormControlLabel
                     label="Refraction"
                     control={(
                         <Checkbox
                             onChange={evt => setRefract(evt.target.checked)}
                             checked={refract}
                         />
-                    )}  
+                    )}
                 />
             )}
         </div>
