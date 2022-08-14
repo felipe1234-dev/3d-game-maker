@@ -17,6 +17,8 @@ export default function create(props: User): Promise<User> {
                 .toLocaleDateString()
         );
 
+        user.tags = user.tags.map(tag => tag.toLowerCase());
+
         try {
             const docRef = doc(db, users.collectionName, user.uid);
             await setDoc(docRef, { ...user });
