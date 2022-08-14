@@ -39,8 +39,7 @@ class Media extends BaseModel {
         return (
             obj.title && typeof obj.title === "string" &&
             obj.description && typeof obj.description === "string" &&
-            obj.folders && obj.folders instanceof Array &&
-            obj.folders.filter((item: unknown) => typeof item === "string").length === obj.folders.length &&
+            obj.folders && typeof obj.folders === "string" &&
             obj.mimeType && typeof obj.mimeType === "string" &&
             obj.extension && typeof obj.extension === "string" &&
             obj.url && typeof obj.url === "string" && URLisValid(obj.url) &&
