@@ -1,5 +1,4 @@
 import React from "react";
-import ColorPicker from "material-ui-color-picker";
 import { 
     Box, 
     Button,
@@ -13,6 +12,7 @@ import { GameContext } from "@local/contexts";
 import { backgroundTypes } from "@local/consts";
 import { threeColorToHex } from "@local/functions";
 import { Media } from "@local/api/models";
+import { ColorInput } from "@local/components";
 
 import MediaModal from "../Media";
 
@@ -76,9 +76,10 @@ function Body() {
 
         switch (backgroundType) {
             case "color": 
+                console.log(new THREE.Color(backgroundColor));
                 currentScene.background = new THREE.Color(backgroundColor);
                 break;
-            case "equirecTexture":
+            case "equirectTexture":
             case "uvTexture":
                 if (!backgroundImage) {
                     setOpenModal(true); 
@@ -91,7 +92,7 @@ function Body() {
 
                     currentScene.background.mapping = backgroundType === "uvTexture"
                         ? THREE.UVMapping
-                        : backgroundType === "equirecTexture"
+                        : backgroundType === "equirectTexture"
                         ? THREE.EquirectangularReflectionMapping
                         : THREE.Texture.DEFAULT_MAPPING;
                 }
@@ -100,7 +101,11 @@ function Body() {
                 currentScene.background = new THREE.Color(defaultColor);
                 break;
         }
-    }, [backgroundColor, backgroundType, backgroundImage]);
+    }, [
+        backgroundColor, 
+        backgroundType, 
+        backgroundImage
+    ]);
 
     return (
         <div style={{ paddingTop: 10 }}>
@@ -118,18 +123,18 @@ function Body() {
             </TextField>
 
             {backgroundType === "color" && (
-                <ColorPicker 
+                <ColorInput 
                     variant="outlined"
                     onChange={color => setBackgroundColor(color)}
                     value={backgroundColor ?? defaultColor}
-                    InputProps={{
-                        value: backgroundColor ?? defaultColor,
-                        style: { color: backgroundColor ?? defaultColor }
-                    }}
                 />
             )}
 
-            {(backgroundType === "uvTexture" && backgroundImage) && (
+            {(
+                backgroundType && 
+                ["uvTexture", "equirectTexture"].includes(backgroundType) && 
+                backgroundImage
+            ) && (
                 <Box sx={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -151,7 +156,16 @@ function Body() {
                     title="Upload an image"
                     onClose={() => setOpenModal(false)}
                     onFinish={media => setBackgroundImage(media)}
-                    folders={[ "textures", "uv" ]}
+                    folders="textures/uv"
+                />
+            )}
+
+            {(openModal && backgroundType === "equirectTexture") && (
+                <MediaModal
+                    title="Upload an image"
+                    onClose={() => setOpenModal(false)}
+                    onFinish={media => setBackgroundImage(media)}
+                    folders="textures/equirec"
                 />
             )}
         </div>
