@@ -22,8 +22,18 @@
             color: $text-color  !important;
         }
 
-        fieldset {
-            border-color: $text-color;
+        .MuiButtonBase-root {
+            text-transform: none !important;
+        }
+
+        .MuiOutlinedInput-root {
+            fieldset {
+                border-color: $text-color;
+            }
+
+            &:hover fieldset {
+                border-color: $secondary-color !important;
+            }
         }
 
         .MuiButtonBase-root {
@@ -31,13 +41,16 @@
         }
 
         .MuiInput-root {
-
             &,
             &:hover {
                 &::before {
                     border-bottom-color: $text-color  !important;
                 }
             }
+        }
+
+        .MuiTabs-indicator {
+            background-color: $secondary-color !important;
         }
     }
 
