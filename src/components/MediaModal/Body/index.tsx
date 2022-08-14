@@ -3,7 +3,8 @@ import {
     Box, 
     Tabs, 
     Tab, 
-    TextField
+    TextField,
+    Divider
 } from "@mui/material";
 
 import Library from "./Library";
@@ -23,6 +24,7 @@ function Body() {
                 onChange={evt => setSearch(evt.target.value)}
                 defaultValue={search}
             />
+            <Divider />
             <Tabs
                 value={tab} 
                 onChange={(evt, newTab) => setTab(Number(newTab))}
@@ -30,6 +32,7 @@ function Body() {
                 <Tab label="Upload files" />
                 <Tab label="Media library" />
             </Tabs>
+            <Divider />
             <Box role="tabpanel" hidden={tab !== 0}>
                 <Upload />
             </Box>
