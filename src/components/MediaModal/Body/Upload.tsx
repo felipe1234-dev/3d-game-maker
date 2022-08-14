@@ -63,6 +63,7 @@ function Upload() {
             <DropzoneArea
                 onChange={files => setFile(files[0])}
                 filesLimit={1}
+                maxFileSize={10000000}
             />
             <Button onClick={addMedia} loading={loading}>
                 Upload file
