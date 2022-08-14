@@ -6,7 +6,7 @@ import { DropzoneArea } from "material-ui-dropzone";
 import * as gallery from "@local/api/collections/gallery";
 
 import { AlertContext } from "@local/contexts";
-import { MediaModalContext } from "./Context";
+import { MediaModalContext } from "../Context";
 
 import { Alert } from "@local/interfaces";
 

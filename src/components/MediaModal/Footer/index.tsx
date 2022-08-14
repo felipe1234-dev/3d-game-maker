@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
-import { MediaModalContext } from "./Context";
+import { MediaModalContext } from "../Context";
 import { AlertContext } from "@local/contexts";
 import * as users from "@local/api/collections/users";
 import { Alert } from "@local/interfaces";

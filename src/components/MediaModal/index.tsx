@@ -7,6 +7,7 @@ import Body from "./Body";
 import Footer from "./Footer";
 
 import "@local/styles/modals/Media.scss";
+
 interface MediaModalProps {
     title: string,
     onClose: () => void,
@@ -51,3 +52,4 @@ const MediaModal = (props: MediaModalProps) => (
 );
 
 export default MediaModal;
+export type { MediaModalProps };

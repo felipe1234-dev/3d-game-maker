@@ -6,7 +6,7 @@ import {
     Tooltip, 
     Typography 
 } from "@mui/material";
-import { MediaModalContext } from "./Context";
+import { MediaModalContext } from "../Context";
 
 interface LibraryProps {
     search: string;

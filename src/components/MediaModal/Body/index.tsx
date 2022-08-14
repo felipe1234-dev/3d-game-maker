@@ -3,14 +3,13 @@ import {
     Box, 
     Tabs, 
     Tab, 
-    TextField,
-    Typography
+    TextField
 } from "@mui/material";
 
 import Library from "./Library";
 import Upload from "./Upload";
 
-import { MediaModalContext } from "./Context";
+import { MediaModalContext } from "../Context";
 
 function Body() {
     const [search, setSearch] = React.useState<string>("");
