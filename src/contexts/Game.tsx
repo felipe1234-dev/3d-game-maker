@@ -21,7 +21,7 @@ function GameProvider(props: { children: React.ReactNode }) {
         const obj = new Game.Core([ scene ]);
         
         setGame(obj);
-    }, [pathNow]);
+    }, []);
     
     return (
         <GameContext.Provider value={game}>
