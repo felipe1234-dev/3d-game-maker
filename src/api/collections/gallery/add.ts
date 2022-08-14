@@ -17,7 +17,7 @@ import { toAlert, split } from "@local/api/functions";
 export default function add(props: {
     title: string,
     description: string,
-    folders: string[],
+    folders: string,
     file: File
 }): Promise<Media> {
     return new Promise(async (resolve, reject) => {
@@ -50,7 +50,7 @@ export default function add(props: {
                     newMedia.tags.push(...split(user.lastName));
                     newMedia.tags.push(...split(title));
                     newMedia.tags.push(...split(description));
-                    newMedia.tags.push(...folders);
+                    newMedia.tags.push(...folders.split("/"));
                     newMedia.tags.push(newMedia.mimeType, newMedia.extension);
                     newMedia.tags.push(
                         new Date(newMedia.createdAt.seconds * 1000)
@@ -66,20 +66,22 @@ export default function add(props: {
                 reject(error);
             }
 
-            const storageRef = ref(storage, `${folders.join("/")}/${file.name}`);
+            const storageRef = ref(storage, `${folders}/${file.name}`);
             await uploadBytes(storageRef, file);
 
             const url = await getDownloadURL(storageRef);
             newMedia.url = url;
 
-            const docRef = await addDoc(collectionRef, newMedia);
+            const docRef = await addDoc(collectionRef, { ...newMedia });
+            const theOtherTags = newMedia.tags.map(tag => tag.toLowerCase());
+
             await updateDoc(docRef, {
                 uid: docRef.id,
-                tags: [docRef.id, ...newMedia.tags]
+                tags: [docRef.id, ...theOtherTags]
             });
 
             newMedia.uid = docRef.id;
-            newMedia.tags = [docRef.id, ...newMedia.tags];
+            newMedia.tags = [docRef.id, ...theOtherTags];
 
             resolve(newMedia);
         } catch (error) {

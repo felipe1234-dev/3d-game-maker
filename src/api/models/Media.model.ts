@@ -4,7 +4,7 @@ class Media extends BaseModel {
     public title: string;
     public description: string;
 
-    public folders: Array<string>;
+    public folders: string;
     public mimeType: string;
     public extension: string;
 
@@ -16,7 +16,7 @@ class Media extends BaseModel {
 
         this.title = "";
         this.description = "";
-        this.folders = [];
+        this.folders = "";
 
         this.mimeType = "";
         this.extension = "";
