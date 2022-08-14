@@ -33,9 +33,7 @@ function Upload() {
                 description,
                 folders,
                 file
-            }).then(media => {
-                console.log(media);
-
+            }).then(() => {
                 setSeverity("success");
                 setMessage("File added successfully");
             }).catch((err: Alert) => {
@@ -63,8 +61,7 @@ function Upload() {
                 sx={{ marginBottom: 10 }}
             />
             <DropzoneArea
-                onChange={files => {
-                    setFile(files[0]); console.log(files)}}
+                onChange={files => setFile(files[0])}
                 filesLimit={1}
             />
             <Button onClick={addMedia} loading={loading}>
