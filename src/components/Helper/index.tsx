@@ -1,12 +1,12 @@
 import React from "react";
 import { Tooltip, TooltipProps } from "@mui/material";
 
-interface HelperProps {
+interface HelperProps extends Omit<TooltipProps, "title"> {
     text?: string,
     children: React.ReactElement
 }
 
-function Helper(props: HelperProps & Omit<TooltipProps, "title">) {
+function Helper(props: HelperProps) {
     const { text, children, ...tooltipProps } = props;
     
     return text && text?.length > 0 ? (
