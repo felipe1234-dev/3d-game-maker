@@ -7,28 +7,35 @@ import {
     EditObjectModal, 
     EditSceneModal 
 } from "@local/modals";
+import { 
+    GameProvider, 
+    EditorProvider 
+} from "@local/contexts";
 import { RouteInfo } from "@local/interfaces";
 import { RequireAuth } from "@local/components";
-import { GameProvider, EditorProvider } from "@local/contexts";
 
 const pageRoutes: RouteInfo[] = [
     {
         path: "/auth",
         Element: AuthPage,
-        wrappers: []
+        wrappers: [],
+        providers: []
     },
     {
         path: "/home",
         Element: HomePage,
         wrappers: [
             RequireAuth
-        ]
+        ],
+        providers: []
     },
     {
         path: "/editor",
         Element: EditorPage,
         wrappers: [
             RequireAuth,
+        ],
+        providers: [
             GameProvider,
             EditorProvider
         ]
@@ -42,18 +49,16 @@ const modalRoutes: RouteInfo[] = [
         Element: EditObjectModal,
         wrappers: [
             RequireAuth,
-            GameProvider,
-            EditorProvider
-        ]
+        ],
+        providers: []
     },
     {
         path: "/editor/scene",
         Element: EditSceneModal,
         wrappers: [
             RequireAuth,
-            GameProvider,
-            EditorProvider
-        ]
+        ],
+        providers: []
     }
 ];
 
