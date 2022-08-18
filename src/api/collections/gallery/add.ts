@@ -30,6 +30,7 @@ export default function add(props: {
 
         const collectionRef = collection(db, gallery.collectionName);
         const newMedia = new Media();
+        const publishDate = new Date().getTime().toString();
 
         try {
             newMedia.mimeType = file.type;
@@ -66,7 +67,8 @@ export default function add(props: {
                 reject(error);
             }
 
-            const storageRef = ref(storage, `${folders}/${file.name}`);
+            const filename = file.name.replace(/\.(\w+)$/g, `-${publishDate}.\$1`); 
+            const storageRef = ref(storage, `${folders}/${filename}`);
             await uploadBytes(storageRef, file);
 
             const url = await getDownloadURL(storageRef);
