@@ -2,8 +2,8 @@ import * as THREE from "three";
 import * as ThreeControls from "@local/three-controls";
 import * as Editor from "./index";
 
-class TransformControls extends ThreeControls.TransformControls {
-    public core: Editor.Core;
+class EditorTransform extends ThreeControls.TransformControls {
+    public editor: Editor.Core;
     public readonly raycaster: THREE.Raycaster;
     public readonly mouse: THREE.Vector2;
     public intersected?: THREE.Intersection;
@@ -12,10 +12,10 @@ class TransformControls extends ThreeControls.TransformControls {
     constructor(
         camera: THREE.Camera,
         canvas: HTMLCanvasElement,
-        core: Editor.Core
+        editor: Editor.Core
     ) {
         super(camera, canvas);
-        this.core = core;
+        this.editor = editor;
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
         
@@ -42,11 +42,12 @@ class TransformControls extends ThreeControls.TransformControls {
     }
 
     public get intersects(): Array<THREE.Intersection> {
-        const { currentScene } = this.core.game;
+        const { currentScene } = this.editor.game;
         this.raycaster.setFromCamera(this.mouse, this.camera);
-
+        
         const objects = currentScene.children.filter((object) => (
-            !(object instanceof ThreeControls.TransformControls) 
+            !(object instanceof ThreeControls.TransformControls) &&
+            object !== this.editor.grids.group
         ));
         const gizmos = this.gizmos;
         
@@ -59,7 +60,7 @@ class TransformControls extends ThreeControls.TransformControls {
     }
 
     protected onMouseMove = (event: PointerEvent): void => {
-        const { container } = this.core.renderer;
+        const { container } = this.editor.renderer;
 
         if (!container && !this.canvas) {
             return;
@@ -135,7 +136,7 @@ class TransformControls extends ThreeControls.TransformControls {
     }
 
     protected onMouseDown = (): void => {
-        const currentScene = this.core.game.currentScene;
+        const currentScene = this.editor.game.currentScene;
         
         if (
             !this.intersected && 
@@ -148,7 +149,7 @@ class TransformControls extends ThreeControls.TransformControls {
             currentScene.remove(this);
                 
             this.helper = undefined;
-            this.core.orbitControls.enableRotate = true;
+            this.editor.orbitControls.enableRotate = true;
                 
             this.dispatchEvent({ type: "unselect" });
         } else if (
@@ -170,7 +171,7 @@ class TransformControls extends ThreeControls.TransformControls {
             currentScene.add(this);
             currentScene.add(boxHelper);
             
-            this.core.orbitControls.enableRotate = false;
+            this.editor.orbitControls.enableRotate = false;
             this.dispatchEvent({ type: "select" });
         }
     }
@@ -186,7 +187,7 @@ class TransformControls extends ThreeControls.TransformControls {
             return;
         }
         
-        const { game } = this.core;
+        const { game } = this.editor;
         const { currentScene } = game;
         
         currentScene.remove(this.object);
@@ -198,10 +199,10 @@ class TransformControls extends ThreeControls.TransformControls {
         }
 
         currentScene.remove(this);
-        this.core.orbitControls.enableRotate = true;
+        this.editor.orbitControls.enableRotate = true;
         
         this.dispatchEvent({ type: "unselect" });
     }
 }
 
-export default TransformControls;
+export default EditorTransform;

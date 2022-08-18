@@ -1,14 +1,14 @@
 import * as THREE from "three";
-import * as Game from "./index";
+import { Editor } from "..";
 
-class Renderer extends THREE.WebGLRenderer {
+class EditorRenderer extends THREE.WebGLRenderer {
     private canvasContainer?: HTMLElement;
-    private core: Game.Core;
+    private editor: Editor.Core;
     private animation?: number;
     
-    constructor(core: Game.Core, params?: THREE.WebGLRendererParameters) {
+    constructor(editor: Editor.Core, params?: THREE.WebGLRendererParameters) {
         super(params);
-        this.core = core;
+        this.editor = editor;
     }
     
     public get canvas(): HTMLCanvasElement {
@@ -34,7 +34,7 @@ class Renderer extends THREE.WebGLRenderer {
         this.setSize(container.offsetWidth, container.offsetHeight);
         
         const { offsetWidth: canvasWidth, offsetHeight: canvasHeight } = this.canvas;
-        const { camera } = this.core;
+        const { camera } = this.editor;
         
         camera.aspect = canvasWidth/canvasHeight;
         
@@ -53,7 +53,7 @@ class Renderer extends THREE.WebGLRenderer {
     
     public startAnimation(callback: Function): void {
         const animate = () => {
-            const { game, camera } = this.core;
+            const { game, camera } = this.editor;
             const { currentScene } = game;
             
             if (currentScene) {
@@ -76,4 +76,4 @@ class Renderer extends THREE.WebGLRenderer {
     }
 }
 
-export default Renderer;
+export default EditorRenderer;

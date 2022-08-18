@@ -2,7 +2,7 @@ import * as THREE from "three";
 import * as ThreeControls from "@local/three-controls";
 import * as Editor from "./index";
 
-class OrbitControls extends ThreeControls.OrbitControls {
+class EditorOrbit extends ThreeControls.OrbitControls {
     private core: Editor.Core;
     
     constructor(
@@ -31,4 +31,4 @@ class OrbitControls extends ThreeControls.OrbitControls {
     }
 }
 
-export default OrbitControls;
+export default EditorOrbit;
