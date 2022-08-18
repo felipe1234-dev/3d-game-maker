@@ -1,7 +1,7 @@
 const environmentTypes = [
     "none",
     "uvMapping",
-    "equirec"
+    "equirectMapping"
 ];
 
 export default environmentTypes;
