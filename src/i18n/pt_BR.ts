@@ -31,6 +31,9 @@ const pt_BR = {
     "pages.auth.login.success": "Login feito com sucesso",
     "pages.auth.login.password": "Senha",
     "pages.auth.login.submit": "Entrar",
+
+    "pages.editor.toolbar.left.top.gridsOn": "Mostrar grades",
+    "pages.editor.toolbar.left.top.gridsOff": "Esconder grades",
     
     "pages.home.navbar.goToEditor": "Criar um jogo",
 

@@ -28,6 +28,9 @@ const en_US = {
     "pages.auth.index.recoverPassword": "Recover password",
     "pages.auth.index.haveAnAccount": "Already have an account?",
 
+    "pages.editor.toolbar.left.top.gridsOn": "Show grids",
+    "pages.editor.toolbar.left.top.gridsOff": "Hide grids",
+
     "pages.auth.login.success": "Logged in successfully",
     "pages.auth.login.password": "Password",
     "pages.auth.login.submit": "Login",
