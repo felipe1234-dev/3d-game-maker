@@ -29,7 +29,10 @@ function Top() {
                 arrow
             >
                 <span style={{ width: "fit-content" }}>
-                    <IconButton onClick={toggleGrids} sx={{ width: buttonSize, height: buttonSize }}>
+                    <IconButton 
+                        onClick={toggleGrids} 
+                        sx={{ width: buttonSize, height: buttonSize }}
+                    >
                         {showGrids ? <GridOff /> : <GridOn />}
                     </IconButton>
                 </span>
