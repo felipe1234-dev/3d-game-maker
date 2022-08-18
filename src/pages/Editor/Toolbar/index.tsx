@@ -14,7 +14,7 @@ function Toolbar() {
                 <BottomRight />
             </Box>
             <Box className="Editor-toolbar-leftContainer" component="aside">
-                <Box />
+                <TopLeft />
                 <BottomLeft />
             </Box>
         </Box>
