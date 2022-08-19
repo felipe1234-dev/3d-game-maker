@@ -1,2 +1,2 @@
-export { default as EditObjectModal } from "./EditObject";
-export { default as EditSceneModal } from "./EditScene";
+export { default as EditObjectModal } from "./Editor/Object/Edit";
+export { default as EditSceneModal } from "./Editor/Scene/Edit";
