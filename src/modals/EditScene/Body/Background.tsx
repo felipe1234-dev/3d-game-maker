@@ -37,14 +37,11 @@ function Background() {
         }
 
         if (currentScene.background instanceof THREE.Color) {
-            console.log("isColor")
             const color = threeColorToHex(currentScene.background);
             const pattern = new RegExp(
                 `#(${defaultColor.replace("#", "")})+`,
                 "g"
             );
-
-            console.log(color);
 
             if (!color.match(pattern)) {
                 setBgType("color");
