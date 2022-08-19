@@ -37,6 +37,8 @@ const pt_BR = {
     
     "pages.home.navbar.goToEditor": "Criar um jogo",
 
+    "modals.editScene.body.index.sceneName": "Nome da cena",
+
     "modals.editScene.body.environment.type.help": "A imagem que todos os objetos na cena refletirão por padrão, mas, você pode mudar isso para objetos individuais.",
     "modals.editScene.body.environment.type.label": "Ambiente",
 

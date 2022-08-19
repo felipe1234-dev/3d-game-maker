@@ -37,6 +37,8 @@ const en_US = {
 
     "pages.home.navbar.goToEditor": "Create a game",
 
+    "modals.editScene.body.index.sceneName": "Scene name",
+
     "modals.editScene.body.environment.type.help": "The image that all objects in the scene will reflect by default. You can change this for individual objects.",
     "modals.editScene.body.environment.type.label": "Environment",
 
