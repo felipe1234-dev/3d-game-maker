@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Modal } from "@local/components";
 import { GameContext } from "@local/contexts";
 import Body from "./Body";
 
 function EditSceneModal() {
-    const game = React.useContext(GameContext);
+    const game = useContext(GameContext);
+    const sceneName = game?.currentScene.name || "";
+    const sceneUuid = game?.currentScene.uuid || "";
 
     return (
         <Modal
@@ -13,9 +15,8 @@ function EditSceneModal() {
             width={300}
             draggable
 
-            header={`Scene ${game?.currentScene.name ?? ""}`}
+            header={`Scene: ${sceneName || sceneUuid}`}
             body={<Body />}
-            
         />
     );
 }
