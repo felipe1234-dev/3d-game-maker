@@ -19,11 +19,17 @@ class Stage {
     }
 
     public addScene(scene: Game.Scene): void {
-        if (!this.game.scenes.map(s => s.uuid).includes(scene.uuid))
-            this.game.scenes.push(scene);
-        
-        if (!this.scenes.map(s => s.uuid).includes(scene.uuid))
-            this.scenes.push(scene);
+        const alreadyExists = 
+            this.game.scenes.map(s => s.uuid).includes(scene.uuid) ||
+            this.scenes.map(s => s.uuid).includes(scene.uuid);
+
+        if (alreadyExists) {
+            return;
+        }
+
+        scene.stage = this;
+        this.game.scenes.push(scene);
+        this.scenes.push(scene);
     }
 
     public removeScene(sceneOrUuidOrId: Game.Scene | string | number): void {
@@ -47,6 +53,49 @@ class Stage {
             this.scenes = this.scenes.filter(scene => scene.id !== sceneID);
             this.game.scenes = this.scenes.filter(scene => scene.id !== sceneID);
         }
+    }
+
+    public transferScene(sceneOrUuidOrId: Game.Scene | string | number): void {
+        let sceneClone;
+        const thisStageScenes = this.scenes.map(scene => scene.uuid);
+
+        if (sceneOrUuidOrId instanceof Game.Scene) {
+            const scene = sceneOrUuidOrId;
+
+            if (thisStageScenes.includes(scene.uuid)) {
+                return;
+            }
+
+            sceneClone = scene.clone(true);
+        }
+
+        if (typeof sceneOrUuidOrId === "string") {
+            const sceneUUID = sceneOrUuidOrId;
+
+            if (thisStageScenes.includes(sceneUUID)) {
+                return;
+            }
+
+            sceneClone = this.game.scenes.find(scene => scene.uuid === sceneUUID)?.clone(true);
+        }
+
+        if (typeof sceneOrUuidOrId === "number") {
+            const sceneID = sceneOrUuidOrId;
+            const sceneUUID = this.game.scenes.find(scene => scene.id === sceneID)?.uuid;
+
+            if (thisStageScenes.includes(sceneUUID ?? "")) {
+                return;
+            }
+
+            sceneClone = this.game.scenes.find(scene => scene.id === sceneID)?.clone(true);
+        }
+
+        if (!sceneClone) {
+            return;
+        }
+
+        this.game.stages.forEach(stage => stage.removeScene(sceneOrUuidOrId));
+        this.addScene(sceneClone);
     }
 }
 
