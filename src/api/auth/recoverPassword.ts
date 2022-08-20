@@ -1,6 +1,7 @@
 import { FirebaseError } from "firebase/app";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { toAlert } from "../functions";
+import { getLang } from "@local/i18n";
 
 export default function recoverPassword(email: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
@@ -8,7 +9,7 @@ export default function recoverPassword(email: string): Promise<void> {
             const { origin, pathname } = window.location;
 
             await sendPasswordResetEmail(getAuth(), email, {
-                url: `${origin + pathname}#/auth/`,
+                url: `${origin + pathname}#/${getLang()}/auth/`,
                 handleCodeInApp: true
             });
 
