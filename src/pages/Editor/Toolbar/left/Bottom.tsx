@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { Terrain as TerrainIcon } from "@mui/icons-material";
+import { Tree as TreeIcon } from "@styled-icons/entypo";
 import { Link, useLocation } from "react-router-dom";
 
 function Bottom() {
@@ -8,18 +9,34 @@ function Bottom() {
 
     return (
         <Box>
-            <Button
-                component={Link}
-                aria-label="Edit scene"
-                startIcon={<TerrainIcon />}
-                to="scene/"
-                state={{
-                    background: location,
-                    useLoader: false
-                }}
-            >
-                Edit scene
-            </Button>
+            <Box sx={{ 
+                display: "flex !important",
+                justifyContent: "space-between !important",
+                flexDirection: "row !important"
+            }}>
+                <Button
+                    component={Link}
+                    startIcon={<TerrainIcon />}
+                    to="scene/"
+                    state={{
+                        background: location,
+                        useLoader: false
+                    }}
+                >
+                    Edit scene
+                </Button>
+                <IconButton
+                    component={Link}
+                    to="scene-tree/"
+                    state={{
+                        background: location,
+                        useLoader: false
+                    }}
+                    sx={{ marginLeft: "8px !important" }}
+                >
+                    <TreeIcon style={{ width: 25 }}/>
+                </IconButton>
+            </Box>
         </Box>
     );
 }
