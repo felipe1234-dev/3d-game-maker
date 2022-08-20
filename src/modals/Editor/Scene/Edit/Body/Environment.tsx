@@ -14,6 +14,7 @@ import { environmentTypes } from "@local/consts";
 import { GameContext, I18nContext } from "@local/contexts";
 import { Helper, MediaModal } from "@local/components";
 import { Media } from "@local/api/models";
+import { Game } from "@local/classes";
 
 function Environment() {
     const game = useContext(GameContext);
@@ -71,10 +72,6 @@ function Environment() {
         }
 
         switch (envType) {
-            case "none":
-                currentScene.environment = null;
-                break;
-            
             case "uvMapping":
             case "equirectMapping":
                 if (!envImage) {
@@ -103,6 +100,7 @@ function Environment() {
                 break;
                 
             default:
+                currentScene.environment = Game.Scene.DEFAULT_ENVIRONMENT;
                 break;
         }
     }, [envType, envImage, refract]);

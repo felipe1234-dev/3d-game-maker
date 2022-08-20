@@ -12,14 +12,14 @@ import { backgroundTypes } from "@local/consts";
 import { threeColorToHex } from "@local/functions";
 import { Media } from "@local/api/models";
 import { ColorInput, MediaModal } from "@local/components";
+import { Game } from "@local/classes";
 
 function Background() {
     const game = useContext(GameContext);
     const i18n = useContext(I18nContext);
-    
     const scope = "modals.editScene.body.background.";
-    const defaultColor = "#444";
-
+    const defaultColor = Game.Scene.DEFAULT_BACKGROUND.getHexString();
+    
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [bgType, setBgType] = useState<string>();
     const [bgColor, setBgColor] = useState<string>();
@@ -37,13 +37,9 @@ function Background() {
         }
 
         if (currentScene.background instanceof THREE.Color) {
-            const color = threeColorToHex(currentScene.background);
-            const pattern = new RegExp(
-                `#(${defaultColor.replace("#", "")})+`,
-                "g"
-            );
+            const color = currentScene.background.getHexString();
 
-            if (!color.match(pattern)) {
+            if (color !== defaultColor) {
                 setBgType("color");
                 setBgColor(color);
             }
@@ -99,7 +95,7 @@ function Background() {
                 }
                 break;
             default: 
-                currentScene.background = new THREE.Color(defaultColor);
+                currentScene.background = Game.Scene.DEFAULT_BACKGROUND;
                 break;
         }
     }, [bgColor, bgType, bgImage]);
