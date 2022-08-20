@@ -9,7 +9,6 @@ import {
 import * as THREE from "three";
 import { GameContext, I18nContext } from "@local/contexts";
 import { backgroundTypes } from "@local/consts";
-import { threeColorToHex } from "@local/functions";
 import { Media } from "@local/api/models";
 import { ColorInput, MediaModal } from "@local/components";
 import { Game } from "@local/classes";
