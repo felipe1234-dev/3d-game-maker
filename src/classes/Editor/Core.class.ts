@@ -68,7 +68,7 @@ class Core {
         this.addGrids();
     }
 
-    protected addGrids() {
+    public addGrids(): void {
         const group = new THREE.Group();
     
         this.grids.children.forEach((grid, i) => {
@@ -85,6 +85,16 @@ class Core {
 
         this.game.currentScene.add(group);
         this.grids.group = group;
+        this.showGrids = this.showGrids;
+    }
+
+    public removeGrids(): void {
+        const group = this.grids.group;
+        if (!group) {
+            return;
+        }
+
+        this.game.currentScene.remove(group);
     }
 
     get showGrids(): boolean {
