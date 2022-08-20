@@ -5,7 +5,8 @@ import {
 } from "@local/pages";
 import { 
     EditObjectModal, 
-    EditSceneModal 
+    EditSceneModal,
+    EditSceneTreeModal
 } from "@local/modals";
 import { 
     GameProvider, 
@@ -55,6 +56,14 @@ const modalRoutes: RouteInfo[] = [
     {
         path: "/editor/scene",
         Element: EditSceneModal,
+        wrappers: [
+            RequireAuth,
+        ],
+        providers: []
+    },
+    {
+        path: "/editor/scene-tree",
+        Element: EditSceneTreeModal,
         wrappers: [
             RequireAuth,
         ],
