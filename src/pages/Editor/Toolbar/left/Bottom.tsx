@@ -1,8 +1,8 @@
-import React from "react";
 import { Box, Button, IconButton } from "@mui/material";
 import { Terrain as TerrainIcon } from "@mui/icons-material";
 import { Tree as TreeIcon } from "@styled-icons/entypo";
 import { Link, useLocation } from "react-router-dom";
+import { t } from "@local/i18n";
 
 function Bottom() {
     const location = useLocation();
@@ -23,7 +23,7 @@ function Bottom() {
                         useLoader: false
                     }}
                 >
-                    Edit scene
+                    {t("Edit scene")}
                 </Button>
                 <IconButton
                     component={Link}

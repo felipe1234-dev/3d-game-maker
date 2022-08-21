@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { 
     Box, 
     InputAdornment, 
@@ -12,22 +12,26 @@ import {
     Visibility as VisibilityOnIcon,
     VisibilityOff as VisibilityOffIcon
 } from "@mui/icons-material";
+
 import { AlertContext } from "@local/contexts";
 import { useNavigate } from "react-router-dom";
-import * as auth from "@local/api/auth";
+
 import { Alert } from "@local/interfaces";
+import * as auth from "@local/api/auth";
+
+import { t } from "@local/i18n";
 
 interface RegisterProps {
     redirect: string
 }
 
 function Register(props: RegisterProps) {
-    const [formIsLoading, setFormIsLoading] = React.useState<boolean>(false);
-    const [submitIsDisabled, setSubmitIsDisabled] = React.useState<boolean>(false);
-    const [passIsMasked, setPassIsMasked] = React.useState<boolean>(true);
+    const [formIsLoading, setFormIsLoading] = useState<boolean>(false);
+    const [submitIsDisabled, setSubmitIsDisabled] = useState<boolean>(false);
+    const [passIsMasked, setPassIsMasked] = useState<boolean>(true);
 
 	const navigate  = useNavigate();
-    const { setSeverity, setMessage } = React.useContext(AlertContext);
+    const { setSeverity, setMessage } = useContext(AlertContext);
 
     const baseTextField: TextFieldProps = {
         className: "AuthPage-container-input",
@@ -37,7 +41,7 @@ function Register(props: RegisterProps) {
         variant: "standard"
     }
 
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault(); 
         // Prevents page from being redirected
         
@@ -58,7 +62,7 @@ function Register(props: RegisterProps) {
             if (password !== confirmPassword) {
                 throw {
                     severity: "error",
-                    message: '"Password" and "Confirm password" do not match'
+                    message: t('"Password" and "Confirm password" do not match')
                 };
             }
 
@@ -70,7 +74,7 @@ function Register(props: RegisterProps) {
             });
 
             setSeverity("success");
-            setMessage("Logged in successfully");
+            setMessage(t("Logged in successfully"));
             setTimeout(() => navigate(props.redirect, { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
@@ -82,7 +86,7 @@ function Register(props: RegisterProps) {
         }
     } 
     
-    const onChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    const onChange = (event: ChangeEvent<HTMLFormElement>) => {
         const data = new FormData(event.currentTarget);
 
         setSubmitIsDisabled(
@@ -103,20 +107,20 @@ function Register(props: RegisterProps) {
                 <TextField 
                     {...baseTextField} 
                     name="fName"
-                    label="First name"
+                    label={t("First name")}
                     type="text"
                 />
                 <TextField 
                     {...baseTextField}
                     name="lName"
-                    label="Last name"
+                    label={t("Last name")}
                     type="text" 
                 />
             </Box>
             <TextField 
                 {...baseTextField}
                 name="email"
-                label="Email"
+                label={t("Email")}
                 type="email"
                 InputProps={{
                     endAdornment: (
@@ -130,7 +134,7 @@ function Register(props: RegisterProps) {
                 <TextField 
                     {...baseTextField} 
                     name="password"
-                    label="Password"
+                    label={t("Password")}
                     type={passIsMasked ? "password" : "text"}
                     InputProps={{
                         autoComplete: "new-password",
@@ -146,7 +150,7 @@ function Register(props: RegisterProps) {
                 <TextField 
                     {...baseTextField}
                     name="confirmPassword"
-                    label="Confirm password"
+                    label={t("Confirm password")}
                     type={passIsMasked ? "password" : "text"}
                 />
             </Box>
@@ -160,7 +164,7 @@ function Register(props: RegisterProps) {
                 disableElevation
                 sx={{ mt: 3, mb: 2 }}
             >
-                Register
+                {t("Register")}
             </Button>
         </Box>
     );

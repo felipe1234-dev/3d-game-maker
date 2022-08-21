@@ -31,5 +31,11 @@ const getLang = () => {
     }
 };
 
+const t = (key: string) => {
+    const lang = getLang();
+
+    return i18n[lang][key] || key; 
+};
+
 export default i18n;
-export { getLang };
+export { getLang, t };

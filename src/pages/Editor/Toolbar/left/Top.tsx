@@ -1,12 +1,11 @@
 import { useContext, useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { GridOn, GridOff } from "@styled-icons/material";
-import { EditorContext, I18nContext } from "@local/contexts";
+import { EditorContext } from "@local/contexts";
+import { t } from "@local/i18n";
 
 function Top() {
     const editor = useContext(EditorContext);
-    const i18n = useContext(I18nContext);
-    const scope = "pages.editor.toolbar.left.top.";
 
     const [showGrids, setShowGrids] = useState<boolean>(Boolean(editor?.showGrids));
 
@@ -24,7 +23,11 @@ function Top() {
     return (
         <Box>
             <Tooltip    
-                title={i18n.get(scope + (showGrids ? "gridsOff" : "gridsOn"))} 
+                title={t(
+                    showGrids 
+                        ? "Show grids" 
+                        : "Hide grids"
+                )} 
                 placement="right" 
                 arrow
             >

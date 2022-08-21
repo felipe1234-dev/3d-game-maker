@@ -29,8 +29,6 @@ function Body() {
         const sceneUuid = evt.dataTransfer.getData("sceneUuid");
         stage.transferScene(sceneUuid);
         setExpanded(stage.uuid);
-
-        console.log("drop")
     }
 
     const allowDrop = (evt: React.DragEvent) => {
@@ -45,8 +43,6 @@ function Body() {
         editor.removeGrids();
         scene.select();
         editor.addGrids();
-
-        console.log("click")
     }
 
     return (
@@ -57,7 +53,7 @@ function Body() {
 
                     return (
                         <>
-                            <ListItemButton 
+                            <ListItemButton
                                 key={stage.uuid} 
                                 component="li"
                                 onClick={() => setExpanded(open ? "" : stage.uuid)}
@@ -72,22 +68,25 @@ function Body() {
                                 {open ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
                             <Collapse in={open} timeout="auto" unmountOnExit>
-                                {stage.scenes.map(scene => (
-                                    <ListItemButton 
-                                        key={scene.uuid} 
-                                        component="li"
-                                        onDragStart={(evt: React.DragEvent) => (
-                                            drag(evt, scene)
-                                        )}
-                                        onClick={() => selectScene(scene)}
-                                        draggable
-                                    >
-                                        <ListItemIcon>
-                                            <Box sx={{ backgroundColor: stringToColor(scene.name) }}/>
-                                        </ListItemIcon>
-                                        <ListItemText primary={scene.name} />
-                                    </ListItemButton>
-                                ))}
+                                {stage.scenes.map(scene => {
+                                    const selected = scene.uuid === game?.currentScene.uuid;
+                                    
+                                    return (
+                                        <ListItemButton 
+                                            key={scene.uuid} 
+                                            component="li"
+                                            onDragStart={(evt: React.DragEvent) => drag(evt, scene)}
+                                            onClick={() => selectScene(scene)}
+                                            selected={selected}
+                                            draggable
+                                        >
+                                            <ListItemIcon>
+                                                <Box sx={{ backgroundColor: stringToColor(scene.name) }}/>
+                                            </ListItemIcon>
+                                            <ListItemText primary={scene.name} />
+                                        </ListItemButton>
+                                    );
+                                })}
                             </Collapse>
                         </>
                     );

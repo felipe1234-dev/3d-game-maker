@@ -7,16 +7,15 @@ import {
     Typography 
 } from "@mui/material";
 import * as THREE from "three";
-import { GameContext, I18nContext } from "@local/contexts";
+import { GameContext } from "@local/contexts";
 import { backgroundTypes } from "@local/consts";
 import { Media } from "@local/api/models";
 import { ColorInput, MediaModal } from "@local/components";
 import { Game } from "@local/classes";
+import { t } from "@local/i18n";
 
 function Background() {
     const game = useContext(GameContext);
-    const i18n = useContext(I18nContext);
-    const scope = "modals.editScene.body.background.";
     const defaultColor = Game.Scene.DEFAULT_BACKGROUND.getHexString();
     
     const [openModal, setOpenModal] = useState<boolean>(false);
@@ -103,13 +102,13 @@ function Background() {
         <div style={{ paddingTop: 10 }}>
             <TextField
                 select
-                label={i18n.get(scope + "type.label")}
+                label={t("Background")}
                 onChange={evt => setBgType(evt.target.value)}
                 value={bgType ?? "default"}
             >
                 {backgroundTypes.map((value, i) => (
                     <MenuItem key={i} value={value}>
-                        {i18n.get(`consts.editor.backgroundTypes[${i}]`)}
+                        {t(value)}
                     </MenuItem>
                 ))}
             </TextField>
@@ -138,14 +137,14 @@ function Background() {
                     </Typography>
 
                     <Button onClick={() => setOpenModal(true)}>
-                        Change Image
+                        {t("Change image")}
                     </Button>
                 </Box>
             )}
 
             {(openModal && bgType === "uvTexture") && (
                 <MediaModal
-                    title="Upload an image"
+                    title={t("Upload an image")}
                     onClose={() => setOpenModal(false)}
                     onFinish={media => setBgImage(media)}
                     folders="textures/uv"
@@ -154,7 +153,7 @@ function Background() {
 
             {(openModal && bgType === "equirectTexture") && (
                 <MediaModal
-                    title="Upload an image"
+                    title={t("Upload an image")}
                     onClose={() => setOpenModal(false)}
                     onFinish={media => setBgImage(media)}
                     folders="textures/equirec"

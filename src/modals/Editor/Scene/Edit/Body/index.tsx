@@ -1,15 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Divider, TextField } from "@mui/material";
-import { GameContext, I18nContext } from "@local/contexts";
+import { GameContext } from "@local/contexts";
+import { t } from "@local/i18n";
 
 import Background from "./Background";
 import Environment from "./Environment";
 
 function Body() {
     const game = useContext(GameContext);
-    const i18n = useContext(I18nContext);
-    const scope = "modals.editScene.body.index.";
-
     const [sceneName, setSceneName] = useState<string>("");
 
     useEffect(() => {
@@ -25,7 +23,7 @@ function Body() {
     return (
         <div style={{ paddingTop: 15 }}>
             <TextField
-                label={i18n.get(scope + "sceneName")}
+                label={t("Scene name")}
                 onChange={evt => setSceneName(evt.target.value)}
                 value={sceneName}
             />

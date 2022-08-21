@@ -1,4 +1,5 @@
 import { Modal } from "@local/components";
+import { t } from "@local/i18n";
 import Body from "./Body";
 import "@local/styles/modals/SceneTree.scss";
 
@@ -10,7 +11,7 @@ function EditSceneTreeModal() {
             height={500}
             width={500}
             
-            header="Scene tree"
+            header={t("Scene tree")}
             body={<Body />}
 
             draggable

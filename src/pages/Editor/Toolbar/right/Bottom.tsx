@@ -54,7 +54,6 @@ function Bottom() {
         <Box>
             <Pressable
                 component={IconButton}
-                aria-label="Zoom In"
                 onMousePress={() => editor?.orbitControls.zoomIn()}
                 ms={zoomSpeed}
             >
@@ -64,7 +63,6 @@ function Bottom() {
             </Pressable>
             <Pressable 
                 component={IconButton}
-                aria-label="Zoom Out"
                 onMousePress={() => editor?.orbitControls.zoomOut()}
                 ms={zoomSpeed}
             >

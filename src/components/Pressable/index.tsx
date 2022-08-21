@@ -49,8 +49,10 @@ function Pressable(props: PressableProps) {
     return (
         <Component
             onMouseDown={onStartPressing}
+            onTouchStart={onStartPressing}
             onMouseUp={onStopPressing}
             onMouseLeave={onStopPressing}
+            onTouchEnd={onStopPressing}
             {...rest}
         >
             {children}

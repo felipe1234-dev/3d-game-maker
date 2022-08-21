@@ -1,4 +1,9 @@
-import React from "react";
+import { 
+    ChangeEvent, 
+    FormEvent, 
+    useContext, 
+    useState 
+} from "react";
 import {
     Box,
     TextField,
@@ -15,25 +20,23 @@ import {
 import { useNavigate } from "react-router";
 
 import * as auth from "@local/api/auth";
-import { AlertContext, I18nContext } from "@local/contexts";
+import { AlertContext } from "@local/contexts";
 import { Alert } from "@local/interfaces";
+import { t } from "@local/i18n";
 
 interface LoginProps {
     redirect: string
 }
 
 function Login(props: LoginProps) {
-    const [formIsLoading, setFormIsLoading] = React.useState<boolean>(false);
-    const [submitIsDisabled, setSubmitIsDisabled] = React.useState<boolean>(false);
-    const [passIsMasked, setPassIsMasked] = React.useState<boolean>(true);
+    const [formIsLoading, setFormIsLoading] = useState<boolean>(false);
+    const [submitIsDisabled, setSubmitIsDisabled] = useState<boolean>(false);
+    const [passIsMasked, setPassIsMasked] = useState<boolean>(true);
     
 	const navigate  = useNavigate();
-    const { setSeverity, setMessage } = React.useContext(AlertContext);
-
-    const i18n = React.useContext(I18nContext);
-    const scope = "pages.auth.login.";
+    const { setSeverity, setMessage } = useContext(AlertContext);
     
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault(); 
         // Prevents page from being redirected
         
@@ -51,7 +54,7 @@ function Login(props: LoginProps) {
             await auth.logIn(email, password);
 
             setSeverity("success");
-            setMessage(i18n.get(scope + "success"));
+            setMessage(t("Logged in successfully"));
             setTimeout(() => navigate(props.redirect, { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
@@ -63,7 +66,7 @@ function Login(props: LoginProps) {
         }
     } 
     
-    const onChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    const onChange = (event: ChangeEvent<HTMLFormElement>) => {
         const data = new FormData(event.currentTarget);
 
         setSubmitIsDisabled(
@@ -89,7 +92,7 @@ function Login(props: LoginProps) {
             <TextField 
                 {...baseTextField}
                 name="email"
-                label="Email"
+                label={t("Email")}
                 type="email"
                 InputProps={{
                     endAdornment: (
@@ -102,7 +105,7 @@ function Login(props: LoginProps) {
             <TextField
                 {...baseTextField}
                 name="password"
-                label={i18n.get(scope + "password")}
+                label={t("Password")}
                 type={passIsMasked ? "password" : "text"}
                 InputProps={{
                     autoComplete: "new-password",
@@ -125,7 +128,7 @@ function Login(props: LoginProps) {
                 disableElevation
                 sx={{ mt: 3, mb: 2 }}
             >
-                {i18n.get(scope + "submit")}
+                {t("Login")}
             </Button>
         </Box>
     );

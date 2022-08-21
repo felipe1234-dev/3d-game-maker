@@ -1,6 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import { Modal } from "@local/components";
 import { GameContext } from "@local/contexts";
+import { t } from "@local/i18n";
 import Body from "./Body";
 
 function EditSceneModal() {
@@ -15,7 +16,7 @@ function EditSceneModal() {
             width={300}
             draggable
 
-            header={`Scene: ${sceneName || sceneUuid}`}
+            header={`${t("Scene")}: ${sceneName || sceneUuid}`}
             body={<Body />}
         />
     );

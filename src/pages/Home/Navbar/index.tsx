@@ -13,12 +13,10 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "@local/images/logo.svg";
-import { I18nContext } from "@local/contexts";
+import { t, getLang } from "@local/i18n";
 
 function Navbar() {
-    const scope = "pages.home.navbar.";
-    const i18n = React.useContext(I18nContext);
-    const lang = i18n.lang();
+    const lang = getLang();
 
     return (
         <AppBar 
@@ -41,7 +39,7 @@ function Navbar() {
                     className="HomePage-navbar-goToEditor"
                     to={`/${lang}/editor`}
                 >
-                    {i18n.get(scope + "goToEditor")}
+                    {t("Create a game")}
                 </Button>
             </Toolbar>
         </AppBar>

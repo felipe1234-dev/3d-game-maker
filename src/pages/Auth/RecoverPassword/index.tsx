@@ -1,20 +1,22 @@
-import React from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Box, TextField } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
-import * as auth from "@local/api/auth";
-import { AlertContext, I18nContext } from "@local/contexts";
-import { Alert } from "@local/interfaces";
 import { useNavigate } from "react-router-dom";
 
+import * as auth from "@local/api/auth";
+
+import { AlertContext } from "@local/contexts";
+import { Alert } from "@local/interfaces";
+import { t } from "@local/i18n";
+
 function RecoverPassword() {
-    const [formIsLoading, setFormIsLoading] = React.useState<boolean>(false);
-    const [submitIsDisabled, setSubmitIsDisabled] = React.useState<boolean>(false);
+    const [formIsLoading, setFormIsLoading] = useState<boolean>(false);
+    const [submitIsDisabled, setSubmitIsDisabled] = useState<boolean>(false);
 
     const navigate  = useNavigate();
-    const { setSeverity, setMessage } = React.useContext(AlertContext);
-    const i18n = React.useContext(I18nContext);
+    const { setSeverity, setMessage } = useContext(AlertContext);
 
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault(); 
         // Prevents page from being redirected
         
@@ -31,7 +33,7 @@ function RecoverPassword() {
             await auth.recoverPassword(email);
 
             setSeverity("success");
-            setMessage("Password reset email sent successfully");
+            setMessage(t("Password reset email sent successfully"));
             setTimeout(() => navigate("/auth", { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
@@ -43,7 +45,7 @@ function RecoverPassword() {
         }
     } 
     
-    const onChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    const onChange = (event: ChangeEvent<HTMLFormElement>) => {
         const data = new FormData(event.currentTarget);
 
         setSubmitIsDisabled(!data.get("email"));
@@ -60,7 +62,7 @@ function RecoverPassword() {
                 margin="normal"
                 variant="standard"
                 type="email"
-                label="Email"
+                label={t("Email")}
                 name="email"
 
                 fullWidth
@@ -76,7 +78,7 @@ function RecoverPassword() {
                 disableElevation
                 sx={{ mt: 3, mb: 2 }}
             >
-                Send password reset email 
+                {t("Send password reset email")}
             </Button>
         </Box>
     );

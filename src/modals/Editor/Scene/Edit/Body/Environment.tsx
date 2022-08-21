@@ -4,22 +4,20 @@ import {
     MenuItem,
     Checkbox,
     FormControlLabel,
-    InputAdornment,
-    Box
+    InputAdornment
 } from "@mui/material";
 import { HelpCircle as HelpIcon } from "@styled-icons/feather";
 import * as THREE from "three";
 
 import { environmentTypes } from "@local/consts";
-import { GameContext, I18nContext } from "@local/contexts";
+import { GameContext } from "@local/contexts";
 import { Helper, MediaModal } from "@local/components";
 import { Media } from "@local/api/models";
 import { Game } from "@local/classes";
+import { t } from "@local/i18n";
 
 function Environment() {
     const game = useContext(GameContext);
-    const i18n = useContext(I18nContext);
-    const scope = "modals.editScene.body.environment.";
 
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [envType, setEnvType] = useState<string>();
@@ -109,13 +107,17 @@ function Environment() {
         <div style={{ paddingTop: 10 }}>
             <TextField
                 select
-                label={i18n.get(scope + "type.label")}
+                label={t("Environment")}
                 onChange={evt => setEnvType(evt.target.value)}
                 value={envType ?? "none"}
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <Helper text={i18n.get(scope + "type.help")} placement="top" arrow>
+                            <Helper 
+                                text={t("The image that all objects in the scene will reflect by default. You can change this for individual objects.")} 
+                                placement="top" 
+                                arrow
+                            >
                                 <HelpIcon style={{ width: 30, cursor: "pointer" }} />
                             </Helper>
                         </InputAdornment>
@@ -124,14 +126,14 @@ function Environment() {
             >
                 {environmentTypes.map((value, i) => (
                     <MenuItem key={i} value={value}>
-                        {i18n.get(`consts.editor.environmentTypes[${i}]`)}
+                        {t(value)}
                     </MenuItem>
                 ))}
             </TextField>
             
             {(openModal && envType === "uvMapping") && (
                 <MediaModal
-                    title="Upload an image"
+                    title={t("Upload an image")}
                     onClose={() => setOpenModal(false)}
                     onFinish={media => setEnvImage(media)}
                     folders="textures/uv"
@@ -140,7 +142,7 @@ function Environment() {
 
             {(openModal && envType === "equirectMapping") && (
                 <MediaModal
-                    title="Upload an image"
+                    title={t("Upload an image")}
                     onClose={() => setOpenModal(false)}
                     onFinish={media => setEnvImage(media)}
                     folders="textures/equirec"
@@ -149,7 +151,7 @@ function Environment() {
 
             {(envType && !["none", "uvMapping"].includes(envType)) && (
                 <FormControlLabel
-                    label="Refraction"
+                    label={t("Refraction")}
                     control={(
                         <Checkbox
                             onChange={evt => setRefract(evt.target.checked)}

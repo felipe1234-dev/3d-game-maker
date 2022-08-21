@@ -1,6 +1,6 @@
-import React from "react";
+import { createContext, ReactNode, useEffect, useState, } from "react";
 import { Severity } from "@local/types";
-import { I18nContext } from "./index";
+import i18n, { t } from "@local/i18n";
 
 interface AlertValue {
     message: string|null,
@@ -9,21 +9,18 @@ interface AlertValue {
     setSeverity(severity: Severity|null): void 
 }
 
-const AlertContext = React.createContext<AlertValue>({
+const AlertContext = createContext<AlertValue>({
     message: null,
     setMessage: () => {},
     severity: null,
     setSeverity: () => {}
 });
 
-function AlertProvider(props: { children: React.ReactNode }) {
-    const [message, setMessage]   = React.useState<string|null>(null);
-    const [severity, setSeverity] = React.useState<Severity|null>("error");
-    
-    const i18n = React.useContext(I18nContext);
-    const scope = "contexts.alert.";
+function AlertProvider(props: { children: ReactNode }) {
+    const [message, setMessage]   = useState<string|null>(null);
+    const [severity, setSeverity] = useState<Severity|null>("error");
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!message || !severity) {
             return;
         }
@@ -31,25 +28,25 @@ function AlertProvider(props: { children: React.ReactNode }) {
         switch (severity) {
             case "error": 
                 console.error(
-                    i18n.get(scope + "error"), 
+                    t("Error!"), 
                     message
                 );
                 break;
             case "warning": 
                 console.warn(
-                    i18n.get(scope + "warning"), 
+                    t("Warning!"), 
                     message
                 );
                 break;
             case "info": 
                 console.info(
-                    i18n.get(scope + "info"), 
+                    t("Info!"), 
                     message
                 );
                 break;
             case "success": 
                 console.log(
-                    i18n.get(scope + "success"), 
+                    t("Success!"), 
                     message
                 );
                 break;

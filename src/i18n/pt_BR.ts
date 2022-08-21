@@ -1,48 +1,76 @@
 const pt_BR = {
-    "api.functions.toAlert.permission-denied": "Sessão expirada (passou-se mais de 1h). Recarregue a página e logue novamente.",
-    "api.functions.toAlert.auth/weak-password": "A senha deve ter pelo menos 6 caracteres",
-    "api.functions.toAlert.auth/email-already-in-use": "Email já está em uso. Escolha outro email.",
-    "api.functions.toAlert.auth/wrong-password": "Senha errada. Corrija sua senha.",
-    "api.functions.toAlert.auth/user-not-found": "Usuário não encontrado. Talvez você não tenha uma conta?",
-    "api.functions.toAlert.auth/network-request-failed": "Sua conexão de internet pode estar lenta. Por favor, tente mais tarde.",
-    "api.functions.toAlert.storage/object-not-found": "Arquivo não encontrado",
-    "api.functions.toAlert.auth/too-many-requests": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login fracassadas. Você pode restaurá-la imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
-    "api.functions.toAlert.unknown-error": "Erro desconhecido",
-    
-    "consts.editor.environmentTypes[0]": "Nenhum",
-    "consts.editor.environmentTypes[1]": "UV",
-    "consts.editor.environmentTypes[2]": "Equirectangular",
+    "permission-denied": "Sessão expirada (passou-se mais de 1h). Recarregue a página e logue novamente.",
+    "auth/weak-password": "A senha deve ter pelo menos 6 caracteres",
+    "auth/email-already-in-use": "Email já está em uso. Escolha outro email.",
+    "auth/wrong-password": "Senha errada. Corrija sua senha.",
+    "auth/user-not-found": "Usuário não encontrado. Talvez você não tenha uma conta?",
+    "auth/network-request-failed": "Sua conexão de internet pode estar lenta. Por favor, tente mais tarde.",
+    "storage/object-not-found": "Arquivo não encontrado",
+    "auth/too-many-requests": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login fracassadas. Você pode restaurá-la imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
+    "unknown-error": "Erro desconhecido",
 
-    "consts.editor.backgroundTypes[0]": "Padrão",
-    "consts.editor.backgroundTypes[1]": "Cor",
-    "consts.editor.backgroundTypes[2]": "Textura UV",
-    "consts.editor.backgroundTypes[3]": "Textura Equirectangular",
+    "none": "Nenhum",
+    "uvMapping": "Textura UV",
+    "equirectMapping": "Equirectangular",
 
-    "contexts.alert.error": "Erro!",
-    "contexts.alert.warning": "Atenção!",
-    "contexts.alert.info": "Informação!", 
-    "contexts.alert.success": "Sucesso!",
-    
-    "pages.auth.index.catchline": "Onde jogos se tornam reais",
-    "pages.auth.index.createAnAccount": "Criar uma conta",
-    "pages.auth.index.recoverPassword": "Recuperar senha",
-    "pages.auth.index.haveAnAccount": "Já possui uma conta?",
+    "default": "Padrão",
+    "color": "Cor",
+    "uvTexture": "Textura UV",
+    "equirectTexture": "Textura Equirectangular",
 
-    "pages.auth.login.success": "Login feito com sucesso",
-    "pages.auth.login.password": "Senha",
-    "pages.auth.login.submit": "Entrar",
+    "Error!": "Erro!",
+    "Warning!": "Atenção!",
+    "Info!": "Informação!", 
+    "Success!": "Sucesso!",
 
-    "pages.editor.toolbar.left.top.gridsOn": "Mostrar grades",
-    "pages.editor.toolbar.left.top.gridsOff": "Esconder grades",
-    
-    "pages.home.navbar.goToEditor": "Criar um jogo",
+    "Where games come true": "Onde jogos se tornam realidade",
+    "Create an account": "Criar uma conta",
+    "Recover password": "Recuperar senha",
+    "Already have an account?": "Já tenho uma conta",
 
-    "modals.editScene.body.index.sceneName": "Nome da cena",
+    "Show grids": "Mostrar grades",
+    "Hide grids": "Esconder grades",
 
-    "modals.editScene.body.environment.type.help": "A imagem que todos os objetos na cena refletirão por padrão, mas, você pode mudar isso para objetos individuais.",
-    "modals.editScene.body.environment.type.label": "Ambiente",
+    "Logged in successfully": "Logado com sucesso",
+    "First name": "Primeiro nome",
+    "Last name": "Último nome",
+    "Password": "Senha",
+    "Confirm password": "Confirmar senha",
+    "Login": "Entrar",
+    "Register": "Registrar",
 
-    "modals.editScene.body.background.type.label": "Fundo"
+    "Create a game": "Criar um jogo",
+
+    "Scene name": "Nome do cenário",
+    "The image that all objects in the scene will reflect by default. You can change this for individual objects.": 
+        "A imagem que todos os objetos na cena refletirão por padrão. Você pode alterar isso para os objetos individualmente.",
+    "Environment": "Ambiente",
+    "Background": "Fundo",
+
+    "Scene tree": "Árvore dos cenários",
+    "Scene": "Cenário",
+    "Edit scene": "Editar cenário",
+
+    "Change image": "Mudar de imagem",
+    "Upload an image": "Baixar uma imagem",
+
+    "Refraction": "Refração",
+
+    "Email verification sent successfully. Check your spam box.": 
+        "Email de verificação enviado com sucesso. Cheque a sua caixa de spam.",
+    "Email verified": "Email verificado",
+    "Your email is not verified. Try resending a verification email or checking your spam box.":
+        "Seu email não foi verificado. Tente reenviar um email de verificação ou checar sua caixa de spam",
+    "You're not authorized to access this page.": "Você não foi autorizado a acessar esta página.",
+
+    "Processing...": "Processando...",
+    "An error occurred": "Um erro ocorreu",
+    "Your email is not verified yet": "Seu email não foi verificado ainda",
+    "Resend Email Verification": "Reenviar Email de Verificação",
+
+    '"Password" and "Confirm password" do not match': 'Campos "Senha" e "Confirmar senha" não combinam',
+    "Password reset email sent successfully": "Email de resetar senha enviado com sucesso",
+    "Send password reset email": "Enviar email de resetar senha"
 }
 
 export default pt_BR;

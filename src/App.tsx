@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { routes } from "@local/consts";
-import { Composer } from "@local/components";
-import { I18nProvider, AlertProvider } from "@local/contexts";
+
+import { getLang } from "./i18n";
+import { routes } from "./consts";
+import { Composer } from "./components";
+import { AlertProvider } from "./contexts";
+
 import Root from "./Root";
 
 function App() {
@@ -14,9 +18,19 @@ function App() {
         return resu;
     }, []);
 
+    useEffect(() => {
+        const lang = getLang();
+
+        if (!lang) {
+            return;
+        }
+
+        const langInHTML = lang.replace("_", "-");
+        document.querySelector("html")?.setAttribute("lang", langInHTML);
+    }, [pathname]);
+
     return (
         <Composer components={[
-            I18nProvider,
             AlertProvider,
             ...providers
         ]}>
