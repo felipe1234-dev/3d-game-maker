@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import {
     DeleteOutlineRounded as TrashIcon,
@@ -7,11 +7,12 @@ import {
     CropRotateRounded as RotateIcon
 } from "@mui/icons-material";
 import { EditorContext } from "@local/contexts";
+import { t } from "@local/i18n";
 
 function Top() {
-    const [isDisabled, setIsDisabled] = React.useState<boolean>(true);
-    const [mode, setMode] = React.useState<string>("translate");
-    const editor = React.useContext(EditorContext);
+    const [isDisabled, setIsDisabled] = useState<boolean>(true);
+    const [mode, setMode] = useState<string>("translate");
+    const editor = useContext(EditorContext);
     
     const onSetMode = (mode: "translate" | "rotate" | "scale") => {
         if (isDisabled) {
@@ -35,7 +36,7 @@ function Top() {
         setMode(editor.transformControls.mode);
     }
     
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }
@@ -53,10 +54,10 @@ function Top() {
     
     return (
         <Box>
-            <Tooltip title="Delete object" placement="left" arrow>
+            <Tooltip title={t("Delete object")} placement="left" arrow>
                 <span>
                     <IconButton
-                        aria-label="Delete object"
+                        aria-label={t("Delete object")}
                         onClick={() => editor?.transformControls.delete()}
                         disabled={isDisabled}
                     >
@@ -64,10 +65,10 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Move object" placement="left" arrow>
+            <Tooltip title={t("Move object")} placement="left" arrow>
                 <span>
                     <IconButton
-                        aria-label="Move object"
+                        aria-label={t("Move object")}
                         onClick={() => onSetMode("translate")}
                         data-selected={mode === "translate"}
                         disabled={isDisabled}
@@ -76,10 +77,10 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Resize object" placement="left" arrow>
+            <Tooltip title={t("Resize object")} placement="left" arrow>
                 <span>
                     <IconButton
-                        aria-label="Resize object"
+                        aria-label={t("Resize object")}
                         onClick={() => onSetMode("scale")}
                         data-selected={mode === "scale"}
                         disabled={isDisabled}
@@ -88,10 +89,10 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Rotate object" placement="left" arrow>
+            <Tooltip title={t("Rotate object")} placement="left" arrow>
                 <span>
                     <IconButton
-                        aria-label="Rotate object"
+                        aria-label={t("Rotate object")}
                         onClick={() => onSetMode("rotate")}
                         data-selected={mode === "rotate"}
                         disabled={isDisabled}

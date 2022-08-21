@@ -5,6 +5,7 @@ import {
     MenuItem,
     Fade
 } from "@mui/material";
+import { t } from "@local/i18n";
 
 function FileItem() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -31,7 +32,7 @@ function FileItem() {
                 aria-expanded={open ? "true" : undefined}
                 onClick={onOpen}
             >
-                {label}
+                {t(label)}
             </Button>
             <Menu
                 id={menuId}

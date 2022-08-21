@@ -51,6 +51,8 @@ const pt_BR = {
     "Scene": "Cenário",
     "Edit scene": "Editar cenário",
 
+    "Stage": "Fase",
+
     "Change image": "Mudar de imagem",
     "Upload an image": "Baixar uma imagem",
 
@@ -70,7 +72,22 @@ const pt_BR = {
 
     '"Password" and "Confirm password" do not match': 'Campos "Senha" e "Confirmar senha" não combinam',
     "Password reset email sent successfully": "Email de resetar senha enviado com sucesso",
-    "Send password reset email": "Enviar email de resetar senha"
+    "Send password reset email": "Enviar email de resetar senha",
+
+    "Add": "Adicionar",
+    "Edit": "Editar",
+    "File": "Arquivo",
+
+    "Zoom In": "Mais zoom",
+    "Zoom Out": "Menos zoom",
+
+    "Edit object": "Editar objeto",
+    "Edit geometry": "Editar geometria",
+    "Edit texture": "Editar textura",
+    "Delete object": "Deletar objeto",
+    "Move object": "Mover objeto",
+    "Resize object": "Redimensionar objeto",
+    "Rotate object": "Rotacionar objeto"
 }
 
 export default pt_BR;

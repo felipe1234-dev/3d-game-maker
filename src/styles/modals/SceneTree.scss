@@ -23,6 +23,22 @@
                 }
             }
 
+            .MuiListItemText {
+                &-root {
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                &-primary {
+                    color: $text-color;
+                }
+
+                &-secondary {
+                    color: darken($text-color, 20%) !important;
+                    margin-right: 10px !important;
+                }
+            }
+
             .MuiCollapse-root {
                 transition: height 500ms ease-in;
 

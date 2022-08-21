@@ -1,7 +1,7 @@
 // Libs
-import React from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 import {
     AddRounded as ZoomInIcon,
     RemoveRounded as ZoomOutIcon,
@@ -9,7 +9,7 @@ import {
     InterestsRounded as ShapeIcon,
     TextureRounded as TextureIcon
 } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
+import { t } from "@local/i18n";
 
 // Local components
 import { Pressable } from "@local/components";
@@ -18,10 +18,10 @@ import { Pressable } from "@local/components";
 import { EditorContext } from "@local/contexts";
 
 function Bottom() {
-    const [isDisabled, setIsDisabled] = React.useState<boolean>(true);
-    const [zoomSpeed, setZoomSpeed] = React.useState<number>(50);
+    const [isDisabled, setIsDisabled] = useState<boolean>(true);
+    const [zoomSpeed, setZoomSpeed] = useState<number>(50);
     const location = useLocation();
-    const editor = React.useContext(EditorContext);
+    const editor = useContext(EditorContext);
     
     const onEnableButtons = () => {
         if (!editor) {
@@ -31,7 +31,7 @@ function Bottom() {
         setIsDisabled(!editor.transformControls.object);
     }
     
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }
@@ -57,7 +57,7 @@ function Bottom() {
                 onMousePress={() => editor?.orbitControls.zoomIn()}
                 ms={zoomSpeed}
             >
-                <Tooltip title="Zoom In" placement="left" arrow>
+                <Tooltip title={t("Zoom In")} placement="left" arrow>
                     <ZoomInIcon />
                 </Tooltip>
             </Pressable>
@@ -66,16 +66,16 @@ function Bottom() {
                 onMousePress={() => editor?.orbitControls.zoomOut()}
                 ms={zoomSpeed}
             >
-                <Tooltip title="Zoom Out" placement="left" arrow>
+                <Tooltip title={t("Zoom Out")} placement="left" arrow>
                     <ZoomOutIcon />
                 </Tooltip>
             </Pressable>
             
-            <Tooltip title="Edit object" placement="left" arrow>
+            <Tooltip title={t("Edit object")} placement="left" arrow>
                 <span>
                     <IconButton
                         component={Link}
-                        aria-label="Edit object"
+                        aria-label={t("Edit object")}
                         to="object/"
                         state={{
                             background: location,
@@ -87,11 +87,11 @@ function Bottom() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Edit geometry" placement="left" arrow>
+            <Tooltip title={t("Edit geometry")} placement="left" arrow>
                 <span>
                     <IconButton
                         component={Link}
-                        aria-label="Edit geometry"
+                        aria-label={t("Edit geometry")}
                         to="geometry/"
                         state={{
                             background: location,
@@ -103,11 +103,11 @@ function Bottom() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title="Edit texture" placement="left" arrow>
+            <Tooltip title={t("Edit texture")} placement="left" arrow>
                 <span>
                     <IconButton
                         component={Link}
-                        aria-label="Edit texture"
+                        aria-label={t("Edit texture")}
                         to="texture/"
                         state={{
                             background: location,

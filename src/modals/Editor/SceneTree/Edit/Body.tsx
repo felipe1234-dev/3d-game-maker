@@ -7,10 +7,13 @@ import {
     ListItemText,
     Collapse
 } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Drag } from "@styled-icons/fluentui-system-filled";
+
 import { stringToColor } from "@local/functions";
 import { EditorContext, GameContext } from "@local/contexts";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Game } from "@local/classes";
+import { t } from "@local/i18n";
 
 function Body() {
     const game = useContext(GameContext);
@@ -43,6 +46,10 @@ function Body() {
         editor.removeGrids();
         scene.select();
         editor.addGrids();
+
+        setExpanded("");
+
+        setTimeout(() => setExpanded(scene.stage!.uuid), 500);
     }
 
     return (
@@ -64,7 +71,10 @@ function Body() {
                                 <ListItemIcon>
                                     <Box sx={{ backgroundColor: stringToColor(stage.name) }}/>
                                 </ListItemIcon>
-                                <ListItemText primary={stage.name} />
+                                <ListItemText 
+                                    primary={stage.name}
+                                    secondary={t("Stage")}
+                                />
                                 {open ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
                             <Collapse in={open} timeout="auto" unmountOnExit>
@@ -83,7 +93,11 @@ function Body() {
                                             <ListItemIcon>
                                                 <Box sx={{ backgroundColor: stringToColor(scene.name) }}/>
                                             </ListItemIcon>
-                                            <ListItemText primary={scene.name} />
+                                            <ListItemText 
+                                                primary={scene.name}
+                                                secondary={t("Scene")}
+                                            />
+                                            <Drag width={20} />
                                         </ListItemButton>
                                     );
                                 })}
