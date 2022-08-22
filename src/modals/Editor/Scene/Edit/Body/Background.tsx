@@ -35,7 +35,7 @@ function Background() {
         }
 
         if (currentScene.background instanceof THREE.Color) {
-            const color = currentScene.background.getHexString();
+            const color = "#" + currentScene.background.getHexString();
 
             if (color !== defaultColor) {
                 setBgType("color");
