@@ -44,7 +44,6 @@ main {
 }
 
 .MuiInputBase-input {
-
     &::-ms-reveal,
     &::-ms-clear {
         display: none !important;
@@ -63,6 +62,11 @@ main {
             -webkit-text-fill-color: var(--autofill-text-color) !important;
         }
     }
+}
+
+.MuiPaper-root {
+    background-color: $primary-color !important;
+    color: $text-color !important;
 }
 
 .MuiTooltip {
