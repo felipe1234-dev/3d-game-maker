@@ -18,6 +18,10 @@ const pt_BR = {
     "uvTexture": "Textura UV",
     "equirectTexture": "Textura Equirectangular",
 
+    "Fog": "Neblina",
+    "linear": "Linear",
+    "exponential": "Exponencial",
+
     "Error!": "Erro!",
     "Warning!": "Atenção!",
     "Info!": "Informação!", 
