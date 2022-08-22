@@ -16,7 +16,7 @@ import { t } from "@local/i18n";
 
 function Background() {
     const game = useContext(GameContext);
-    const defaultColor = Game.Scene.DEFAULT_BACKGROUND.getHexString();
+    const defaultColor = "#" + Game.Scene.DEFAULT_BACKGROUND.getHexString();
     
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [bgType, setBgType] = useState<string>();
