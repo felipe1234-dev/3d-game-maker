@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { EditorContext } from "@local/contexts";
 import { objectList, objectFields } from "@local/consts";
 import { Modal, Helper } from "@local/components";
+import { t } from "@local/i18n";
 
 function EditObjectModal() {
     const editor = React.useContext(EditorContext);
@@ -18,7 +19,7 @@ function EditObjectModal() {
             width={400}
             placement="bottom-left"
             draggable
-            header={`${abstract.label} ${object?.name || ""}`}
+            header={`${t(abstract.label)} ${object?.name || ""}`}
             body={(
                 <>
                     {abstract.keys.map(key => {
@@ -36,6 +37,7 @@ function EditObjectModal() {
                             helpText, 
                             ...props 
                         } = field;
+                        
                         return (
                             <Helper 
                                 key={fieldKey} 
