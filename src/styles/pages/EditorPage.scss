@@ -101,6 +101,19 @@ $sidebar-width: 250px;
             position: absolute;
             top: 0;
             left: 0;
+
+            .MuiBox-root {
+                &:not(:first-child) {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    justify-content: flex-start !important;
+                    gap: 10px;
+
+                    .MuiButton-root {
+                        justify-content: flex-start;
+                    }
+                }
+            }
         }
         
         .MuiButtonBase-root {
