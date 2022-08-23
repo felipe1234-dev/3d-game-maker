@@ -91,7 +91,11 @@ const pt_BR = {
     "Delete object": "Deletar objeto",
     "Move object": "Mover objeto",
     "Resize object": "Redimensionar objeto",
-    "Rotate object": "Rotacionar objeto"
+    "Rotate object": "Rotacionar objeto",
+
+    "Mesh": "Malha",
+    "Add object": "Adicionar objeto",
+    "Add objects": "Adicionar objetos"
 }
 
 export default pt_BR;
