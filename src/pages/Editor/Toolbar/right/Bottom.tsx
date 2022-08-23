@@ -76,7 +76,7 @@ function Bottom() {
                     <IconButton
                         component={Link}
                         aria-label={t("Edit object")}
-                        to="object/"
+                        to="object/edit"
                         state={{
                             background: location,
                             useLoader: false
@@ -92,7 +92,7 @@ function Bottom() {
                     <IconButton
                         component={Link}
                         aria-label={t("Edit geometry")}
-                        to="geometry/"
+                        to="geometry/edit"
                         state={{
                             background: location,
                             useLoader: false
@@ -108,7 +108,7 @@ function Bottom() {
                     <IconButton
                         component={Link}
                         aria-label={t("Edit texture")}
-                        to="texture/"
+                        to="texture/edit"
                         state={{
                             background: location,
                             useLoader: false
