@@ -4,6 +4,7 @@ import {
     EditorPage 
 } from "@local/pages";
 import { 
+    AddObjectModal,
     EditObjectModal, 
     EditSceneModal,
     EditSceneTreeModal
@@ -46,7 +47,7 @@ const pageRoutes: RouteInfo[] = [
 
 const modalRoutes: RouteInfo[] = [
     {
-        path: "/editor/object",
+        path: "/editor/object/edit",
         Element: EditObjectModal,
         wrappers: [
             RequireAuth,
@@ -54,7 +55,15 @@ const modalRoutes: RouteInfo[] = [
         providers: []
     },
     {
-        path: "/editor/scene",
+        path: "/editor/object/add",
+        Element: AddObjectModal,
+        wrappers: [
+            RequireAuth,
+        ],
+        providers: []
+    },
+    {
+        path: "/editor/scene/edit",
         Element: EditSceneModal,
         wrappers: [
             RequireAuth,
@@ -62,7 +71,7 @@ const modalRoutes: RouteInfo[] = [
         providers: []
     },
     {
-        path: "/editor/scene-tree",
+        path: "/editor/scene-tree/edit",
         Element: EditSceneTreeModal,
         wrappers: [
             RequireAuth,
