@@ -1,6 +1,7 @@
 import { Box, Button, IconButton } from "@mui/material";
 import { Terrain as TerrainIcon } from "@mui/icons-material";
 import { Tree as TreeIcon } from "@styled-icons/entypo";
+import { CubeAlt } from "@styled-icons/boxicons-regular";
 import { Link, useLocation } from "react-router-dom";
 import { t } from "@local/i18n";
 
@@ -9,34 +10,39 @@ function Bottom() {
 
     return (
         <Box>
-            <Box sx={{ 
-                display: "flex !important",
-                justifyContent: "space-between !important",
-                flexDirection: "row !important"
-            }}>
-                <Button
-                    component={Link}
-                    startIcon={<TerrainIcon />}
-                    to="scene/"
-                    state={{
-                        background: location,
-                        useLoader: false
-                    }}
-                >
-                    {t("Edit scene")}
-                </Button>
-                <IconButton
-                    component={Link}
-                    to="scene-tree/"
-                    state={{
-                        background: location,
-                        useLoader: false
-                    }}
-                    sx={{ marginLeft: "8px !important" }}
-                >
-                    <TreeIcon style={{ width: 25 }}/>
-                </IconButton>
-            </Box>
+            <Button
+                component={Link}
+                startIcon={<CubeAlt width={25} />}
+                to="object/add"
+                state={{
+                    background: location,
+                    useLoader: false
+                }}
+            >
+                {t("Add objects")}
+            </Button>
+            <Button
+                component={Link}
+                startIcon={<TerrainIcon />}
+                to="scene/edit"
+                state={{
+                    background: location,
+                    useLoader: false
+                }}
+            >
+                {t("Edit scene")}
+            </Button>
+            <Button
+                component={Link}
+                startIcon={<TreeIcon width={25} />}
+                to="scene-tree/edit"
+                state={{
+                    background: location,
+                    useLoader: false
+                }}
+            >
+                {t("Scene tree")}
+            </Button>
         </Box>
     );
 }
