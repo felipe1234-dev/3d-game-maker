@@ -1,22 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 import { getLang } from "./i18n";
-import { routes } from "./consts";
 import { Composer } from "./components";
 import { AlertProvider } from "./contexts";
+import routes from "./consts/routes";
 
 import Root from "./Root";
 
 function App() {
     const { pathname } = useLocation();
 
-    const providers = routes.pages.filter(item => (
-        pathname.includes(item.path)
-    )).reduce((resu: Function[], item) => {
-        resu.push(...item.providers);
-        return resu;
-    }, []);
+    const providers = useMemo(() => (
+        routes.pages.filter(item => (
+            pathname.includes(item.path)
+        )).reduce((resu: Function[], item) => {
+            resu.push(...item.providers);
+            return resu;
+        }, [])
+    ), [pathname]);
 
     useEffect(() => {
         const lang = getLang();

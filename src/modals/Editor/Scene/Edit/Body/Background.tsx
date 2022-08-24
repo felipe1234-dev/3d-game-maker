@@ -7,12 +7,14 @@ import {
     Typography 
 } from "@mui/material";
 import * as THREE from "three";
+
 import { GameContext } from "@local/contexts";
-import { backgroundTypes } from "@local/consts";
 import { Media } from "@local/api/models";
 import { ColorInput, MediaModal } from "@local/components";
 import { Game } from "@local/classes";
 import { t } from "@local/i18n";
+
+import backgroundTypes from "@local/consts/editor/types/background";
 
 function Background() {
     const game = useContext(GameContext);

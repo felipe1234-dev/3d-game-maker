@@ -1,17 +1,16 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { EditorContext } from "@local/contexts";
-import { objectList, objectFields } from "@local/consts";
 import { Modal, Helper } from "@local/components";
 import { t } from "@local/i18n";
+
+import objectList from "@local/consts/editor/objects/list"; 
+import objectFields from "@local/consts/editor/objects/fields";
 
 function EditObjectModal() {
     const editor = React.useContext(EditorContext);
     const object = editor?.transformControls.object || null; 
-    const abstract: typeof objectList[string] = !object ? {
-        label: "Edit object",
-        keys: []
-    } : objectList[object.constructor.name];
+    const objectInfo = objectList.find(obj => obj.className === object?.constructor.name);
 
     return (
         <Modal 
@@ -19,10 +18,10 @@ function EditObjectModal() {
             width={400}
             placement="bottom-left"
             draggable
-            header={`${t(abstract.label)} ${object?.name || ""}`}
+            header={`${t(objectInfo?.label || "Edit object")} ${object?.name || ""}`}
             body={(
                 <>
-                    {abstract.keys.map(key => {
+                    {(objectInfo?.props || []).map(key => {
                         const field = objectFields.find(field => (
                             field.key === key
                         )); 

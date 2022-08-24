@@ -9,12 +9,13 @@ import {
 import { HelpCircle as HelpIcon } from "@styled-icons/feather";
 import * as THREE from "three";
 
-import { environmentTypes } from "@local/consts";
 import { GameContext } from "@local/contexts";
 import { Helper, MediaModal } from "@local/components";
 import { Media } from "@local/api/models";
 import { Game } from "@local/classes";
 import { t } from "@local/i18n";
+
+import environmentTypes from "@local/consts/editor/types/environment";
 
 function Environment() {
     const game = useContext(GameContext);

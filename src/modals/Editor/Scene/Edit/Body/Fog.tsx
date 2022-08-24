@@ -3,10 +3,11 @@ import { TextField, MenuItem} from "@mui/material";
 
 import * as THREE from "three";
 import { ColorInput } from "@local/components";
-import { fogTypes } from "@local/consts";
 import { t } from "@local/i18n";
 import { Game } from "@local/classes";
 import { GameContext } from "@local/contexts";
+
+import fogTypes from "@local/consts/editor/types/fog";
 
 function Fog() {
     const game = useContext(GameContext);
@@ -47,7 +48,6 @@ function Fog() {
                 setDensity(currentScene.fog.density);
             }
         }
-        console.log(currentScene);
     }, [game]);
 
     useEffect(() => {
@@ -76,7 +76,6 @@ function Fog() {
                 currentScene.fog = Game.Scene.DEFAULT_FOG;
                 break;
         }
-        console.log(currentScene);
     }, [type, color, near, far, density]);
 
     return (

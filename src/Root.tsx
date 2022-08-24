@@ -13,7 +13,8 @@ import {
 } from "@local/components";
 import { AlertContext } from "@local/contexts";
 import { isRouteState } from "@local/functions";
-import { routes } from "@local/consts";
+
+import routes from "@local/consts/routes";
 
 function Root() {
     const [pageIsLoading, setPageIsLoading] = React.useState<boolean>(true);
