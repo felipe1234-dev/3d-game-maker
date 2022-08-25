@@ -95,7 +95,32 @@ const pt_BR = {
 
     "Mesh": "Malha",
     "Add object": "Adicionar objeto",
-    "Add objects": "Adicionar objetos"
+    "Add objects": "Adicionar objetos",
+
+    "Lights": "Luzes",
+    "Shapes": "Formatos",
+    "Cameras": "Câmeras",
+    "Controls": "Controles",
+
+    "Ambient light": "Luz de ambiente",
+    "Directional light": "Luz direcional",
+    "Hemisphere light": "Luz de hemisfério",
+    "Point light": "Ponto de luz",
+    "Spotlight": "Holofote",
+
+    "Cube": "Cubo",
+    "Cylinder": "Cilindro",
+    "Circle": "Círculo",
+    "Dodecahedron": "Dodecaedro",
+    "Icosahedron": "Icosaedro",
+    "Lathe": "Vaso",
+    "Octahedron": "Octaedro",
+    "Plane": "Plano",
+    "Ring": "Anel",
+    "Sphere": "Esfera",
+    "Tetrahedron": "Tetraedro",
+    "Torus": "Toro",
+    "Torus knot": "Nó toral"
 }
 
 export default pt_BR;
