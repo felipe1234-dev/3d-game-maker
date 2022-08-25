@@ -15,15 +15,18 @@ import {
 } from "@local/contexts";
 import { RouteInfo } from "@local/interfaces";
 import { RequireAuth } from "@local/components";
+import app from "./app";
 
 const pageRoutes: RouteInfo[] = [
     {
+        pageTitle: `Auth - ${app.name}`,
         path: "/auth",
         Element: AuthPage,
         wrappers: [],
         providers: []
     },
     {
+        pageTitle: `Home - ${app.name}`,
         path: "/home",
         Element: HomePage,
         wrappers: [
@@ -32,6 +35,7 @@ const pageRoutes: RouteInfo[] = [
         providers: []
     },
     {
+        pageTitle: `Editor - ${app.name}`,
         path: "/editor",
         Element: EditorPage,
         wrappers: [

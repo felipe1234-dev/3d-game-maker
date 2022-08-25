@@ -91,6 +91,7 @@ export interface Filter {
 }
 
 export interface RouteInfo {
+    pageTitle?: string;
     path: string;
     Element: () => JSX.Element;
     wrappers: Function[];
