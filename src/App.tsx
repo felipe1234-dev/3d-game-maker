@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
-import { getLang } from "./i18n";
+import { getLang, t } from "./i18n";
 import { Composer } from "./components";
 import { AlertProvider } from "./contexts";
-import routes from "./consts/routes";
 
+import routes from "./consts/routes";
 import Root from "./Root";
 
 function App() {
@@ -20,6 +20,12 @@ function App() {
         }, [])
     ), [pathname]);
 
+    const pageTitle = useMemo(() => (
+        routes.pages.find(item => (
+            pathname.includes(item.path)
+        ))?.pageTitle
+    ), [pathname]);
+
     useEffect(() => {
         const lang = getLang();
 
@@ -29,6 +35,12 @@ function App() {
 
         const langInHTML = lang.replace("_", "-");
         document.querySelector("html")?.setAttribute("lang", langInHTML);
+
+        if (!pageTitle) {
+            return;
+        }
+
+        document.title = t(pageTitle);
     }, [pathname]);
 
     return (
