@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Routes as Switch,
     Route,
@@ -17,13 +17,13 @@ import { isRouteState } from "@local/functions";
 import routes from "@local/consts/routes";
 
 function Root() {
-    const [pageIsLoading, setPageIsLoading] = React.useState<boolean>(true);
+    const [pageIsLoading, setPageIsLoading] = useState<boolean>(true);
     const {
         message,
         setMessage,
         severity,
         setSeverity
-    } = React.useContext(AlertContext);
+    } = useContext(AlertContext);
     
     const pageLocation = useLocation();
     const { pathname: pathNow, state } = pageLocation;
@@ -36,11 +36,11 @@ function Root() {
         enablePageLoader = state.useLoader ?? false;
     }
     
-    React.useEffect(() => {
+    useEffect(() => {
         setPageIsLoading(enablePageLoader);
     }, [pathNow]);
     
-    React.useEffect(() => {
+    useEffect(() => {
         setTimeout(() => {
             setPageIsLoading(false);
         }, 3000);
