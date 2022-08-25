@@ -1,0 +1,12 @@
+@import "../colors";
+
+.AddObjectModal {
+    .MuiDialogContent-root {
+        padding: 20px 0 !important;
+
+        .MuiListItemIcon-root {
+            color: $text-color !important;
+            margin-right: 10px !important;
+        }
+    }
+}
