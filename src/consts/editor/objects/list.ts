@@ -1,6 +1,8 @@
+import * as THREE from "three";
+
 export default [
     {
-        className: "Mesh",
+        Constructor: THREE.Mesh,
         label: "Mesh",
         props: [
             "type",
@@ -17,7 +19,7 @@ export default [
         ]
     },
     {
-        className: "AmbientLight",
+        Constructor: THREE.AmbientLight,
         label: "Ambient light",
         props: [
             "type",
@@ -35,7 +37,7 @@ export default [
         ]
     },
     {
-        className: "DirectionalLight",
+        Constructor: THREE.DirectionalLight,
         label: "Directional light",
         props: [
             "type",
@@ -55,7 +57,7 @@ export default [
         ]
     },
     {
-        className: "HemisphereLight",
+        Constructor: THREE.HemisphereLight,
         label: "Hemisphere light",
         props: [
             "type",
@@ -73,7 +75,7 @@ export default [
         ]
     },
     {
-        className: "PointLight",
+        Constructor: THREE.PointLight,
         label: "Point light",
         props: [
             "type",
@@ -96,7 +98,7 @@ export default [
         ]
     },
     {
-        className: "SpotLight",
+        Constructor: THREE.SpotLight,
         label: "Spotlight",
         props: [
             "type",

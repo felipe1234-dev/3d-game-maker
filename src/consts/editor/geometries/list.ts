@@ -1,6 +1,8 @@
+import * as THREE from "three";
+
 export default [
     {
-        className: "BoxGeometry",
+        Constructor: THREE.BoxGeometry,
         label: "Cube",
         props: [
             "type",
@@ -15,7 +17,7 @@ export default [
         ]
     },
     {
-        className: "CircleGeometry",
+        Constructor: THREE.CircleGeometry,
         label: "Circle",
         props: [
             "type",
@@ -28,7 +30,7 @@ export default [
         ]
     },
     {
-        className: "CylinderGeometry",
+        Constructor: THREE.CylinderGeometry,
         label: "Cylinder",
         props: [
             "type",
@@ -43,17 +45,17 @@ export default [
         ]
     },
     {
-        className: "DodecahedronGeometry",
+        Constructor: THREE.DodecahedronGeometry,
         label: "Dodecahedron",
         props: ["type", "name", "uuid", "radius", "detail"]
     },
     {
-        className: "IcosahedronGeometry",
+        Constructor: THREE.IcosahedronGeometry,
         label: "Icosahedron",
         props: ["type", "name", "uuid", "radius", "detail"]
     },
     {
-        className: "LatheGeometry",
+        Constructor: THREE.LatheGeometry,
         label: "Lathe",
         props: [
             "type",
@@ -66,12 +68,12 @@ export default [
         ]
     },
     {
-        className: "OctahedronGeometry",
+        Constructor: THREE.OctahedronGeometry,
         label: "Octahedron",
         props: ["type", "name", "uuid", "radius", "detail"]
     },
     {
-        className: "PlaneGeometry",
+        Constructor: THREE.PlaneGeometry,
         label: "Plane",
         props: [
             "type",
@@ -84,7 +86,7 @@ export default [
         ]
     },
     {
-        className: "RingGeometry",
+        Constructor: THREE.RingGeometry,
         label: "Ring",
         props: [
             "type",
@@ -99,7 +101,7 @@ export default [
         ]
     },
     {
-        className: "SphereGeometry",
+        Constructor: THREE.SphereGeometry,
         label: "Sphere",
         props: [
             "type",
@@ -115,12 +117,12 @@ export default [
         ]
     },
     {
-        className: "TetrahedronGeometry",
+        Constructor: THREE.TetrahedronGeometry,
         label: "Tetrahedron",
         props: ["type", "name", "uuid", "radius", "detail"]
     },
     {
-        className: "TorusGeometry",
+        Constructor: THREE.TorusGeometry,
         label: "Torus",
         props: [
             "type",
@@ -134,7 +136,7 @@ export default [
         ]
     },
     {
-        className: "TorusKnotGeometry",
+        Constructor: THREE.TorusKnotGeometry,
         label: "Torus knot",
         props: [
             "type",

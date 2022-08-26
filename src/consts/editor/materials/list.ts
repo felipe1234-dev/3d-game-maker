@@ -1,6 +1,8 @@
+import * as THREE from "three";
+
 export default [
     {
-        className: "MeshStandardMaterial",
+        Constructor: THREE.MeshStandardMaterial,
         label: "Material 3D Padão",
         props: [
             "list",
@@ -38,7 +40,7 @@ export default [
         ]
     },
     {
-        className: "MeshPhysicalMaterial",
+        Constructor: THREE.MeshPhysicalMaterial,
         label: "Material Físico",
         props: [
             "list",
@@ -85,17 +87,17 @@ export default [
         ]
     },
     {
-        className: "LineBasicMaterial",
+        Constructor: THREE.LineBasicMaterial,
         label: "Linha Comum",
         props: ["type", "name", "uuid"]
     },
     {
-        className: "LineDashedMaterial",
+        Constructor: THREE.LineDashedMaterial,
         label: "Linha Tracejada",
         props: ["type", "name", "uuid"]
     },
     {
-        className: "MeshBasicMaterial",
+        Constructor: THREE.MeshBasicMaterial,
         label: "Material Básico",
         props: [
             "list",
@@ -122,12 +124,12 @@ export default [
         ]
     },
     {
-        className: "MeshDepthMaterial",
+        Constructor: THREE.MeshDepthMaterial,
         label: "Material de Profundidade",
         props: ["type", "name", "uuid"]
     },
     {
-        className: "MeshLambertMaterial",
+        Constructor: THREE.MeshLambertMaterial,
         label: "Material Lambertiano",
         props: [
             "list",
@@ -157,7 +159,7 @@ export default [
         ]
     },
     {
-        className: "MeshMatcapMaterial",
+        Constructor: THREE.MeshMatcapMaterial,
         label: "Material Matcap",
         props: [
             "list",
@@ -187,7 +189,7 @@ export default [
         ]
     },
     {
-        className: "MeshPhongMaterial",
+        Constructor: THREE.MeshPhongMaterial,
         label: "Material de Blinn-Phong",
         props: [
             "list",
@@ -226,7 +228,7 @@ export default [
         ]
     },
     {
-        className: "MeshToonMaterial",
+        Constructor: THREE.MeshToonMaterial,
         label: "Material Cartoonizado",
         props: [
             "list",
