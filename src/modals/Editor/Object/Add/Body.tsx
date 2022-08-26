@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
     Box,
     Collapse,
@@ -14,6 +14,8 @@ import { Shapes } from "@styled-icons/fa-solid";
 import { CameraVideo as Camera } from "@styled-icons/bootstrap";
 import { GameController as Controls } from "@styled-icons/ionicons-solid";
 
+import * as THREE from "three";
+import { GameContext } from "@local/contexts";
 import { t } from "@local/i18n";
 import { stringToColor } from "@local/functions";
 
@@ -28,7 +30,33 @@ const categories = [
 ];
 
 function Body() {
+    const game = useContext(GameContext);
     const [expanded, setExpanded] = useState<number>(-1);
+
+    const addLight = (item: typeof lightList[number]) => {
+        const light = new item.Constructor();
+        light.name = light.type;
+        console.log(light);
+        game?.currentScene.add(light);
+    }
+
+    const addShape = (item: typeof shapeList[number]) => {
+        const geometry = new item.Constructor();
+        geometry.name = geometry.type;
+        
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0x049ef4, // blue
+            side: THREE.DoubleSide
+        });
+        material.name = "MeshPhysicalMaterial";
+        
+        const object = new THREE.Mesh(geometry, material);
+        object.name = "Mesh";
+        console.log(object);
+        game?.currentScene.add(object);
+
+        console.log(game?.currentScene);
+    }
 
     return (
         <List component="ul">
@@ -37,7 +65,7 @@ function Body() {
 
                 return (
                     <>
-                        <ListItemButton     
+                        <ListItemButton
                             key={i}
                             component="li"
                             onClick={() => setExpanded(open ? -1 : i)}
@@ -53,6 +81,15 @@ function Body() {
                                 <ListItemButton 
                                     key={i} 
                                     component="li"
+                                    onClick={() => {
+                                        if (list === lightList) {
+                                            addLight(item as typeof lightList[number]);
+                                        }
+
+                                        if (list === shapeList) {
+                                            addShape(item as typeof shapeList[number]);
+                                        }
+                                    }}
                                 >
                                     <ListItemIcon sx={{ justifyContent: "flex-end" }}>
                                         <Box sx={{ 
