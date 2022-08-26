@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import { Button } from "@mui/material";
 import { EditorContext } from "@local/contexts";
 import { Modal, Helper } from "@local/components";
@@ -8,9 +8,9 @@ import objectList from "@local/consts/editor/objects/list";
 import objectFields from "@local/consts/editor/objects/fields";
 
 function EditObjectModal() {
-    const editor = React.useContext(EditorContext);
+    const editor = useContext(EditorContext);
     const object = editor?.transformControls.object || null; 
-    const objectInfo = objectList.find(obj => obj.className === object?.constructor.name);
+    const objectInfo = objectList.find(obj => obj.Constructor.name === object?.constructor.name);
 
     return (
         <Modal 
