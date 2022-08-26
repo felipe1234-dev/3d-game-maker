@@ -1,21 +1,21 @@
 
-import React from "react";
-import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { EditorContext } from "@local/contexts";
 import { FieldProps } from "../index";
 import { getProperty, setProperty } from "@local/functions";
+import { t } from "@local/i18n";
 import ColorPicker from "material-ui-color-picker";
 
 function ColorField(props: FieldProps) {
     const defaultColor = "#fff";
-    const [color, setColor] = React.useState<string>(defaultColor);
+    const [color, setColor] = useState<string>(defaultColor);
 
     const { labels, attributes, scope } = props;
-    const label = labels[0];
+    const label = t(labels[0]);
     const attrPath = attributes[0];
-    const editor = React.useContext(EditorContext);
+    const editor = useContext(EditorContext);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }
@@ -27,7 +27,7 @@ function ColorField(props: FieldProps) {
         }
     }, [editor?.transformControls.object]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }

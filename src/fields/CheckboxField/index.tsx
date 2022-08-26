@@ -1,19 +1,20 @@
-import React from "react";
+import { forwardRef, useContext, useEffect, useState } from "react";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
+import { t } from "@local/i18n";
 import "@local/styles/fields/CheckboxField.scss";
 
-const CheckboxField = React.forwardRef((props: FieldProps, ref) => {
-    const [isChecked, setIsChecked] = React.useState<boolean>(false);
+const CheckboxField = forwardRef((props: FieldProps, ref) => {
+    const [isChecked, setIsChecked] = useState<boolean>(false);
 
     const { labels, attributes, scope } = props;
-    const label = labels[0];
+    const label = t(labels[0]);
     const attrPath = attributes[0];
-    const editor = React.useContext(EditorContext);
+    const editor = useContext(EditorContext);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }
@@ -25,7 +26,7 @@ const CheckboxField = React.forwardRef((props: FieldProps, ref) => {
         }
     }, [editor?.transformControls.object]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }

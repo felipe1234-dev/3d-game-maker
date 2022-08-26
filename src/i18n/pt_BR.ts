@@ -120,7 +120,17 @@ const pt_BR = {
     "Sphere": "Esfera",
     "Tetrahedron": "Tetraedro",
     "Torus": "Toro",
-    "Torus knot": "Nó toral"
+    "Torus knot": "Nó toral",
+
+    "Position": "Posição",
+    "Rotation": "Rotação",
+    "Scale": "Escala",
+
+    "Cast shadow": "Faz sombra",
+    "Receive shadow": "Recebe sombra",
+
+    "Visible": "Visível",
+    "Render order": "Ordem de renderização"
 }
 
 export default pt_BR;

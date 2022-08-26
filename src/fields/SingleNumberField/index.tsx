@@ -1,8 +1,9 @@
-import React from "react";
+import { useContext, useEffect, useState } from "react";
 import { TextField, TextFieldProps } from "@mui/material";
 import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
+import { t } from "@local/i18n";
 import "@local/styles/fields/SingleNumberField.scss";
 
 function SingleNumberField(props: FieldProps & TextFieldProps) {
@@ -17,11 +18,11 @@ function SingleNumberField(props: FieldProps & TextFieldProps) {
     } = props;
     const attrPath = attributes[0];
     const label = labels[0];
-    const editor = React.useContext(EditorContext);
+    const editor = useContext(EditorContext);
 
-    const [value, setValue] = React.useState<number>(0);
+    const [value, setValue] = useState<number>(0);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }
@@ -35,7 +36,7 @@ function SingleNumberField(props: FieldProps & TextFieldProps) {
         }
     }, [editor?.transformControls.object]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!editor) {
             return;
         }
@@ -53,7 +54,7 @@ function SingleNumberField(props: FieldProps & TextFieldProps) {
         <TextField 
             className="SingleNumberField"
 
-            label={label}
+            label={t(label)}
 
             onChange={evt => setValue(Number(evt.target.value))}
             value={value}
