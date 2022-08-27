@@ -53,6 +53,7 @@ const pageRoutes: RouteInfo[] = [
 ];
 
 const modalRoutes: RouteInfo[] = [
+    // Geometry
     {
         path: "/editor/geometry/edit",
         Element: EditGeometryModal,
@@ -61,6 +62,7 @@ const modalRoutes: RouteInfo[] = [
         ],
         providers: []
     },
+    // Object
     {
         path: "/editor/object/add",
         Element: AddObjectModal,
@@ -69,6 +71,15 @@ const modalRoutes: RouteInfo[] = [
         ],
         providers: []
     },
+    {
+        path: "/editor/object/edit",
+        Element: EditObjectModal,
+        wrappers: [
+            RequireAuth,
+        ],
+        providers: []
+    },
+    // Scene
     {
         path: "/editor/scene/edit",
         Element: EditSceneModal,
