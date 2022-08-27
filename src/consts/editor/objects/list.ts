@@ -1,8 +1,9 @@
+import { Game } from "@local/classes";
 import * as THREE from "three";
 
 export default [
     {
-        Constructor: THREE.Mesh,
+        Constructor: Game.Mesh,
         label: "Mesh",
         attributes: [
             "type",
