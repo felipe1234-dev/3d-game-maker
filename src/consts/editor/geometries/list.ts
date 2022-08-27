@@ -4,150 +4,150 @@ export default [
     {
         Constructor: THREE.BoxGeometry,
         label: "Cube",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "width",
-            "height",
-            "depth",
-            "widthSegments",
-            "heightSegments",
-            "depthSegments"
+            "parameters.width",
+            "parameters.height",
+            "parameters.depth",
+            "parameters.widthSegments",
+            "parameters.heightSegments",
+            "parameters.depthSegments"
         ]
     },
     {
         Constructor: THREE.CircleGeometry,
         label: "Circle",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "radius",
-            "segments",
-            "thetaStart",
-            "thetaLength"
+            "parameters.radius",
+            "parameters.segments",
+            "parameters.thetaStart",
+            "parameters.thetaLength"
         ]
     },
     {
         Constructor: THREE.CylinderGeometry,
         label: "Cylinder",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "radiusTop",
-            "radiusBottom",
-            "height",
-            "radialSegments",
-            "heightSegments",
-            "openEnded"
+            "parameters.radiusTop",
+            "parameters.radiusBottom",
+            "parameters.height",
+            "parameters.radialSegments",
+            "parameters.heightSegments",
+            "parameters.openEnded"
         ]
     },
     {
         Constructor: THREE.DodecahedronGeometry,
         label: "Dodecahedron",
-        props: ["type", "name", "uuid", "radius", "detail"]
+        attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
         Constructor: THREE.IcosahedronGeometry,
         label: "Icosahedron",
-        props: ["type", "name", "uuid", "radius", "detail"]
+        attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
         Constructor: THREE.LatheGeometry,
         label: "Lathe",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "points",
-            "segments",
-            "phiStart",
-            "phiLength"
+            "parameters.points",
+            "parameters.segments",
+            "parameters.phiStart",
+            "parameters.phiLength"
         ]
     },
     {
         Constructor: THREE.OctahedronGeometry,
         label: "Octahedron",
-        props: ["type", "name", "uuid", "radius", "detail"]
+        attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
         Constructor: THREE.PlaneGeometry,
         label: "Plane",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "width",
-            "height",
-            "widthSegments",
-            "heightSegments"
+            "parameters.width",
+            "parameters.height",
+            "parameters.widthSegments",
+            "parameters.heightSegments"
         ]
     },
     {
         Constructor: THREE.RingGeometry,
         label: "Ring",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "innerRadius",
-            "outerRadius",
-            "thetaSegments",
-            "phiSegments",
-            "thetaStart",
-            "thetaLength"
+            "parameters.innerRadius",
+            "parameters.outerRadius",
+            "parameters.thetaSegments",
+            "parameters.phiSegments",
+            "parameters.thetaStart",
+            "parameters.thetaLength"
         ]
     },
     {
         Constructor: THREE.SphereGeometry,
         label: "Sphere",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "radius",
-            "widthSegments",
-            "heightSegments",
-            "phiStart",
-            "phiLength",
-            "thetaStart",
-            "thetaLength"
+            "parameters.radius",
+            "parameters.widthSegments",
+            "parameters.heightSegments",
+            "parameters.phiStart",
+            "parameters.phiLength",
+            "parameters.thetaStart",
+            "parameters.thetaLength"
         ]
     },
     {
         Constructor: THREE.TetrahedronGeometry,
         label: "Tetrahedron",
-        props: ["type", "name", "uuid", "radius", "detail"]
+        attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
         Constructor: THREE.TorusGeometry,
         label: "Torus",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "radius",
-            "tube",
-            "radialSegments",
-            "tubularSegments",
-            "arc"
+            "parameters.radius",
+            "parameters.tube",
+            "parameters.radialSegments",
+            "parameters.tubularSegments",
+            "parameters.arc"
         ]
     },
     {
         Constructor: THREE.TorusKnotGeometry,
         label: "Torus knot",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
-            "radius",
-            "tube",
-            "tubularSegments",
-            "radialSegments",
-            "p",
-            "q"
+            "parameters.radius",
+            "parameters.tube",
+            "parameters.tubularSegments",
+            "parameters.radialSegments",
+            "parameters.p",
+            "parameters.q"
         ]
     }
 ];
