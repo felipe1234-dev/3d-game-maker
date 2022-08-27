@@ -6,6 +6,9 @@ import {
 import { 
     AddObjectModal,
     EditObjectModal, 
+
+    EditGeometryModal,
+    
     EditSceneModal,
     EditSceneTreeModal
 } from "@local/modals";
@@ -51,8 +54,8 @@ const pageRoutes: RouteInfo[] = [
 
 const modalRoutes: RouteInfo[] = [
     {
-        path: "/editor/object/edit",
-        Element: EditObjectModal,
+        path: "/editor/geometry/edit",
+        Element: EditGeometryModal,
         wrappers: [
             RequireAuth,
         ],
