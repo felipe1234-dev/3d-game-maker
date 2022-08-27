@@ -1,3 +1,5 @@
+export { default as EditGeometryModal } from "./Editor/Geometry/Edit";
+
 export { default as EditObjectModal } from "./Editor/Object/Edit";
 export { default as AddObjectModal } from "./Editor/Object/Add";
 
