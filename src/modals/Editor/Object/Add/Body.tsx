@@ -15,6 +15,7 @@ import { CameraVideo as Camera } from "@styled-icons/bootstrap";
 import { GameController as Controls } from "@styled-icons/ionicons-solid";
 
 import * as THREE from "three";
+import { Game } from "@local/classes";
 import { GameContext } from "@local/contexts";
 import { t } from "@local/i18n";
 import { stringToColor } from "@local/functions";
@@ -36,7 +37,7 @@ function Body() {
     const addLight = (item: typeof lightList[number]) => {
         const light = new item.Constructor();
         light.name = light.type;
-        console.log(light);
+        
         game?.currentScene.add(light);
     }
 
@@ -44,18 +45,16 @@ function Body() {
         const geometry = new item.Constructor();
         geometry.name = geometry.type;
         
-        const material = new THREE.MeshPhysicalMaterial({
-            color: 0x049ef4, // blue
+        const material = new THREE.MeshBasicMaterial({
+            color: stringToColor(item.label),
             side: THREE.DoubleSide
         });
-        material.name = "MeshPhysicalMaterial";
+        material.name = "MeshBasicMaterial";
         
-        const object = new THREE.Mesh(geometry, material);
+        const object = new Game.Mesh(geometry, material);
         object.name = "Mesh";
-        console.log(object);
+        
         game?.currentScene.add(object);
-
-        console.log(game?.currentScene);
     }
 
     return (
