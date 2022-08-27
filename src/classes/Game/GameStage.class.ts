@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Game } from "..";
 
-class Stage {
+class GameStage {
     public readonly id: number;
     public readonly uuid: string;
     public game: Game.Core;
@@ -99,4 +99,4 @@ class Stage {
     }
 }
 
-export default Stage;
+export default GameStage;

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Game } from "..";
 
-class Scene extends THREE.Scene {
+class GameScene extends THREE.Scene {
     static DEFAULT_BACKGROUND: THREE.Color = new THREE.Color("#444");
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
@@ -33,4 +33,4 @@ class Scene extends THREE.Scene {
     } 
 }
 
-export default Scene;
+export default GameScene;
