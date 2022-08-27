@@ -8,9 +8,9 @@ import {
 
 export default [
     {
-        key: "parameters.parameters.width",
+        key: "parameters.width",
         Component: SingleNumberField,
-        attributes: [ "parameters.parameters.width" ],
+        attributes: [ "parameters.width" ],
         labels: [ "Width" ],
         helpText: ""
     },
