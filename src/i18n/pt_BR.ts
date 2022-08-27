@@ -130,7 +130,10 @@ const pt_BR = {
     "Receive shadow": "Recebe sombra",
 
     "Visible": "Visível",
-    "Render order": "Ordem de renderização"
+    "Render order": "Ordem de renderização",
+
+    "If checked, this object will not be rendered if it is out of the camera field of view":
+        "Se checado, este objeto não será renderizado se estiver fora do campo de visão da câmera"
 }
 
 export default pt_BR;
