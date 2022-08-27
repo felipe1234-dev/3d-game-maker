@@ -24,10 +24,10 @@ class Core {
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
         const box = new THREE.BoxGeometry(1, 1, 1);
-        const cube = new THREE.Mesh(box, material);
+        const cube = new Game.Mesh(box, material);
 
         const ball =  new THREE.SphereGeometry(1, 50, 50);
-        const sphere = new THREE.Mesh(ball, material);
+        const sphere = new Game.Mesh(ball, material);
 
         scene1.add(cube);
         scene2.add(sphere);
