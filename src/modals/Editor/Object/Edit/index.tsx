@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Button } from "@mui/material";
 import { EditorContext } from "@local/contexts";
 import { Modal, Helper } from "@local/components";
 import { t } from "@local/i18n";
@@ -21,17 +20,16 @@ function EditObjectModal() {
             header={`${t(objectInfo?.label || "Edit object")} ${object?.name || ""}`}
             body={(
                 <>
-                    {(objectInfo?.props || []).map(key => {
+                    {(objectInfo?.attributes || []).map((attr, i) => {
                         const field = objectFields.find(field => (
-                            field.key === key
+                            field.key === attr
                         )); 
 
                         if (!field) {
                             return <></>;
                         }
 
-                        const { 
-                            key: fieldKey, 
+                        const {
                             Component: Field, 
                             helpText, 
                             ...props 
@@ -39,8 +37,8 @@ function EditObjectModal() {
                         
                         return (
                             <Helper 
-                                key={fieldKey} 
-                                text={helpText} 
+                                key={i} 
+                                text={helpText ? t(helpText) : helpText} 
                                 placement="right" 
                                 arrow
                             >

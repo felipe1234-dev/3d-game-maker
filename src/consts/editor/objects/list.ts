@@ -4,7 +4,7 @@ export default [
     {
         Constructor: THREE.Mesh,
         label: "Mesh",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
@@ -21,7 +21,7 @@ export default [
     {
         Constructor: THREE.AmbientLight,
         label: "Ambient light",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
@@ -39,7 +39,7 @@ export default [
     {
         Constructor: THREE.DirectionalLight,
         label: "Directional light",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
@@ -59,7 +59,7 @@ export default [
     {
         Constructor: THREE.HemisphereLight,
         label: "Hemisphere light",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
@@ -77,7 +77,7 @@ export default [
     {
         Constructor: THREE.PointLight,
         label: "Point light",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
@@ -100,7 +100,7 @@ export default [
     {
         Constructor: THREE.SpotLight,
         label: "Spotlight",
-        props: [
+        attributes: [
             "type",
             "name",
             "uuid",
