@@ -18,8 +18,11 @@ import { Pressable } from "@local/components";
 import { EditorContext } from "@local/contexts";
 
 function Bottom() {
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
+    const [editObjIsDisabled, setEditObjIsDisabled] = useState<boolean>(true);
+    const [editGeomIsDisabled, setEditGeomIsDisabled] = useState<boolean>(true);
+    const [editTextIsDisabled, setEditTextIsDisabled] = useState<boolean>(true);
     const [zoomSpeed, setZoomSpeed] = useState<number>(50);
+
     const location = useLocation();
     const editor = useContext(EditorContext);
     
@@ -28,8 +31,18 @@ function Bottom() {
             return;
         }
         
-        setIsDisabled(!editor.transformControls.object);
-    }
+        const selectedObject = editor.transformControls.object;
+
+        if (!selectedObject) {
+            setEditObjIsDisabled(true);
+            setEditGeomIsDisabled(true);
+            setEditTextIsDisabled(true);
+        } else {
+            setEditObjIsDisabled(false);
+            setEditGeomIsDisabled(!(selectedObject as any).geometry);
+            setEditTextIsDisabled(!(selectedObject as any).material);
+        }
+    };
     
     useEffect(() => {
         if (!editor) {
@@ -81,7 +94,7 @@ function Bottom() {
                             background: location,
                             useLoader: false
                         }}
-                        disabled={isDisabled}
+                        disabled={editObjIsDisabled}
                     >
                         <CubeIcon />
                     </IconButton>
@@ -97,7 +110,7 @@ function Bottom() {
                             background: location,
                             useLoader: false
                         }}
-                        disabled={isDisabled}
+                        disabled={editGeomIsDisabled}
                     >
                         <ShapeIcon />
                     </IconButton>
@@ -113,7 +126,7 @@ function Bottom() {
                             background: location,
                             useLoader: false
                         }}
-                        disabled={isDisabled}
+                        disabled={editTextIsDisabled}
                     >
                         <TextureIcon />
                     </IconButton>
