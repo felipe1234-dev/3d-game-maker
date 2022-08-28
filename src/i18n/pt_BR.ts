@@ -51,7 +51,8 @@ const pt_BR = {
     "Environment": "Ambiente",
     "Background": "Fundo",
 
-    "Scene tree": "Árvore dos cenários",
+    "Object tree": "Árvore de objetos",
+    "Scene tree": "Árvore de cenários",
     "Scene": "Cenário",
     "Edit scene": "Editar cenário",
 
@@ -133,7 +134,13 @@ const pt_BR = {
     "Render order": "Ordem de renderização",
 
     "If checked, this object will not be rendered if it is out of the camera field of view":
-        "Se checado, este objeto não será renderizado se estiver fora do campo de visão da câmera"
+        "Se checado, este objeto não será renderizado se estiver fora do campo de visão da câmera",
+
+    "Group this object with the currently selected one?": "Agrupar esse objeto com o atualmente selecionado?",
+    "Yes": "Sim",
+    "No": "Não",
+
+    "Name": "Nome"
 }
 
 export default pt_BR;
