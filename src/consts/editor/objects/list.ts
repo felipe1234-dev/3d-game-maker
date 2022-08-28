@@ -3,6 +3,23 @@ import * as THREE from "three";
 
 export default [
     {
+        Constructor: THREE.Group,
+        label: "Group",
+        attributes: [
+            "type",
+            "name",
+            "uuid",
+            "position",
+            "rotation",
+            "scale",
+            "castShadow",
+            "receiveShadow",
+            "visible",
+            "frustumCulled",
+            "renderOrder"
+        ]
+    },
+    {
         Constructor: Game.Mesh,
         label: "Mesh",
         attributes: [
