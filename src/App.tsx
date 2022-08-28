@@ -41,6 +41,8 @@ function App() {
         }
 
         document.title = t(pageTitle);
+
+        sessionStorage.setItem("Last Activity", (new Date().getTime()).toString());
     }, [pathname]);
 
     return (
