@@ -140,7 +140,10 @@ const pt_BR = {
     "Yes": "Sim",
     "No": "Não",
 
-    "Name": "Nome"
+    "Name": "Nome",
+    "No name": "Sem nome",
+    "Group": "Grupo",
+    "Object3D": "Objeto 3D",
 }
 
 export default pt_BR;
