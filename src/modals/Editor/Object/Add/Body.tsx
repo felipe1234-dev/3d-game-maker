@@ -11,7 +11,7 @@ import {
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Flashlight } from "@styled-icons/fluentui-system-filled";
 import { Shapes } from "@styled-icons/fa-solid";
-import { CameraVideo as Camera } from "@styled-icons/bootstrap";
+import { CameraVideo as Camera, Tools } from "@styled-icons/bootstrap";
 import { GameController as Controls } from "@styled-icons/ionicons-solid";
 
 import * as THREE from "three";
@@ -21,10 +21,12 @@ import { t } from "@local/i18n";
 import { stringToColor } from "@local/functions";
 import { Modal, ModalProps } from "@local/components";
 
+import miscList from "@local/consts/editor/misc/list";
 import lightList from "@local/consts/editor/lights/list";
 import shapeList from "@local/consts/editor/shapes/list";
 
 const categories = [
+    { label: "Misc", Icon: Tools, list: miscList },
     { label: "Lights", Icon: Flashlight, list: lightList },
     { label: "Shapes", Icon: Shapes, list: shapeList },
     { label: "Cameras", Icon: Camera, list: [] },
@@ -37,9 +39,7 @@ function Body() {
 
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [modalProps, setModalProps] = useState<ModalProps>({});
-
     const [expanded, setExpanded] = useState<number>(-1);
-    const [cache, setCache] = useState<THREE.Object3D>();
 
     const addLight = (item: typeof lightList[number]) => {
         const light = new item.Constructor();
@@ -107,6 +107,13 @@ function Body() {
         }
     }
 
+    const addMisc = (item: typeof miscList[number]) => {
+        const miscObject = new item.Constructor();
+        miscObject.name = miscObject.type;
+
+        game?.currentScene.add(miscObject);
+    }
+
     return (
         <List component="ul">
             {categories.map(({ label, Icon, list }, i) => {
@@ -137,6 +144,10 @@ function Body() {
 
                                         if (list === shapeList) {
                                             addShape(item as typeof shapeList[number]);
+                                        }
+
+                                        if (list === miscList) {
+                                            addMisc(item as typeof miscList[number]);
                                         }
                                     }}
                                 >
