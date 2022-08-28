@@ -163,11 +163,16 @@ class EditorTransform extends ThreeControls.TransformControls {
             !this.object &&
             !this.helper
         ) {
-            const boxHelper = new THREE.BoxHelper(this.intersected.object, 0xffff00);
+            let helperChild = this.intersected.object;
+
+            if (helperChild.parent instanceof THREE.Group) {
+                helperChild = helperChild.parent;
+            }
+
+            const boxHelper = new THREE.BoxHelper(helperChild, 0xffff00);
             this.helper = boxHelper;
-            
-            this.attach(this.intersected.object);
-    
+            this.attach(helperChild);
+
             currentScene.add(this);
             currentScene.add(boxHelper);
             

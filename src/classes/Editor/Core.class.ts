@@ -9,6 +9,11 @@ class Core {
     public orbitControls: Editor.Orbit;
     public transformControls: Editor.Transform;
     
+    public helpers: {
+        list: THREE.Object3D[];
+        show: boolean;
+    }
+    
     public grids: {
         show: boolean;
         group: THREE.Group | null;
@@ -66,6 +71,11 @@ class Core {
         };
 
         this.addGrids();
+
+        this.helpers = {
+            show: true,
+            list: []
+        };
     }
 
     public addGrids(): void {
