@@ -27,3 +27,6 @@ export type { ProfileImageProps } from "./ProfileImage";
 
 export { default as RequireAuth } from "./RequireAuth";
 export type { RequireAuthProps } from "./RequireAuth";
+
+export { default as ResizableDrawer } from "./ResizableDrawer";
+export type { ResizableDrawerProps } from "./ResizableDrawer";
