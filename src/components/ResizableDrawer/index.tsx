@@ -19,6 +19,7 @@ function ResizableDrawer(props: ResizableDrawerProps & DrawerProps) {
         Dragger,
         anchor,
         PaperProps,
+        children,
         ...drawerProps
     } = props;
     const [drawerWidth, setDrawerWidth] = useState<number>(defaultDrawerWidth);
@@ -71,6 +72,7 @@ function ResizableDrawer(props: ResizableDrawerProps & DrawerProps) {
                     backgroundColor: "#f4f7f9"
                 }}
             />
+            {children}
         </Drawer>
     );
 }
