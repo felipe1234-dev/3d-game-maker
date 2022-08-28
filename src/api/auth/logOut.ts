@@ -9,7 +9,7 @@ export default function logOut(): Promise<void> {
         signOut(auth)
             .then(() => {
                 sessionStorage.removeItem("Auth Token");
-                sessionStorage.removeItem("Assign Date");
+                sessionStorage.removeItem("Last Activity");
                 
                 resolve();
             })

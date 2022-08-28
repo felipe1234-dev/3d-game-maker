@@ -10,7 +10,7 @@ export default function logIn(email: string, password: string): Promise<UserCred
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             
             sessionStorage.setItem("Auth Token", userCredential.user.refreshToken);
-            sessionStorage.setItem("Assign Date", (new Date().getTime()).toString());
+            sessionStorage.setItem("Last Activity", (new Date().getTime()).toString());
                 
             resolve(userCredential);
         } catch (error) {
