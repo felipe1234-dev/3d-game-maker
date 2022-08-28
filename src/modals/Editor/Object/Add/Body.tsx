@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import {
     Box,
+    Button,
     Collapse,
     List,
-    ListItem,
     ListItemButton,
     ListItemIcon,
     ListItemText
@@ -16,9 +16,10 @@ import { GameController as Controls } from "@styled-icons/ionicons-solid";
 
 import * as THREE from "three";
 import { Game } from "@local/classes";
-import { GameContext } from "@local/contexts";
+import { EditorContext, GameContext } from "@local/contexts";
 import { t } from "@local/i18n";
 import { stringToColor } from "@local/functions";
+import { Modal, ModalProps } from "@local/components";
 
 import lightList from "@local/consts/editor/lights/list";
 import shapeList from "@local/consts/editor/shapes/list";
@@ -32,7 +33,13 @@ const categories = [
 
 function Body() {
     const game = useContext(GameContext);
+    const editor = useContext(EditorContext);
+
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [modalProps, setModalProps] = useState<ModalProps>({});
+
     const [expanded, setExpanded] = useState<number>(-1);
+    const [cache, setCache] = useState<THREE.Object3D>();
 
     const addLight = (item: typeof lightList[number]) => {
         const light = new item.Constructor();
@@ -54,7 +61,50 @@ function Body() {
         const object = new Game.Mesh(geometry, material);
         object.name = "Mesh";
         
-        game?.currentScene.add(object);
+        const selectedObject = editor?.transformControls.object;
+
+        if (!game) {
+            return;
+        }
+
+        const { currentScene } = game;
+
+        if (selectedObject) {
+            setModalProps(prevState => ({
+                ...prevState,
+                placement: "center",
+                height: 170,
+                header: t("Group this object with the currently selected one?"),
+                footer: (
+                    <>
+                        <Button onClick={() => {
+                            game?.currentScene.add(object);
+                            setOpenModal(false);
+                        }}>
+                            {t("No")}
+                        </Button>
+                        <Button onClick={() => {
+                            const group = new THREE.Group();
+                            const selectedObject = editor.transformControls.object;
+
+                            if (!selectedObject) return;
+
+                            group.add(object);
+                            group.add(selectedObject);
+
+                            game.currentScene.add(group);
+
+                            setOpenModal(false);
+                        }}>
+                            {t("Yes")}
+                        </Button>
+                    </>
+                )
+            }));
+            setOpenModal(true);
+        } else {
+            currentScene.add(object);
+        }
     }
 
     return (
@@ -105,6 +155,10 @@ function Body() {
                     </>
                 );
             })}
+
+            {(openModal && Object.keys(modalProps)) && (
+                <Modal {...modalProps}/>
+            )}
         </List>
     );
 }
