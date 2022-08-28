@@ -3,10 +3,17 @@ import {
     CheckboxField,
     MultiNumberField,
     SingleNumberField,
+    TextField,
     // RangeField
 } from "@local/fields";
 
 export default [
+    {
+        key: "name",
+        Component: TextField,
+        attributes: [ "name" ],
+        labels: [ "Name" ]
+    },
     {
         key: "color",
         Component: ColorField,
