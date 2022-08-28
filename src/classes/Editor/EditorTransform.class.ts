@@ -163,16 +163,10 @@ class EditorTransform extends ThreeControls.TransformControls {
             !this.object &&
             !this.helper
         ) {
-            let helperChild = this.intersected.object;
-
-            if (helperChild.parent instanceof THREE.Group) {
-                helperChild = helperChild.parent;
-            }
-
-            const boxHelper = new THREE.BoxHelper(helperChild, 0xffff00);
+            const boxHelper = new THREE.BoxHelper(this.intersected.object, 0xffff00);
             this.helper = boxHelper;
-            this.attach(helperChild);
 
+            this.attach(this.intersected.object);
             currentScene.add(this);
             currentScene.add(boxHelper);
             
@@ -207,6 +201,36 @@ class EditorTransform extends ThreeControls.TransformControls {
         this.editor.orbitControls.enableRotate = true;
         
         this.dispatchEvent({ type: "unselect" });
+    }
+
+    public select = (object: THREE.Object3D): void => {
+        const { currentScene } = this.editor.game;
+
+        if (
+            !this.intersected && 
+            this.object && 
+            this.helper
+        ) {
+            this.detach();
+                
+            currentScene.remove(this.helper);
+            currentScene.remove(this);
+                
+            this.helper = undefined;
+            this.editor.orbitControls.enableRotate = true;
+                
+            this.dispatchEvent({ type: "unselect" });
+        }
+
+        const boxHelper = new THREE.BoxHelper(object, 0xffff00);
+        this.helper = boxHelper;
+
+        this.attach(object);
+        currentScene.add(this);
+        currentScene.add(boxHelper);
+
+        this.editor.orbitControls.enableRotate = false;
+        this.dispatchEvent({ type: "select" });
     }
 }
 
