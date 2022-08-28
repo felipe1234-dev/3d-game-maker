@@ -30,7 +30,19 @@ class GameScene extends THREE.Scene {
         clone.game = this.game;
 
         return clone;
-    } 
+    }
+
+    public override add(...objects: THREE.Object3D[]): this {
+        super.add(...objects);
+        this.dispatchEvent({ type: "add-object" });
+        return this;
+    }
+
+    public override remove(...objects: THREE.Object3D[]): this {
+        super.remove(...objects);
+        this.dispatchEvent({ type: "remove-object" });
+        return this;
+    }
 }
 
 export default GameScene;
