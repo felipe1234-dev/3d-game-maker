@@ -94,6 +94,31 @@ $sidebar-width: 250px;
             position: absolute;
             top: 0;
             right: 0;
+
+            .MuiBox-root {
+                &:nth-child(2) {
+                    .ObjectTree {
+                        height: 20%;
+                        top: 40%;
+                        border-radius: 5px 0px 0px 5px;
+
+                        &-dragger {
+                            width: auto !important;
+                            cursor: grab !important;
+                            border-top: none !important;
+                            height: 97% !important;
+                            display: flex !important;
+                            background-color: transparent !important;
+                            padding: 0 !important;
+
+                            .MuiButtonBase-root {
+                                margin: 0;
+                                height: 103%;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         &-leftContainer {
