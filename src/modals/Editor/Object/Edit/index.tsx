@@ -9,7 +9,7 @@ import objectFields from "@local/consts/editor/objects/fields";
 function EditObjectModal() {
     const editor = useContext(EditorContext);
     const object = editor?.transformControls.object || null; 
-    const objectInfo = objectList.find(obj => obj.Constructor.name === object?.constructor.name);
+    const objectInfo = objectList.find(obj => object instanceof obj.Constructor);
 
     return (
         <Modal 
