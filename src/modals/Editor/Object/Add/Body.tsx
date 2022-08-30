@@ -21,9 +21,9 @@ import { t } from "@local/i18n";
 import { stringToColor } from "@local/functions";
 import { Modal, ModalProps } from "@local/components";
 
-import miscList from "@local/consts/editor/misc/list";
-import lightList from "@local/consts/editor/lights/list";
-import shapeList from "@local/consts/editor/shapes/list";
+import miscList from "@local/consts/editor/aliases/misc/list";
+import lightList from "@local/consts/editor/aliases/lights/list";
+import shapeList from "@local/consts/editor/aliases/shapes/list";
 
 const categories = [
     { label: "Misc", Icon: Tools, list: miscList },

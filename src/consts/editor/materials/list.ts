@@ -3,8 +3,8 @@ import * as THREE from "three";
 export default [
     {
         Constructor: THREE.MeshStandardMaterial,
-        label: "Material 3D Padão",
-        props: [
+        label: "3D Standard Material",
+        attributes: [
             "list",
             "type",
             "name",
@@ -41,8 +41,8 @@ export default [
     },
     {
         Constructor: THREE.MeshPhysicalMaterial,
-        label: "Material Físico",
-        props: [
+        label: "Physical Material",
+        attributes: [
             "list",
             "type",
             "name",
@@ -88,18 +88,18 @@ export default [
     },
     {
         Constructor: THREE.LineBasicMaterial,
-        label: "Linha Comum",
-        props: ["type", "name", "uuid"]
+        label: "Line Basic Material",
+        attributes: ["type", "name", "uuid"]
     },
     {
         Constructor: THREE.LineDashedMaterial,
-        label: "Linha Tracejada",
-        props: ["type", "name", "uuid"]
+        label: "Line Dashed Material",
+        attributes: ["type", "name", "uuid"]
     },
     {
         Constructor: THREE.MeshBasicMaterial,
-        label: "Material Básico",
-        props: [
+        label: "Basic Material",
+        attributes: [
             "list",
             "type",
             "name",
@@ -125,13 +125,13 @@ export default [
     },
     {
         Constructor: THREE.MeshDepthMaterial,
-        label: "Material de Profundidade",
-        props: ["type", "name", "uuid"]
+        label: "Depth Material",
+        attributes: ["type", "name", "uuid"]
     },
     {
         Constructor: THREE.MeshLambertMaterial,
-        label: "Material Lambertiano",
-        props: [
+        label: "Lambert Material",
+        attributes: [
             "list",
             "type",
             "name",
@@ -160,8 +160,8 @@ export default [
     },
     {
         Constructor: THREE.MeshMatcapMaterial,
-        label: "Material Matcap",
-        props: [
+        label: "Matcap Material",
+        attributes: [
             "list",
             "type",
             "name",
@@ -190,8 +190,8 @@ export default [
     },
     {
         Constructor: THREE.MeshPhongMaterial,
-        label: "Material de Blinn-Phong",
-        props: [
+        label: "Blinn-Phong Material",
+        attributes: [
             "list",
             "type",
             "name",
@@ -229,8 +229,8 @@ export default [
     },
     {
         Constructor: THREE.MeshToonMaterial,
-        label: "Material Cartoonizado",
-        props: [
+        label: "Cartoon Material",
+        attributes: [
             "list",
             "type",
             "name",
