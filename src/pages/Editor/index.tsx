@@ -2,11 +2,10 @@ import React from "react";
 import { Box } from "@mui/material";
 
 import Menubar from "./Menubar";
-import Viewport from "../Editor/Viewport";
+import Viewport from "./Viewport";
 import Toolbar from "./Toolbar";
-import Sidebar from "../Editor/Sidebar";
 
-import "@local/styles/pages/EditorPage.scss";
+import "@local/styles/pages/EditorPage/index.scss";
 
 function EditorPage() {
     return (
