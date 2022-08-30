@@ -144,6 +144,15 @@ const pt_BR = {
     "No name": "Sem nome",
     "Group": "Grupo",
     "Object3D": "Objeto 3D",
+
+    "Width": "Largura",
+    "Height": "Altura",
+    "Depth": "Profundidade",
+    "Width segments": "Segmentos de largura",
+    "Height segments": "Segmentos de altura",
+    "Depth segments": "Segmentos de profundidade",
+
+    "Project": "Projeto"
 }
 
 export default pt_BR;
