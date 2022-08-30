@@ -3,6 +3,10 @@
 $menubar-height: 37px;
 $sidebar-width: 250px;
 
+#language-menu svg {
+    color: $text-color !important;
+}
+
 .Editor {
     display: flex;
     flex-direction: column;
