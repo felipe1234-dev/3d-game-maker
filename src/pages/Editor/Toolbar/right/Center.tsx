@@ -1,21 +1,191 @@
-import { useContext, useEffect, useState } from "react";
-import { Box, IconButton, SwipeableDrawer, Tooltip } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import {
+    Box,
+    Collapse,
+    IconButton,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Tooltip,
+    Divider
+} from "@mui/material";
+import { Plus } from "@styled-icons/boxicons-regular";
+import { Minus } from "@styled-icons/heroicons-outline";
 import { ArrowIosBack } from "@styled-icons/evaicons-solid";
 
+import * as THREE from "three";
+import * as ThreeControls from "@local/three-controls";
+
 import { ResizableDrawer } from "@local/components";
-import { EditorContext } from "@local/contexts";
+import { EditorContext, GameContext } from "@local/contexts";
 import { t } from "@local/i18n";
+import { stringToColor } from "@local/functions";
+
+import "@local/styles/pages/EditorPage/ObjectTree.scss";
 
 function Center() {
     const editor = useContext(EditorContext);
+    const game = useContext(GameContext);
+
+    const [sceneObjects, setSceneObjects] = useState<THREE.Object3D[]>([]);
+    const [expanded, setExpanded] = useState<string>("");
+
+    const getChildrenOfChildren = (object: THREE.Object3D) => (
+		object.children.reduce((childList, child) => {
+			const children = getChildrenOfChildren(child);
+
+			childList.push(child, ...children);
+
+			return childList;
+		}, [] as THREE.Object3D[])
+    );
+
+    const ObjectItem = (props: { object: THREE.Object3D }) => {
+        const { object } = props;
+        const { children } = object;
+
+        const childrenOfChildren = getChildrenOfChildren(object);
+        const open = [ ...childrenOfChildren.map(child => child.uuid), object.uuid ].includes(expanded);
+        const selected = editor?.transformControls.object?.uuid === object.uuid;
+    
+        const toggleCollapser = (evt: React.MouseEvent) => {
+            setExpanded(open ? object.parent?.uuid || "" : object.uuid);
+            evt.stopPropagation();
+        };
+
+        const selectObject = () => {
+            editor?.transformControls.select(object);
+        };
+
+        const dragStart = (evt: React.DragEvent) => {
+            (evt.target as HTMLElement).classList.add("ObjectTree-list-item--dragging");
+
+            evt.dataTransfer.setData("child-uuid", object.uuid);
+        };
+
+        const dragEnd = (evt: React.DragEvent) => {
+            (evt.target as HTMLElement).classList.remove("ObjectTree-list-item--dragging");
+        };
+
+        const dragOver = (evt: React.DragEvent) => evt.preventDefault();
+
+        const dragEnter = (evt: React.DragEvent) => {
+            let target = evt.target as HTMLElement;
+            target = target.tagName !== "LI" ? target.closest("li") || target : target;
+
+            if (target.classList.contains("MuiListItemButton-root")) {
+                target.classList.add("ObjectTree-list-item--dragOver");
+            }
+        };
+
+        const dragLeave = (evt: React.DragEvent) => {
+            let target = evt.target as HTMLElement;
+            target = target.tagName !== "LI" ? target.closest("li") || target : target;
+
+            if (target.classList.contains("MuiListItemButton-root")) {
+                target.classList.remove("ObjectTree-list-item--dragOver");
+            }
+        };
+
+        const drop = (evt: React.DragEvent) => {
+            evt.preventDefault();
+            
+            if (!game) {
+                return;
+            }
+
+            const childUuid = evt.dataTransfer.getData("child-uuid");
+            const child = game.currentScene.children.find(child => child.uuid === childUuid);
+
+            if (!child) {
+                return;
+            }
+
+            object.add(child);
+        }
+
+        return (
+            <>
+                <ListItemButton
+                    key={object.uuid}
+                    className="ObjectTree-list-item"
+                    component="li"
+                    
+                    onClick={selectObject}
+
+                    onDragStart={dragStart}
+                    onDragEnd={dragEnd}
+                    onDragOver={dragOver}
+                    onDragEnter={dragEnter}
+                    onDragLeave={dragLeave}
+                    onDrop={drop}
+
+                    selected={selected}
+                    draggable
+                >
+                    <ListItemIcon>
+                        <div onClick={toggleCollapser}>
+                            {children.length > 0 && (
+                                open ? <Minus width={15} /> : <Plus width={15} />
+                            )}
+                        </div>
+                        <Box sx={{ 
+                            backgroundColor: stringToColor(object.name || object.type) 
+                        }} />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={object.name || t("No name")}
+                        secondary={t(object.type)}
+                    />
+                </ListItemButton>
+                {children.length > 0 && (
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        {children.map(child => <ObjectItem object={child} />)}
+                        <Divider />
+                    </Collapse>
+                )}
+            </>
+        );
+    };
+
+    const updateList = () => {
+        if (!game || !editor) {
+            return;
+        }
+
+        setSceneObjects([ 
+            ...game.currentScene.children.filter(child => (
+                !(child instanceof ThreeControls.TransformControls) &&
+                child !== editor.grids.group && 
+                !/helper/ig.test(child.constructor.name)
+            )) 
+        ]);
+    };
+
+    useEffect(() => {
+        if (!editor || !game) {
+            return;
+        }
+        
+        const { currentScene } = game;
+        const events = ["add-object", "remove-object"];
+
+        events.forEach(type => {
+            if (!currentScene.hasEventListener(type, updateList)) {
+                currentScene.addEventListener(type, updateList);
+                currentScene.dispatchEvent({ type });
+            }
+        });
+    }, [editor, game]);
 
     return (
         <Box>
             <ResizableDrawer
                 anchor="right"
                 PaperProps={{ className: "ObjectTree" }}
-                defaultDrawerWidth={40}
-                minDrawerWidth={35}
+                defaultDrawerWidth={45}
+                minDrawerWidth={45}
                 Dragger={({ style, ...props }) => (
                     <Tooltip title={t("Object tree")} placement="left" arrow>
                         <span className="ObjectTree-dragger" style={style}>
@@ -26,7 +196,9 @@ function Center() {
                     </Tooltip>
                 )}
             >
-                Test
+                <List className="ObjectTree-list" component="ul">
+                    {sceneObjects.map(object => <ObjectItem object={object} />)}
+                </List>
             </ResizableDrawer>
         </Box>
     );
