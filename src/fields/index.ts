@@ -7,6 +7,10 @@ export interface FieldProps {
     max?: number;
     maxLength?: number;
     minLength?: number;
+    options?: Array<{
+        label: string;
+        value: any;
+    }>
 }
 
 export { default as CheckboxField } from "./CheckboxField";
