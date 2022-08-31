@@ -152,7 +152,14 @@ const pt_BR = {
     "Height segments": "Segmentos de altura",
     "Depth segments": "Segmentos de profundidade",
 
-    "Project": "Projeto"
+    "Project": "Projeto",
+
+    "Blending": "Mesclagem",
+    "No blending": "Sem mesclagem",
+    "Normal blending": "Mesclagem normal",
+    "Additive blending": "Mesclagem aditiva",
+    "Subtractive blending": "Mesclagem subtrativa",
+    "Multiply blending": "Mesclagem multiplicativa"
 }
 
 export default pt_BR;
