@@ -30,38 +30,40 @@ export default [
         ],
         helpText: ""
     },
-    /* {
+    {
+        key: "blending",
         Component: OptionsField,
-        "attribute": "blending",
-        "label": "Mesclagem",
-        "options": [
+        attributes: [ "blending" ],
+        labels: [ "Blending" ],
+        options: [
             {
-                label: "Nenhuma",
-                value: "NoBlending"
+                label: "No blending",
+                value: THREE.NoBlending
             },
             {
-                label: "Normal",
-                value: "NormalBlending"
+                label: "Normal blending",
+                value: THREE.NormalBlending
             },
             {
-                label: "Aditiva",
-                value: "AdditiveBlending"
+                label: "Additive blending",
+                value: THREE.AdditiveBlending
             },
             {
-                label: "Subtrativa",
-                value: "SubtractiveBlending"
+                label: "Subtractive blending",
+                value: THREE.SubtractiveBlending
             },
             {
-                label: "Multiplicar",
-                value: "MultiplyBlending"
+                label: "Multiply blending",
+                value: THREE.MultiplyBlending
             }
         ]
     },
     {
+        key: "color",
         Component: ColorField,
-        "attribute": "color",
-        "label": "Cor"
-    },
+        attributes: [ "color" ],
+        labels: [ "Color" ]
+    },/*
     {
         Component: ColorField,
         "attribute": "emissive",
