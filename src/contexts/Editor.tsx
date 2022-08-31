@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect, useContext, createContext, useState } from "react";
 
 import { Editor } from "@local/classes";
 import { GameContext } from "./index";
 
-const EditorContext = React.createContext<Editor.Core | undefined>(undefined);
+const EditorContext = createContext<Editor.Core | undefined>(undefined);
 
 function EditorProvider(props: { children: React.ReactNode }) {
-    const [editor, setEditor] = React.useState<Editor.Core>();
-    const game = React.useContext(GameContext);
+    const [editor, setEditor] = useState<Editor.Core>();
+    const game = useContext(GameContext);
     
-    React.useEffect(() => {
+    useEffect(() => {
         if (game) {
             setEditor(new Editor.Core(game));
         }
