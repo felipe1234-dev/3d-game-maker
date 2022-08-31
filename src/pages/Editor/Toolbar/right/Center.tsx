@@ -41,6 +41,20 @@ function Center() {
 		}, [] as THREE.Object3D[])
     );
 
+    const updateList = () => {
+        if (!game || !editor) {
+            return;
+        }
+
+        setSceneObjects([ 
+            ...game.currentScene.children.filter(child => (
+                !(child instanceof ThreeControls.TransformControls) &&
+                child !== editor.grids.group && 
+                !/helper/ig.test(child.constructor.name)
+            )) 
+        ]);
+    };
+
     const ObjectItem = (props: { object: THREE.Object3D }) => {
         const { object } = props;
         const { children } = object;
@@ -96,14 +110,21 @@ function Center() {
             }
 
             const childUuid = evt.dataTransfer.getData("child-uuid");
-            const child = game.currentScene.children.find(child => child.uuid === childUuid);
+            const sceneChildren = getChildrenOfChildren(game.currentScene);
+            const child = sceneChildren.find(child => child.uuid === childUuid);
 
             if (!child) {
                 return;
             }
 
-            object.add(child);
-        }
+            if (object.uuid === child.parent?.uuid) {
+                object.parent?.add(child);
+            } else {
+                object.add(child);
+            }
+
+            updateList();
+        };
 
         return (
             <>
@@ -147,20 +168,6 @@ function Center() {
                 )}
             </>
         );
-    };
-
-    const updateList = () => {
-        if (!game || !editor) {
-            return;
-        }
-
-        setSceneObjects([ 
-            ...game.currentScene.children.filter(child => (
-                !(child instanceof ThreeControls.TransformControls) &&
-                child !== editor.grids.group && 
-                !/helper/ig.test(child.constructor.name)
-            )) 
-        ]);
     };
 
     useEffect(() => {
