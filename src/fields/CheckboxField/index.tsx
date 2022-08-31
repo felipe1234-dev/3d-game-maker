@@ -4,6 +4,7 @@ import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 import { t } from "@local/i18n";
+import * as THREE from "three";
 import "@local/styles/fields/CheckboxField.scss";
 
 const CheckboxField = forwardRef((props: FieldProps, ref) => {
@@ -35,6 +36,10 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
         
         if (object) {
             setProperty(attrPath, isChecked, object);
+
+            if (object instanceof THREE.Material) {
+                object.needsUpdate = true;
+            }
         }
     }, [isChecked]);
 

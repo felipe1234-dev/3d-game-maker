@@ -5,6 +5,7 @@ import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 import { t } from "@local/i18n";
 import "@local/styles/fields/SingleNumberField.scss";
+import * as THREE from "three";
 
 function SingleNumberField(props: FieldProps & TextFieldProps) {
     const { 
@@ -46,6 +47,11 @@ function SingleNumberField(props: FieldProps & TextFieldProps) {
 
         if (object) {
             setProperty(attrPath, value, object);
+
+            if (object instanceof THREE.Material) {
+                object.needsUpdate = true;
+            }
+            
             helper?.update();
         }
     }, [value]);

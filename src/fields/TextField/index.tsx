@@ -7,6 +7,7 @@ import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 import { t } from "@local/i18n";
+import * as THREE from "three";
 import "@local/styles/fields/TextField.scss";
 
 function TextField(props: FieldProps & MuiTextFieldProps) {
@@ -48,6 +49,11 @@ function TextField(props: FieldProps & MuiTextFieldProps) {
 
         if (object) {
             setProperty(attrPath, value, object);
+
+            if (object instanceof THREE.Material) {
+                object.needsUpdate = true;
+            }
+
             helper?.update();
         }
     }, [value]);
