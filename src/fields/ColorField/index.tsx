@@ -1,11 +1,15 @@
 
 import { useContext, useEffect, useState } from "react";
+
 import { EditorContext } from "@local/contexts";
 import { FieldProps } from "../index";
 import { getProperty, setProperty } from "@local/functions";
 import { t } from "@local/i18n";
+
 import ColorPicker from "material-ui-color-picker";
 import * as THREE from "three";
+
+import "@local/styles/fields/ColorField.scss";
 
 function ColorField(props: FieldProps) {
     const defaultColor = "#fff";
@@ -50,6 +54,8 @@ function ColorField(props: FieldProps) {
 
     return (
         <ColorPicker 
+            className="ColorField"
+
             variant="outlined"
             label={label}
 
