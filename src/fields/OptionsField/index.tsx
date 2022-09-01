@@ -9,6 +9,8 @@ import { t } from "@local/i18n";
 
 import * as THREE from "three";
 
+import "@local/styles/fields/OptionsField.scss";
+
 function OptionsField(props: FieldProps & TextFieldProps) {
     const {
         scope,
@@ -57,6 +59,7 @@ function OptionsField(props: FieldProps & TextFieldProps) {
 
     return (
         <TextField
+            className="OptionsField"
             select
             label={t(label)}
             value={value}
