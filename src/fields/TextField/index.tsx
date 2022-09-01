@@ -1,13 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import {
+    useContext, 
+    useEffect, 
+    useState 
+} from "react";
 import { 
     TextField as MuiTextField, 
     TextFieldProps as MuiTextFieldProps 
 } from "@mui/material";
+
 import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 import { t } from "@local/i18n";
+
 import * as THREE from "three";
+
 import "@local/styles/fields/TextField.scss";
 
 function TextField(props: FieldProps & MuiTextFieldProps) {
