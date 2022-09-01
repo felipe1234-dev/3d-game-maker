@@ -1,10 +1,22 @@
-import { forwardRef, useContext, useEffect, useState } from "react";
-import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { 
+    forwardRef, 
+    useContext, 
+    useEffect, 
+    useState 
+} from "react";
+import { 
+    FormGroup, 
+    FormControlLabel, 
+    Checkbox 
+} from "@mui/material";
+
 import { EditorContext } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 import { t } from "@local/i18n";
+
 import * as THREE from "three";
+
 import "@local/styles/fields/CheckboxField.scss";
 
 const CheckboxField = forwardRef((props: FieldProps, ref) => {
