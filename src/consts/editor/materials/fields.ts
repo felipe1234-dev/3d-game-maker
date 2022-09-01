@@ -5,7 +5,7 @@ import {
     MultiNumberField,
     SingleNumberField,
     OptionsField,
-    // RangeField
+    RangeField
 } from "@local/fields";
 
 export default [
@@ -63,159 +63,172 @@ export default [
         Component: ColorField,
         attributes: [ "color" ],
         labels: [ "Color" ]
-    },/*
+    },
     {
+        key: "emissive",
         Component: ColorField,
-        "attribute": "emissive",
-        "label": "Cor da Emissão"
+        attributes: [ "emissive" ],
+        labels: [ "Emission color" ]
     },
     {
+        key: "specularColor",
         Component: ColorField,
-        "attribute": "specularColor",
-        "label": "Cor Especular"
+        attributes: [ "specularColor" ],
+        labels: [ "Specular color" ] 
     },
     {
+        key: "attenuationColor",
         Component: ColorField,
-        "attribute": "attenuationColor",
-        "label": "Cor de Atenuação"
+        attributes: [ "attenuationColor" ],
+        labels: [ "Attenuation color" ]
+    },
+    {
+        key: "emissiveIntensity",
+        Component: RangeField,
+        attributes: [ "emissiveIntensity" ],
+        labels: [ "Emissive intensity" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "reflectivity",
+        Component: RangeField,
+        attributes: [ "reflectivity" ],
+        labels: [ "Reflectivity" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "roughness",
+        Component: RangeField,
+        attributes: [ "roughness" ],
+        labels: [ "Roughness" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "metalness",
+        Component: RangeField,
+        attributes: [ "metalness" ],
+        labels: [ "Metalness" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "clearcoat",
+        Component: RangeField,
+        attributes: [ "clearcoat" ],
+        labels: [ "Clearcoat" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "clearcoatRoughness",
+        Component: RangeField,
+        attributes: [ "clearcoatRoughness" ],
+        labels: [ "Clearcoat roughness" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "transmission",
+        Component: RangeField,
+        attributes: [ "transmission" ],
+        labels: [ "Transmission" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "attenuationDistance",
+        Component: SingleNumberField,
+        attributes: [ "attenuationDistance" ],
+        labels: [ "Attenuation distance" ],
+    },
+    {
+        key: "thickness",
+        Component: SingleNumberField,
+        attributes: [ "thickness" ],
+        labels: [ "thickness" ],
+    },
+    {
+        key: "shininess",
+        Component: SingleNumberField,
+        attributes: [ "shininess" ],
+        labels: [ "Shininess" ],
+    },
+    {
+        key: "opacity",
+        Component: RangeField,
+        attributes: [ "opacity" ],
+        labels: [ "Opacity" ],
+        max: 1,
+        min: 0,
+        step: 0.01
+    },
+    {
+        key: "alphaTest",
+        Component: RangeField,
+        attributes: [ "alphaTest" ],
+        labels: [ "Alpha test" ],
+        max: 1,
+        min: 0,
+        step: 0.01
     },
     
     
     
     {
-        Component: SingleNumberField,
-        "attribute": "emissiveIntensity",
-        "label": "Intensidade da Emissão",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "reflectivity",
-        "label": "Reflexividade",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "roughness",
-        "label": "Aspereza",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "metalness",
-        "label": "Metalicidade",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "clearcoat",
-        "label": "Efeito Verniz",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "clearcoatRoughness",
-        "label": "Aspereza do Verniz",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "transmission",
-        "label": "Transmissão",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "attenuationDistance",
-        "label": "Distância da Atenuação",
-        "data_type": "Float"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "thickness",
-        "label": "Espessura",
-        "data_type": "Float"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "shininess",
-        "label": "Brilho",
-        "data_type": "Float"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "opacity",
-        "label": "Opacidade",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "alphaTest",
-        "label": "Teste Alfa",
-        "data_type": "Float",
-        "max": "1",
-        "min": "0"
-    },
-    
-    
-    
-    {
+        key: "vertexColors",
         Component: CheckboxField,
-        "attribute": "vertexColors",
-        "label": "Cores dos Vértices"
+        attributes: [ "vertexColors" ],
+        labels: [ "Vertex colors" ]
     },
     {
+        key: "flatShading",
         Component: CheckboxField,
-        "attribute": "flatShading",
-        "label": "Sem sombreamento"
+        attributes: [ "flatShading" ],
+        labels: [ "Flat shading" ]
     },
     {
+        key: "depthTest",
         Component: CheckboxField,
-        "attribute": "depthTest",
-        "label": "Teste de Profundidade"
+        attributes: [ "depthTest" ],
+        labels: [ "Depth test" ]
     },
     {
+        key: "depthWrite",
         Component: CheckboxField,
-        "attribute": "depthWrite",
-        "label": "Assinatura de Profundidade"
+        attributes: [ "depthWrite" ],
+        labels: [ "Depth write" ]
     },
     
     
     
-    {
+    /*{
         Component: "ImageField",
-        "attribute": "map",
-        "label": "labelura",
+        attributes: [ "map" ],
+        labels: [ "labelura" ],
         "has_refr": false,
         "has_types": false
     },
     {
         Component: "ImageField",
-        "attribute": "envMap",
-        "label": "Mapa de Ambiente",
+        attributes: [ "envMap" ],
+        labels: "Mapa de Ambiente",
         "has_refr": true,
         "has_types": true
     },
     {
         Component: "ImageField",
-        "attribute": "matcap",
-        "label": "Mapeamento Esférico do Amb.",
+        attributes: [ "matcap" ],
+        labels: "Mapeamento Esférico do Amb.",
         "has_refr": false,
         "has_types": false
     },
@@ -224,54 +237,26 @@ export default [
     
     {
         Component: "ImageField",
-        "attribute": "lightMap",
-        "label": "Mapa de Iluminação",
+        attributes: [ "lightMap" ],
+        labels: "Mapa de Iluminação",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: SingleNumberField,
-        "attribute": "lightMapIntensity",
-        "label": "Intensidade",
-        "data_type": "Float",
-        "max": "1", 
-        "min": "0"
+        attributes: [ "lightMapIntensity" ],
+        labels: [ "Intensidade" ],
+        max: 1, 
+        min: 0,
+        step: 0.01
     },
     
     
     
     {
         Component: "ImageField",
-        "attribute": "specularMap",
-        "label": "Mapa Especular",
-        "has_refr": false,
-        "has_types": false
-    },
-    
-    
-    
-    {
-        Component: "ImageField",
-        "attribute": "aoMap",
-        "label": "Mapa de oclusão ambiental",
-        "has_refr": false,
-        "has_types": false
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "aoMapIntensity",
-        "label": "Intensidade",
-        "data_type": "Float",
-        "max": "1", 
-        "min": "0"              
-    },
-    
-    
-    
-    {
-        Component: "ImageField",
-        "attribute": "emissiveMap",
-        "label": "Mapa de Emissão",
+        attributes: [ "specularMap" ],
+        labels: "Mapa Especular",
         "has_refr": false,
         "has_types": false
     },
@@ -280,110 +265,131 @@ export default [
     
     {
         Component: "ImageField",
-        "attribute": "displacementMap",
-        "label": "Mapa de Deslocamento",
+        attributes: [ "aoMap" ],
+        labels: "Mapa de oclusão ambiental",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: SingleNumberField,
-        "attribute": "displacementBias",
-        "label": "Viés",
-        "data_type": "Float"
-    },
-    {
-        Component: SingleNumberField,
-        "attribute": "displacementScale",
-        "label": "Escala",
-        "data_type": "Float"
+        attributes: [ "aoMapIntensity" ],
+        labels: [ "Intensidade" ],
+        max: 1, 
+        min: 0,
+        step: 0.01
     },
     
     
     
     {
         Component: "ImageField",
-        "attribute": "normalMap",
-        "label": "Mapa Normal",
+        attributes: [ "emissiveMap" ],
+        labels: "Mapa de Emissão",
+        "has_refr": false,
+        "has_types": false
+    },
+    
+    
+    
+    {
+        Component: "ImageField",
+        attributes: [ "displacementMap" ],
+        labels: "Mapa de Deslocamento",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: SingleNumberField,
-        "attribute": "normalScale.x",
-        "label": "Escala (x)",
-        "data_type": "Float"
+        attributes: [ "displacementBias" ],
+        labels: "Viés",
     },
     {
         Component: SingleNumberField,
-        "attribute": "normalScale.y",
-        "label": "Escala (y)",
-        "data_type": "Float"
+        attributes: [ "displacementScale" ],
+        labels: [ "Escala" ],
+    },
+    
+    
+    
+    {
+        Component: "ImageField",
+        attributes: [ "normalMap" ],
+        labels: "Mapa Normal",
+        "has_refr": false,
+        "has_types": false
+    },
+    {
+        Component: SingleNumberField,
+        attributes: "normalScale.x",
+        labels: "Escala (x)",
+    },
+    {
+        Component: SingleNumberField,
+        attributes: "normalScale.y",
+        labels: "Escala (y)",
     },
     
     
     {
         Component: "ImageField",
-        "attribute": "clearcoatNormalMap",
-        "label": "Mapa Normal do Verniz",
+        attributes: [ "clearcoatNormalMap" ],
+        labels: "Mapa Normal do Verniz",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: SingleNumberField,
-        "attribute": "clearcoatNormalScale.x",
-        "label": "Escala (x)",
-        "data_type": "Float"
+        attributes: "clearcoatNormalScale.x",
+        labels: "Escala (x)",
         
     },
     {
         Component: SingleNumberField,
-        "attribute": "clearcoatNormalScale.y",
-        "label": "Escala (y)",
-        "data_type": "Float"
+        attributes: "clearcoatNormalScale.y",
+        labels: "Escala (y)",
     },
     
     
     {
         Component: "ImageField",
-        "attribute": "bumpMap",
-        "label": "Mapa de Bumping",
+        attributes: [ "bumpMap" ],
+        labels: "Mapa de Bumping",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: SingleNumberField,
-        "attribute": "bumpScale",
-        "label": "Escala",
-        "data_type": "Float"
+        attributes: [ "bumpScale" ],
+        labels: [ "Escala" ],
     },
     
     
     
     {
         Component: "ImageField",
-        "attribute": "roughnessMap",
-        "label": "Mapa de Aspereza",
+        attributes: [ "roughnessMap" ],
+        labels: "Mapa de Aspereza",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: "ImageField",
-        "attribute": "metalnessMap",
-        "label": "Mapa da Metalicidade",
+        attributes: [ "metalnessMap" ],
+        labels: "Mapa da Metalicidade",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: "ImageField",
-        "attribute": "gradientMap",
-        "label": "Mapa de Gradiente",
+        attributes: [ "gradientMap" ],
+        labels: "Mapa de Gradiente",
         "has_refr": false,
         "has_types": false
     },
     {
         Component: "ImageField",
-        "attribute": "alphaMap",
-        "label": "Mapa Alfa",
+        attributes: [ "alphaMap" ],
+        labels: "Mapa Alfa",
         "has_refr": false,
         "has_types": false
     } */
