@@ -4,7 +4,7 @@ import {
     MultiNumberField,
     SingleNumberField,
     TextField,
-    // RangeField
+    RangeField
 } from "@local/fields";
 
 export default [
@@ -89,33 +89,24 @@ export default [
         step: 0.01,
         min: 0.00
     },
-    // {
-    //     Component: RangeField,
-    //     attributes: [ "angle",
-    //     labels: [ "Ângulo (radianos)",
-    //     ,
-    //     step: 0.001,
-    //     max: 1.571,
-    //     min: 0.000
-    // },
-    // {
-    //     Component: RangeField,
-    //     attributes: [ "angle",
-    //     labels: [ "Ângulo (radianos)",
-    //     ,
-    //     step: 0.001,
-    //     max: 1.571,
-    //     min: 0.000
-    // },
-    // {
-    //     Component: RangeField,
-    //     attributes: [ "penumbra",
-    //     labels: [ "Penumbra",
-    //     ,
-    //     step: 0.01,
-    //     max: 1.00,
-    //     min: 0.00
-    // },
+    {
+        key: "angle",
+        Component: RangeField,
+        attributes: [ "angle" ],
+        labels: [ "Angle (radians)" ],
+        step: 0.001,
+        max: 1.571,
+        min: 0.000
+    },
+    {
+        key: "penumbra",
+        Component: RangeField,
+        attributes: [ "penumbra" ],
+        labels: [ "Penumbra" ],
+        step: 0.01,
+        max: 1.00,
+        min: 0.00
+    },
     {
         key: "decay",
         Component: SingleNumberField,
