@@ -151,6 +151,9 @@ const pt_BR = {
     "Width segments": "Segmentos de largura",
     "Height segments": "Segmentos de altura",
     "Depth segments": "Segmentos de profundidade",
+    "Radial segments": "Segmentos radiais",
+    "Top radius": "Raio do topo",
+    "Bottom radius": "Raio da base",
 
     "Project": "Projeto",
 
@@ -159,7 +162,32 @@ const pt_BR = {
     "Normal blending": "Mesclagem normal",
     "Additive blending": "Mesclagem aditiva",
     "Subtractive blending": "Mesclagem subtrativa",
-    "Multiply blending": "Mesclagem multiplicativa"
+    "Multiply blending": "Mesclagem multiplicativa",
+
+    "Render side": "Renderizar lado",
+    "Front": "Da frente",
+    "Back": "De trás",
+    "Both": "Ambos",
+
+    "Color": "Cor",
+    "Emission color": "Cor da Emissão",
+    "Specular color": "Cor especular",
+    "Attenuation color": "Cor de Atenuação",
+    "Emissive intensity": "Intensidade da Emissão",
+
+    "Angle (radians)": "Ângulo em radianos",
+    "Roughness": "Dureza",
+    "Metalness": "Metalicidade",
+    "Clearcoat": "Efeito Verniz",
+    "Clearcoat roughness": "Dureza do Verniz",
+    "Transmission": "Transmissão",
+    "Attenuation distance": "Distância da Atenuação",
+    "Thickness": "Espessura",
+    "Shininess": "Brilho",
+    "Opacity": "Opacidade",
+    "alphaTest": "Teste Alfa",
+    "Vertex colors": "Cores dos Vértices",
+    "Flat shading": "Sem sombreamento"
 }
 
 export default pt_BR;
