@@ -141,6 +141,7 @@ const pt_BR = {
     "No": "Não",
 
     "Name": "Nome",
+    "Description": "Descrição",
     "No name": "Sem nome",
     "Group": "Grupo",
     "Object3D": "Objeto 3D",
