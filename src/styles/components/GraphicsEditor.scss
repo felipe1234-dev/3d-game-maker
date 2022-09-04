@@ -1,0 +1,53 @@
+@import "../colors";
+
+.MuiDialogContent-root {
+    padding-left: 0 !important;
+}
+
+.GraphicsEditor {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: flex-start;
+
+    height: 100%;
+    width: 100%;
+    
+    &-toolbar {
+        position: relative;
+        height: 100%;
+        max-width: 10%;
+    }
+
+    &-canvasContainer {
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        flex-grow: 1;
+
+        canvas, &-cursor, &-selection {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &-checkeredBg {
+            z-index: 0;
+        }
+
+        &-graphic {
+            z-index: 1;
+        }
+
+        &-cursor, &-selection {
+            z-index: 2;
+        }
+
+        &-cursor {
+            border: 2px solid $yellow;
+        }
+
+        
+    }
+}
