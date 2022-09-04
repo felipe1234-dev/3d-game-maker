@@ -2,13 +2,31 @@ import * as THREE from "three";
 import { Game } from "..";
 
 class Core {
+    public name: string;
+    public description: string;
+
     public stages: Game.Stage[];
     public scenes: Game.Scene[];
 
     public currentScene: Game.Scene;
     public currentStage: Game.Stage;
 
-    constructor(scenes?: Game.Scene[], stages?: Game.Stage[]) {
+    constructor(props: {
+        name: string;
+        description: string;
+        scenes?: Game.Scene[];
+        stages?: Game.Stage[];
+    }) {
+        const {
+            name,
+            description,
+            scenes,
+            stages
+        } = props;
+
+        this.name = name;
+        this.description = description;
+
         const stage1 = new Game.Stage("Stage 1", this);
         const scene1 = new Game.Scene("Scene 1", this);
 
