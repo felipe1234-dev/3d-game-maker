@@ -4,7 +4,10 @@ import {
     MenuItem,
     Checkbox,
     FormControlLabel,
-    InputAdornment
+    InputAdornment,
+    Box,
+    Button,
+    Typography
 } from "@mui/material";
 import { HelpCircle as HelpIcon } from "@styled-icons/feather";
 import * as THREE from "three";
@@ -131,6 +134,27 @@ function Environment() {
                     </MenuItem>
                 ))}
             </TextField>
+
+            {(
+                envType && 
+                ["uvMapping", "equirectMapping"].includes(envType) && 
+                envImage
+            ) && (
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    margin: "10px 0"
+                }}>
+                    <Typography variant="subtitle1" component="p">
+                        {envImage.title} ({envImage.mimeType})
+                    </Typography>
+
+                    <Button onClick={() => setOpenModal(true)}>
+                        {t("Change image")}
+                    </Button>
+                </Box>
+            )}
             
             {(openModal && envType === "uvMapping") && (
                 <MediaModal
