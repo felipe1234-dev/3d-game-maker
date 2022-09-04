@@ -9,7 +9,10 @@ function GameProvider(props: { children: React.ReactNode }) {
     const [game, setGame] = useState<Game.Core>();
 
     useEffect(() => {
-        const obj = new Game.Core();
+        const obj = new Game.Core({
+            name: "",
+            description: ""
+        });
         setGame(obj);
     }, []);
     
