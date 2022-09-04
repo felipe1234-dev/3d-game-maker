@@ -1,7 +1,8 @@
 import { 
     AuthPage, 
     HomePage, 
-    EditorPage 
+    EditorPage,
+    TestPage
 } from "@local/pages";
 import { 
     AddObjectModal,
@@ -21,6 +22,13 @@ import { RequireAuth } from "@local/components";
 import app from "./app";
 
 const pageRoutes: RouteInfo[] = [
+    {
+        pageTitle: `Testing`,
+        path: "/test",
+        Element: TestPage,
+        wrappers: [],
+        providers: []
+    },
     {
         pageTitle: `Auth - ${app.name}`,
         path: "/auth",
