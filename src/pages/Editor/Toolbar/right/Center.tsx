@@ -176,7 +176,7 @@ function Center() {
         }
         
         const { currentScene } = game;
-        const events = ["add-object", "remove-object"];
+        const events = ["add-objects", "remove-objects"];
 
         events.forEach(type => {
             if (!currentScene.hasEventListener(type, updateList)) {
