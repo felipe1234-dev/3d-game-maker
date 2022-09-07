@@ -6,6 +6,7 @@ import { t } from "@local/i18n";
 import Background from "./Background";
 import Environment from "./Environment";
 import Fog from "./Fog";
+import Physics from "./Physics";
 
 function Body() {
     const game = useContext(GameContext);
@@ -34,6 +35,8 @@ function Body() {
             <Environment />
             <Divider />
             <Fog /> 
+            <Divider />
+            <Physics />
         </div>
     );
 }
