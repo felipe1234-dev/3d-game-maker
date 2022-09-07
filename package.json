@@ -18,6 +18,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
+    "@types/matter-js": "^0.18.1",
     "@types/node": "^16.11.39",
     "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5",
@@ -29,12 +30,12 @@
     "bfj": "^7.0.2",
     "browserslist": "^4.18.1",
     "camelcase": "^6.2.1",
+    "cannon-es": "^0.20.0",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.2.0",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
-    "enable3d": "^0.25.2",
     "eslint": "^8.3.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-webpack-plugin": "^3.1.1",
@@ -48,8 +49,11 @@
     "jest-watch-typeahead": "^1.0.0",
     "material-ui-color-picker": "^3.5.1",
     "material-ui-dropzone": "^3.5.0",
+    "matter-js": "^0.18.0",
     "mini-css-extract-plugin": "^2.4.5",
     "moment": "^2.29.3",
+    "phaser": "^3.55.2",
+    "poly-decomp": "^0.3.0",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^6.2.1",
@@ -76,6 +80,7 @@
     "tailwindcss": "^3.0.2",
     "terser-webpack-plugin": "^5.2.5",
     "three": "^0.141.0",
+    "three-csg-ts": "^3.1.11",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "^4.7.3",
     "web-vitals": "^2.1.4",
@@ -85,6 +90,7 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
+    "postinstall": "patch-package",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
@@ -164,6 +170,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "patch-package": "^6.4.7"
   }
 }
