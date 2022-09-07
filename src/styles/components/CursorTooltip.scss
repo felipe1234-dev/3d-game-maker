@@ -1,0 +1,12 @@
+@import "../colors";
+
+$tooltip-color: $primary-color;
+
+.CursorTooltip {
+    position: absolute;
+    z-index: 100;
+    background-color: $tooltip-color;
+    color: $text-color;
+    padding: 10px;
+    border-radius: 5px;
+}
