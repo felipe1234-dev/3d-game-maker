@@ -9,12 +9,10 @@ import {
     InterestsRounded as ShapeIcon,
     TextureRounded as TextureIcon
 } from "@mui/icons-material";
+import { Atom as AtomIcon } from "@styled-icons/fa-solid";
+
 import { t } from "@local/i18n";
-
-// Local components
 import { Pressable } from "@local/components";
-
-// Local contexts
 import { EditorContext } from "@local/contexts";
 
 function Bottom() {
@@ -129,6 +127,22 @@ function Bottom() {
                         disabled={editTextIsDisabled}
                     >
                         <TextureIcon />
+                    </IconButton>
+                </span>
+            </Tooltip>
+            <Tooltip title={t("Edit physics")} placement="left" arrow>
+                <span>
+                    <IconButton
+                        component={Link}
+                        aria-label={t("Edit physics")}
+                        to="physics/edit"
+                        state={{
+                            background: location,
+                            useLoader: false
+                        }}
+                        disabled={editTextIsDisabled}
+                    >
+                        <AtomIcon width={24} />
                     </IconButton>
                 </span>
             </Tooltip>
