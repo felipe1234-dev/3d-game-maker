@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { Game } from "..";
+import { Game } from "../..";
 
-class GameStage extends THREE.EventDispatcher {
+class StageCore extends THREE.EventDispatcher {
     public readonly id: number;
     public readonly uuid: string;
     public game?: Game.Core;
@@ -113,4 +113,4 @@ class GameStage extends THREE.EventDispatcher {
     }
 }
 
-export default GameStage;
+export default StageCore;

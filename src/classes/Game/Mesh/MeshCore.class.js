@@ -1,11 +1,16 @@
 import * as THREE from "three";
+import * as CANNON from "cannon-es";
+import { threeToCannon } from "three-to-cannon";
 
-class GameMesh extends THREE.Mesh {
+class MeshCore extends THREE.Mesh {
     /**
      * @param {THREE.BufferGeometry=} geometry 
      * @param {THREE.Material=} material 
+     * @param {{
+     *     hitboxSize?: number;
+     * }=} physics
      */
-    constructor(geometry, material) {
+    constructor(geometry, material, physics = {}) {
         super(geometry, material);
 
         if (geometry) {
@@ -38,7 +43,40 @@ class GameMesh extends THREE.Mesh {
                 }
             });
         }
+
+        const {
+            hitboxSize = 1.3
+        } = physics;
+        
+        const result = threeToCannon(this) || {};
+        const { shape } = result;
+        
+        const { x, y, z } = this.position;
+        /**
+         * @type {CANNON.Body}
+         * @public
+         */
+        this.body = new CANNON.Body({
+            position: new CANNON.Vec3(x, y, z),
+            shape
+        });
+        
+        /* const scope = this;
+        this.position = new Proxy(this.position, {
+            set: function(position, axis, value) {
+                position[axis] = Number(value);
+                
+                scope.body.position.copy(position);
+                scope.body.quaternion.copy(position);
+
+                return true;
+            }
+        }); */
+
+        console.log(this.body);
     }
+
+
 }
 
-export default GameMesh;
+export default MeshCore;

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Game } from "..";
 
-class GameCore {
+class GameCore extends THREE.EventDispatcher {
     public name: string;
     public description: string;
 
@@ -20,6 +20,8 @@ class GameCore {
         scenes?: Game.Scene[];
         stages?: Game.Stage[];
     }) {
+        super();
+        
         const {
             name,
             description,

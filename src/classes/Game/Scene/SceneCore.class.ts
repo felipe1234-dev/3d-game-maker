@@ -1,25 +1,26 @@
 import * as THREE from "three";
-import { Game } from "..";
+import ScenePhysics from "./ScenePhysics.class";
+import { Game } from "../..";
 
-class GameScene extends THREE.Scene {
+class SceneCore extends THREE.Scene {
     static DEFAULT_BACKGROUND: THREE.Color = new THREE.Color("#444");
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
 
     public game?: Game.Core;
     public stage?: Game.Stage;
-    public physics: Game.Physics;
+    public physics: ScenePhysics;
 
     constructor(name: string, game?: Game.Core) {
         super();
         this.name = name;
         this.game = game;
 
-        this.background = GameScene.DEFAULT_BACKGROUND;
-        this.environment = GameScene.DEFAULT_ENVIRONMENT;
-        this.fog = GameScene.DEFAULT_FOG;
+        this.background = SceneCore.DEFAULT_BACKGROUND;
+        this.environment = SceneCore.DEFAULT_ENVIRONMENT;
+        this.fog = SceneCore.DEFAULT_FOG;
 
-        this.physics = new Game.Physics();
+        this.physics = new ScenePhysics();
     }
 
     public select(): void {
@@ -56,7 +57,7 @@ class GameScene extends THREE.Scene {
 
         for (const object of objects) {
             if (object instanceof Game.Mesh) {
-                //object;
+                this.physics.addBody(object.body);
             }
         }
 
@@ -71,6 +72,12 @@ class GameScene extends THREE.Scene {
     public override remove(...objects: THREE.Object3D[]): this {
         super.remove(...objects);
         
+        for (const object of objects) {
+            if (object instanceof Game.Mesh) {
+                this.physics.removeBody(object.body);
+            }
+        }
+
         this.dispatchEvent({ 
             type: "remove-objects", 
             objects: [ ...objects ] 
@@ -80,4 +87,4 @@ class GameScene extends THREE.Scene {
     }
 }
 
-export default GameScene;
+export default SceneCore;
