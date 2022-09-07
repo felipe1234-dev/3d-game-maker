@@ -1,5 +1,6 @@
 export default [
     "none",
-    "linear",
-    "exponential"
+    "default",
+    "exponential",
+    "linear"
 ];
