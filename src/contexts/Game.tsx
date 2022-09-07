@@ -3,17 +3,19 @@ import { useLocation } from "react-router-dom";
 
 import * as THREE from "three";
 import { Game } from "@local/classes";
+import { t } from "@local/i18n";
 
 const GameContext = createContext<Game.Core | undefined>(undefined);
 
 function GameProvider(props: { children: React.ReactNode }) {
     const [game, setGame] = useState<Game.Core>();
+    let { state } = useLocation();
+    state = state || {};
+    const { inputGame } = state as any;
 
     useEffect(() => {
-        const gameJSON = sessionStorage.getItem("Current Game");
-
-        if (gameJSON) {
-
+        if (inputGame instanceof Game.Core) {
+            
         } else {            
             const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
             
@@ -32,11 +34,12 @@ function GameProvider(props: { children: React.ReactNode }) {
             stage2.addScene(scene2);
 
             const obj = new Game.Core({
-                name: "Default game",
-                description: "This is a generated game",
+                name: t("Default game"),
+                description: t("This is a generated game"),
                 scenes: [scene1, scene2],
                 stages: [stage1, stage2]
             });
+
             setGame(obj);
         }
     }, []);
