@@ -12,12 +12,12 @@ function Body() {
     const [sceneName, setSceneName] = useState<string>("");
 
     useEffect(() => {
-        if (!game) return;
+        if (!game || !game.currentScene) return;
         setSceneName(game.currentScene.name);
     }, [game, game?.currentScene]);
 
     useEffect(() => {
-        if (!game) return;
+        if (!game || !game.currentScene) return;
         game.currentScene.name = sceneName;
     }, [sceneName]);
 

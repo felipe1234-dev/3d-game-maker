@@ -42,7 +42,11 @@ class EditorTransform extends ThreeControls.TransformControls {
     }
 
     public get intersects(): Array<THREE.Intersection> {
-        const { currentScene } = this.editor.game;
+        const { scene: currentScene } = this.editor.game.current;
+        if (!currentScene) {
+            return [];
+        }
+
         this.raycaster.setFromCamera(this.mouse, this.camera);
         
         const objects = currentScene.children.filter((object) => (
@@ -136,8 +140,11 @@ class EditorTransform extends ThreeControls.TransformControls {
     }
 
     protected onMouseDown = (): void => {
-        const currentScene = this.editor.game.currentScene;
-        
+        const { scene: currentScene } = this.editor.game.current;
+        if (!currentScene) {
+            return;
+        }
+
         if (
             !this.intersected && 
             this.object && 
@@ -178,7 +185,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     public setMode = (mode: "translate" | "scale" | "rotate"): void => {
         this.mode = mode;
         
-        this.dispatchEvent({ type: "set-mode" });
+        this.dispatchEvent({ type: "set-mode", mode });
     }
     
     public delete = (): void => {
@@ -188,7 +195,10 @@ class EditorTransform extends ThreeControls.TransformControls {
         
         const { game } = this.editor;
         const { currentScene } = game;
-        
+        if (!currentScene) {
+            return;
+        }
+
         currentScene.remove(this.object);
         this.detach();
 
@@ -204,7 +214,10 @@ class EditorTransform extends ThreeControls.TransformControls {
     }
 
     public select = (object: THREE.Object3D): void => {
-        const { currentScene } = this.editor.game;
+        const { scene: currentScene } = this.editor.game.current;
+        if (!currentScene) {
+            return;
+        }
 
         if (
             !this.intersected && 

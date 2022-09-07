@@ -79,6 +79,10 @@ class EditorCore {
     }
 
     public addGrids(): void {
+        if (!this.game.current.scene) {
+            return;
+        }
+
         const group = new THREE.Group();
     
         this.grids.children.forEach((grid, i) => {
@@ -93,18 +97,22 @@ class EditorCore {
             this.grids.children[i].ref = childGrid;
         });
 
-        this.game.currentScene.add(group);
+        this.game.current.scene.add(group);
         this.grids.group = group;
         this.showGrids = this.showGrids;
     }
 
     public removeGrids(): void {
+        if (!this.game.current.scene) {
+            return;
+        }
+        
         const group = this.grids.group;
         if (!group) {
             return;
         }
 
-        this.game.currentScene.remove(group);
+        this.game.current.scene.remove(group);
     }
 
     get showGrids(): boolean {
@@ -126,12 +134,16 @@ class EditorCore {
     }
 
     set gridSize(value) {
+        if (!this.game.current.scene) {
+            return;
+        }
+
         const group = this.grids.group;
         if (!group) {
             return;
         }
 
-        this.game.currentScene.remove(group);
+        this.game.current.scene.remove(group);
 
         this.grids.children[0].size = value;
         this.grids.children[0].divisions = value;

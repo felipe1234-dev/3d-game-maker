@@ -47,7 +47,7 @@ function Center() {
         }
 
         setSceneObjects([ 
-            ...game.currentScene.children.filter(child => (
+            ...(game.currentScene?.children || []).filter(child => (
                 !(child instanceof ThreeControls.TransformControls) &&
                 child !== editor.grids.group && 
                 !/helper/ig.test(child.constructor.name)
@@ -105,7 +105,7 @@ function Center() {
         const drop = (evt: React.DragEvent) => {
             evt.preventDefault();
             
-            if (!game) {
+            if (!game || !game.currentScene) {
                 return;
             }
 
@@ -176,6 +176,10 @@ function Center() {
         }
         
         const { currentScene } = game;
+        if (!currentScene) {
+            return;
+        }
+
         const events = ["add-objects", "remove-objects"];
 
         events.forEach(type => {

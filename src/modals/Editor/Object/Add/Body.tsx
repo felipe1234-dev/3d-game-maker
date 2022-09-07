@@ -45,7 +45,7 @@ function Body() {
         const light = new item.Constructor();
         light.name = light.type;
         
-        game?.currentScene.add(light);
+        game?.currentScene?.add(light);
     }
 
     const addShape = (item: typeof shapeList[number]) => {
@@ -68,6 +68,9 @@ function Body() {
         }
 
         const { currentScene } = game;
+        if (!currentScene) {
+            return;
+        }
 
         if (selectedObject) {
             setModalProps(prevState => ({
@@ -78,7 +81,7 @@ function Body() {
                 footer: (
                     <>
                         <Button onClick={() => {
-                            game?.currentScene.add(object);
+                            game?.currentScene?.add(object);
                             setOpenModal(false);
                         }}>
                             {t("No")}
@@ -92,7 +95,7 @@ function Body() {
                             group.add(object);
                             group.add(selectedObject);
 
-                            game.currentScene.add(group);
+                            game.currentScene?.add(group);
 
                             setOpenModal(false);
                         }}>
@@ -111,7 +114,7 @@ function Body() {
         const miscObject = new item.Constructor();
         miscObject.name = miscObject.type;
 
-        game?.currentScene.add(miscObject);
+        game?.currentScene?.add(miscObject);
     }
 
     return (

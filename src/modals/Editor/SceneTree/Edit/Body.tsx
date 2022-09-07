@@ -79,7 +79,7 @@ function Body() {
                             </ListItemButton>
                             <Collapse in={open} timeout="auto" unmountOnExit>
                                 {stage.scenes.map(scene => {
-                                    const selected = scene.uuid === game?.currentScene.uuid;
+                                    const selected = scene.uuid === game?.currentScene?.uuid;
                                     
                                     return (
                                         <ListItemButton 

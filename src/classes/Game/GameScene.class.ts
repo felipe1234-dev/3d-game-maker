@@ -6,11 +6,11 @@ class GameScene extends THREE.Scene {
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
 
-    public game: Game.Core;
+    public game?: Game.Core;
     public stage?: Game.Stage;
     public physics: Game.Physics;
 
-    constructor(name: string, game: Game.Core) {
+    constructor(name: string, game?: Game.Core) {
         super();
         this.name = name;
         this.game = game;
@@ -23,11 +23,20 @@ class GameScene extends THREE.Scene {
     }
 
     public select(): void {
-        if (this.game.currentScene.uuid === this.uuid) {
+        if (!this.game) {
+            return;
+        }
+        
+        const { currentScene } = this.game;
+        if (!currentScene) {
             return;
         }
 
-        this.game.currentScene = this;
+        if (currentScene.uuid === this.uuid) {
+            return;
+        }
+
+        this.game.current.scene = this;
 
         this.dispatchEvent({ type: "select-scene" });
     }
@@ -44,6 +53,12 @@ class GameScene extends THREE.Scene {
 
     public override add(...objects: THREE.Object3D[]): this {
         super.add(...objects);
+
+        for (const object of objects) {
+            if (object instanceof Game.Mesh) {
+                //object;
+            }
+        }
 
         this.dispatchEvent({ 
             type: "add-objects",

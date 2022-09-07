@@ -53,9 +53,11 @@ class EditorRenderer extends THREE.WebGLRenderer {
     
     public startAnimation(callback: Function): void {
         const animate = () => {
+
+
             const { game, camera } = this.editor;
-            const { currentScene } = game;
-            
+            const { scene: currentScene } = game.current;
+
             if (currentScene) {
                 callback();
                 

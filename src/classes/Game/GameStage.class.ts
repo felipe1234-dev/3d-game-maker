@@ -4,12 +4,12 @@ import { Game } from "..";
 class GameStage extends THREE.EventDispatcher {
     public readonly id: number;
     public readonly uuid: string;
-    public game: Game.Core;
+    public game?: Game.Core;
 
     public name: string;
     public scenes: Game.Scene[];
 
-    constructor(name: string, game: Game.Core) {
+    constructor(name: string, game?: Game.Core) {
         super();
 
         this.id = new Date().valueOf();
@@ -22,7 +22,7 @@ class GameStage extends THREE.EventDispatcher {
 
     public addScene(scene: Game.Scene): void {
         const alreadyExists = 
-            this.game.scenes.map(s => s.uuid).includes(scene.uuid) ||
+            this.game?.scenes.map(s => s.uuid).includes(scene.uuid) ||
             this.scenes.map(s => s.uuid).includes(scene.uuid);
 
         if (alreadyExists) {
@@ -30,7 +30,7 @@ class GameStage extends THREE.EventDispatcher {
         }
 
         scene.stage = this;
-        this.game.scenes.push(scene);
+        this.game?.scenes.push(scene);
         this.scenes.push(scene);
 
         this.dispatchEvent({ type: "add-scene", scene });
@@ -44,7 +44,8 @@ class GameStage extends THREE.EventDispatcher {
             scene = sceneOrUuidOrId;
 
             this.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
-            this.game.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
+            if (this.game) 
+                this.game.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
         }
 
         if (typeof sceneOrUuidOrId === "string") {
@@ -52,7 +53,8 @@ class GameStage extends THREE.EventDispatcher {
             scene = this.scenes.find(scene => scene.uuid === sceneUUID);
 
             this.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
-            this.game.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
+            if (this.game) 
+                this.game.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
         }
 
         if (typeof sceneOrUuidOrId === "number") {
@@ -60,7 +62,8 @@ class GameStage extends THREE.EventDispatcher {
             scene = this.scenes.find(scene => scene.id === sceneID);
 
             this.scenes = this.scenes.filter(scene => scene.id !== sceneID);
-            this.game.scenes = this.scenes.filter(scene => scene.id !== sceneID);
+            if (this.game)
+                this.game.scenes = this.scenes.filter(scene => scene.id !== sceneID);
         }
 
         this.dispatchEvent({ type: "remove-scene", scene });
@@ -87,25 +90,25 @@ class GameStage extends THREE.EventDispatcher {
                 return;
             }
 
-            sceneClone = this.game.scenes.find(scene => scene.uuid === sceneUUID)?.clone(true);
+            sceneClone = this.game?.scenes.find(scene => scene.uuid === sceneUUID)?.clone(true);
         }
 
         if (typeof sceneOrUuidOrId === "number") {
             const sceneID = sceneOrUuidOrId;
-            const sceneUUID = this.game.scenes.find(scene => scene.id === sceneID)?.uuid;
+            const sceneUUID = this.game?.scenes.find(scene => scene.id === sceneID)?.uuid;
 
             if (thisStageScenes.includes(sceneUUID ?? "")) {
                 return;
             }
 
-            sceneClone = this.game.scenes.find(scene => scene.id === sceneID)?.clone(true);
+            sceneClone = this.game?.scenes.find(scene => scene.id === sceneID)?.clone(true);
         }
 
         if (!sceneClone) {
             return;
         }
 
-        this.game.stages.forEach(stage => stage.removeScene(sceneOrUuidOrId));
+        this.game?.stages.forEach(stage => stage.removeScene(sceneOrUuidOrId));
         this.addScene(sceneClone);
     }
 }

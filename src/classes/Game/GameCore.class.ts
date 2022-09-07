@@ -8,8 +8,10 @@ class GameCore {
     public stages: Game.Stage[];
     public scenes: Game.Scene[];
 
-    public currentScene: Game.Scene;
-    public currentStage: Game.Stage;
+    public current: {
+        scene?: Game.Scene;
+        stage?: Game.Stage;
+    };
 
     constructor(props: {
         name: string;
@@ -17,8 +19,6 @@ class GameCore {
 
         scenes?: Game.Scene[];
         stages?: Game.Stage[];
-
-        useDefaultGame?: boolean;
     }) {
         const {
             name,
@@ -30,36 +30,29 @@ class GameCore {
         this.name = name;
         this.description = description;
 
-        const stage1 = new Game.Stage("Stage 1", this);
-        const scene1 = new Game.Scene("Scene 1", this);
+        this.current = {
+            scene: scenes ? scenes[0] : undefined,
+            stage: scenes ? scenes[0].stage : undefined
+        };
 
-        const stage2 = new Game.Stage("Stage 2", this);
-        const scene2 = new Game.Scene("Scene 2", this);
+        this.stages = stages || [];
+        this.scenes = scenes || [];
 
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        for (const stage of this.stages) {
+            stage.game = this;
+        }
 
-        const box = new THREE.BoxGeometry(1, 1, 1);
-        const cube = new Game.Mesh(box, material);
+        for (const scene of this.scenes) {
+            scene.game = this;
+        }
+    }
 
-        const ball =  new THREE.SphereGeometry(1, 50, 50);
-        const sphere = new Game.Mesh(ball, material);
+    public get currentScene(): Game.Scene | undefined {
+        return this.current.scene;
+    }
 
-        scene1.add(cube);
-        scene2.add(sphere);
-        
-        scene1.stage = stage1;
-        scene2.stage = stage2;
-
-        stage1.scenes = [scene1];
-        stage2.scenes = [scene2];
-
-        this.stages = stages || [ stage1, stage2 ];
-        this.scenes = scenes || [ scene1, scene2 ];
-
-        this.currentScene = this.scenes[0] || scene1;
-        this.currentStage = this.scenes[0]?.stage || stage1;
-
-
+    public get currentStage(): Game.Stage | undefined {
+        return this.current.stage;
     }
 }
 

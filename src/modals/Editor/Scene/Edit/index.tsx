@@ -6,8 +6,8 @@ import Body from "./Body";
 
 function EditSceneModal() {
     const game = useContext(GameContext);
-    const sceneName = game?.currentScene.name || "";
-    const sceneUuid = game?.currentScene.uuid || "";
+    const sceneName = game?.currentScene?.name || "";
+    const sceneUuid = game?.currentScene?.uuid || "";
 
     return (
         <Modal
