@@ -55,6 +55,7 @@ const pt_BR = {
     "Scene tree": "Árvore de cenários",
     "Scene": "Cenário",
     "Edit scene": "Editar cenário",
+    "Edit physics": "Editar física",
 
     "Stage": "Fase",
 
