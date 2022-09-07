@@ -7,6 +7,9 @@ export type { ColorInputProps } from "./ColorInput";
 export { default as Composer } from "./Composer";
 export type { ComposerProps } from "./Composer";
 
+export { default as CursorTooltip } from "./CursorTooltip";
+export type { CursorTooltipProps } from "./CursorTooltip";
+
 export { default as GraphicsEditor } from "./GraphicsEditor";
 
 export { default as Helper } from "./Helper";
