@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Game } from "..";
 
-class GameStage {
+class GameStage extends THREE.EventDispatcher {
     public readonly id: number;
     public readonly uuid: string;
     public game: Game.Core;
@@ -10,6 +10,8 @@ class GameStage {
     public scenes: Game.Scene[];
 
     constructor(name: string, game: Game.Core) {
+        super();
+
         this.id = new Date().valueOf();
         this.uuid = THREE.MathUtils.generateUUID();
         this.game = game;
@@ -30,11 +32,16 @@ class GameStage {
         scene.stage = this;
         this.game.scenes.push(scene);
         this.scenes.push(scene);
+
+        this.dispatchEvent({ type: "add-scene", scene });
     }
 
     public removeScene(sceneOrUuidOrId: Game.Scene | string | number): void {
+        let scene: Game.Scene | undefined;
+
         if (sceneOrUuidOrId instanceof Game.Scene) {
             const sceneUUID = sceneOrUuidOrId.uuid;
+            scene = sceneOrUuidOrId;
 
             this.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
             this.game.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
@@ -42,6 +49,7 @@ class GameStage {
 
         if (typeof sceneOrUuidOrId === "string") {
             const sceneUUID = sceneOrUuidOrId;
+            scene = this.scenes.find(scene => scene.uuid === sceneUUID);
 
             this.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
             this.game.scenes = this.scenes.filter(scene => scene.uuid !== sceneUUID);
@@ -49,10 +57,13 @@ class GameStage {
 
         if (typeof sceneOrUuidOrId === "number") {
             const sceneID = sceneOrUuidOrId;
+            scene = this.scenes.find(scene => scene.id === sceneID);
 
             this.scenes = this.scenes.filter(scene => scene.id !== sceneID);
             this.game.scenes = this.scenes.filter(scene => scene.id !== sceneID);
         }
+
+        this.dispatchEvent({ type: "remove-scene", scene });
     }
 
     public transferScene(sceneOrUuidOrId: Game.Scene | string | number): void {
