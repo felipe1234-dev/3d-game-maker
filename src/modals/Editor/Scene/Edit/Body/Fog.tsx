@@ -12,9 +12,9 @@ import fogTypes from "@local/consts/editor/types/fog";
 function Fog() {
     const game = useContext(GameContext);
     
-    const [type, setType] = useState<string>();
+    const [type, setType] = useState<string>("default");
     // Misc
-    const [color, setColor] = useState<string>();
+    const [color, setColor] = useState<string>("#000");
     // Linear
     const [near, setNear] = useState<number>(1); 
     const [far, setFar] = useState<number>(10);
@@ -27,13 +27,16 @@ function Fog() {
         }
 
         const { currentScene } = game;
-
         if (!currentScene) {
             return;
         }
 
         if (!currentScene.fog) {
-            setType("none");
+            if (currentScene.fog === Game.Scene.DEFAULT_FOG) {
+                setType("default");
+            } else {
+                setType("none");
+            }
         } else {
             setColor("#" + currentScene.fog.color.getHexString());
 
@@ -56,12 +59,14 @@ function Fog() {
         }
 
         const { currentScene } = game;
-
         if (!currentScene) {
             return;
         }
 
         switch (type) {
+            case "none":
+                currentScene.fog = null;
+                break;
             case "linear":
                 if (!color) return;
 
@@ -70,8 +75,9 @@ function Fog() {
             case "exponential":
                 if (!color) return;
 
-                currentScene.fog = new THREE.Fog(color, near, far);
+                currentScene.fog = new THREE.FogExp2(color, density);
                 break;
+            case "default":
             default: 
                 currentScene.fog = Game.Scene.DEFAULT_FOG;
                 break;
@@ -84,7 +90,7 @@ function Fog() {
                 select
                 label={t("Fog")}
                 onChange={evt => setType(evt.target.value)}
-                value={type ?? "none"}
+                value={type}
             >
                 {fogTypes.map((value, i) => (
                     <MenuItem key={i} value={value}>
@@ -93,11 +99,11 @@ function Fog() {
                 ))}
             </TextField>
 
-            {(type && ["linear", "exponential"].includes(type)) && (
+            {["linear", "exponential"].includes(type) && (
                 <ColorInput
                     variant="outlined"
                     onChange={color => setColor(color)}
-                    value={color ?? "#000"}
+                    value={color}
                 />
             )}
 
@@ -122,8 +128,11 @@ function Fog() {
                 <TextField
                     label={t("Density")}
                     type="number"
-                    onChange={evt => setNear(Number(evt.target.value))}
-                    value={near}
+                    onChange={evt => setDensity(Number(evt.target.value))}
+                    value={density}
+                    inputProps={{
+                        step: 0.01
+                    }}
                 />
             )}
         </div>
