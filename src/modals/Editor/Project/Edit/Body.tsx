@@ -47,6 +47,9 @@ function Body() {
                     setDescription(evt.target.value);
                 }}
                 value={description}
+                
+                multiline
+                minRows={4}
             />
         </>
     );
