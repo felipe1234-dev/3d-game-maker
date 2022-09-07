@@ -1,6 +1,10 @@
 import * as THREE from "three";
 
 class GameMesh extends THREE.Mesh {
+    /**
+     * @param {THREE.BufferGeometry=} geometry 
+     * @param {THREE.Material=} material 
+     */
     constructor(geometry, material) {
         super(geometry, material);
 
