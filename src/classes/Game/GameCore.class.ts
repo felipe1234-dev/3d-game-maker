@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Game } from "..";
 
-class Core {
+class GameCore {
     public name: string;
     public description: string;
 
@@ -14,8 +14,11 @@ class Core {
     constructor(props: {
         name: string;
         description: string;
+
         scenes?: Game.Scene[];
         stages?: Game.Stage[];
+
+        useDefaultGame?: boolean;
     }) {
         const {
             name,
@@ -32,12 +35,6 @@ class Core {
 
         const stage2 = new Game.Stage("Stage 2", this);
         const scene2 = new Game.Scene("Scene 2", this);
-
-        [scene1, scene2].forEach(scene => {
-            scene.background = Game.Scene.DEFAULT_BACKGROUND;
-            scene.environment = Game.Scene.DEFAULT_ENVIRONMENT;
-            scene.fog = Game.Scene.DEFAULT_FOG;
-        });
 
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
@@ -61,7 +58,9 @@ class Core {
 
         this.currentScene = this.scenes[0] || scene1;
         this.currentStage = this.scenes[0]?.stage || stage1;
+
+
     }
 }
 
-export default Core;
+export default GameCore;
