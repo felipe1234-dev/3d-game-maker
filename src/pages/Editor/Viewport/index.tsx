@@ -1,16 +1,24 @@
-import React from "react";
+import { 
+    useContext, 
+    useEffect, 
+    useRef, 
+    useState 
+} from "react";
 import { Box } from "@mui/material";
 
 import { EditorContext } from "@local/contexts";
+import { CursorTooltip } from "@local/components";
+import { t } from "@local/i18n";
 
 function Viewport() {
-    const viewportElement = React.useRef<HTMLElement>();
-    const editor = React.useContext(EditorContext);
+    const viewportElement = useRef<HTMLElement>();
+    const editor = useContext(EditorContext);
+    const [hideTooltip, setHideTooltip] = useState(true);
     
-    React.useEffect(() => {
+    useEffect(() => {
         const container = viewportElement.current;
         
-        if (container && container.innerHTML.length === 0 && editor) {
+        if (container && container.innerHTML.length === 0 && editor) {    
             const x = 0;
             const y = 10;
             const z = 10;
@@ -18,6 +26,10 @@ function Viewport() {
             editor.orbitControls.update();
             
             editor.renderer.container = container;
+            editor.renderer.canvas?.addEventListener("pointermove", () => {
+                const intersections = editor.transformControls.intersects;
+                setHideTooltip(intersections.length < 1);
+            });
             editor.renderer.startAnimation(() => {
                 
             });
@@ -26,8 +38,25 @@ function Viewport() {
         }
     }, [viewportElement, editor]);
     
+    const intersections = editor?.transformControls.intersects || [];
+    const { object } = intersections[0] || {};
+
     return (
-        <Box ref={viewportElement} component="section" className="Editor-viewport" />
+        <CursorTooltip
+            title={object?.name || t("No name")} 
+            hide={hideTooltip} 
+            offsetX={30}
+            offsetY={-10}
+        >
+            {props => (
+                <Box    
+                    ref={viewportElement} 
+                    component="section" 
+                    className="Editor-viewport"
+                    {...props}
+                />
+            )}
+        </CursorTooltip>
     );
 }
 
