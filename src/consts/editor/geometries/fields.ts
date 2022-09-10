@@ -12,109 +12,127 @@ export default [
         Component: SingleNumberField,
         attributes: [ "parameters.width" ],
         labels: [ "Width" ],
-        helpText: ""
+        helpText: "",
+        min: 0.00
     },
     {
         key: "parameters.height",
         Component: SingleNumberField,
         attributes: [ "parameters.height" ],
-        labels: [ "Height" ]
+        labels: [ "Height" ],
+        min: 0.00
     },
     {
         key: "parameters.depth",
         Component: SingleNumberField,
         attributes: [ "parameters.depth" ],
-        labels: [ "Depth" ]
+        labels: [ "Depth" ],
+        min: 0.00
     },
     {
         key: "parameters.detail",
         Component: SingleNumberField,
         attributes: [ "parameters.detail" ],
-        labels: [ "Details" ]
+        labels: [ "Details" ],
+        min: 0.00
     },
     {
         key: "parameters.segments",
         Component: SingleNumberField,
         attributes: [ "parameters.segments" ],
         labels: [ "Segments" ],
+        min: 0.00
     },
     {
         key: "parameters.widthSegments",
         Component: SingleNumberField,
         attributes: [ "parameters.widthSegments" ],
-        labels: [ "Width segments" ]
+        labels: [ "Width segments" ],
+        min: 0.00
     },
     {
         key: "parameters.heightSegments",
         Component: SingleNumberField,
         attributes: [ "parameters.heightSegments" ],
-        labels: [ "Height segments" ]
+        labels: [ "Height segments" ],
+        min: 0.00
     },
     {
         key: "parameters.depthSegments",
         Component: SingleNumberField,
         attributes: [ "parameters.depthSegments" ],
-        labels: [ "Depth segments" ]
+        labels: [ "Depth segments" ],
+        min: 0.00
     },
     {
         key: "parameters.radialSegments",
         Component: SingleNumberField,
         attributes: [ "parameters.radialSegments" ],
-        labels: [ "Radial segments" ]
+        labels: [ "Radial segments" ],
+        min: 0.00
     },
     {
         key: "parameters.thetaSegments",
         Component: SingleNumberField,
         attributes: [ "parameters.thetaSegments" ],
-        labels: [ "Theta segments (Θ)" ]
+        labels: [ "Theta segments (Θ)" ],
+        min: 0.00
     },
     {
         key: "parameters.phiSegments",
         Component: SingleNumberField,
         attributes: [ "parameters.phiSegments" ],
-        labels: [ "Phi segments (ϕ)" ]
+        labels: [ "Phi segments (ϕ)" ],
+        min: 0.00
     },
     {
         key: "parameters.tubularSegments",
         Component: SingleNumberField,
         attributes: [ "parameters.tubularSegments" ],
-        labels: [ "Tubular segments" ]
+        labels: [ "Tubular segments" ],
+        min: 0.00
     },
     {
         key: "parameters.radius",
         Component: SingleNumberField,
         attributes: [ "parameters.radius" ],
         labels: [ "Radius" ],
+        min: 0.00
     },
     {
         key: "parameters.radiusTop",
         Component: SingleNumberField,
         attributes: [ "parameters.radiusTop" ],
-        labels: [ "Top radius" ]
+        labels: [ "Top radius" ],
+        min: 0.00
     },
     {
         key: "parameters.radiusBottom",
         Component: SingleNumberField,
         attributes: [ "parameters.radiusBottom" ],
-        labels: [ "Bottom radius" ]
+        labels: [ "Bottom radius" ],
+        min: 0.00
     },
     {
         key: "parameters.innerRadius",
         Component: SingleNumberField,
         attributes: [ "parameters.innerRadius" ],
-        labels: [ "Inner radius" ]
+        labels: [ "Inner radius" ],
+        min: 0.00
     },
     {
         key: "parameters.outerRadius",
         Component: SingleNumberField,
         attributes: [ "parameters.outerRadius" ],
-        labels: [ "Outer radius" ]
+        labels: [ "Outer radius" ],
+        min: 0.00
     },
     {
         key: "parameters.tube",
         Component: SingleNumberField,
         attributes: [ "parameters.tube" ],
-        labels: [ "Tube radius" ]
+        labels: [ "Tube radius" ],
+        min: 0.00
     },
     {
         key: "parameters.thetaStart",
@@ -126,7 +144,8 @@ export default [
         key: "parameters.thetaLength",
         Component: SingleNumberField,
         attributes: [ "parameters.thetaLength" ],
-        labels: [ "Theta length (Θ)" ]
+        labels: [ "Theta length (Θ)" ],
+        min: 0.00
     },
     {
         key: "parameters.phiStart",
@@ -156,12 +175,14 @@ export default [
         key: "parameters.p",
         Component: SingleNumberField,
         attributes: [ "parameters.p" ],
-        labels: [ "Nodes" ]
+        labels: [ "Nodes" ],
+        min: 0.00
     },
     {
         key: "parameters.q",
         Component: SingleNumberField,
         attributes: [ "parameters.q" ],
         labels: [ "Folds" ],
+        min: 0.00
     }
 ];

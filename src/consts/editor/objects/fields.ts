@@ -72,7 +72,8 @@ export default [
             "Y",
             "Z"
         ],
-        step: 0.1
+        step: 0.1,
+        min: 0.0
     },
     {
         key: "intensity",
