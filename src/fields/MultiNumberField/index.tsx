@@ -11,7 +11,12 @@ import { t } from "@local/i18n";
 import "@local/styles/fields/MultiNumberField.scss";
 
 function MultiNumberField(props: FieldProps) {
-    const { labels, attributes, scope, step } = props;
+    const { 
+        labels, 
+        attributes, 
+        scope,
+        ...rest
+    } = props;
 
     const editor = useContext(EditorContext);
     const object = editor ? getProperty<Object | undefined>(scope, editor.transformControls) : null;
@@ -32,7 +37,7 @@ function MultiNumberField(props: FieldProps) {
                             labels={[ t(labels[i + 1]) ]}
                             attributes={[ attrPath ]}
                             scope={scope}
-                            step={step}                            
+                            {...rest}                   
                         />
                     ))
                 )}
