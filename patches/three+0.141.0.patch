@@ -1,0 +1,70 @@
+diff --git a/node_modules/three/build/three.module.js b/node_modules/three/build/three.module.js
+index c3f16a4..54480ad 100644
+--- a/node_modules/three/build/three.module.js
++++ b/node_modules/three/build/three.module.js
+@@ -7623,22 +7623,26 @@ class Object3D extends EventDispatcher {
+ 			position: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: position
++				value: position,
++				writable: true
+ 			},
+ 			rotation: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: rotation
++				value: rotation,
++				writable: true
+ 			},
+ 			quaternion: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: quaternion
++				value: quaternion,
++				writable: true
+ 			},
+ 			scale: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: scale
++				value: scale,
++				writable: true
+ 			},
+ 			modelViewMatrix: {
+ 				value: new Matrix4()
+diff --git a/node_modules/three/src/core/Object3D.js b/node_modules/three/src/core/Object3D.js
+index ea06b54..4119333 100644
+--- a/node_modules/three/src/core/Object3D.js
++++ b/node_modules/three/src/core/Object3D.js
+@@ -69,22 +69,26 @@ class Object3D extends EventDispatcher {
+ 			position: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: position
++				value: position,
++				writable: true
+ 			},
+ 			rotation: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: rotation
++				value: rotation,
++				writable: true
+ 			},
+ 			quaternion: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: quaternion
++				value: quaternion,
++				writable: true
+ 			},
+ 			scale: {
+ 				configurable: true,
+ 				enumerable: true,
+-				value: scale
++				value: scale,
++				writable: true
+ 			},
+ 			modelViewMatrix: {
+ 				value: new Matrix4()

@@ -1,0 +1,34 @@
+diff --git a/node_modules/@types/three/src/core/Object3D.d.ts b/node_modules/@types/three/src/core/Object3D.d.ts
+index e2461fb..1c576ad 100644
+--- a/node_modules/@types/three/src/core/Object3D.d.ts
++++ b/node_modules/@types/three/src/core/Object3D.d.ts
+@@ -60,25 +60,25 @@ export class Object3D<E extends BaseEvent = Event> extends EventDispatcher<E> {
+      * Object's local position.
+      * @default new THREE.Vector3()
+      */
+-    readonly position: Vector3;
++    position: Vector3;
+ 
+     /**
+      * Object's local rotation (Euler angles), in radians.
+      * @default new THREE.Euler()
+      */
+-    readonly rotation: Euler;
++    rotation: Euler;
+ 
+     /**
+      * Object's local rotation as a Quaternion.
+      * @default new THREE.Quaternion()
+      */
+-    readonly quaternion: Quaternion;
++    quaternion: Quaternion;
+ 
+     /**
+      * Object's local scale.
+      * @default new THREE.Vector3()
+      */
+-    readonly scale: Vector3;
++    scale: Vector3;
+ 
+     /**
+      * @default new THREE.Matrix4()
