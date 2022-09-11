@@ -8,12 +8,7 @@ class EditorCore {
     public camera: THREE.PerspectiveCamera;
     public orbitControls: Editor.Orbit;
     public transformControls: Editor.Transform;
-    
-    public helpers: {
-        list: THREE.Object3D[];
-        show: boolean;
-    }
-    
+
     public grids: {
         show: boolean;
         group: THREE.Group | null;
@@ -70,15 +65,31 @@ class EditorCore {
             ]
         };
 
-        this.addGrids();
+        this.createGrids();
 
-        this.helpers = {
-            show: true,
-            list: []
+        const updateGravityHelper = () => {
+
         };
+
+        this.game.addEventListener("changeScene", evt => {
+            const currentScene = evt.currentScene as Game.Scene;
+            const previousScene = evt.previousScene as Game.Scene;
+
+            if (!currentScene.physics.hasEventListener("editGravity", updateGravityHelper)) {
+                currentScene.physics.addEventListener("editGravity", updateGravityHelper);
+            }
+
+            const group = this.grids.group;
+            if (!group) {
+                return;
+            }
+
+            previousScene.remove(group);
+            currentScene.add(group);
+        });
     }
 
-    public addGrids(): void {
+    public createGrids(): void {
         if (!this.game.current.scene) {
             return;
         }
@@ -102,7 +113,7 @@ class EditorCore {
         this.showGrids = this.showGrids;
     }
 
-    public removeGrids(): void {
+    public destroyGrids(): void {
         if (!this.game.current.scene) {
             return;
         }
@@ -143,7 +154,7 @@ class EditorCore {
             return;
         }
 
-        this.game.current.scene.remove(group);
+        this.destroyGrids();
 
         this.grids.children[0].size = value;
         this.grids.children[0].divisions = value;
@@ -151,7 +162,7 @@ class EditorCore {
         this.grids.children[1].size = value;
         this.grids.children[1].divisions = value / 5;
 
-        this.addGrids();
+        this.createGrids();
     }
 }
 
