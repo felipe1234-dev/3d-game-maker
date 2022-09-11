@@ -3,10 +3,17 @@ import {
     CheckboxField,
     MultiNumberField,
     SingleNumberField,
+    PointsField
     // RangeField
 } from "@local/fields";
 
 export default [
+    {
+        key: "points",
+        Component: PointsField,
+        attributes: [],
+        labels: []
+    },
     {
         key: "parameters.width",
         Component: SingleNumberField,

@@ -2,6 +2,13 @@ import * as THREE from "three";
 
 export default [
     {
+        Constructor: THREE.BufferGeometry,
+        label: "Free shape",
+        attributes: [
+            "points"
+        ]
+    },
+    {
         Constructor: THREE.BoxGeometry,
         label: "Cube",
         attributes: [
