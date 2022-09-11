@@ -37,9 +37,15 @@ class SceneCore extends THREE.Scene {
             return;
         }
 
+        const previousScene = this.game.currentScene;
         this.game.current.scene = this;
 
-        this.dispatchEvent({ type: "select-scene" });
+        this.dispatchEvent({ type: "changeScene", previousScene });
+        this.game.dispatchEvent({ 
+            type: "changeScene", 
+            previousScene, 
+            currentScene: this 
+        });
     }
 
     public override clone(recursive: boolean = true): this {
