@@ -43,9 +43,7 @@ function Body() {
             return;
         }
 
-        editor.removeGrids();
         scene.select();
-        editor.addGrids();
 
         setExpanded("");
 
