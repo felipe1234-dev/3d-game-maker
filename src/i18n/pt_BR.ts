@@ -189,7 +189,9 @@ const pt_BR = {
     "Opacity": "Opacidade",
     "alphaTest": "Teste Alfa",
     "Vertex colors": "Cores dos Vértices",
-    "Flat shading": "Sem sombreamento"
+    "Flat shading": "Sem sombreamento",
+
+    "Free shape": "Formato livre"
 }
 
 export default pt_BR;
