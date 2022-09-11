@@ -51,7 +51,7 @@ function Bottom() {
         
         // TODO: Set zoom speed on change
         
-        const events = ["select", "unselect", "set-mode"];
+        const events = ["select", "unselect", "setMode"];
         
         events.forEach((type) => {
             if (!transform.hasEventListener(type, onEnableButtons)) {
