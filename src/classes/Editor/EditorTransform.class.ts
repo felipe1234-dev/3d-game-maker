@@ -185,7 +185,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     public setMode = (mode: "translate" | "scale" | "rotate"): void => {
         this.mode = mode;
         
-        this.dispatchEvent({ type: "set-mode", mode });
+        this.dispatchEvent({ type: "setMode", mode });
     }
     
     public delete = (): void => {
