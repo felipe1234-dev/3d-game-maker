@@ -68,7 +68,7 @@ class SceneCore extends THREE.Scene {
         }
 
         this.dispatchEvent({ 
-            type: "add-objects",
+            type: "addObjects",
             objects: [ ...objects ] 
         });
         
@@ -85,7 +85,7 @@ class SceneCore extends THREE.Scene {
         }
 
         this.dispatchEvent({ 
-            type: "remove-objects", 
+            type: "removeObjects", 
             objects: [ ...objects ] 
         });
 
