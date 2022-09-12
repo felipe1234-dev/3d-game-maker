@@ -16,6 +16,7 @@ import { ArrowIosBack } from "@styled-icons/evaicons-solid";
 
 import * as THREE from "three";
 import * as ThreeControls from "@local/three-controls";
+import { Editor } from "@local/classes";
 
 import { ResizableDrawer } from "@local/components";
 import { EditorContext, GameContext } from "@local/contexts";
@@ -49,7 +50,7 @@ function Center() {
         setSceneObjects([ 
             ...(game.currentScene?.children || []).filter(child => (
                 !(child instanceof ThreeControls.TransformControls) &&
-                child !== editor.grids.group && 
+                !(child instanceof Editor.Helpers.Grids) && 
                 !/helper/ig.test(child.constructor.name)
             )) 
         ]);

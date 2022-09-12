@@ -6,16 +6,15 @@ import { t } from "@local/i18n";
 
 function Top() {
     const editor = useContext(EditorContext);
-
-    const [showGrids, setShowGrids] = useState<boolean>(Boolean(editor?.showGrids));
+    const [showGrids, setShowGrids] = useState(editor?.gridsHelper.visible || false);
 
     const toggleGrids = () => {
         if (!editor) {
             return;
         } 
         
-        setShowGrids(!editor.showGrids);
-        editor.showGrids = !editor.showGrids;
+        setShowGrids(!editor.gridsHelper.visible);
+        editor.gridsHelper.visible = !editor.gridsHelper.visible;
     }
 
     const buttonSize = "1.3em";

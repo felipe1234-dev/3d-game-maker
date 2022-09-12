@@ -51,7 +51,7 @@ class EditorTransform extends ThreeControls.TransformControls {
         
         const objects = currentScene.children.filter((object) => (
             !(object instanceof ThreeControls.TransformControls) &&
-            object !== this.editor.grids.group
+            !(object instanceof Editor.Helpers.Grids)
         ));
         const gizmos = this.gizmos;
         
