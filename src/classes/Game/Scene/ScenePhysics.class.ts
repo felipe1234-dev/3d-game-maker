@@ -23,32 +23,16 @@ class ScenePhysics extends CANNON.World {
                 }
 
                 scope.dispatchEvent({
-                    type: "editGravity",
+                    type: "changeGravity",
                     previousGravity,
                     currentGravity
                 });
 
                 return true;
-            },
-
-            get: function(gravity, prop) {
-                if (prop === "set") {
-                    return new Proxy(gravity[prop], {
-                        apply: (setGravity, thisScope, args: [x: number, y: number, z: number]) => {
-                            scope.dispatchEvent({
-                                type: "editGravity",
-                                previousGravity: gravity,
-                                currentGravity: setGravity(...args)
-                            });
-
-                            return setGravity(...args);
-                        }
-                    });
-                } else {
-                    return gravity[prop as keyof typeof gravity];
-                }
             }
         });
+
+        if (!options?.gravity) this.gravity.set(0, -9.82, 0);
     }
 }
 
