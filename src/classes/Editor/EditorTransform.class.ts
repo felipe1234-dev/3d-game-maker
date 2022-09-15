@@ -8,6 +8,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     public readonly mouse: THREE.Vector2;
     public intersected?: THREE.Intersection;
     public helper?: THREE.BoxHelper;
+    public blacklist: THREE.Object3D[];
     
     constructor(
         camera: THREE.Camera,
@@ -21,6 +22,16 @@ class EditorTransform extends ThreeControls.TransformControls {
         
         this.canvas.addEventListener("pointermove", this.onMouseMove, false);
         this.canvas.addEventListener("pointerdown", this.onMouseDown, false);
+
+        this.blacklist = [ this ];
+    }
+
+    public addToBlacklist(...objects: THREE.Object3D[]): void {
+        this.blacklist.push(...objects);
+    }
+
+    public removeFromBlacklist(...objects: THREE.Object3D[]): void {
+        this.blacklist = this.blacklist.filter(object => !objects.includes(object));
     }
 
     public get canvas(): HTMLElement {
@@ -50,8 +61,7 @@ class EditorTransform extends ThreeControls.TransformControls {
         this.raycaster.setFromCamera(this.mouse, this.camera);
         
         const objects = currentScene.children.filter((object) => (
-            !(object instanceof ThreeControls.TransformControls) &&
-            !(object instanceof Editor.Helpers.Grids)
+            !this.blacklist.includes(object)
         ));
         const gizmos = this.gizmos;
         
