@@ -1,6 +1,8 @@
 import * as THREE from "three";
+import { Editor } from "@local/classes";
 
 class GridsHelper extends THREE.Group {
+    public editor: Editor.Core;
     public grid1: THREE.GridHelper;
     public grid2: THREE.GridHelper;
     public parameters: {
@@ -17,6 +19,7 @@ class GridsHelper extends THREE.Group {
     };
 
     constructor(
+        editor: Editor.Core,
         grid1Options?: {
             color?: THREE.ColorRepresentation;
             divisions?: number;
@@ -30,22 +33,17 @@ class GridsHelper extends THREE.Group {
     ) {
         super();
 
+        this.editor = editor;
         size = size ?? 30;
         centerLineColor = centerLineColor ?? "#ebebeb";
 
-        if (!grid1Options) {
-            grid1Options = {
-                color: "#888888",
-                divisions: size
-            };
-        }
+        if (!grid1Options) grid1Options = {};
+        if (!grid1Options.color) grid1Options.color = "#888888";
+        if (!grid1Options.divisions) grid1Options.divisions = size;
 
-        if (!grid2Options) {
-            grid2Options = {
-                color: "#222222",
-                divisions: size/5
-            };
-        }
+        if (!grid2Options) grid2Options = {};
+        if (!grid2Options.color) grid2Options.color = "#222222";
+        if (!grid2Options.divisions) grid2Options.divisions = size/5;
 
         const grid1 = new THREE.GridHelper(
             size, 
