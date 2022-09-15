@@ -3,6 +3,7 @@ import * as Editor from "./index";
 import * as Game from "../Game";
 import GravityHelper from "./Helpers/GravityHelper.class";
 import GridsHelper from "./Helpers/GridsHelper.class";
+import VertexHelper from "./Helpers/VertexHelper.class";
 
 class EditorCore {
     public game: Game.Core;
@@ -13,6 +14,7 @@ class EditorCore {
 
     public gridsHelper: GridsHelper;
     public gravityHelper: GravityHelper;
+    public vertexHelper: VertexHelper;
     
     constructor(game: Game.Core) {
         this.game = game;
@@ -42,9 +44,15 @@ class EditorCore {
             this
         );
 
-        this.gridsHelper = new GridsHelper();
-        this.gravityHelper = new GravityHelper();
+        this.gridsHelper = new GridsHelper(this);
+        this.gravityHelper = new GravityHelper(this, this.gridsHelper.parameters.size);
+        this.vertexHelper = new VertexHelper("#62dafb", this);
         
+        this.transformControls.addToBlacklist(
+            this.gridsHelper,
+            this.gravityHelper
+        );
+
         this.game.addEventListener("changeScene", evt => {
             const currentScene = evt.currentScene as Game.Scene;
             const previousScene = evt.previousScene as Game.Scene;
@@ -55,6 +63,8 @@ class EditorCore {
                 this.gravityHelper.gx = x;
                 this.gravityHelper.gy = y;
                 this.gravityHelper.gz = z;
+
+                this.gravityHelper.needsUpdate = true;
             };
 
             currentScene.physics.addEventListener(
