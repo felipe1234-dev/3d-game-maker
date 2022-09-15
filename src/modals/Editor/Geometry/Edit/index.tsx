@@ -12,7 +12,7 @@ function EditGeometryModal() {
     const object = editor?.transformControls.object || null; 
     const geometryInfo = geometryList.find(geom => 
         object instanceof THREE.Mesh && 
-        object.geometry instanceof geom.Constructor
+        object.geometry.constructor.name === geom.Constructor.prototype.constructor.name
     );
 
     return (
