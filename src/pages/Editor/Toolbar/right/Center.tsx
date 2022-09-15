@@ -181,13 +181,11 @@ function Center() {
             return;
         }
 
-        const events = ["add-objects", "remove-objects"];
+        const events = ["addObjects", "removeObjects"];
 
         events.forEach(type => {
-            if (!currentScene.hasEventListener(type, updateList)) {
-                currentScene.addEventListener(type, updateList);
-                currentScene.dispatchEvent({ type });
-            }
+            currentScene.addEventListener(type, updateList);
+            currentScene.dispatchEvent({ type });
         });
     }, [editor, game]);
 
