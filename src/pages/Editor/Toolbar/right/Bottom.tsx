@@ -54,10 +54,8 @@ function Bottom() {
         const events = ["select", "unselect", "setMode"];
         
         events.forEach((type) => {
-            if (!transform.hasEventListener(type, onEnableButtons)) {
-                transform.addEventListener(type, onEnableButtons);
-                transform.dispatchEvent({ type });
-            }
+            transform.addEventListener(type, onEnableButtons);
+            transform.dispatchEvent({ type });
         });
     }, [editor]);
     
