@@ -1,0 +1,13 @@
+diff --git a/node_modules/history/index.d.ts b/node_modules/history/index.d.ts
+index 851fe5c..0b17a32 100644
+--- a/node_modules/history/index.d.ts
++++ b/node_modules/history/index.d.ts
+@@ -155,7 +155,7 @@ export interface Blocker {
+  * `history.push` or `history.replace`. May be either a URL or the pieces of a
+  * URL path.
+  */
+-export declare type To = string | Partial<Path>;
++export declare type To = string | number | Partial<Path>;
+ /**
+  * A history is an interface to the navigation stack. The history serves as the
+  * source of truth for the current location, as well as provides a set of
