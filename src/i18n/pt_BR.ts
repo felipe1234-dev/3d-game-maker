@@ -191,7 +191,10 @@ const pt_BR = {
     "Vertex colors": "Cores dos Vértices",
     "Flat shading": "Sem sombreamento",
 
-    "Free shape": "Formato livre"
+    "Free shape": "Formato livre",
+
+    "Radius": "Raio",
+    "Edit vertices": "Editar vértices"
 }
 
 export default pt_BR;
