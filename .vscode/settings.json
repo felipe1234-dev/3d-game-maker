@@ -48,4 +48,5 @@
     "prettier.singleQuote": false,
     "git.autofetch": true,
     "git.confirmSync": false,
+    "files.removeFinalNewlines": true
 }
