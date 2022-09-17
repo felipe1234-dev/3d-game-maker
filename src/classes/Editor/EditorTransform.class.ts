@@ -2,6 +2,8 @@ import * as THREE from "three";
 import * as ThreeControls from "@local/three-controls";
 import * as Editor from "./index";
 
+export type Mode = "translate" | "scale" | "rotate";
+
 class EditorTransform extends ThreeControls.TransformControls {
     public editor: Editor.Core;
     public readonly raycaster: THREE.Raycaster;
@@ -17,6 +19,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     ) {
         super(camera, canvas);
         this.editor = editor;
+
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
         
@@ -192,7 +195,7 @@ class EditorTransform extends ThreeControls.TransformControls {
         }
     }
     
-    public setMode = (mode: "translate" | "scale" | "rotate"): void => {
+    public setMode = (mode: Mode): void => {
         this.mode = mode;
         
         this.dispatchEvent({ type: "setMode", mode });
