@@ -4,54 +4,44 @@ import {
     DeleteOutlineRounded as TrashIcon,
     OpenWithRounded as MoveIcon,
     FitScreenRounded as ResizeIcon,
-    CropRotateRounded as RotateIcon
+    CropRotateRounded as RotateIcon,
 } from "@mui/icons-material";
+import { ShapePolygon } from "@styled-icons/boxicons-regular";
+import { Link, useLocation } from "react-router-dom";
+
 import { EditorContext } from "@local/contexts";
+import { Mode } from "@local/classes/Editor/EditorTransform.class";
 import { t } from "@local/i18n";
 
 function Top() {
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
-    const [mode, setMode] = useState<string>("translate");
+    const [mode, setMode] = useState<Mode>("translate");
     const editor = useContext(EditorContext);
-    
-    const onSetMode = (mode: "translate" | "rotate" | "scale") => {
-        if (isDisabled) {
-            return;
-        }
-        
-        if (!editor) {
-            return;
-        }
-        
-        editor.transformControls.setMode(mode);
-        setMode(mode);
-    }
-    
+    const location = useLocation();
+
     const onSetStates = () => {
         if (!editor) {
             return;
         }
-        
+
         setIsDisabled(!editor.transformControls.object);
         setMode(editor.transformControls.mode);
-    }
-    
+    };
+
     useEffect(() => {
         if (!editor) {
             return;
         }
-        
+
         const { transformControls: transform } = editor;
-        const events = ["select", "unselect", "set-mode"]; 
-        
-        events.forEach((type) => {
-            if (!transform.hasEventListener(type, onSetStates)) {
-                transform.addEventListener(type, onSetStates);
-                transform.dispatchEvent({ type });
-            }
+        const events = ["select", "unselect", "setMode"];
+
+        events.forEach(type => {
+            transform.addEventListener(type, onSetStates);
+            transform.dispatchEvent({ type });
         });
     }, [editor]);
-    
+
     return (
         <Box>
             <Tooltip title={t("Delete object")} placement="left" arrow>
@@ -69,7 +59,9 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Move object")}
-                        onClick={() => onSetMode("translate")}
+                        onClick={() =>
+                            editor?.transformControls.setMode("translate")
+                        }
                         data-selected={mode === "translate"}
                         disabled={isDisabled}
                     >
@@ -81,7 +73,9 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Resize object")}
-                        onClick={() => onSetMode("scale")}
+                        onClick={() =>
+                            editor?.transformControls.setMode("scale")
+                        }
                         data-selected={mode === "scale"}
                         disabled={isDisabled}
                     >
@@ -93,11 +87,29 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Rotate object")}
-                        onClick={() => onSetMode("rotate")}
+                        onClick={() =>
+                            editor?.transformControls.setMode("rotate")
+                        }
                         data-selected={mode === "rotate"}
                         disabled={isDisabled}
                     >
                         <RotateIcon />
+                    </IconButton>
+                </span>
+            </Tooltip>
+            <Tooltip title={t("Edit vertices")} placement="left" arrow>
+                <span>
+                    <IconButton
+                        component={Link}
+                        to="vertices/edit"
+                        state={{
+                            background: location,
+                            useLoader: false,
+                        }}
+                        aria-label={t("Edit vertices")}
+                        disabled={isDisabled}
+                    >
+                        <ShapePolygon width={24} />
                     </IconButton>
                 </span>
             </Tooltip>
