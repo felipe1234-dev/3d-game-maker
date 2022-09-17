@@ -2,12 +2,12 @@
 
 .Modal {
     .MuiPaper-root {
-        background-color: $primary-color  !important;
-        color: $text-color  !important;
+        background-color: $primary-color !important;
+        color: $text-color !important;
         max-width: none !important;
         max-height: none !important;
-        opacity: .5;
-        transition: opacity .8s ease-in;
+        opacity: 0.5;
+        transition: opacity 0.8s ease-in;
 
         &:hover {
             opacity: 1;
@@ -18,7 +18,7 @@
         .MuiButtonBase-root,
         .MuiInputBase-input,
         .MuiSvgIcon-root {
-            color: $text-color  !important;
+            color: $text-color !important;
         }
 
         .MuiButtonBase-root {
@@ -43,7 +43,7 @@
             &,
             &:hover {
                 &::before {
-                    border-bottom-color: $text-color  !important;
+                    border-bottom-color: $text-color !important;
                 }
             }
         }
@@ -69,8 +69,7 @@
             background-repeat: no-repeat;
             background-origin: content-box;
             box-sizing: border-box;
-            background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+
-);
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+);
             background-position: bottom right;
             padding: 0 3px 3px 0;
         }
@@ -82,38 +81,78 @@
         }
     }
 
-    &--isCenter .MuiDialog-container {
+    &--backdropDisabled {
+        position: static !important;
+        height: min-content;
+        width: min-content;
+
+        .MuiBackdrop-root {
+            background-color: transparent !important;
+            height: 0;
+            width: 0;
+        }
+    }
+
+    .MuiDialogTitle-root {
+        display: flex !important;
+        justify-content: space-between !important;
         align-items: center !important;
-        justify-content: center !important;
     }
 
-    &--isTopCenter .MuiDialog-container {
-        align-items: flex-start !important;
-        justify-content: center !important;
+    .MuiDialog-container {
+        position: absolute;
+        height: min-content !important;
+        width: min-content !important;
     }
 
-    &--isBottomCenter .MuiDialog-container {
-        align-items: flex-end !important;
-        justify-content: center !important;
+    &--isTop {
+        .MuiDialog-container {
+            top: 0%;
+            left: calc(50% - var(--width)/2);
+        }
+
+        &Left .MuiDialog-container {
+            top: 0%;
+            left: 0%;
+        }
+
+        &Right .MuiDialog-container {
+            top: 0%;
+            right: 0%;
+        }
     }
 
-    &--isBottomLeft .MuiDialog-container {
-        align-items: flex-end !important;
-        justify-content: flex-start !important;
+    &--isCenter {
+        .MuiDialog-container {
+            top: calc(50% - var(--height)/2);
+            left: calc(50% - var(--width)/2);
+        }
+
+        &Left .MuiDialog-container {
+            top: calc(50% - var(--height)/2);
+            left: 0%;
+        }
+
+        &Right .MuiDialog-container {
+            top: calc(50% - var(--height)/2);
+            right: 0%;
+        }
     }
 
-    &--isTopLeft .MuiDialog-container {
-        align-items: flex-start !important;
-        justify-content: flex-start !important;
-    }
+    &--isBottom {
+        .MuiDialog-container {
+            bottom: 0%;
+            left: calc(50% - var(--width)/2);
+        }
 
-    &--isBottomRight .MuiDialog-container {
-        align-items: flex-end !important;
-        justify-content: flex-end !important;
-    }
+        &Left .MuiDialog-container {
+            bottom: 0%;
+            left: 0%;
+        }
 
-    &--isTopRight .MuiDialog-container {
-        align-items: flex-start !important;
-        justify-content: flex-end !important;
+        &Right .MuiDialog-container {
+            bottom: 0%;
+            right: 0%;
+        }
     }
 }
