@@ -7,7 +7,7 @@ function AddObjectModal() {
     return (
         <Modal
             className="AddObjectModal"
-            placement="top-left"
+            placement="center-left"
             header={t("Add object")}
             body={<Body />}
             height={345}
