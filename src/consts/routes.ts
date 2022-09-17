@@ -11,7 +11,8 @@ import {
     EditTextureModal,
     EditGeometryModal,
     EditSceneModal,
-    EditSceneTreeModal
+    EditSceneTreeModal,
+    EditVerticesModal
 } from "@local/modals";
 import { 
     GameProvider, 
@@ -119,6 +120,15 @@ const modalRoutes: RouteInfo[] = [
         Element: EditSceneTreeModal,
         wrappers: [
             RequireAuth,
+        ],
+        providers: []
+    },
+    // Vertices
+    {
+        path: "/editor/vertices/edit",
+        Element: EditVerticesModal,
+        wrappers: [
+            RequireAuth
         ],
         providers: []
     }
