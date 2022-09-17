@@ -68,14 +68,23 @@ class VertexHelper extends THREE.Object3D {
 
         this.vertices = vertices;
         this.add(...vertices);
-    
+        
+        this.editor.game.currentScene?.add(this);
+        this.editor.transformControls.addToBlacklist(this.object);
+
         return this;
     }
 
     public detach(): void {
+        if (!this.object) return;
+
+        this.editor.transformControls.removeFromBlacklist(this.object);
+
         this.object = undefined;
         this.visible = false;
         this.vertices = [];
+
+        this.editor.game.currentScene?.remove(this);
     }
 }
 
