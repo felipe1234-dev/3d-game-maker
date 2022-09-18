@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 
 import { useEditor } from "@local/contexts";
