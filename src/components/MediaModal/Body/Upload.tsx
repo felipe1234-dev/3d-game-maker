@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Box, TextField, Divider } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { DropzoneArea } from "material-ui-dropzone";
@@ -6,8 +6,8 @@ import { Upload as UploadIcon } from "@styled-icons/bootstrap";
 
 import * as gallery from "@local/api/collections/gallery";
 
-import { AlertContext } from "@local/contexts";
-import { MediaModalContext } from "../Context";
+import { useAlert } from "@local/contexts";
+import { useMediaModal } from "../Context";
 
 import { Alert } from "@local/interfaces";
 
@@ -18,8 +18,8 @@ function Upload() {
     const [description, setDescription] = useState<string>("");
     const [file, setFile] = useState<File>();
 
-    const { folders } = useContext(MediaModalContext);
-    const { setMessage, setSeverity } = useContext(AlertContext);
+    const { folders } = useMediaModal();
+    const { setMessage, setSeverity } = useAlert();
 
     const addMedia = () => {
         if (!file) {
@@ -29,22 +29,24 @@ function Upload() {
         setLoading(true);
 
         setTimeout(() => {
-            gallery.add({
-                title, 
-                description,
-                folders,
-                file
-            }).then(() => {
-                setSeverity("success");
-                setMessage("File added successfully");
-            }).catch((err: Alert) => {
-                setSeverity(err.severity);
-                setMessage(err.message);
-            }).finally(() => (
-                setLoading(false)
-            ));
+            gallery
+                .add({
+                    title,
+                    description,
+                    folders,
+                    file,
+                })
+                .then(() => {
+                    setSeverity("success");
+                    setMessage("File added successfully");
+                })
+                .catch((err: Alert) => {
+                    setSeverity(err.severity);
+                    setMessage(err.message);
+                })
+                .finally(() => setLoading(false));
         }, 3000);
-    }
+    };
 
     return (
         <Box className="MediaModal-upload">
@@ -67,9 +69,9 @@ function Upload() {
                 maxFileSize={10000000}
             />
             <Divider />
-            <Button 
+            <Button
                 startIcon={<UploadIcon style={{ width: 20 }} />}
-                onClick={addMedia} 
+                onClick={addMedia}
                 loading={loading}
             >
                 Upload file

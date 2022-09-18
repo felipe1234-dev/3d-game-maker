@@ -1,68 +1,77 @@
-import React from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import * as gallery from "@local/api/collections/gallery";
 import { Media } from "@local/api/models";
-import { AlertContext } from "@local/contexts";
+import { useAlert } from "@local/contexts";
 import { Alert, Filter } from "@local/interfaces";
 
 interface MediaModalValue {
-    folders: string,
-    mediaList: Media[],
-    selectedMedia?: Media,
+    folders: string;
+    mediaList: Media[];
+    selectedMedia?: Media;
 
-    setFolders: React.Dispatch<React.SetStateAction<string>>,
-    setMediaList: React.Dispatch<React.SetStateAction<Media[]>>,
-    setSelectedMedia: React.Dispatch<React.SetStateAction<Media | undefined>>
+    setFolders: React.Dispatch<React.SetStateAction<string>>;
+    setMediaList: React.Dispatch<React.SetStateAction<Media[]>>;
+    setSelectedMedia: React.Dispatch<React.SetStateAction<Media | undefined>>;
 }
 
-const MediaModalContext = React.createContext<MediaModalValue>({
-    folders: "",
-    mediaList: [],
-    selectedMedia: undefined,
-
-    setFolders: () => {},
-    setMediaList: () => {},
-    setSelectedMedia: () => {}
-});
+const MediaModalContext = createContext<MediaModalValue | undefined>(undefined);
 
 function MediaModalProvider(props: { children: React.ReactNode }) {
-    const { setSeverity, setMessage } = React.useContext(AlertContext);
+    const { setSeverity, setMessage } = useAlert();
 
-    const [mediaList, setMediaList] = React.useState<Media[]>([]);
-    const [selectedMedia, setSelectedMedia] = React.useState<Media>();
-    const [folders, setFolders] = React.useState<string>("");
+    const [mediaList, setMediaList] = useState<Media[]>([]);
+    const [selectedMedia, setSelectedMedia] = useState<Media>();
+    const [folders, setFolders] = useState("");
 
-    React.useEffect(() => {
+    useEffect(() => {
         const filter: Filter = {
-            where: []
+            where: [],
         };
 
         if (folders) {
             filter.where!.push(["folders", "==", folders]);
         }
 
-        gallery.list(filter).then(resp => {
-            console.log(filter, resp);
-            setMediaList(resp);
-        }).catch((error: Alert) => {
-            setSeverity(error.severity);
-            setMessage(error.message);
-        });
+        gallery
+            .list(filter)
+            .then(resp => {
+                console.log(filter, resp);
+                setMediaList(resp);
+            })
+            .catch((error: Alert) => {
+                setSeverity(error.severity);
+                setMessage(error.message);
+            });
     }, [folders]);
 
     return (
-        <MediaModalContext.Provider value={{
-            folders,
-            mediaList,
-            selectedMedia,
+        <MediaModalContext.Provider
+            value={{
+                folders,
+                mediaList,
+                selectedMedia,
 
-            setFolders,
-            setMediaList,
-            setSelectedMedia
-        }}>
+                setFolders,
+                setMediaList,
+                setSelectedMedia,
+            }}
+        >
             {props.children}
         </MediaModalContext.Provider>
     );
 }
 
-export { MediaModalContext, MediaModalProvider };
+function useMediaModal() {
+    const context = useContext(MediaModalContext);
+
+    if (!context) {
+        throw new Error(
+            "useMediaModal must be used within a MediaModalProvider"
+        );
+    }
+
+    return context;
+}
+
+export { useMediaModal, MediaModalProvider };
 export type { MediaModalValue };

@@ -1,36 +1,42 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
-import { MediaModalContext } from "../Context";
-import { AlertContext } from "@local/contexts";
+
 import * as users from "@local/api/collections/users";
-import { Alert } from "@local/interfaces";
 import { Media, User } from "@local/api/models";
 
+import { useAlert } from "@local/contexts";
+import { useMediaModal } from "../Context";
+
+import { Alert } from "@local/interfaces";
+
 interface FooterProps {
-    onUseMedia: (media: Media) => void
+    onUseMedia: (media: Media) => void;
 }
 
 function Footer(props: FooterProps) {
     const { onUseMedia } = props;
 
-    const { selectedMedia } = React.useContext(MediaModalContext);
-    const { setSeverity, setMessage } = React.useContext(AlertContext);
+    const { selectedMedia } = useMediaModal();
+    const { setSeverity, setMessage } = useAlert();
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const [uploader, setUploader] = React.useState<User>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [uploader, setUploader] = useState<User>();
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!selectedMedia) {
             return;
         }
-        
-        users.byUid(selectedMedia.createdBy).then(resp => {
-            setUploader(resp);
-        }).catch((error: Alert) => {
-            setSeverity(error.severity);
-            setMessage(error.message);
-        });
+
+        users
+            .byUid(selectedMedia.createdBy)
+            .then(resp => {
+                setUploader(resp);
+            })
+            .catch((error: Alert) => {
+                setSeverity(error.severity);
+                setMessage(error.message);
+            });
     }, [selectedMedia]);
 
     const withLoadingEffect = (callback: Function, ms: number) => {
@@ -39,22 +45,23 @@ function Footer(props: FooterProps) {
             callback();
             setIsLoading(false);
         }, ms);
-    }
+    };
 
     return (
         <div className="MediaModal-footer">
             <Typography variant="subtitle1" component="p">
-                {(selectedMedia && uploader) 
-                    ? `${selectedMedia.title} (${selectedMedia.mimeType}) • Uploaded by ${uploader.firstName} ${uploader.lastName}` 
-                    : "No file selected"
-                } 
+                {selectedMedia && uploader
+                    ? `${selectedMedia.title} (${selectedMedia.mimeType}) • Uploaded by ${uploader.firstName} ${uploader.lastName}`
+                    : "No file selected"}
             </Typography>
-            <Button 
-                className="MediaModal-footer-finishButton" 
-                onClick={() => withLoadingEffect(
-                    () => selectedMedia ? onUseMedia(selectedMedia) : {},
-                    1500
-                )}
+            <Button
+                className="MediaModal-footer-finishButton"
+                onClick={() =>
+                    withLoadingEffect(
+                        () => (selectedMedia ? onUseMedia(selectedMedia) : {}),
+                        1500
+                    )
+                }
                 disabled={!selectedMedia}
                 loading={isLoading}
             >

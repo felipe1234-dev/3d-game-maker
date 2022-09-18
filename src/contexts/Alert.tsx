@@ -6,7 +6,7 @@ import {
     useState,
 } from "react";
 import { Severity } from "@local/types";
-import i18n, { t } from "@local/i18n";
+import { t } from "@local/i18n";
 
 interface AlertValue {
     message: string | null;
@@ -15,12 +15,7 @@ interface AlertValue {
     setSeverity(severity: Severity | null): void;
 }
 
-const AlertContext = createContext<AlertValue>({
-    message: null,
-    setMessage: () => {},
-    severity: null,
-    setSeverity: () => {},
-});
+const AlertContext = createContext<AlertValue | undefined>(undefined);
 
 function AlertProvider(props: { children: ReactNode }) {
     const [message, setMessage] = useState<string | null>(null);

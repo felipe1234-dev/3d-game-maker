@@ -1,11 +1,4 @@
-import React, {
-    forwardRef,
-    ReactElement,
-    ReactNode,
-    Ref,
-    useContext,
-    useState,
-} from "react";
+import { forwardRef, ReactElement, ReactNode, Ref, useState } from "react";
 import {
     Slide,
     Dialog,
@@ -23,7 +16,7 @@ import { Resizable } from "react-resizable";
 import { CloseOutline } from "@styled-icons/evaicons-outline";
 import Draggable from "react-draggable";
 
-import { HistoryContext } from "@local/contexts";
+import { useHistory } from "@local/contexts";
 
 import "@local/styles/components/Modal.scss";
 
@@ -108,7 +101,7 @@ function Modal(props: ModalProps) {
         headerProps.className = "Modal--isDraggable-handle";
     }
 
-    const history = useContext(HistoryContext);
+    const history = useHistory();
 
     const [open, setOpen] = useState(true);
     const [height, setHeight] = useState(initialHeight ?? 100);

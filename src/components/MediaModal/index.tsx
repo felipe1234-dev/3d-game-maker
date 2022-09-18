@@ -1,45 +1,37 @@
-import React from "react";
 import { Modal } from "@local/components";
-import { MediaModalContext, MediaModalProvider } from "./Context";
+import { useMediaModal, MediaModalProvider } from "./Context";
 import { Media } from "@local/api/models";
 
 import Body from "./Body";
 import Footer from "./Footer";
 
 import "@local/styles/components/MediaModal.scss";
+import { useEffect } from "react";
 
 interface MediaModalProps {
-    title: string,
-    onClose: () => void,
-    onFinish: (selectedMedia: Media) => void,
-    folders: string
+    title: string;
+    onClose: () => void;
+    onFinish: (selectedMedia: Media) => void;
+    folders: string;
 }
 
 function Content(props: MediaModalProps) {
-    const { 
-        title, 
-        onClose, 
-        onFinish,
-        folders: newFolders 
-    } = props;
-    const { setFolders } = React.useContext(MediaModalContext);
+    const { title, onClose, onFinish, folders: newFolders } = props;
+    const { setFolders } = useMediaModal();
 
-    React.useEffect(() => {
+    useEffect(() => {
         setFolders(newFolders);
     }, [newFolders]);
 
     return (
         <Modal
             className="MediaModal"
-
             width={800}
             height={600}
             onClose={onClose}
-
             header={title}
             body={<Body />}
             footer={<Footer onUseMedia={onFinish} />}
-
             draggable
         />
     );
@@ -47,7 +39,7 @@ function Content(props: MediaModalProps) {
 
 const MediaModal = (props: MediaModalProps) => (
     <MediaModalProvider>
-        <Content {...props}/>
+        <Content {...props} />
     </MediaModalProvider>
 );
 

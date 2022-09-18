@@ -12,11 +12,7 @@ interface HistoryValue {
     go: (index: number, options?: NavigateOptions) => void;
 }
 
-const HistoryContext = createContext<HistoryValue>({
-    back: () => {},
-    forward: () => {},
-    go: () => {},
-});
+const HistoryContext = createContext<HistoryValue | undefined>(undefined);
 
 function HistoryProvider(props: { children: React.ReactNode }) {
     const [history, setHistory] = useState<Location[]>([]);

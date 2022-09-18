@@ -1,21 +1,15 @@
-import React from "react";
-import { 
-    Box, 
-    Tabs, 
-    Tab, 
-    TextField,
-    Divider
-} from "@mui/material";
+import { useState } from "react";
+import { Box, Tabs, Tab, TextField, Divider } from "@mui/material";
 
 import Library from "./Library";
 import Upload from "./Upload";
 
-import { MediaModalContext } from "../Context";
+import { useMediaModal } from "../Context";
 
 function Body() {
-    const [search, setSearch] = React.useState<string>("");
-    const [tab, setTab] = React.useState<number>(1);
-    const { folders } = React.useContext(MediaModalContext);
+    const [search, setSearch] = useState("");
+    const [tab, setTab] = useState(1);
+    const { folders } = useMediaModal();
 
     return (
         <>
@@ -26,7 +20,7 @@ function Body() {
             />
             <Divider />
             <Tabs
-                value={tab} 
+                value={tab}
                 onChange={(evt, newTab) => setTab(Number(newTab))}
             >
                 <Tab label="Upload files" />

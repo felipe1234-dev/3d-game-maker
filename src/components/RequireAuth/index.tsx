@@ -1,36 +1,28 @@
-import { 
-    useState, 
-    useEffect, 
-    useContext
-} from "react";
-import { 
-    Navigate, 
-    useLocation,
-    Location
-} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Navigate, useLocation, Location } from "react-router-dom";
 import * as auth from "@local/api/auth";
 import { isRouteState } from "@local/functions";
-import { AlertContext } from "@local/contexts";
+import { useAlert } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 import { getLang } from "@local/i18n";
 
 interface RequireAuthProps {
-    children: JSX.Element
-};
+    children: JSX.Element;
+}
 
 function RequireAuth({ children }: RequireAuthProps) {
-    const [ready, setReady]     = useState<boolean>(false);
+    const [ready, setReady] = useState<boolean>(false);
     const [allowed, setAllowed] = useState<boolean>(false);
-    const { setSeverity, setMessage } = useContext(AlertContext);
-    
+    const { setSeverity, setMessage } = useAlert();
+
     const locationNow = useLocation();
     const { state } = locationNow;
-    
+
     let bgLocation: Location | null = null;
     if (isRouteState(state)) {
         bgLocation = state.background || null;
     }
-    
+
     useEffect(() => {
         setReady(false);
 
@@ -38,28 +30,28 @@ function RequireAuth({ children }: RequireAuthProps) {
             try {
                 const user = await auth.currentUser();
                 setAllowed(!!user);
-                        
+
                 setReady(true);
             } catch (error) {
                 const err = error as Alert;
                 setSeverity(err.severity);
-                setMessage(err.message);   
+                setMessage(err.message);
             }
         })();
-    }, []); 
+    }, []);
 
     if (!ready) {
         return <></>;
     }
 
     const lang = getLang();
-    
+
     if (!allowed) {
         return (
-            <Navigate 
+            <Navigate
                 to={`/${lang}/auth`}
-                state={{ from: bgLocation || locationNow }} 
-                replace 
+                state={{ from: bgLocation || locationNow }}
+                replace
             />
         );
     }

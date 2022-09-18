@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import { ReactComponent as Logo } from "@local/images/logo.svg";
 import { useLocation } from "react-router-dom";
+
+import { ReactComponent as Logo } from "@local/images/logo.svg";
 import { t, getLang } from "@local/i18n";
 
 import Login from "./Login";
