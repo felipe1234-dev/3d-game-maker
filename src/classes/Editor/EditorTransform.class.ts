@@ -11,7 +11,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     public intersected?: THREE.Intersection;
     public helper?: THREE.BoxHelper;
     public blacklist: THREE.Object3D[];
-    
+
     constructor(
         camera: THREE.Camera,
         canvas: HTMLCanvasElement,
@@ -153,29 +153,16 @@ class EditorTransform extends ThreeControls.TransformControls {
     }
 
     protected onMouseDown = (): void => {
-        const { scene: currentScene } = this.editor.game.current;
-        if (!currentScene) {
-            return;
-        }
-
         if (
             !this.intersected && 
             this.object && 
             this.helper
         ) {
-            this.detach();
-                
-            currentScene.remove(this.helper);
-            currentScene.remove(this);
-                
-            this.helper = undefined;
-            this.editor.orbitControls.enableRotate = true;
-                
-            this.dispatchEvent({ type: "unselect" });
+            this.unselect();
         } else if (
             this.intersected && 
             this.gizmos.includes(this.intersected.object) &&
-            this.helper    
+            this.helper
         ) {
             this.canvas.style.cursor = "grabbing";
         } else if (
@@ -183,15 +170,7 @@ class EditorTransform extends ThreeControls.TransformControls {
             !this.object &&
             !this.helper
         ) {
-            const boxHelper = new THREE.BoxHelper(this.intersected.object, 0xffff00);
-            this.helper = boxHelper;
-
-            this.attach(this.intersected.object);
-            currentScene.add(this);
-            currentScene.add(boxHelper);
-            
-            this.editor.orbitControls.enableRotate = false;
-            this.dispatchEvent({ type: "select" });
+            this.select(this.intersected.object);
         }
     }
     
@@ -206,24 +185,16 @@ class EditorTransform extends ThreeControls.TransformControls {
             return;
         }
         
-        const { game } = this.editor;
-        const { currentScene } = game;
+        const { currentScene } = this.editor.game;
         if (!currentScene) {
             return;
         }
 
         currentScene.remove(this.object);
-        this.detach();
-
-        if (this.helper) {
-            currentScene.remove(this.helper);
-            this.helper = undefined;
-        }
-
-        currentScene.remove(this);
-        this.editor.orbitControls.enableRotate = true;
+        this.unselect();
         
         this.dispatchEvent({ type: "unselect" });
+        this.dispatchEvent({ type: "delete" });
     }
 
     public select = (object: THREE.Object3D): void => {
@@ -237,15 +208,7 @@ class EditorTransform extends ThreeControls.TransformControls {
             this.object && 
             this.helper
         ) {
-            this.detach();
-                
-            currentScene.remove(this.helper);
-            currentScene.remove(this);
-                
-            this.helper = undefined;
-            this.editor.orbitControls.enableRotate = true;
-                
-            this.dispatchEvent({ type: "unselect" });
+            this.unselect();
         }
 
         const boxHelper = new THREE.BoxHelper(object, 0xffff00);
@@ -256,7 +219,25 @@ class EditorTransform extends ThreeControls.TransformControls {
         currentScene.add(boxHelper);
 
         this.editor.orbitControls.enableRotate = false;
-        this.dispatchEvent({ type: "select" });
+        this.dispatchEvent({ type: "select", object });
+    }
+
+    public unselect = (): void => {
+        const { scene: currentScene } = this.editor.game.current;
+        if (!currentScene || !this.helper) {
+            return;
+        }
+        
+        const object = this.object;
+        this.detach();
+
+        currentScene.remove(this.helper);
+        currentScene.remove(this);
+                
+        this.helper = undefined;
+        this.editor.orbitControls.enableRotate = true;
+                
+        this.dispatchEvent({ type: "unselect", object });
     }
 }
 
