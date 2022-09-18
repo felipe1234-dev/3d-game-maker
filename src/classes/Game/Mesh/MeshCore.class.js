@@ -34,7 +34,7 @@ class MeshCore extends THREE.Mesh {
 
                     const newGeometry = new THREE[geometry.type](...args);
 
-                    Object.keys(geometry).forEach((key) => {
+                    Object.keys(geometry).forEach(key => {
                         if (["uuid", "id", "parameters"].includes(key)) {
                             return;
                         }
@@ -125,6 +125,9 @@ class MeshCore extends THREE.Mesh {
 
         this.receiveShadow = true;
         this.castShadow = true;
+
+        this.material.side = THREE.DoubleSide;
+        this.material.needsUpdate = true;
     }
 
     /**
