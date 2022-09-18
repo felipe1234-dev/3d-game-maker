@@ -1,5 +1,5 @@
 // Libs
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -7,28 +7,24 @@ import {
     RemoveRounded as ZoomOutIcon,
     ViewInAr as CubeIcon,
     InterestsRounded as ShapeIcon,
-    TextureRounded as TextureIcon
+    TextureRounded as TextureIcon,
 } from "@mui/icons-material";
 import { Atom as AtomIcon } from "@styled-icons/fa-solid";
 
 import { t } from "@local/i18n";
 import { Pressable } from "@local/components";
-import { EditorContext } from "@local/contexts";
+import { useEditor } from "@local/contexts";
 
 function Bottom() {
-    const [editObjIsDisabled, setEditObjIsDisabled] = useState<boolean>(true);
-    const [editGeomIsDisabled, setEditGeomIsDisabled] = useState<boolean>(true);
-    const [editTextIsDisabled, setEditTextIsDisabled] = useState<boolean>(true);
-    const [zoomSpeed, setZoomSpeed] = useState<number>(50);
+    const [editObjIsDisabled, setEditObjIsDisabled] = useState(true);
+    const [editGeomIsDisabled, setEditGeomIsDisabled] = useState(true);
+    const [editTextIsDisabled, setEditTextIsDisabled] = useState(true);
+    const [zoomSpeed, setZoomSpeed] = useState(50);
 
     const location = useLocation();
-    const editor = useContext(EditorContext);
-    
+    const editor = useEditor();
+
     const onEnableButtons = () => {
-        if (!editor) {
-            return;
-        }
-        
         const selectedObject = editor.transformControls.object;
 
         if (!selectedObject) {
@@ -41,45 +37,41 @@ function Bottom() {
             setEditTextIsDisabled(!(selectedObject as any).material);
         }
     };
-    
+
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-        
         const { transformControls: transform } = editor;
-        
+
         // TODO: Set zoom speed on change
-        
+
         const events = ["select", "unselect", "setMode"];
-        
-        events.forEach((type) => {
+
+        events.forEach(type => {
             transform.addEventListener(type, onEnableButtons);
             transform.dispatchEvent({ type });
         });
     }, [editor]);
-    
+
     return (
         <Box>
             <Pressable
                 component={IconButton}
-                onMousePress={() => editor?.orbitControls.zoomIn()}
+                onMousePress={() => editor.orbitControls.zoomIn()}
                 ms={zoomSpeed}
             >
                 <Tooltip title={t("Zoom In")} placement="left" arrow>
                     <ZoomInIcon />
                 </Tooltip>
             </Pressable>
-            <Pressable 
+            <Pressable
                 component={IconButton}
-                onMousePress={() => editor?.orbitControls.zoomOut()}
+                onMousePress={() => editor.orbitControls.zoomOut()}
                 ms={zoomSpeed}
             >
                 <Tooltip title={t("Zoom Out")} placement="left" arrow>
                     <ZoomOutIcon />
                 </Tooltip>
             </Pressable>
-            
+
             <Tooltip title={t("Edit object")} placement="left" arrow>
                 <span>
                     <IconButton
@@ -88,7 +80,7 @@ function Bottom() {
                         to="object/edit"
                         state={{
                             background: location,
-                            useLoader: false
+                            useLoader: false,
                         }}
                         disabled={editObjIsDisabled}
                     >
@@ -104,7 +96,7 @@ function Bottom() {
                         to="geometry/edit"
                         state={{
                             background: location,
-                            useLoader: false
+                            useLoader: false,
                         }}
                         disabled={editGeomIsDisabled}
                     >
@@ -120,7 +112,7 @@ function Bottom() {
                         to="texture/edit"
                         state={{
                             background: location,
-                            useLoader: false
+                            useLoader: false,
                         }}
                         disabled={editTextIsDisabled}
                     >
@@ -136,7 +128,7 @@ function Bottom() {
                         to="physics/edit"
                         state={{
                             background: location,
-                            useLoader: false
+                            useLoader: false,
                         }}
                         disabled={editTextIsDisabled}
                     >

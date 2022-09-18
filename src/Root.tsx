@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import {
     Routes as Switch,
@@ -7,15 +7,14 @@ import {
     Location,
 } from "react-router-dom";
 import { AlertMessage, PageLoader, Composer } from "@local/components";
-import { AlertContext } from "@local/contexts";
+import { useAlert } from "@local/contexts";
 import { isRouteState } from "@local/functions";
 
 import routes from "@local/consts/routes";
 
 function Root() {
-    const [pageIsLoading, setPageIsLoading] = useState<boolean>(true);
-    const { message, setMessage, severity, setSeverity } =
-        useContext(AlertContext);
+    const [pageIsLoading, setPageIsLoading] = useState(true);
+    const { message, setMessage, severity, setSeverity } = useAlert();
 
     const pageLocation = useLocation();
     const { pathname: pathNow, state } = pageLocation;

@@ -1,7 +1,6 @@
+import { useEffect, useState } from "react";
 
-import { useContext, useEffect, useState } from "react";
-
-import { EditorContext } from "@local/contexts";
+import { useEditor } from "@local/contexts";
 import { FieldProps } from "../index";
 import { getProperty, setProperty } from "@local/functions";
 import { t } from "@local/i18n";
@@ -13,35 +12,29 @@ import "@local/styles/fields/ColorField.scss";
 
 function ColorField(props: FieldProps) {
     const defaultColor = "#fff";
-    const [color, setColor] = useState<THREE.Color>(
-        new THREE.Color(defaultColor)
-    );
+    const [color, setColor] = useState(new THREE.Color(defaultColor));
 
     const { labels, attributes, scope } = props;
     const label = t(labels[0]);
     const attrPath = attributes[0];
-    const editor = useContext(EditorContext);
+    const editor = useEditor();
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
+        const object = getProperty<object | undefined | null>(
+            scope,
+            editor.transformControls
+        );
 
         if (object) {
-            setColor(
-                getProperty<THREE.Color>(attrPath, object)
-            );
+            setColor(getProperty<THREE.Color>(attrPath, object));
         }
     }, [editor?.transformControls.object]);
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
+        const object = getProperty<object | undefined | null>(
+            scope,
+            editor.transformControls
+        );
 
         if (object) {
             setProperty(attrPath, color, object);
@@ -53,20 +46,17 @@ function ColorField(props: FieldProps) {
     }, [color]);
 
     return (
-        <ColorPicker 
+        <ColorPicker
             className="ColorField"
-
             variant="outlined"
             label={label}
-
             onChange={value => setColor(new THREE.Color(value))}
             value={"#" + color.getHexString()}
-
             InputProps={{
                 style: {
-                    color: "#" + color.getHexString()
+                    color: "#" + color.getHexString(),
                 },
-                value: "#" + color.getHexString()
+                value: "#" + color.getHexString(),
             }}
         />
     );

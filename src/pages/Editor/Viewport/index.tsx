@@ -1,57 +1,50 @@
-import { 
-    useContext, 
-    useEffect, 
-    useRef, 
-    useState 
-} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 
-import { EditorContext } from "@local/contexts";
+import { useEditor } from "@local/contexts";
 import { CursorTooltip } from "@local/components";
 import { t } from "@local/i18n";
 
 function Viewport() {
-    const viewportElement = useRef<HTMLElement>();
-    const editor = useContext(EditorContext);
     const [hideTooltip, setHideTooltip] = useState(true);
-    
+    const viewportElement = useRef<HTMLElement>();
+    const editor = useEditor();
+
     useEffect(() => {
         const container = viewportElement.current;
-        
-        if (container && container.innerHTML.length === 0 && editor) {    
+
+        if (container && container.innerHTML.length === 0) {
             const x = 0;
             const y = 10;
             const z = 10;
             editor.camera.position.set(x, y, z);
             editor.orbitControls.update();
-            
+
             editor.renderer.container = container;
             editor.renderer.canvas?.addEventListener("pointermove", () => {
                 const intersections = editor.transformControls.intersects;
                 setHideTooltip(intersections.length < 1);
             });
-            editor.renderer.startAnimation(() => {
-                
-            });
-            
+            editor.renderer.startAnimation(() => {});
+
             console.log(editor);
         }
     }, [viewportElement, editor]);
-    
+
     const intersections = editor?.transformControls.intersects || [];
     const { object } = intersections[0] || {};
 
     return (
         <CursorTooltip
-            title={object?.name || t("No name")} 
-            hide={hideTooltip} 
+            title={object?.name || t("No name")}
+            hide={hideTooltip}
             offsetX={30}
             offsetY={-10}
         >
             {props => (
-                <Box    
-                    ref={viewportElement} 
-                    component="section" 
+                <Box
+                    ref={viewportElement}
+                    component="section"
                     className="Editor-viewport"
                     {...props}
                 />

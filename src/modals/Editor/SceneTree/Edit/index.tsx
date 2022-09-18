@@ -10,10 +10,8 @@ function EditSceneTreeModal() {
             placement="center"
             height={500}
             width={500}
-            
             header={t("Scene tree")}
             body={<Body />}
-
             draggable
         />
     );

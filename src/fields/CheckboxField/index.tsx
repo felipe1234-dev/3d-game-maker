@@ -1,16 +1,7 @@
-import { 
-    forwardRef, 
-    useContext, 
-    useEffect, 
-    useState 
-} from "react";
-import { 
-    FormGroup, 
-    FormControlLabel, 
-    Checkbox 
-} from "@mui/material";
+import { forwardRef, useEffect, useState } from "react";
+import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
-import { EditorContext } from "@local/contexts";
+import { useEditor } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 import { t } from "@local/i18n";
@@ -20,19 +11,18 @@ import * as THREE from "three";
 import "@local/styles/fields/CheckboxField.scss";
 
 const CheckboxField = forwardRef((props: FieldProps, ref) => {
-    const [isChecked, setIsChecked] = useState<boolean>(false);
+    const [isChecked, setIsChecked] = useState(false);
 
     const { labels, attributes, scope } = props;
     const label = t(labels[0]);
     const attrPath = attributes[0];
-    const editor = useContext(EditorContext);
+    const editor = useEditor();
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
+        const object = getProperty<object | undefined | null>(
+            scope,
+            editor.transformControls
+        );
 
         if (object) {
             setIsChecked(getProperty<boolean>(attrPath, object));
@@ -40,12 +30,11 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
     }, [editor?.transformControls.object]);
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
+        const object = getProperty<object | undefined | null>(
+            scope,
+            editor.transformControls
+        );
 
-        const object = getProperty<object | undefined | null>(scope, editor.transformControls);
-        
         if (object) {
             setProperty(attrPath, isChecked, object);
 
@@ -61,12 +50,12 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
                 className="CheckboxField-label"
                 label={label}
                 control={
-                    <Checkbox 
+                    <Checkbox
                         className="CheckboxField-input"
-                        onChange={(evt) => setIsChecked(evt.target.checked)}
+                        onChange={evt => setIsChecked(evt.target.checked)}
                         checked={isChecked}
                     />
-                }  
+                }
             />
         </FormGroup>
     );

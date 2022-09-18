@@ -1,22 +1,23 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import * as THREE from "three";
+
 import { Modal } from "@local/components";
-import { t } from "@local/i18n";
 import { useUnmount } from "@local/hooks";
-import { EditorContext } from "@local/contexts";
+import { useEditor } from "@local/contexts";
+import { t } from "@local/i18n";
+
 import Body from "./Body";
 
 function EditVerticesModal() {
-    const editor = useContext(EditorContext);
+    const editor = useEditor();
 
     useEffect(() => {
-        const { object } = editor?.transformControls || {};
-        if (!editor || !object || !(object instanceof THREE.Mesh)) return;
+        const { object } = editor.transformControls || {};
+        if (!object || !(object instanceof THREE.Mesh)) return;
         editor.vertexHelper.select(object);
     }, []);
 
     useUnmount(() => {
-        if (!editor) return;
         editor.vertexHelper.unselect();
     });
 

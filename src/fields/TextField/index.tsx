@@ -1,25 +1,20 @@
+import { useEffect, useState } from "react";
 import {
-    useContext, 
-    useEffect, 
-    useState 
-} from "react";
-import { 
-    TextField as MuiTextField, 
-    TextFieldProps as MuiTextFieldProps 
+    TextField as MuiTextField,
+    TextFieldProps as MuiTextFieldProps,
 } from "@mui/material";
+import * as THREE from "three";
 
-import { EditorContext } from "@local/contexts";
+import { useEditor } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { FieldProps } from "../index";
 import { t } from "@local/i18n";
 
-import * as THREE from "three";
-
 import "@local/styles/fields/TextField.scss";
 
 function TextField(props: FieldProps & MuiTextFieldProps) {
-    const { 
-        attributes, 
+    const {
+        attributes,
         labels,
         minLength,
         maxLength,
@@ -28,30 +23,26 @@ function TextField(props: FieldProps & MuiTextFieldProps) {
     } = props;
     const attrPath = attributes[0];
     const label = labels[0];
-    const editor = useContext(EditorContext);
+    const editor = useEditor();
 
     const [value, setValue] = useState<string>("");
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<Object | undefined>(scope, editor.transformControls);
+        const object = getProperty<Object | undefined>(
+            scope,
+            editor.transformControls
+        );
 
         if (object) {
-            setValue(
-                getProperty<string>(attrPath, object)
-            );
+            setValue(getProperty<string>(attrPath, object));
         }
-    }, [editor?.transformControls.object]);
+    }, [editor.transformControls.object]);
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<Object | undefined>(scope, editor.transformControls);
+        const object = getProperty<Object | undefined>(
+            scope,
+            editor.transformControls
+        );
         const helper = editor.transformControls.helper || null;
 
         if (object) {
@@ -66,20 +57,16 @@ function TextField(props: FieldProps & MuiTextFieldProps) {
     }, [value]);
 
     return (
-        <MuiTextField 
+        <MuiTextField
             className="TextField"
-
             label={t(label)}
-
             onChange={evt => setValue(evt.target.value)}
             value={value}
-
             inputProps={{
                 type: "text",
                 maxLength,
-                minLength
+                minLength,
             }}
-
             {...textFieldProps}
         />
     );

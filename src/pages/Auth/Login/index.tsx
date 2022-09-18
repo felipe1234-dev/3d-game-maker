@@ -1,53 +1,43 @@
-import { 
-    ChangeEvent, 
-    FormEvent, 
-    useContext, 
-    useState 
-} from "react";
-import {
-    Box,
-    TextField,
-    InputAdornment,
-    IconButton
-} from "@mui/material";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { TextFieldProps } from "@mui/material";
 import {
-    MailOutline as MailOutlineIcon, 
+    MailOutline as MailOutlineIcon,
     Visibility as VisibilityOnIcon,
-    VisibilityOff as VisibilityOffIcon
+    VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
 import * as auth from "@local/api/auth";
-import { AlertContext } from "@local/contexts";
+import { useAlert } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 import { t } from "@local/i18n";
 
 interface LoginProps {
-    redirect: string
+    redirect: string;
 }
 
 function Login(props: LoginProps) {
     const [formIsLoading, setFormIsLoading] = useState<boolean>(false);
     const [submitIsDisabled, setSubmitIsDisabled] = useState<boolean>(false);
     const [passIsMasked, setPassIsMasked] = useState<boolean>(true);
-    
-	const navigate  = useNavigate();
-    const { setSeverity, setMessage } = useContext(AlertContext);
-    
+
+    const { setSeverity, setMessage } = useAlert();
+    const navigate = useNavigate();
+
     const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); 
+        event.preventDefault();
         // Prevents page from being redirected
-        
+
         if (submitIsDisabled) {
             return;
         }
-        
+
         setFormIsLoading(true);
-        
-        const data     = new FormData(event.currentTarget);
-        const email    = data.get("email")?.toString() || "";
+
+        const data = new FormData(event.currentTarget);
+        const email = data.get("email")?.toString() || "";
         const password = data.get("password")?.toString() || "";
 
         try {
@@ -64,24 +54,22 @@ function Login(props: LoginProps) {
         } finally {
             setTimeout(() => setFormIsLoading(false), 3000);
         }
-    } 
-    
+    };
+
     const onChange = (event: ChangeEvent<HTMLFormElement>) => {
         const data = new FormData(event.currentTarget);
 
-        setSubmitIsDisabled(
-            !data.get("email") || !data.get("password")
-        );
-    }
-    
+        setSubmitIsDisabled(!data.get("email") || !data.get("password"));
+    };
+
     const baseTextField: TextFieldProps = {
         className: "AuthPage-container-input",
         margin: "normal",
         fullWidth: true,
         required: true,
-        variant: "standard"
-    }
-     
+        variant: "standard",
+    };
+
     return (
         <Box
             component="form"
@@ -89,17 +77,20 @@ function Login(props: LoginProps) {
             onSubmit={onSubmit}
             onChange={onChange}
         >
-            <TextField 
+            <TextField
                 {...baseTextField}
                 name="email"
                 label={t("Email")}
                 type="email"
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment style={{ padding: "12px" }} position="end">
+                        <InputAdornment
+                            style={{ padding: "12px" }}
+                            position="end"
+                        >
                             <MailOutlineIcon />
                         </InputAdornment>
-                    )
+                    ),
                 }}
             />
             <TextField
@@ -111,11 +102,19 @@ function Login(props: LoginProps) {
                     autoComplete: "new-password",
                     endAdornment: (
                         <InputAdornment position="end">
-                            <IconButton onClick={() => setPassIsMasked(prevState => !prevState)}>
-                                {passIsMasked ? <VisibilityOffIcon /> : <VisibilityOnIcon />}
+                            <IconButton
+                                onClick={() =>
+                                    setPassIsMasked(prevState => !prevState)
+                                }
+                            >
+                                {passIsMasked ? (
+                                    <VisibilityOffIcon />
+                                ) : (
+                                    <VisibilityOnIcon />
+                                )}
                             </IconButton>
                         </InputAdornment>
-                    )
+                    ),
                 }}
             />
             <Button

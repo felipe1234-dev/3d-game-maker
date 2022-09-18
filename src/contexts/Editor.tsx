@@ -1,20 +1,18 @@
 import React, { useEffect, useContext, createContext, useState } from "react";
 
 import { Editor } from "@local/classes";
-import { GameContext } from "./index";
+import { useGame } from "./Game";
 
 const EditorContext = createContext<Editor.Core | undefined>(undefined);
 
 function EditorProvider(props: { children: React.ReactNode }) {
     const [editor, setEditor] = useState<Editor.Core>();
-    const game = useContext(GameContext);
-    
+    const game = useGame();
+
     useEffect(() => {
-        if (game) {
-            setEditor(new Editor.Core(game));
-        }
+        setEditor(new Editor.Core(game));
     }, [game]);
-    
+
     return (
         <EditorContext.Provider value={editor}>
             {props.children}
@@ -22,4 +20,14 @@ function EditorProvider(props: { children: React.ReactNode }) {
     );
 }
 
-export { EditorContext, EditorProvider };
+function useEditor() {
+    const context = useContext(EditorContext);
+
+    if (!context) {
+        throw new Error("useEditor must be used within a EditorProvider");
+    }
+
+    return context;
+}
+
+export { useEditor, EditorProvider };

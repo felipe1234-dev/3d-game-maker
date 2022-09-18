@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
     Location,
     NavigateOptions,
@@ -76,5 +76,15 @@ function HistoryProvider(props: { children: React.ReactNode }) {
     );
 }
 
-export { HistoryProvider, HistoryContext };
+function useHistory() {
+    const context = useContext(HistoryContext);
+
+    if (!context) {
+        throw new Error("useHistory must be used within a HistoryProvider");
+    }
+
+    return context;
+}
+
+export { HistoryProvider, useHistory };
 export type { HistoryValue };

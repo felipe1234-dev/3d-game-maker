@@ -1,24 +1,30 @@
-import { createContext, ReactNode, useEffect, useState, } from "react";
+import {
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import { Severity } from "@local/types";
 import i18n, { t } from "@local/i18n";
 
 interface AlertValue {
-    message: string|null,
-    setMessage(msg: string|null): void,
-    severity: Severity|null,
-    setSeverity(severity: Severity|null): void 
+    message: string | null;
+    setMessage(msg: string | null): void;
+    severity: Severity | null;
+    setSeverity(severity: Severity | null): void;
 }
 
 const AlertContext = createContext<AlertValue>({
     message: null,
     setMessage: () => {},
     severity: null,
-    setSeverity: () => {}
+    setSeverity: () => {},
 });
 
 function AlertProvider(props: { children: ReactNode }) {
-    const [message, setMessage]   = useState<string|null>(null);
-    const [severity, setSeverity] = useState<Severity|null>("error");
+    const [message, setMessage] = useState<string | null>(null);
+    const [severity, setSeverity] = useState<Severity | null>("error");
 
     useEffect(() => {
         if (!message || !severity) {
@@ -26,44 +32,44 @@ function AlertProvider(props: { children: ReactNode }) {
         }
 
         switch (severity) {
-            case "error": 
-                console.error(
-                    t("Error!"), 
-                    message
-                );
+            case "error":
+                console.error(t("Error!"), message);
                 break;
-            case "warning": 
-                console.warn(
-                    t("Warning!"), 
-                    message
-                );
+            case "warning":
+                console.warn(t("Warning!"), message);
                 break;
-            case "info": 
-                console.info(
-                    t("Info!"), 
-                    message
-                );
+            case "info":
+                console.info(t("Info!"), message);
                 break;
-            case "success": 
-                console.log(
-                    t("Success!"), 
-                    message
-                );
+            case "success":
+                console.log(t("Success!"), message);
                 break;
         }
-    }, [message, severity])
-    
+    }, [message, severity]);
+
     return (
-        <AlertContext.Provider value={{
-            message,
-            setMessage,
-            severity,
-            setSeverity
-        }}>
+        <AlertContext.Provider
+            value={{
+                message,
+                setMessage,
+                severity,
+                setSeverity,
+            }}
+        >
             {props.children}
         </AlertContext.Provider>
     );
 }
 
-export { AlertContext, AlertProvider };
+function useAlert() {
+    const context = useContext(AlertContext);
+
+    if (!context) {
+        throw new Error("useAlert must be used within a AlertProvider");
+    }
+
+    return context;
+}
+
+export { AlertProvider, useAlert };
 export type { AlertValue };

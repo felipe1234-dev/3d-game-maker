@@ -1,31 +1,27 @@
-import { useContext, useState, useEffect } from "react";
-import { TextField, MenuItem} from "@mui/material";
+import { useState, useEffect } from "react";
+import { TextField, MenuItem } from "@mui/material";
 
 import * as THREE from "three";
 import { ColorInput } from "@local/components";
 import { t } from "@local/i18n";
 import { Game } from "@local/classes";
-import { GameContext } from "@local/contexts";
+import { useGame } from "@local/contexts";
 
 import fogTypes from "@local/consts/editor/types/fog";
 
 function Fog() {
-    const game = useContext(GameContext);
-    
+    const game = useGame();
+
     const [type, setType] = useState<string>("default");
     // Misc
     const [color, setColor] = useState<string>("#000");
     // Linear
-    const [near, setNear] = useState<number>(1); 
+    const [near, setNear] = useState<number>(1);
     const [far, setFar] = useState<number>(10);
     // Exponential
-    const [density, setDensity] = useState<number>(0.00025); 
+    const [density, setDensity] = useState<number>(0.00025);
 
     useEffect(() => {
-        if (!game) {
-            return;
-        }
-
         const { currentScene } = game;
         if (!currentScene) {
             return;
@@ -45,7 +41,7 @@ function Fog() {
                 setNear(currentScene.fog.near);
                 setFar(currentScene.fog.far);
             }
-    
+
             if (currentScene.fog instanceof THREE.FogExp2) {
                 setType("exponential");
                 setDensity(currentScene.fog.density);
@@ -54,10 +50,6 @@ function Fog() {
     }, [game]);
 
     useEffect(() => {
-        if (!game) {
-            return;
-        }
-
         const { currentScene } = game;
         if (!currentScene) {
             return;
@@ -78,7 +70,7 @@ function Fog() {
                 currentScene.fog = new THREE.FogExp2(color, density);
                 break;
             case "default":
-            default: 
+            default:
                 currentScene.fog = Game.Scene.DEFAULT_FOG;
                 break;
         }
@@ -131,7 +123,7 @@ function Fog() {
                     onChange={evt => setDensity(Number(evt.target.value))}
                     value={density}
                     inputProps={{
-                        step: 0.01
+                        step: 0.01,
                     }}
                 />
             )}

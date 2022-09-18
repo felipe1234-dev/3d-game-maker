@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Divider, TextField } from "@mui/material";
-import { GameContext } from "@local/contexts";
+
+import { useGame } from "@local/contexts";
 import { t } from "@local/i18n";
 
 import Background from "./Background";
@@ -9,16 +10,16 @@ import Fog from "./Fog";
 import Physics from "./Physics";
 
 function Body() {
-    const game = useContext(GameContext);
+    const game = useGame();
     const [sceneName, setSceneName] = useState<string>("");
 
     useEffect(() => {
-        if (!game || !game.currentScene) return;
+        if (!game.currentScene) return;
         setSceneName(game.currentScene.name);
-    }, [game, game?.currentScene]);
+    }, [game, game.currentScene]);
 
     useEffect(() => {
-        if (!game || !game.currentScene) return;
+        if (!game.currentScene) return;
         game.currentScene.name = sceneName;
     }, [sceneName]);
 
@@ -34,7 +35,7 @@ function Body() {
             <Divider />
             <Environment />
             <Divider />
-            <Fog /> 
+            <Fog />
             <Divider />
             <Physics />
         </div>

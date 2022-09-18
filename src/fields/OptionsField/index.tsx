@@ -1,49 +1,38 @@
-
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MenuItem, TextField, TextFieldProps } from "@mui/material";
-
-import { EditorContext } from "@local/contexts";
-import { getProperty, setProperty } from "@local/functions";
-import { FieldProps } from "..";
-import { t } from "@local/i18n";
-
 import * as THREE from "three";
+
+import { useEditor } from "@local/contexts";
+import { getProperty, setProperty } from "@local/functions";
+import { t } from "@local/i18n";
+import { FieldProps } from "..";
 
 import "@local/styles/fields/OptionsField.scss";
 
 function OptionsField(props: FieldProps & TextFieldProps) {
-    const {
-        scope,
-        options = [],
-        attributes, 
-        labels, 
-    } = props;
+    const { scope, options = [], attributes, labels } = props;
     const attrPath = attributes[0];
     const label = labels[0];
-    const editor = useContext(EditorContext);
+    const editor = useEditor();
 
     const [value, setValue] = useState<any>("");
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
+        const object = getProperty<Object | undefined>(
+            scope,
+            editor.transformControls
+        );
 
-        const object = getProperty<Object | undefined>(scope, editor.transformControls);
-        
         if (object) {
-            setValue(
-                getProperty<any>(attrPath, object)
-            );
+            setValue(getProperty<any>(attrPath, object));
         }
     }, [editor?.transformControls.object]);
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<Object | undefined>(scope, editor.transformControls);
+        const object = getProperty<Object | undefined>(
+            scope,
+            editor.transformControls
+        );
         const helper = editor.transformControls.helper || null;
 
         if (object) {

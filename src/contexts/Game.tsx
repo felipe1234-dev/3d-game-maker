@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import * as THREE from "three";
@@ -15,20 +15,19 @@ function GameProvider(props: { children: React.ReactNode }) {
 
     useEffect(() => {
         if (inputGame instanceof Game.Core) {
-            
-        } else {            
+        } else {
             const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            
+
             const stage1 = new Game.Stage("Stage 1");
             const scene1 = new Game.Scene("Scene 1");
             const box = new THREE.BoxGeometry(1, 1, 1);
             const cube = new Game.Mesh(box, material);
             scene1.add(cube);
             stage1.addScene(scene1);
-            
+
             const stage2 = new Game.Stage("Stage 2");
             const scene2 = new Game.Scene("Scene 2");
-            const ball =  new THREE.SphereGeometry(1, 50, 50);
+            const ball = new THREE.SphereGeometry(1, 50, 50);
             const sphere = new Game.Mesh(ball, material);
             scene2.add(sphere);
             stage2.addScene(scene2);
@@ -37,13 +36,13 @@ function GameProvider(props: { children: React.ReactNode }) {
                 name: t("Default game"),
                 description: t("This is a generated game"),
                 scenes: [scene1, scene2],
-                stages: [stage1, stage2]
+                stages: [stage1, stage2],
             });
 
             setGame(obj);
         }
     }, []);
-    
+
     return (
         <GameContext.Provider value={game}>
             {props.children}
@@ -51,4 +50,14 @@ function GameProvider(props: { children: React.ReactNode }) {
     );
 }
 
-export { GameContext, GameProvider };
+function useGame() {
+    const context = useContext(GameContext);
+
+    if (!context) {
+        throw new Error("useGame must be used within a GameProvider");
+    }
+
+    return context;
+}
+
+export { useGame, GameProvider };

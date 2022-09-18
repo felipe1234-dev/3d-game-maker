@@ -1,21 +1,11 @@
-import React, { 
-    useContext, 
-    useEffect, 
-    useState 
-} from "react";
-import {
-    Grid,
-    Slider,
-    Input,
-    InputProps
-} from "@mui/material";
-
-import { EditorContext } from "@local/contexts";
-import { FieldProps } from "../index";
-import { t } from "@local/i18n";
-import { getProperty, setProperty } from "@local/functions";
-
+import React, { useEffect, useState } from "react";
+import { Grid, Slider, Input, InputProps } from "@mui/material";
 import * as THREE from "three";
+
+import { useEditor } from "@local/contexts";
+import { getProperty, setProperty } from "@local/functions";
+import { t } from "@local/i18n";
+import { FieldProps } from "../index";
 
 import "@local/styles/fields/RangeField.scss";
 
@@ -31,7 +21,7 @@ function RangeField(props: FieldProps & InputProps) {
     } = props;
     const attrPath = attributes[0];
     const label = labels[0];
-    const editor = useContext(EditorContext);
+    const editor = useEditor();
 
     const [value, setValue] = useState<number>(0);
 
@@ -46,11 +36,7 @@ function RangeField(props: FieldProps & InputProps) {
     };
 
     const onSliderChange = (evt: Event, newValue: number | number[]) => {
-        setValue(
-            !Array.isArray(newValue) 
-                ? validateNumber(newValue) 
-                : min
-        );
+        setValue(!Array.isArray(newValue) ? validateNumber(newValue) : min);
     };
 
     const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,25 +52,21 @@ function RangeField(props: FieldProps & InputProps) {
     };
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<Object | undefined>(scope, editor.transformControls);
+        const object = getProperty<Object | undefined>(
+            scope,
+            editor.transformControls
+        );
 
         if (object) {
-            setValue(
-                getProperty<number>(attrPath, object)
-            );
+            setValue(getProperty<number>(attrPath, object));
         }
-    }, [editor?.transformControls.object]);
+    }, [editor.transformControls.object]);
 
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-
-        const object = getProperty<Object | undefined>(scope, editor.transformControls);
+        const object = getProperty<Object | undefined>(
+            scope,
+            editor.transformControls
+        );
         const helper = editor.transformControls.helper || null;
 
         if (object) {
@@ -93,26 +75,18 @@ function RangeField(props: FieldProps & InputProps) {
             if (object instanceof THREE.Material) {
                 object.needsUpdate = true;
             }
-            
+
             helper?.update();
         }
     }, [value]);
 
     return (
-        <Grid 
-            className="RangeField"
-            container 
-            spacing={2} 
-            alignItems="center"
-        >
-            <Grid item>
-                {t(label)}
-            </Grid>
+        <Grid className="RangeField" container spacing={2} alignItems="center">
+            <Grid item>{t(label)}</Grid>
             <Grid item xs>
                 <Slider
                     onChange={onSliderChange}
                     value={value}
-
                     step={step}
                     min={min}
                     max={max}
@@ -121,16 +95,14 @@ function RangeField(props: FieldProps & InputProps) {
             <Grid item>
                 <Input
                     size="small"
-
                     onChange={onInputChange}
                     value={value}
                     onBlur={onInputBlur}
-
                     inputProps={{
                         step,
                         min,
                         max,
-                        type: "number"
+                        type: "number",
                     }}
                     {...inputProps}
                 />

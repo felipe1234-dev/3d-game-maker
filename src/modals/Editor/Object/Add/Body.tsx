@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import {
     Box,
     Button,
@@ -6,20 +6,20 @@ import {
     List,
     ListItemButton,
     ListItemIcon,
-    ListItemText
+    ListItemText,
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Flashlight } from "@styled-icons/fluentui-system-filled";
 import { Shapes } from "@styled-icons/fa-solid";
 import { CameraVideo as Camera, Tools } from "@styled-icons/bootstrap";
 import { GameController as Controls } from "@styled-icons/ionicons-solid";
-
 import * as THREE from "three";
+
 import { Game } from "@local/classes";
-import { EditorContext, GameContext } from "@local/contexts";
-import { t } from "@local/i18n";
+import { useEditor, useGame } from "@local/contexts";
 import { stringToColor } from "@local/functions";
 import { Modal, ModalProps } from "@local/components";
+import { t } from "@local/i18n";
 
 import miscList from "@local/consts/editor/aliases/misc/list";
 import lightList from "@local/consts/editor/aliases/lights/list";
@@ -30,42 +30,38 @@ const categories = [
     { label: "Lights", Icon: Flashlight, list: lightList },
     { label: "Shapes", Icon: Shapes, list: shapeList },
     { label: "Cameras", Icon: Camera, list: [] },
-    { label: "Controls", Icon: Controls, list: [] }
+    { label: "Controls", Icon: Controls, list: [] },
 ];
 
 function Body() {
-    const game = useContext(GameContext);
-    const editor = useContext(EditorContext);
+    const game = useGame();
+    const editor = useEditor();
 
-    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openModal, setOpenModal] = useState(false);
     const [modalProps, setModalProps] = useState<ModalProps>({});
-    const [expanded, setExpanded] = useState<number>(-1);
+    const [expanded, setExpanded] = useState(-1);
 
     const addLight = (item: typeof lightList[number]) => {
         const light = new item.Constructor();
         light.name = light.type;
-        
-        game?.currentScene?.add(light);
-    }
+
+        game.currentScene?.add(light);
+    };
 
     const addShape = (item: typeof shapeList[number]) => {
         const geometry = new item.Constructor();
         geometry.name = geometry.type;
-        
+
         const material = new THREE.MeshBasicMaterial({
             color: stringToColor(item.label),
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
         });
         material.name = "MeshBasicMaterial";
-        
+
         const object = new Game.Mesh(geometry, material);
         object.name = "Mesh";
-        
-        const selectedObject = editor?.transformControls.object;
 
-        if (!game) {
-            return;
-        }
+        const selectedObject = editor.transformControls.object;
 
         const { currentScene } = game;
         if (!currentScene) {
@@ -80,42 +76,47 @@ function Body() {
                 header: t("Group this object with the currently selected one?"),
                 footer: (
                     <>
-                        <Button onClick={() => {
-                            game?.currentScene?.add(object);
-                            setOpenModal(false);
-                        }}>
+                        <Button
+                            onClick={() => {
+                                game.currentScene?.add(object);
+                                setOpenModal(false);
+                            }}
+                        >
                             {t("No")}
                         </Button>
-                        <Button onClick={() => {
-                            const group = new THREE.Group();
-                            const selectedObject = editor.transformControls.object;
+                        <Button
+                            onClick={() => {
+                                const group = new THREE.Group();
+                                const selectedObject =
+                                    editor.transformControls.object;
 
-                            if (!selectedObject) return;
+                                if (!selectedObject) return;
 
-                            group.add(object);
-                            group.add(selectedObject);
+                                group.add(object);
+                                group.add(selectedObject);
 
-                            game.currentScene?.add(group);
+                                game.currentScene?.add(group);
 
-                            setOpenModal(false);
-                        }}>
+                                setOpenModal(false);
+                            }}
+                        >
                             {t("Yes")}
                         </Button>
                     </>
-                )
+                ),
             }));
             setOpenModal(true);
         } else {
             currentScene.add(object);
         }
-    }
+    };
 
     const addMisc = (item: typeof miscList[number]) => {
         const miscObject = new item.Constructor();
         miscObject.name = miscObject.type;
 
-        game?.currentScene?.add(miscObject);
-    }
+        game.currentScene?.add(miscObject);
+    };
 
     return (
         <List component="ul">
@@ -137,30 +138,42 @@ function Body() {
                         </ListItemButton>
                         <Collapse in={open} timeout="auto" unmountOnExit>
                             {list.map((item, i) => (
-                                <ListItemButton 
-                                    key={i} 
+                                <ListItemButton
+                                    key={i}
                                     component="li"
                                     onClick={() => {
                                         if (list === lightList) {
-                                            addLight(item as typeof lightList[number]);
+                                            addLight(
+                                                item as typeof lightList[number]
+                                            );
                                         }
 
                                         if (list === shapeList) {
-                                            addShape(item as typeof shapeList[number]);
+                                            addShape(
+                                                item as typeof shapeList[number]
+                                            );
                                         }
 
                                         if (list === miscList) {
-                                            addMisc(item as typeof miscList[number]);
+                                            addMisc(
+                                                item as typeof miscList[number]
+                                            );
                                         }
                                     }}
                                 >
-                                    <ListItemIcon sx={{ justifyContent: "flex-end" }}>
-                                        <Box sx={{ 
-                                            borderRadius: "50%",
-                                            backgroundColor: stringToColor(item.label),
-                                            width: 10,
-                                            height: 10
-                                        }}/>
+                                    <ListItemIcon
+                                        sx={{ justifyContent: "flex-end" }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                borderRadius: "50%",
+                                                backgroundColor: stringToColor(
+                                                    item.label
+                                                ),
+                                                width: 10,
+                                                height: 10,
+                                            }}
+                                        />
                                     </ListItemIcon>
                                     <ListItemText primary={t(item.label)} />
                                 </ListItemButton>
@@ -170,9 +183,7 @@ function Body() {
                 );
             })}
 
-            {(openModal && Object.keys(modalProps)) && (
-                <Modal {...modalProps}/>
-            )}
+            {openModal && Object.keys(modalProps) && <Modal {...modalProps} />}
         </List>
     );
 }
