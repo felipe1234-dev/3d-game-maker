@@ -29,9 +29,13 @@ class VertexHelper extends THREE.Object3D {
         }
 
         this.object.geometry.setFromPoints(points);
+        this.object.geometry.computeBoundingBox();
+        this.object.geometry.computeBoundingSphere();
+        this.object.geometry.computeTangents();
+        this.object.geometry.computeVertexNormals();
     }
 
-    public override attach(object: THREE.Mesh): this {
+    public select(object: THREE.Mesh): this {
         this.object = object;
         this.visible = true;
 
@@ -49,6 +53,8 @@ class VertexHelper extends THREE.Object3D {
             const geometry = new THREE.SphereGeometry(0.05);
             const material = new THREE.MeshBasicMaterial({ color: this.color });
             const sphere = new THREE.Mesh(geometry, material);
+            sphere.name = `${object.name || "No name"}/Vertex ${i + 1}`;
+
             sphere.position.set(x, y, z);
 
             const scope = this;
@@ -69,22 +75,37 @@ class VertexHelper extends THREE.Object3D {
         this.vertices = vertices;
         this.add(...vertices);
         
-        this.editor.game.currentScene?.add(this);
-        this.editor.transformControls.addToBlacklist(this.object);
+        const transformer = this.editor.transformControls;
+        const { currentScene } = this.editor.game;
+
+        currentScene?.add(this);
+        transformer.addToBlacklist(this.object);
+        transformer.unselect();
+
+        this.position.copy(this.object.position);
+
+        this.dispatchEvent({ type: "select", object });
 
         return this;
     }
 
-    public detach(): void {
+    public unselect(): void {
         if (!this.object) return;
 
-        this.editor.transformControls.removeFromBlacklist(this.object);
-
+        const { currentScene } = this.editor.game;
+        const transformer = this.editor.transformControls;
+        
+        transformer.unselect();
+        transformer.removeFromBlacklist(this.object);
+        
+        const object = this.object;
         this.object = undefined;
         this.visible = false;
+        this.clear();
         this.vertices = [];
-
-        this.editor.game.currentScene?.remove(this);
+        
+        currentScene?.remove(this);
+        this.dispatchEvent({ type: "unselect", object });
     }
 }
 
