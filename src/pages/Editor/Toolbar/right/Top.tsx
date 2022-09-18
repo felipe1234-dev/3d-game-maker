@@ -3,7 +3,7 @@ import { Box, IconButton, Tooltip } from "@mui/material";
 import {
     DeleteOutlineRounded as TrashIcon,
     OpenWithRounded as MoveIcon,
-    FitScreenRounded as ResizeIcon,
+    //FitScreenRounded as ResizeIcon,
     CropRotateRounded as RotateIcon,
 } from "@mui/icons-material";
 import { ShapePolygon } from "@styled-icons/boxicons-regular";
@@ -69,7 +69,7 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            <Tooltip title={t("Resize object")} placement="left" arrow>
+            {/* <Tooltip title={t("Resize object")} placement="left" arrow>
                 <span>
                     <IconButton
                         aria-label={t("Resize object")}
@@ -82,7 +82,7 @@ function Top() {
                         <ResizeIcon />
                     </IconButton>
                 </span>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title={t("Rotate object")} placement="left" arrow>
                 <span>
                     <IconButton

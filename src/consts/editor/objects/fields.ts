@@ -58,7 +58,7 @@ export default [
         ],
         step: 0.1
     },
-    {
+    /* {
         key: "scale",
         Component: MultiNumberField,
         attributes: [ 
@@ -74,7 +74,7 @@ export default [
         ],
         step: 0.1,
         min: 0.0
-    },
+    }, */
     {
         key: "intensity",
         Component: SingleNumberField,
