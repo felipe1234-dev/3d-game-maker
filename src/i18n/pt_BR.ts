@@ -158,6 +158,7 @@ const pt_BR = {
     "Bottom radius": "Raio da base",
 
     "Project": "Projeto",
+    "Renderer": "Renderizador",
 
     "Blending": "Mesclagem",
     "No blending": "Sem mesclagem",
