@@ -30,12 +30,8 @@ function App() {
 
     useEffect(() => {
         const lang = getLang();
-
-        if (!lang) {
-            return;
-        }
-
         const langInHTML = lang.replace("_", "-");
+
         document.querySelector("html")?.setAttribute("lang", langInHTML);
 
         if (!pageTitle) {
