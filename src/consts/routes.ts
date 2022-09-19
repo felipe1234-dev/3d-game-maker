@@ -25,7 +25,7 @@ import app from "./app";
 
 const pageRoutes: RouteInfo[] = [
     {
-        pageTitle: `Testing`,
+        pageTitle: "Testing",
         path: "/test",
         Element: TestPage,
         wrappers: [],
