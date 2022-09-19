@@ -53,7 +53,7 @@ class VertexHelper extends THREE.Object3D {
             const geometry = new THREE.SphereGeometry(0.05);
             const material = new THREE.MeshBasicMaterial({ color: this.color });
             const sphere = new THREE.Mesh(geometry, material);
-            sphere.name = `${object.name || "No name"}/Vertex ${i + 1}`;
+            sphere.name = `${object.name || "No name"}/Vertex ${(i + 3)/3}`;
 
             sphere.position.set(x, y, z);
 
