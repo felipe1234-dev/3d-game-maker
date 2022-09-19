@@ -1,13 +1,13 @@
 import * as THREE from "three";
 import * as Editor from "./index";
 import * as Game from "../Game";
+
 import GravityHelper from "./Helpers/GravityHelper.class";
 import GridsHelper from "./Helpers/GridsHelper.class";
 import VertexHelper from "./Helpers/VertexHelper.class";
 
 class EditorCore {
     public game: Game.Core;
-    public renderer: Editor.Renderer;
     public camera: THREE.PerspectiveCamera;
     public orbitControls: Editor.Orbit;
     public transformControls: Editor.Transform;
@@ -18,11 +18,9 @@ class EditorCore {
     
     constructor(game: Game.Core) {
         this.game = game;
-        
-        this.renderer = new Editor.Renderer(this, { antialias: true });
-        
+
         const fov = 75;
-        const { offsetWidth: canvasWidth, offsetHeight: canvasHeight } = this.renderer.canvas;
+        const { offsetWidth: canvasWidth, offsetHeight: canvasHeight } = game.renderer.canvas;
         const aspect = canvasWidth/canvasHeight;
         const near = 0.1;
         const far = 1000;
@@ -32,15 +30,23 @@ class EditorCore {
             near, 
             far
         );
+
+        const onResize = (): void => {
+            this.camera.aspect = game.renderer.canvas.offsetWidth/game.renderer.canvas.offsetHeight;
+            this.camera.updateProjectionMatrix();
+        }
+        
+        window.addEventListener("resize", onResize);
+        new ResizeObserver(onResize).observe(game.renderer.canvas);
         
         this.orbitControls = new Editor.Orbit(
             this.camera, 
-            this.renderer.canvas,
+            game.renderer.canvas,
             this
         );
         this.transformControls = new Editor.Transform(
             this.camera, 
-            this.renderer.canvas,
+            game.renderer.canvas,
             this
         );
 
@@ -53,7 +59,7 @@ class EditorCore {
             this.gravityHelper
         );
 
-        this.game.addEventListener("changeScene", evt => {
+        game.addEventListener("changeScene", evt => {
             const currentScene = evt.currentScene as Game.Scene;
             const previousScene = evt.previousScene as Game.Scene;
             
@@ -84,11 +90,13 @@ class EditorCore {
             currentScene.add(this.gridsHelper);
         });
 
-        this.game.dispatchEvent({
+        game.dispatchEvent({
             type: "changeScene",
-            currentScene: this.game.currentScene,
-            previousScene: this.game.currentScene
+            currentScene: game.currentScene,
+            previousScene: game.currentScene
         });
+
+
     }
 }
 

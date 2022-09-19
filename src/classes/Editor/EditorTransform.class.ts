@@ -77,7 +77,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     }
 
     protected onMouseMove = (event: PointerEvent): void => {
-        const { container } = this.editor.renderer;
+        const { container } = this.editor.game.renderer;
 
         if (!container && !this.canvas) {
             return;

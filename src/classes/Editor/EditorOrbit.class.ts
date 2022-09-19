@@ -3,21 +3,21 @@ import * as ThreeControls from "@local/three-controls";
 import * as Editor from "./index";
 
 class EditorOrbit extends ThreeControls.OrbitControls {
-    private core: Editor.Core;
+    public editor: Editor.Core;
     
     constructor(
         camera: THREE.PerspectiveCamera | THREE.OrthographicCamera, 
         canvas: HTMLCanvasElement, 
-        core: Editor.Core
+        editor: Editor.Core
     ) {
         super(camera, canvas);
-        this.core = core;
+        this.editor = editor;
         this.canvas.addEventListener("pointerdown", () => this.update());
         this.canvas.addEventListener("pointermove", () => this.update());
     }
     
     public get canvas(): HTMLCanvasElement {
-        return this.core.renderer.domElement;
+        return this.editor.game.renderer.domElement;
     }
     
     public zoomIn = (): void => {
