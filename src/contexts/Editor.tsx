@@ -1,15 +1,19 @@
 import React, { useEffect, useContext, createContext, useState } from "react";
 
 import { Editor } from "@local/classes";
-import { useGame } from "./Game";
+import { GameContext } from "@local/contexts";
 
 const EditorContext = createContext<Editor.Core | undefined>(undefined);
 
 function EditorProvider(props: { children: React.ReactNode }) {
     const [editor, setEditor] = useState<Editor.Core>();
-    const game = useGame();
+    const game = useContext(GameContext);
 
     useEffect(() => {
+        if (!game) {
+            return;
+        }
+
         setEditor(new Editor.Core(game));
     }, [game]);
 
@@ -30,4 +34,4 @@ function useEditor() {
     return context;
 }
 
-export { useEditor, EditorProvider };
+export { useEditor, EditorProvider, EditorContext };

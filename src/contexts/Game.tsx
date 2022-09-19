@@ -32,12 +32,19 @@ function GameProvider(props: { children: React.ReactNode }) {
             scene2.add(sphere);
             stage2.addScene(scene2);
 
+            const camera = new Game.PerspectiveCamera();
+
             const obj = new Game.Core({
                 name: t("Default game"),
                 description: t("This is a generated game"),
                 scenes: [scene1, scene2],
                 stages: [stage1, stage2],
+                cameras: [camera],
             });
+
+            obj.renderer.physicallyCorrectLights = true;
+            obj.renderer.shadowMap.enabled = true;
+            obj.renderer.toneMapping = THREE.LinearToneMapping;
 
             setGame(obj);
         }
@@ -60,4 +67,4 @@ function useGame() {
     return context;
 }
 
-export { useGame, GameProvider };
+export { useGame, GameProvider, GameContext };

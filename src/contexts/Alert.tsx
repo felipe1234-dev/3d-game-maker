@@ -66,5 +66,5 @@ function useAlert() {
     return context;
 }
 
-export { AlertProvider, useAlert };
+export { AlertProvider, useAlert, AlertContext };
 export type { AlertValue };

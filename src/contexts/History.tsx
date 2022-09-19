@@ -82,5 +82,5 @@ function useHistory() {
     return context;
 }
 
-export { HistoryProvider, useHistory };
+export { HistoryProvider, useHistory, HistoryContext };
 export type { HistoryValue };
