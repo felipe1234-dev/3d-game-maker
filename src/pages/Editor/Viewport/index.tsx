@@ -1,37 +1,56 @@
-import { useEffect, useRef, useState } from "react";
-import { Box } from "@mui/material";
+import { useEffect, useState } from "react";
 
-import { useEditor } from "@local/contexts";
+import { useEditor, useGame } from "@local/contexts";
 import { CursorTooltip } from "@local/components";
 import { t } from "@local/i18n";
 
 function Viewport() {
     const [hideTooltip, setHideTooltip] = useState(true);
-    const viewportElement = useRef<HTMLElement>();
+    const [containerEl, setContainerEl] = useState<HTMLElement | null>(null);
+
     const editor = useEditor();
+    const game = useGame();
 
     useEffect(() => {
-        const container = viewportElement.current;
+        const container = containerEl;
 
-        if (container && container.innerHTML.length === 0) {
-            const x = 0;
-            const y = 10;
-            const z = 10;
-            editor.camera.position.set(x, y, z);
+        if (
+            container &&
+            container.innerHTML.length === 0 &&
+            game.currentScene
+        ) {
+            editor.camera.position.set(0, 10, 10);
             editor.orbitControls.update();
 
-            editor.renderer.container = container;
-            editor.renderer.canvas?.addEventListener("pointermove", () => {
+            game.renderer.container = container;
+
+            const onResize = () => {
+                editor.camera.aspect =
+                    game.renderer.canvas.offsetWidth /
+                    game.renderer.canvas.offsetHeight;
+                editor.camera.updateProjectionMatrix();
+            };
+
+            window.addEventListener("resize", onResize);
+            new ResizeObserver(onResize).observe(container);
+
+            game.renderer.canvas.addEventListener("pointermove", () => {
                 const intersections = editor.transformControls.intersects;
                 setHideTooltip(intersections.length < 1);
             });
-            editor.renderer.startAnimation(() => {});
+
+            game.renderer.startAnimation(
+                () => {},
+                game.currentScene,
+                editor.camera
+            );
 
             console.log(editor);
+            console.log(game);
         }
-    }, [viewportElement, editor]);
+    }, [containerEl, editor, game]);
 
-    const intersections = editor?.transformControls.intersects || [];
+    const intersections = editor.transformControls.intersects || [];
     const { object } = intersections[0] || {};
 
     return (
@@ -42,9 +61,8 @@ function Viewport() {
             offsetY={-10}
         >
             {props => (
-                <Box
-                    ref={viewportElement}
-                    component="section"
+                <section
+                    ref={el => setContainerEl(el)}
                     className="Editor-viewport"
                     {...props}
                 />
