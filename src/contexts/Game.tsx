@@ -16,13 +16,23 @@ function GameProvider(props: { children: React.ReactNode }) {
     useEffect(() => {
         if (inputGame instanceof Game.Core) {
         } else {
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const material = new THREE.MeshPhysicalMaterial({
+                color: 0x00ff00,
+            });
 
             const stage1 = new Game.Stage("Stage 1");
             const scene1 = new Game.Scene("Scene 1");
             const box = new THREE.BoxGeometry(1, 1, 1);
             const cube = new Game.Mesh(box, material);
             scene1.add(cube);
+
+            const spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.position.set(10, 10, 10);
+            scene1.add(spotLight);
+
+            /* const spotLightHelper = new THREE.SpotLightHelper( spotLight );
+            scene.add(spotLightHelper); */
+
             stage1.addScene(scene1);
 
             const stage2 = new Game.Stage("Stage 2");

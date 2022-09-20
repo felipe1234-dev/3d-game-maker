@@ -52,7 +52,7 @@ function Body() {
         const geometry = new item.Constructor();
         geometry.name = geometry.type;
 
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE.MeshPhysicalMaterial({
             color: stringToColor(item.label),
             side: THREE.DoubleSide,
         });
