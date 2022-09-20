@@ -48,5 +48,8 @@
     "prettier.singleQuote": false,
     "git.autofetch": true,
     "git.confirmSync": false,
-    "files.removeFinalNewlines": true
+    "files.removeFinalNewlines": true,
+    "editor.codeActionsOnSave": {
+        "source.removeUnusedImports": true
+    }
 }
