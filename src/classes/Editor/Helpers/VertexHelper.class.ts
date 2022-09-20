@@ -81,6 +81,8 @@ class VertexHelper extends THREE.Object3D {
         currentScene?.add(this);
         transformer.addToBlacklist(this.object);
         transformer.unselect();
+        transformer.setMode("translate");
+        transformer.lock();
 
         this.position.copy(this.object.position);
 
@@ -97,6 +99,7 @@ class VertexHelper extends THREE.Object3D {
         
         transformer.unselect();
         transformer.removeFromBlacklist(this.object);
+        transformer.unlock();
         
         const object = this.object;
         this.object = undefined;

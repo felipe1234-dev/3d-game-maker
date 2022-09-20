@@ -14,13 +14,15 @@ import { Mode } from "@local/classes/Editor/EditorTransform.class";
 import { t } from "@local/i18n";
 
 function Top() {
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
+    const [isDisabled, setIsDisabled] = useState(true);
     const [mode, setMode] = useState<Mode>("translate");
     const editor = useEditor();
     const location = useLocation();
 
     const onSetStates = () => {
-        setIsDisabled(!editor.transformControls.object);
+        setIsDisabled(
+            !editor.transformControls.object || editor.transformControls.locked
+        );
         setMode(editor.transformControls.mode);
     };
 
@@ -99,6 +101,7 @@ function Top() {
                             useLoader: false,
                         }}
                         aria-label={t("Edit vertices")}
+                        data-selected={editor.transformControls.locked}
                         disabled={isDisabled}
                     >
                         <ShapePolygon width={24} />

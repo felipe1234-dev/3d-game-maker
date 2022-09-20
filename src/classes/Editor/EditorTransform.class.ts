@@ -11,6 +11,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     public intersected?: THREE.Intersection;
     public helper?: THREE.BoxHelper;
     public blacklist: THREE.Object3D[];
+    public locked: boolean;
 
     constructor(
         camera: THREE.Camera,
@@ -27,6 +28,7 @@ class EditorTransform extends ThreeControls.TransformControls {
         this.canvas.addEventListener("pointerdown", this.onMouseDown, false);
 
         this.blacklist = [ this ];
+        this.locked = false;
     }
 
     public addToBlacklist(...objects: THREE.Object3D[]): void {
@@ -175,6 +177,8 @@ class EditorTransform extends ThreeControls.TransformControls {
     }
     
     public setMode = (mode: Mode): void => {
+        if (this.locked) return;
+
         this.mode = mode;
         
         this.dispatchEvent({ type: "setMode", mode });
@@ -238,6 +242,14 @@ class EditorTransform extends ThreeControls.TransformControls {
         this.editor.orbitControls.enableRotate = true;
                 
         this.dispatchEvent({ type: "unselect", object });
+    }
+
+    public lock = (): void => {
+        this.locked = true;
+    }
+
+    public unlock = (): void => {
+        this.locked = false;
     }
 }
 
