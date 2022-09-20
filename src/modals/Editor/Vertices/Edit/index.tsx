@@ -27,7 +27,7 @@ function EditVerticesModal() {
             header={t("Vertex editor")}
             body={<Body />}
             height={500}
-            width={400}
+            width={350}
             disableBackdrop
             draggable
         />
