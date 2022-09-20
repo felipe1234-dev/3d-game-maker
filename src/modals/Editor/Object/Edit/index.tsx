@@ -35,15 +35,14 @@ function EditObjectModal() {
                         const { Component: Field, helpText, ...props } = field;
 
                         return (
-                            <span key={`${attr}-${i}`}>
-                                <Helper
-                                    text={helpText ? t(helpText) : helpText}
-                                    placement="right"
-                                    arrow
-                                >
-                                    <Field scope="object" {...props} />
-                                </Helper>
-                            </span>
+                            <Helper
+                                key={`${attr}-${i}`}
+                                text={helpText ? t(helpText) : helpText}
+                                placement="right"
+                                arrow
+                            >
+                                <Field scope="object" {...props} />
+                            </Helper>
                         );
                     })}
                 </>

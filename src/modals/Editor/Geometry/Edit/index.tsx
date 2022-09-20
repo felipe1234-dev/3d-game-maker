@@ -39,15 +39,14 @@ function EditGeometryModal() {
                         const { Component: Field, helpText, ...props } = field;
 
                         return (
-                            <span key={`${attr}-${i}`}>
-                                <Helper
-                                    text={helpText ? t(helpText) : undefined}
-                                    placement="right"
-                                    arrow
-                                >
-                                    <Field scope="object.geometry" {...props} />
-                                </Helper>
-                            </span>
+                            <Helper
+                                key={`${attr}-${i}`}
+                                text={helpText ? t(helpText) : undefined}
+                                placement="right"
+                                arrow
+                            >
+                                <Field scope="object.geometry" {...props} />
+                            </Helper>
                         );
                     })}
                 </>
