@@ -31,8 +31,43 @@ class VertexHelper extends THREE.Object3D {
         this.object.geometry.setFromPoints(points);
         this.object.geometry.computeBoundingBox();
         this.object.geometry.computeBoundingSphere();
-        this.object.geometry.computeTangents();
         this.object.geometry.computeVertexNormals();
+    }
+
+    protected createVertexSphere(
+        name: string, 
+        x: number, 
+        y: number, 
+        z: number
+    ): THREE.Mesh {
+        const geometry = new THREE.SphereGeometry(0.05);
+        const material = new THREE.MeshBasicMaterial({ color: this.color });
+        const sphere = new THREE.Mesh(geometry, material);
+            
+        sphere.position.set(x, y, z);
+        sphere.name = name;
+
+        const scope = this;
+        sphere.position = new Proxy(sphere.position, {
+            set: function(pos, ax, value) {
+                const previousPosition = pos.clone();
+
+                if (ax === "x" || ax === "y" || ax === "z")
+                    pos[ax] = Number(value);
+                        
+                scope.updateObjectGeometry();
+
+                scope.dispatchEvent({ 
+                    type: "changeVertex", 
+                    previousPosition,
+                    currentPosition: pos
+                });
+
+                return true;
+            }
+        });
+
+        return sphere;
     }
 
     public select(object: THREE.Mesh): this {
@@ -50,24 +85,12 @@ class VertexHelper extends THREE.Object3D {
             const y = positions[i + 1];
             const z = positions[i + 2];
 
-            const geometry = new THREE.SphereGeometry(0.05);
-            const material = new THREE.MeshBasicMaterial({ color: this.color });
-            const sphere = new THREE.Mesh(geometry, material);
-            sphere.name = `${object.name || "No name"}/Vertex ${(i + 3)/3}`;
-
-            sphere.position.set(x, y, z);
-
-            const scope = this;
-            sphere.position = new Proxy(sphere.position, {
-                set: function(pos, ax, value) {
-                    if (ax === "x" || ax === "y" || ax === "z")
-                        pos[ax] = Number(value);
-                    
-                    scope.updateObjectGeometry();
-
-                    return true;
-                }
-            });
+            const sphere = this.createVertexSphere(
+                `${object.name || "No name"}/Vertex ${(i + 3)/3}`,
+                x,
+                y,
+                z
+            );
 
             vertices.push(sphere);
         }
@@ -109,6 +132,33 @@ class VertexHelper extends THREE.Object3D {
         
         currentScene?.remove(this);
         this.dispatchEvent({ type: "unselect", object });
+    }
+
+    public addVertex(x: number, y: number, z: number): void {
+        if (!this.object) return;
+
+        const sphere = this.createVertexSphere(
+            `${this.object.name || "No name"}/Vertex ${this.vertices.length + 1}`,
+            x, y, z
+        );
+
+        this.vertices.push(sphere);
+        this.add(sphere);
+        this.updateObjectGeometry();
+
+        this.editor.transformControls.select(sphere);
+        
+        this.dispatchEvent({ type: "addVertex", vertex: sphere });
+    }
+
+    public deleteVertex(vertex: THREE.Mesh): void {
+        this.editor.transformControls.unselect();
+        
+        this.vertices = this.vertices.filter(vert => vert.uuid !== vertex.uuid);
+        this.remove(vertex);
+        this.updateObjectGeometry();
+        
+        this.dispatchEvent({ type: "deleteVertex", vertex });
     }
 }
 
