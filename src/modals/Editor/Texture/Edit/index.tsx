@@ -39,14 +39,15 @@ function EditTextureModal() {
                         const { Component: Field, helpText, ...props } = field;
 
                         return (
-                            <Helper
-                                key={i}
-                                text={helpText ? t(helpText) : undefined}
-                                placement="right"
-                                arrow
-                            >
-                                <Field scope="object.material" {...props} />
-                            </Helper>
+                            <span key={`${attr}-${i}`}>
+                                <Helper
+                                    text={helpText ? t(helpText) : undefined}
+                                    placement="right"
+                                    arrow
+                                >
+                                    <Field scope="object.material" {...props} />
+                                </Helper>
+                            </span>
                         );
                     })}
                 </>

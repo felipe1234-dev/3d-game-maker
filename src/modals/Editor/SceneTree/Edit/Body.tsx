@@ -16,7 +16,7 @@ import { Game } from "@local/classes";
 import { t } from "@local/i18n";
 
 function Body() {
-    const [expanded, setExpanded] = useState<string>("");
+    const [expanded, setExpanded] = useState("");
 
     const game = useGame();
     const editor = useEditor();

@@ -126,7 +126,7 @@ function Body() {
                 return (
                     <>
                         <ListItemButton
-                            key={i}
+                            key={`${label}-${i}`}
                             component="li"
                             onClick={() => setExpanded(open ? -1 : i)}
                         >
@@ -139,7 +139,7 @@ function Body() {
                         <Collapse in={open} timeout="auto" unmountOnExit>
                             {list.map((item, i) => (
                                 <ListItemButton
-                                    key={i}
+                                    key={`${item.label}-${i}`}
                                     component="li"
                                     onClick={() => {
                                         if (list === lightList) {

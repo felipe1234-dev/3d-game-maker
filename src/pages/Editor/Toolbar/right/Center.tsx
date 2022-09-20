@@ -16,7 +16,6 @@ import { ArrowIosBack } from "@styled-icons/evaicons-solid";
 
 import * as THREE from "three";
 import * as ThreeControls from "@local/three-controls";
-import { Editor } from "@local/classes";
 
 import { ResizableDrawer } from "@local/components";
 import { useEditor, useGame } from "@local/contexts";
@@ -218,7 +217,7 @@ function Center() {
             >
                 <List className="ObjectTree-list" component="ul">
                     {sceneObjects.map(object => (
-                        <ObjectItem object={object} />
+                        <ObjectItem key={object.uuid} object={object} />
                     ))}
                 </List>
             </ResizableDrawer>
