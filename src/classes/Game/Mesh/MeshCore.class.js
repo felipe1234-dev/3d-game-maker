@@ -3,6 +3,9 @@ import * as CANNON from "cannon-es";
 import { threeToCannon } from "three-to-cannon";
 import MeshBody from "./MeshBody.class";
 
+/**
+ * @implements {GameObject}
+ */
 class MeshCore extends THREE.Mesh {
     /**
      * @param {THREE.BufferGeometry=} geometry
@@ -13,6 +16,16 @@ class MeshCore extends THREE.Mesh {
      */
     constructor(geometry, material, physics = {}) {
         super(geometry, material);
+
+        /**
+         * @type {THREE.BoxHelper}
+         */
+        this.helper = new THREE.BoxHelper(this);
+
+        /**
+         * @type {GameObject[]}
+         */
+        this.children = [];
 
         const scope = this;
 

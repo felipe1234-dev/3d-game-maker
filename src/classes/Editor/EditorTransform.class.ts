@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as ThreeControls from "@local/three-controls";
-import * as Editor from "./index";
+import { Editor, Game } from "..";
 
 export type Mode = "translate" | "scale" | "rotate";
 
@@ -9,7 +9,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     public readonly raycaster: THREE.Raycaster;
     public readonly mouse: THREE.Vector2;
     public intersected?: THREE.Intersection;
-    public helper?: THREE.BoxHelper;
+    public helper?: Game.ObjectHelper;
     public blacklist: THREE.Object3D[];
     public locked: boolean;
 
@@ -172,7 +172,7 @@ class EditorTransform extends ThreeControls.TransformControls {
             !this.object &&
             !this.helper
         ) {
-            this.select(this.intersected.object);
+            this.select(this.intersected.object as Game.Object);
         }
     }
     
@@ -201,7 +201,7 @@ class EditorTransform extends ThreeControls.TransformControls {
         this.dispatchEvent({ type: "delete" });
     }
 
-    public select = (object: THREE.Object3D): void => {
+    public select = (object: Game.Object): void => {
         const { scene: currentScene } = this.editor.game.current;
         if (!currentScene) {
             return;
@@ -215,13 +215,14 @@ class EditorTransform extends ThreeControls.TransformControls {
             this.unselect();
         }
 
-        const boxHelper = new THREE.BoxHelper(object, 0xffff00);
-        this.helper = boxHelper;
-
+        this.helper = object.helper || new THREE.BoxHelper(object);
+        this.helper.visible = true;
+        currentScene.add(this.helper);
+        this.helper.update();
+        
         this.attach(object);
         currentScene.add(this);
-        currentScene.add(boxHelper);
-
+        
         this.editor.orbitControls.enableRotate = false;
         this.dispatchEvent({ type: "select", object });
     }
@@ -237,7 +238,8 @@ class EditorTransform extends ThreeControls.TransformControls {
 
         currentScene.remove(this.helper);
         currentScene.remove(this);
-                
+        
+        this.helper.visible = false;
         this.helper = undefined;
         this.editor.orbitControls.enableRotate = true;
                 

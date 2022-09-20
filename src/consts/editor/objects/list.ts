@@ -1,9 +1,8 @@
 import { Game } from "@local/classes";
-import * as THREE from "three";
 
 export default [
     {
-        Constructor: THREE.Group,
+        Constructor: Game.Group,
         label: "Group",
         attributes: [
             "type",
@@ -37,7 +36,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.AmbientLight,
+        Constructor: Game.AmbientLight,
         label: "Ambient light",
         attributes: [
             "type",
@@ -48,14 +47,15 @@ export default [
             "rotation",
             "intensity",
             "color",
-            "shadow",
+            "castShadow",
+            "receiveShadow",
             "visible",
             "frustumCulled",
             "renderOrder"
         ]
     },
     {
-        Constructor: THREE.DirectionalLight,
+        Constructor: Game.DirectionalLight,
         label: "Directional light",
         attributes: [
             "type",
@@ -65,7 +65,8 @@ export default [
             "scale",
             "rotation",
             "intensity",
-            "shadow",
+            "castShadow",
+            "receiveShadow",
             "shadowBias",
             "shadowRadius",
             "shadowNormalBias",
@@ -75,7 +76,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.HemisphereLight,
+        Constructor: Game.HemisphereLight,
         label: "Hemisphere light",
         attributes: [
             "type",
@@ -93,7 +94,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.PointLight,
+        Constructor: Game.PointLight,
         label: "Point light",
         attributes: [
             "type",
@@ -106,7 +107,8 @@ export default [
             "color",
             "distance",
             "decay",
-            "shadow",
+            "castShadow",
+            "receiveShadow",
             "shadowBias",
             "shadowRadius",
             "shadowNormalBias",
@@ -116,7 +118,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.SpotLight,
+        Constructor: Game.SpotLight,
         label: "Spotlight",
         attributes: [
             "type",
@@ -131,7 +133,8 @@ export default [
             "angle",
             "penumbra",
             "decay",
-            "shadow",
+            "castShadow",
+            "receiveShadow",
             "shadowBias",
             "shadowRadius",
             "shadowNormalBias",
