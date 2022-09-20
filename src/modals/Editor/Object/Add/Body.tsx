@@ -86,7 +86,7 @@ function Body() {
                         </Button>
                         <Button
                             onClick={() => {
-                                const group = new THREE.Group();
+                                const group = new Game.Group();
                                 const selectedObject =
                                     editor.transformControls.object;
 
