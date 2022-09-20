@@ -14,7 +14,6 @@ import { Plus } from "@styled-icons/boxicons-regular";
 import { Minus } from "@styled-icons/heroicons-outline";
 import { ArrowIosBack } from "@styled-icons/evaicons-solid";
 
-import * as THREE from "three";
 import * as ThreeControls from "@local/three-controls";
 
 import { ResizableDrawer } from "@local/components";
