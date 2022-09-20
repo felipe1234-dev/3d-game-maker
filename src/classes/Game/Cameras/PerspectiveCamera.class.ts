@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Game } from "../../";
-import GameCamera from "./GameCamera.interface";
+import GameCamera from "../Interfaces/GameCamera.interface";
 
 class PerspectiveCamera extends THREE.PerspectiveCamera implements GameCamera {
     public game?: Game.Core;
