@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import * as THREE from "three";
 
+import { Game } from "@local/classes";
 import { Modal } from "@local/components";
 import { useUnmount } from "@local/hooks";
 import { useEditor } from "@local/contexts";
@@ -13,7 +13,7 @@ function EditVerticesModal() {
 
     useEffect(() => {
         const { object } = editor.transformControls || {};
-        if (!object || !(object instanceof THREE.Mesh)) return;
+        if (!object || !(object instanceof Game.Mesh)) return;
         editor.vertexHelper.select(object);
     }, []);
 
