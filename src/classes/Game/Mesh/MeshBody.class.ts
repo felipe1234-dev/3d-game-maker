@@ -1,6 +1,6 @@
-import * as THREE from "three";
 import * as CANNON from "cannon-es";
 import MeshCore from "./MeshCore.class";
+import { threeToCannon } from "three-to-cannon";
 
 class MeshBody extends CANNON.Body {
     public mesh?: MeshCore;
@@ -34,6 +34,10 @@ class MeshBody extends CANNON.Body {
         this.mesh = mesh;
     }
 
+    public toJSON(): any {
+        return {};
+    }
+
     set needsUpdate(bool: boolean) {
         if (!this.mesh || !bool) {
             return;
@@ -48,36 +52,15 @@ class MeshBody extends CANNON.Body {
         this.quaternion.copy(new CANNON.Quaternion(qx, qy, qz, w));
 
         for (const shape of this.shapes) {
-            const geometry = this.mesh.geometry;
-
-            let newShape: CANNON.Shape | undefined;
-
-            if (geometry instanceof THREE.BoxGeometry) {
-            
-                const { width: x, height: y, depth: z } = geometry.parameters;
-                newShape = new CANNON.Box(new CANNON.Vec3(x/2, y/2, z/2));
-            
-            } else if (geometry instanceof THREE.CylinderGeometry) {
-
-                const { radiusTop, radiusBottom, height, radialSegments } = geometry.parameters;
-                newShape = new CANNON.Cylinder(radiusTop, radiusBottom, height, radialSegments);
-            
-            } else if (geometry instanceof THREE.PlaneGeometry) {
-            
-                const { width: x, height: y } = geometry.parameters;
-                newShape = new CANNON.Box(new CANNON.Vec3(x/2, y/2, 0.1));
-            
-            } else if (geometry instanceof THREE.SphereGeometry) {
-
-
-
-            }
-
             this.removeShape(shape);
-            if (newShape) this.addShape(newShape);
         }
-    }
 
+        const result = threeToCannon(this.mesh);
+        if (!result) return;
+        
+        const { shape } = result;
+        if (shape) this.addShape(shape);
+    }
 }
 
 export default MeshBody;
