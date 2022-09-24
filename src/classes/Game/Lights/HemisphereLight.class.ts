@@ -3,6 +3,8 @@ import GameObject from "../Interfaces/GameObject.interface";
 
 class HemisphereLight extends THREE.HemisphereLight implements GameObject {
     public helper: THREE.HemisphereLightHelper;
+    public readonly castShadow: boolean;
+    public readonly receiveShadow: boolean;
     
     constructor(
         skyColor?: THREE.ColorRepresentation, 
@@ -14,8 +16,12 @@ class HemisphereLight extends THREE.HemisphereLight implements GameObject {
         this.helper = new THREE.HemisphereLightHelper(this, 1);
         this.helper.visible = false;
 
-        this.receiveShadow = true;
-        this.castShadow = true;
+        this.castShadow = false;
+        this.receiveShadow = false;
+    }
+
+    public set skyColor(skyColor: THREE.ColorRepresentation) {
+        this.color = new THREE.Color(skyColor);
     }
 }
 

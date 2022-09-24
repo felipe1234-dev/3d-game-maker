@@ -3,6 +3,7 @@ import GameObject from "../Interfaces/GameObject.interface";
 
 class PointLight extends THREE.PointLight implements GameObject {
     public helper: THREE.PointLightHelper;
+    public readonly receiveShadow: boolean;
 
     constructor(
         color?: THREE.ColorRepresentation, 
@@ -15,7 +16,7 @@ class PointLight extends THREE.PointLight implements GameObject {
         this.helper = new THREE.PointLightHelper(this);
         this.helper.visible = false;
 
-        this.receiveShadow = true;
+        this.receiveShadow = false;
         this.castShadow = true;
     }
 }

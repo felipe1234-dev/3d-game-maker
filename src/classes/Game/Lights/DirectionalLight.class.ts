@@ -3,6 +3,7 @@ import GameObject from "../Interfaces/GameObject.interface";
 
 class DirectionalLight extends THREE.DirectionalLight implements GameObject {
     public helper: THREE.DirectionalLightHelper;
+    public readonly receiveShadow: boolean;
 
     constructor(color?: THREE.ColorRepresentation, intensity?: number) {
         super(color, intensity);
@@ -10,7 +11,7 @@ class DirectionalLight extends THREE.DirectionalLight implements GameObject {
         this.helper = new THREE.DirectionalLightHelper(this);
         this.helper.visible = false;
 
-        this.receiveShadow = true;
+        this.receiveShadow = false;
         this.castShadow = true;
     }   
 }

@@ -3,6 +3,7 @@ import GameObject from "../Interfaces/GameObject.interface";
 
 class SpotLight extends THREE.SpotLight implements GameObject {
     public helper: THREE.SpotLightHelper;
+    public readonly receiveShadow: boolean;
 
     constructor(
         color?: THREE.ColorRepresentation,
@@ -17,7 +18,7 @@ class SpotLight extends THREE.SpotLight implements GameObject {
         this.helper = new THREE.SpotLightHelper(this);
         this.helper.visible = false;
 
-        this.receiveShadow = true;
+        this.receiveShadow = false;
         this.castShadow = true;
     }
 }
