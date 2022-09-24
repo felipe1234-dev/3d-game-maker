@@ -55,38 +55,12 @@ class MeshCore extends THREE.Mesh {
                         geometry[key] = newGeometry[key];
                     });
 
-                    const mesh = new THREE.Mesh(geometry);
-                    const { shape } = threeToCannon(mesh) || {};
-                    scope.body = new MeshBody({
-                        mesh: scope,
-                        shape,
-                        collisionFilterGroup: scope.body.collisionFilterGroup,
-                        collisionFilterMask: scope.body.collisionFilterMask,
-                        collisionResponse: scope.body.collisionResponse,
-                        position: scope.body.position,
-                        velocity: scope.body.velocity,
-                        mass: scope.body.mass,
-                        material: scope.body.material,
-                        linearDamping: scope.body.linearDamping,
-                        type: scope.body.type,
-                        allowSleep: scope.body.allowSleep,
-                        sleepSpeedLimit: scope.body.sleepSpeedLimit,
-                        sleepTimeLimit: scope.body.sleepTimeLimit,
-                        quaternion: scope.body.quaternion,
-                        angularVelocity: scope.body.angularVelocity,
-                        fixedRotation: scope.body.fixedRotation,
-                        angularDamping: scope.body.angularDamping,
-                        linearFactor: scope.body.linearFactor,
-                        angularFactor: scope.body.angularFactor,
-                        isTrigger: scope.body.isTrigger,
-                    });
+                    scope.body.needsUpdate = true;
 
                     return true;
                 },
             });
         }
-
-        const { hitboxSize = 1.3 } = physics;
 
         const result = threeToCannon(this) || {};
         const { shape } = result;
@@ -128,14 +102,6 @@ class MeshCore extends THREE.Mesh {
             },
         });
 
-        this.scale = new Proxy(this.scale, {
-            set: function (scale, axis, value) {
-                scale[axis] = Number(value);
-
-                return true;
-            },
-        });
-
         this.receiveShadow = true;
         this.castShadow = true;
 
@@ -150,6 +116,12 @@ class MeshCore extends THREE.Mesh {
         if (!this.body || !bool) {
             return;
         }
+
+        const { x: px, y: py, z: pz } = this.body.position;
+        this.position.copy(new THREE.Vector3(px, py, pz));
+
+        const { x: qx, y: qy, z: qz, w } = this.body.quaternion;
+        this.quaternion.copy(new THREE.Quaternion(qx, qy, qz, w));
     }
 }
 
