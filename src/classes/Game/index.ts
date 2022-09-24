@@ -18,11 +18,13 @@ export { default as HemisphereLight } from "./Lights/HemisphereLight.class";
 export { default as PointLight } from "./Lights/PointLight.class";
 export { default as SpotLight } from "./Lights/SpotLight.class";
 
-// Formats 
+// Formats
 export type { default as GameFormat } from "./Formats/GameFormat.interface";
 export type { default as StageFormat } from "./Formats/StageFormat.interface";
 export type { default as SceneFormat } from "./Formats/SceneFormat.interface";
 export type { default as RendererFormat } from "./Formats/RendererFormat.interface";
+export type { default as BodyFormat } from "./Formats/BodyFormat.interface";
+export type { default as PhysicsFormat } from "./Formats/PhysicsFormat.interface";
 
 // Interfaces
 export type { default as Camera } from "./Interfaces/GameCamera.interface";
