@@ -91,6 +91,19 @@ class SceneCore extends THREE.Scene {
 
         return this;
     }
+
+    public override toJSON(meta?: any): Game.SceneFormat {
+        const json = super.toJSON(meta);
+
+        if (this.game) json.game = this.game.uuid;
+        json.bodies = [];
+
+        for (const body of this.physics.bodies) {
+            json.bodies.push(body.toJSON());
+        }
+
+        return json;
+    }
 }
 
 export default SceneCore;

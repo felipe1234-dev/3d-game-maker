@@ -1,7 +1,8 @@
 import * as THREE from "three";
-import { Game, Utils } from "..";
+import { Game } from "..";
 
 class GameCore extends THREE.EventDispatcher {
+    public readonly uuid: string;
     public name: string;
     public description: string;
 
@@ -15,7 +16,7 @@ class GameCore extends THREE.EventDispatcher {
         camera?: Game.Camera;
     };
 
-    public renderer: Utils.Renderer;
+    public renderer: Game.Renderer;
 
     constructor(props: {
         name: string;
@@ -25,10 +26,12 @@ class GameCore extends THREE.EventDispatcher {
         stages?: Game.Stage[];
         cameras?: Game.Camera[];
 
-        renderer?: Utils.Renderer;
+        renderer?: Game.Renderer;
     }) {
         super();
         
+        this.uuid = THREE.MathUtils.generateUUID();
+
         const {
             name,
             description,
@@ -63,7 +66,7 @@ class GameCore extends THREE.EventDispatcher {
             camera.game = this;
         }
 
-        this.renderer = renderer || new Utils.Renderer({ antialias: true});
+        this.renderer = renderer || new Game.Renderer({ antialias: true});
     }
 
     public get currentScene(): Game.Scene | undefined {
@@ -76,6 +79,32 @@ class GameCore extends THREE.EventDispatcher {
 
     public get currentCamera(): Game.Camera | undefined {
         return this.current.camera;
+    }
+
+    public toJSON(): Game.GameFormat {
+        const json: Game.GameFormat = {
+            uuid: this.uuid,
+            name: this.name,
+            description: this.description,
+            stages: [],
+            scenes: [],
+            cameras: [],
+            renderer: this.renderer.toJSON(),
+        };
+
+        for (const stage of this.stages) {
+            json.stages.push(stage.toJSON());
+        }
+
+        for (const scene of this.scenes) {
+            json.scenes.push(scene.toJSON());
+        }
+
+        for (const camera of this.cameras) {
+            json.cameras.push(camera.toJSON());
+        }
+
+        return json;
     }
 }
 

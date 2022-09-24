@@ -111,6 +111,23 @@ class StageCore extends THREE.EventDispatcher {
         this.game?.stages.forEach(stage => stage.removeScene(sceneOrUuidOrId));
         this.addScene(sceneClone);
     }
+
+    public toJSON(): Game.StageFormat {
+        const json: Game.StageFormat = {
+            id: this.id,
+            uuid: this.uuid,
+            name: this.name,
+            scenes: []
+        };
+
+        if (this.game) json.game = this.game.uuid;
+
+        for (const scene of this.scenes) {
+            json.scenes.push(scene.uuid);
+        }
+
+        return json;
+    }
 }
 
 export default StageCore;

@@ -1,6 +1,9 @@
 import * as CANNON from "cannon-es";
+import MeshBody from "../Mesh/MeshBody.class";
 
 class ScenePhysics extends CANNON.World {
+    public bodies: MeshBody[];
+
     constructor(options?: {
         gravity?: CANNON.Vec3;
         frictionGravity?: CANNON.Vec3;
@@ -33,6 +36,8 @@ class ScenePhysics extends CANNON.World {
         });
 
         if (!options?.gravity) this.gravity.set(0, -9.82, 0);
+
+        this.bodies = [];
     }
 }
 
