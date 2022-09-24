@@ -4,10 +4,6 @@ class Renderer extends THREE.WebGLRenderer {
     protected canvasContainer?: HTMLElement;
     protected animationId?: number;
 
-    constructor(params?: THREE.WebGLRendererParameters) {
-        super(params);
-    }
-
     public get canvas(): HTMLCanvasElement {
         return this.domElement;
     }
