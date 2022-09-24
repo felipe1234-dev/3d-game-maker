@@ -21,6 +21,12 @@ export default [
         labels: [ "Color" ]
     },
     {
+        key: "skyColor",
+        Component: ColorField,
+        attributes: [ "skyColor" ],
+        labels: [ "Sky color" ]
+    },
+    {
         key: "groundColor",
         Component: ColorField,
         attributes: [ "groundColor" ],
