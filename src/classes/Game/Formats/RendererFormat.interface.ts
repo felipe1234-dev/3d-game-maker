@@ -23,45 +23,18 @@ interface RendererFormat {
      */
     sortObjects?: boolean;
 
-    clippingPlanes?: any[];
     localClippingEnabled?: boolean;
-
-    /**
-     * Default is false.
-     */
-    gammaInput?: boolean;
-
-    /**
-     * Default is false.
-     */
-    gammaOutput?: boolean;
 
     physicallyCorrectLights?: boolean;
     toneMapping?: THREE.ToneMapping;
     toneMappingExposure?: number;
-    toneMappingWhitePoint?: number;
-
-    /**
-     * Default is false.
-     */
-    shadowMapDebug?: boolean;
-
-    /**
-     * Default is 8.
-     */
-    maxMorphTargets?: number;
-
-    /**
-     * Default is 4.
-     */
-    maxMorphNormals?: number;
 
     shadowMap?: {
         type?: THREE.ShadowMapType;
         enabled?: boolean;
     };
 
-    pixelRation?: number
+    pixelRatio?: number;
 }
 
 export default RendererFormat;
