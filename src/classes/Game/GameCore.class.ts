@@ -29,17 +29,10 @@ class GameCore extends THREE.EventDispatcher {
         renderer?: Game.Renderer;
     }) {
         super();
-        
+
         this.uuid = THREE.MathUtils.generateUUID();
 
-        const {
-            name,
-            description,
-            scenes,
-            stages,
-            cameras,
-            renderer,
-        } = props;
+        const { name, description, scenes, stages, cameras, renderer } = props;
 
         this.name = name;
         this.description = description;
@@ -47,7 +40,7 @@ class GameCore extends THREE.EventDispatcher {
         this.current = {
             scene: scenes ? scenes[0] : undefined,
             stage: scenes ? scenes[0].stage : undefined,
-            camera: cameras ? cameras[0] : undefined
+            camera: cameras ? cameras[0] : undefined,
         };
 
         this.stages = stages || [];
@@ -66,7 +59,7 @@ class GameCore extends THREE.EventDispatcher {
             camera.game = this;
         }
 
-        this.renderer = renderer || new Game.Renderer({ antialias: true});
+        this.renderer = renderer || new Game.Renderer({ antialias: true });
     }
 
     public get currentScene(): Game.Scene | undefined {
@@ -105,6 +98,61 @@ class GameCore extends THREE.EventDispatcher {
         }
 
         return json;
+    }
+
+    public static fromJSON(json: Game.GameFormat): Game.Core {
+        for (const stageJSON of json.stages) {
+            const stage = Game.Stage.fromJSON(stageJSON);
+            const stageScenes = json.scenes.filter(
+                scene => scene.object.stage === stage.uuid
+            );
+
+            for (const sceneJSON of stageScenes) {
+                const scene = Game.Scene.fromJSON(sceneJSON);
+                stage.addScene(scene);
+            }
+        }
+
+        const game = new Game.Core({
+            name: json.name,
+            description: json.description,
+            stages: [],
+            scenes: [],
+            cameras: [],
+            renderer: new Game.Renderer({ antialias: true }),
+        });
+
+        (game as any).uuid = json.uuid;
+
+        if (json.renderer.autoClear)
+            game.renderer.autoClear = json.renderer.autoClear;
+        if (json.renderer.autoClearColor)
+            game.renderer.autoClearColor = json.renderer.autoClearColor;
+        if (json.renderer.autoClearDepth)
+            game.renderer.autoClearDepth = json.renderer.autoClearDepth;
+        if (json.renderer.autoClearStencil)
+            game.renderer.autoClearStencil = json.renderer.autoClearStencil;
+        if (json.renderer.sortObjects)
+            game.renderer.sortObjects = json.renderer.sortObjects;
+        if (json.renderer.localClippingEnabled)
+            game.renderer.localClippingEnabled =
+                json.renderer.localClippingEnabled;
+        if (json.renderer.physicallyCorrectLights)
+            game.renderer.physicallyCorrectLights =
+                json.renderer.physicallyCorrectLights;
+        if (json.renderer.toneMapping)
+            game.renderer.toneMapping = json.renderer.toneMapping;
+        if (json.renderer.toneMappingExposure)
+            game.renderer.toneMappingExposure =
+                json.renderer.toneMappingExposure;
+        if (json.renderer.shadowMap?.type)
+            game.renderer.shadowMap.type = json.renderer.shadowMap.type;
+        if (json.renderer.shadowMap?.enabled)
+            game.renderer.shadowMap.enabled = json.renderer.shadowMap.enabled;
+        if (json.renderer.pixelRatio)
+            game.renderer.pixelRatio = json.renderer.pixelRatio;
+
+        return game;
     }
 }
 

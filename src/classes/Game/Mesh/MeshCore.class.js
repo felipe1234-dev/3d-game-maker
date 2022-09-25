@@ -123,6 +123,21 @@ class MeshCore extends THREE.Mesh {
         const { x: qx, y: qy, z: qz, w } = this.body.quaternion;
         this.quaternion.copy(new THREE.Quaternion(qx, qy, qz, w));
     }
+
+    /**
+     * @public
+     * @override
+     * @returns {any}
+     */
+    toJSON(meta) {
+        const json = super.toJSON(meta);
+
+        json.bodies = [];
+        json.bodies.push(this.body.toJSON());
+        json.object.body = this.body.uuid;
+
+        return json;
+    }
 }
 
 export default MeshCore;
