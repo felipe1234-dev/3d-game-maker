@@ -23,8 +23,15 @@ export type { default as GameFormat } from "./Formats/GameFormat.interface";
 export type { default as StageFormat } from "./Formats/StageFormat.interface";
 export type { default as SceneFormat } from "./Formats/SceneFormat.interface";
 export type { default as RendererFormat } from "./Formats/RendererFormat.interface";
+export type { default as ObjectFormat } from "./Formats/ObjectFormat.interface";
+export type { default as MeshFormat } from "./Formats/MeshFormat.interface";
 export type { default as BodyFormat } from "./Formats/BodyFormat.interface";
 export type { default as PhysicsFormat } from "./Formats/PhysicsFormat.interface";
+export type { default as AmbientLightFormat } from "./Formats/AmbientLightFormat.interface";
+export type { default as DirectionalLightFormat } from "./Formats/DirectionalLightFormat.interface";
+export type { default as HemisphereLightFormat } from "./Formats/HemisphereLightFormat.interface";
+export type { default as PointLightFormat } from "./Formats/PointLightFormat.interface";
+export type { default as SpotLightFormat } from "./Formats/SpotLightFormat.interface";
 
 // Interfaces
 export type { default as Camera } from "./Interfaces/GameCamera.interface";
