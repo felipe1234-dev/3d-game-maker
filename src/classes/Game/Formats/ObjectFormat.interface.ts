@@ -1,4 +1,5 @@
 interface ObjectFormat {
+    id: number;
     uuid: string;
     type: string;
     name: string;
