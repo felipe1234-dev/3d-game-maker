@@ -1,16 +1,10 @@
 import * as THREE from "three";
-import { Game } from "../../";
-import GameCamera from "../Interfaces/GameCamera.interface";
+import { Game } from "@local/classes";
 
-class PerspectiveCamera extends THREE.PerspectiveCamera implements GameCamera {
+class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
     public game?: Game.Core;
-    
-    constructor(
-        fov?: number, 
-        aspect?: number,
-        near?: number,
-        far?: number
-    ) {
+
+    constructor(fov?: number, aspect?: number, near?: number, far?: number) {
         super(fov, aspect, near, far);
     }
 }

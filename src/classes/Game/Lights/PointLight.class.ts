@@ -1,14 +1,14 @@
 import * as THREE from "three";
-import GameObject from "../Interfaces/GameObject.interface";
+import { Game } from "@local/classes";
 
-class PointLight extends THREE.PointLight implements GameObject {
+class PointLight extends THREE.PointLight implements Game.Object {
     public helper: THREE.PointLightHelper;
     public readonly receiveShadow: boolean;
 
     constructor(
-        color?: THREE.ColorRepresentation, 
-        intensity?: number, 
-        distance?: number, 
+        color?: THREE.ColorRepresentation,
+        intensity?: number,
+        distance?: number,
         decay?: number
     ) {
         super(color, intensity, distance, decay);

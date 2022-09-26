@@ -2,7 +2,7 @@ import * as CANNON from "cannon-es";
 
 class SphereShape extends CANNON.Sphere {
     public scale: CANNON.Vec3;
-    
+
     constructor(radius: number, scale: CANNON.Vec3 = new CANNON.Vec3(1, 1, 1)) {
         super(radius);
 
@@ -15,11 +15,14 @@ class SphereShape extends CANNON.Sphere {
         this.updateBoundingSphereRadius();
     }
 
-    public override calculateLocalInertia(mass: number, target?: CANNON.Vec3): CANNON.Vec3 {
+    public override calculateLocalInertia(
+        mass: number,
+        target?: CANNON.Vec3
+    ): CANNON.Vec3 {
         if (target === void 0) {
             target = new CANNON.Vec3();
         }
-    
+
         let isEllipse = false;
 
         if (this.scale.x !== this.scale.y) {
@@ -31,9 +34,9 @@ class SphereShape extends CANNON.Sphere {
         if (isEllipse) {
             const A = this.radius * this.scale.x;
             const B = this.radius * this.scale.y;
-            I = mass * (A*A + B*B)/4;
+            I = (mass * (A * A + B * B)) / 4;
         } else {
-            I = 2.0 * mass * this.radius * this.radius / 5.0;
+            I = (2.0 * mass * this.radius * this.radius) / 5.0;
         }
 
         target.x = I;
@@ -48,22 +51,22 @@ class SphereShape extends CANNON.Sphere {
         const B = this.radius * this.scale.y;
         const C = this.radius * this.scale.z;
 
-        return 4/3 * Math.PI * A * B * C;
+        return (4 / 3) * Math.PI * A * B * C;
     }
 
     public override calculateWorldAABB(
-        pos: CANNON.Vec3, 
-        quat: CANNON.Quaternion, 
-        min: CANNON.Vec3, 
+        pos: CANNON.Vec3,
+        quat: CANNON.Quaternion,
+        min: CANNON.Vec3,
         max: CANNON.Vec3
     ): void {
         const r = this.radius;
         const s = this.scale;
         const axes = ["x", "y", "z"] as const;
-    
+
         for (const ax of axes) {
-            min[ax] = pos[ax] - s[ax]*r;
-            max[ax] = pos[ax] + s[ax]*r;
+            min[ax] = pos[ax] - s[ax] * r;
+            max[ax] = pos[ax] + s[ax] * r;
         }
     }
 
@@ -71,7 +74,7 @@ class SphereShape extends CANNON.Sphere {
         const r = this.radius;
         const { x: sx, y: sy, z: sz } = this.scale;
 
-        this.boundingSphereRadius = Math.max(sx*r, sy*r, sz*r);
+        this.boundingSphereRadius = Math.max(sx * r, sy * r, sz * r);
     }
 }
 

@@ -1,5 +1,5 @@
 import * as CANNON from "cannon-es";
-import { Game } from "../..";
+import { Game } from "@local/classes";
 
 interface BodyOptions {
     mesh?: Game.Mesh;

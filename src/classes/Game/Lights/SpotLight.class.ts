@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import GameObject from "../Interfaces/GameObject.interface";
+import { Game } from "@local/classes";
 
-class SpotLight extends THREE.SpotLight implements GameObject {
+class SpotLight extends THREE.SpotLight implements Game.Object {
     public helper: THREE.SpotLightHelper;
     public readonly receiveShadow: boolean;
 
@@ -11,7 +11,7 @@ class SpotLight extends THREE.SpotLight implements GameObject {
         distance?: number,
         angle?: number,
         penumbra?: number,
-        decay?: number,
+        decay?: number
     ) {
         super(color, intensity, distance, angle, penumbra, decay);
 

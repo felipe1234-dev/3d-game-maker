@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import ObjectHelper from "./ObjectHelper.interface";
+import { Game } from "@local/classes";
 
 interface GameObject extends THREE.Object3D {
-    helper?: ObjectHelper;
+    helper?: Game.ObjectHelper;
     children: GameObject[] | THREE.Object3D[];
 }
 

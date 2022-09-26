@@ -1,9 +1,9 @@
 import * as THREE from "three";
-import GameObject from "../Interfaces/GameObject.interface";
+import { Game } from "@local/classes";
 
-class GameGroup extends THREE.Group implements GameObject {
+class GameGroup extends THREE.Group implements Game.Object {
     public helper: THREE.BoxHelper;
-    
+
     constructor() {
         super();
 

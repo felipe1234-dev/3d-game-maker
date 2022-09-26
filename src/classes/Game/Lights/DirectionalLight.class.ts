@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import GameObject from "../Interfaces/GameObject.interface";
+import { Game } from "@local/classes";
 
-class DirectionalLight extends THREE.DirectionalLight implements GameObject {
+class DirectionalLight extends THREE.DirectionalLight implements Game.Object {
     public helper: THREE.DirectionalLightHelper;
     public readonly receiveShadow: boolean;
 
@@ -13,7 +13,7 @@ class DirectionalLight extends THREE.DirectionalLight implements GameObject {
 
         this.receiveShadow = false;
         this.castShadow = true;
-    }   
+    }
 }
 
 export default DirectionalLight;
