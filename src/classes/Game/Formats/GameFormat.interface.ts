@@ -1,5 +1,5 @@
 import StageFormat from "./StageFormat.interface";
-import SceneFormat from "./SceneFormat.interface";
+import SceneFormat from "./Scene/SceneFormat.interface";
 import RendererFormat from "./RendererFormat.interface";
 
 interface GameFormat {
