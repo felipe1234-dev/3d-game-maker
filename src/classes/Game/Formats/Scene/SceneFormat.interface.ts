@@ -1,6 +1,6 @@
 import PhysicsFormat from "./PhysicsFormat.interface";
-import BodyFormat from "./BodyFormat.interface";
-import ObjectFormat from "./ObjectFormat.interface";
+import BodyFormat from "../Mesh/BodyFormat.interface";
+import ObjectFormat from "../ObjectFormat.interface";
 
 interface SceneFormat {
     metadata: {
