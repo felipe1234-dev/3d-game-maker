@@ -10,6 +10,7 @@ import {
     TextureRounded as TextureIcon,
 } from "@mui/icons-material";
 import { Atom as AtomIcon } from "@styled-icons/fa-solid";
+import * as THREE from "three";
 
 import { t } from "@local/i18n";
 import { Pressable } from "@local/components";
@@ -31,10 +32,10 @@ function Bottom() {
             setEditObjIsDisabled(true);
             setEditGeomIsDisabled(true);
             setEditTextIsDisabled(true);
-        } else {
+        } else if (selectedObject instanceof THREE.Mesh) {
             setEditObjIsDisabled(false);
-            setEditGeomIsDisabled(!(selectedObject as any).geometry);
-            setEditTextIsDisabled(!(selectedObject as any).material);
+            setEditGeomIsDisabled(!selectedObject.geometry);
+            setEditTextIsDisabled(!selectedObject.material);
         }
     };
 

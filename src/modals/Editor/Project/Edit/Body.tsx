@@ -24,20 +24,16 @@ function Body() {
             <TextField
                 label={t("Name")}
                 variant="outlined"
-                onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                    setName(evt.target.value);
-                }}
+                onChange={evt => setName(evt.target.value)}
                 value={name}
                 sx={{ mb: 2 }}
             />
             <TextField
+                multiline
                 label={t("Description")}
                 variant="outlined"
-                onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                    setDescription(evt.target.value);
-                }}
+                onChange={evt => setDescription(evt.target.value)}
                 value={description}
-                multiline
                 minRows={4}
             />
         </>

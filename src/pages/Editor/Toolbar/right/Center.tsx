@@ -25,10 +25,11 @@ import "@local/styles/pages/EditorPage/ObjectTree.scss";
 
 function Center() {
     const editor = useEditor();
+    const transformer = editor.transformControlsets;
     const game = useGame();
 
     const [sceneObjects, setSceneObjects] = useState<THREE.Object3D[]>([]);
-    const [expanded, setExpanded] = useState<string>("");
+    const [expanded, setExpanded] = useState("");
 
     const getChildrenOfChildren = (object: THREE.Object3D) =>
         object.children.reduce((childList, child) => {
@@ -58,16 +59,14 @@ function Center() {
             ...childrenOfChildren.map(child => child.uuid),
             object.uuid,
         ].includes(expanded);
-        const selected = editor.transformControls.object?.uuid === object.uuid;
+        const selected = transformer.object?.uuid === object.uuid;
 
         const toggleCollapser = (evt: React.MouseEvent) => {
             setExpanded(open ? object.parent?.uuid || "" : object.uuid);
             evt.stopPropagation();
         };
 
-        const selectObject = () => {
-            editor.transformControls.select(object);
-        };
+        const selectObject = () => transformer.select(object);
 
         const dragStart = (evt: React.DragEvent) => {
             (evt.target as HTMLElement).classList.add(

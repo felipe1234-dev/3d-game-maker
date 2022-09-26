@@ -15,10 +15,10 @@ function App() {
         () =>
             routes.pages
                 .filter(item => pathname.includes(item.path))
-                .reduce((resu: Function[], item) => {
+                .reduce((resu, item) => {
                     resu.push(...item.providers);
                     return resu;
-                }, []),
+                }, [] as Function[]),
         [pathname]
     );
 

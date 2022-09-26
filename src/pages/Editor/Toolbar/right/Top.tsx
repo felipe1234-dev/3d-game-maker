@@ -17,22 +17,20 @@ function Top() {
     const [isDisabled, setIsDisabled] = useState(true);
     const [mode, setMode] = useState<Mode>("translate");
     const editor = useEditor();
+    const transformer = editor.transformControls;
     const location = useLocation();
 
     const onSetStates = () => {
-        setIsDisabled(
-            !editor.transformControls.object || editor.transformControls.locked
-        );
-        setMode(editor.transformControls.mode);
+        setIsDisabled(!transformer.object || transformer.locked);
+        setMode(transformer.mode);
     };
 
     useEffect(() => {
-        const { transformControls: transform } = editor;
         const events = ["select", "unselect", "setMode"];
 
         events.forEach(type => {
-            transform.addEventListener(type, onSetStates);
-            transform.dispatchEvent({ type });
+            transformer.addEventListener(type, onSetStates);
+            transformer.dispatchEvent({ type });
         });
     }, [editor]);
 
@@ -42,7 +40,7 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Delete object")}
-                        onClick={() => editor.transformControls.delete()}
+                        onClick={() => transformer.delete()}
                         disabled={isDisabled}
                     >
                         <TrashIcon />
@@ -53,9 +51,7 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Move object")}
-                        onClick={() =>
-                            editor.transformControls.setMode("translate")
-                        }
+                        onClick={() => transformer.setMode("translate")}
                         data-selected={mode === "translate"}
                         disabled={isDisabled}
                     >
@@ -68,7 +64,7 @@ function Top() {
                     <IconButton
                         aria-label={t("Resize object")}
                         onClick={() =>
-                            editor.transformControls.setMode("scale")
+                            transformer.setMode("scale")
                         }
                         data-selected={mode === "scale"}
                         disabled={isDisabled}
@@ -81,9 +77,7 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Rotate object")}
-                        onClick={() =>
-                            editor.transformControls.setMode("rotate")
-                        }
+                        onClick={() => transformer.setMode("rotate")}
                         data-selected={mode === "rotate"}
                         disabled={isDisabled}
                     >
@@ -101,7 +95,7 @@ function Top() {
                             useLoader: false,
                         }}
                         aria-label={t("Edit vertices")}
-                        data-selected={editor.transformControls.locked}
+                        data-selected={transformer.locked}
                         disabled={isDisabled}
                     >
                         <ShapePolygon width={24} />
