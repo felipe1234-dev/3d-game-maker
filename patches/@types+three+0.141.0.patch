@@ -1,3 +1,80 @@
+diff --git a/node_modules/@types/three/src/core/BufferGeometry.d.ts b/node_modules/@types/three/src/core/BufferGeometry.d.ts
+index 8e8a9f4..fca9489 100644
+--- a/node_modules/@types/three/src/core/BufferGeometry.d.ts
++++ b/node_modules/@types/three/src/core/BufferGeometry.d.ts
+@@ -1,13 +1,13 @@
+-import { BufferAttribute } from './BufferAttribute';
+-import { Box3 } from './../math/Box3';
+-import { Sphere } from './../math/Sphere';
+-import { Matrix4 } from './../math/Matrix4';
+-import { Quaternion } from './../math/Quaternion';
+-import { Vector2 } from './../math/Vector2';
+-import { Vector3 } from './../math/Vector3';
+-import { EventDispatcher } from './EventDispatcher';
+-import { InterleavedBufferAttribute } from './InterleavedBufferAttribute';
+-import { BuiltinShaderAttributeName } from '../constants';
++import { BufferAttribute } from "./BufferAttribute";
++import { Box3 } from "./../math/Box3";
++import { Sphere } from "./../math/Sphere";
++import { Matrix4 } from "./../math/Matrix4";
++import { Quaternion } from "./../math/Quaternion";
++import { Vector2 } from "./../math/Vector2";
++import { Vector3 } from "./../math/Vector3";
++import { EventDispatcher } from "./EventDispatcher";
++import { InterleavedBufferAttribute } from "./InterleavedBufferAttribute";
++import { BuiltinShaderAttributeName } from "../constants";
+ 
+ /**
+  * This is a superefficent class for geometries because it saves all data in buffers.
+@@ -65,7 +65,11 @@ export class BufferGeometry extends EventDispatcher {
+     /**
+      * @default []
+      */
+-    groups: Array<{ start: number; count: number; materialIndex?: number | undefined }>;
++    groups: Array<{
++        start: number;
++        count: number;
++        materialIndex?: number | undefined;
++    }>;
+ 
+     /**
+      * @default null
+@@ -93,10 +97,14 @@ export class BufferGeometry extends EventDispatcher {
+ 
+     setAttribute(
+         name: BuiltinShaderAttributeName | (string & {}),
+-        attribute: BufferAttribute | InterleavedBufferAttribute,
++        attribute: BufferAttribute | InterleavedBufferAttribute
++    ): BufferGeometry;
++    getAttribute(
++        name: BuiltinShaderAttributeName | (string & {})
++    ): BufferAttribute | InterleavedBufferAttribute;
++    deleteAttribute(
++        name: BuiltinShaderAttributeName | (string & {})
+     ): BufferGeometry;
+-    getAttribute(name: BuiltinShaderAttributeName | (string & {})): BufferAttribute | InterleavedBufferAttribute;
+-    deleteAttribute(name: BuiltinShaderAttributeName | (string & {})): BufferGeometry;
+     hasAttribute(name: BuiltinShaderAttributeName | (string & {})): boolean;
+ 
+     addGroup(start: number, count: number, materialIndex?: number): void;
+@@ -186,11 +194,16 @@ export class BufferGeometry extends EventDispatcher {
+     /**
+      * @deprecated Use {@link BufferGeometry#setAttribute .setAttribute()} instead.
+      */
+-    addAttribute(name: string, attribute: BufferAttribute | InterleavedBufferAttribute): BufferGeometry;
++    addAttribute(
++        name: string,
++        attribute: BufferAttribute | InterleavedBufferAttribute
++    ): BufferGeometry;
+     addAttribute(name: any, array: any, itemSize: any): any;
+ 
+     /**
+      * @deprecated Use {@link BufferGeometry#deleteAttribute .deleteAttribute()} instead.
+      */
+     removeAttribute(name: string): BufferGeometry;
++
++    toJSON(): any;
+ }
 diff --git a/node_modules/@types/three/src/core/Object3D.d.ts b/node_modules/@types/three/src/core/Object3D.d.ts
 index e2461fb..1c576ad 100644
 --- a/node_modules/@types/three/src/core/Object3D.d.ts
