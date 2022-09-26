@@ -1,4 +1,4 @@
-import ObjectFormat from "./ObjectFormat.interface";
+import ObjectFormat from "../ObjectFormat.interface";
 
 interface DirectionalLightFormat extends ObjectFormat {
     type: "DirectionalLight";
