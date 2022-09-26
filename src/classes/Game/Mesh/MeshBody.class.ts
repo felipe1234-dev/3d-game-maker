@@ -1,37 +1,14 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
 import { Game } from "../..";
-import MeshCore from "./MeshCore.class";
 import { threeToCannon } from "three-to-cannon";
 
 class MeshBody extends CANNON.Body {
     public readonly id: number;
     public readonly uuid: string;
-    public mesh?: MeshCore;
+    public mesh?: Game.Mesh;
 
-    constructor(options?: {
-        mesh?: MeshCore;
-        collisionFilterGroup?: number;
-        collisionFilterMask?: number;
-        collisionResponse?: boolean;
-        position?: CANNON.Vec3;
-        velocity?: CANNON.Vec3;
-        mass?: number;
-        material?: CANNON.Material;
-        linearDamping?: number;
-        type?: CANNON.BodyType;
-        allowSleep?: boolean;
-        sleepSpeedLimit?: number;
-        sleepTimeLimit?: number;
-        quaternion?: CANNON.Quaternion;
-        angularVelocity?: CANNON.Vec3;
-        fixedRotation?: boolean;
-        angularDamping?: number;
-        linearFactor?: CANNON.Vec3;
-        angularFactor?: CANNON.Vec3;
-        shape?: CANNON.Shape;
-        isTrigger?: boolean;
-    }) {
+    constructor(options?: Game.BodyOptions) {
         const { mesh, ...rest } = options || {};
         super(rest);
 
