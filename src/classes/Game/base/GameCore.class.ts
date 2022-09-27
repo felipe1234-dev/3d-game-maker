@@ -2,7 +2,9 @@ import * as THREE from "three";
 import { Game } from "@local/classes";
 
 class GameCore extends THREE.EventDispatcher {
+    public readonly id: number;
     public readonly uuid: string;
+
     public name: string;
     public description: string;
 
@@ -18,7 +20,10 @@ class GameCore extends THREE.EventDispatcher {
 
     public renderer: Game.Renderer;
 
-    constructor(props: {
+    constructor(options: {
+        id?: number;
+        uuid?: string;
+
         name: string;
         description: string;
 
@@ -30,9 +35,20 @@ class GameCore extends THREE.EventDispatcher {
     }) {
         super();
 
-        this.uuid = THREE.MathUtils.generateUUID();
+        const {
+            id,
+            uuid,
 
-        const { name, description, scenes, stages, cameras, renderer } = props;
+            name,
+            description,
+            scenes,
+            stages,
+            cameras,
+            renderer,
+        } = options;
+
+        this.id = id ?? Game.generateID();
+        this.uuid = uuid || THREE.MathUtils.generateUUID();
 
         this.name = name;
         this.description = description;
