@@ -25,7 +25,7 @@ import "@local/styles/pages/EditorPage/ObjectTree.scss";
 
 function Center() {
     const editor = useEditor();
-    const transformer = editor.transformControlsets;
+    const transformer = editor.transformControls;
     const game = useGame();
 
     const [sceneObjects, setSceneObjects] = useState<THREE.Object3D[]>([]);
