@@ -9,12 +9,36 @@ class Body extends CANNON.Body {
     public mesh?: Game.Mesh;
 
     constructor(options?: Game.BodyOptions) {
-        const { mesh, ...rest } = options || {};
+        const { id, uuid, mesh, ...rest } = options || {};
         super(rest);
 
-        this.id = new Date().valueOf();
-        this.uuid = THREE.MathUtils.generateUUID();
+        this.id = id ?? Game.generateID();
+        this.uuid = uuid || THREE.MathUtils.generateUUID();
         this.mesh = mesh;
+    }
+
+    set needsUpdate(bool: boolean) {
+        if (!this.mesh || !bool) {
+            return;
+        }
+
+        // Copy properties from Mesh
+
+        const { x: px, y: py, z: pz } = this.mesh.position;
+        this.position.copy(new CANNON.Vec3(px, py, pz));
+
+        const { x: qx, y: qy, z: qz, w } = this.mesh.quaternion;
+        this.quaternion.copy(new CANNON.Quaternion(qx, qy, qz, w));
+
+        for (const shape of this.shapes) {
+            this.removeShape(shape);
+        }
+
+        const result = threeToCannon(this.mesh);
+        if (!result) return;
+
+        const { shape } = result;
+        if (shape) this.addShape(shape);
     }
 
     public toJSON(): Game.BodyFormat {
@@ -78,28 +102,57 @@ class Body extends CANNON.Body {
         return json;
     }
 
-    set needsUpdate(bool: boolean) {
-        if (!this.mesh || !bool) {
-            return;
+    public static fromJSON(json: Game.BodyFormat): Body {
+        const {
+            position,
+            velocity,
+            material,
+            quaternion,
+            angularVelocity,
+            angularFactor,
+            linearFactor,
+            mesh,
+            ...rest
+        } = json;
+        const options: Game.BodyOptions = {
+            ...rest,
+        };
+
+        if (position) {
+            const { x, y, z } = position;
+            options.position = new CANNON.Vec3(x, y, z);
         }
 
-        // Copy properties from Mesh
-
-        const { x: px, y: py, z: pz } = this.mesh.position;
-        this.position.copy(new CANNON.Vec3(px, py, pz));
-
-        const { x: qx, y: qy, z: qz, w } = this.mesh.quaternion;
-        this.quaternion.copy(new CANNON.Quaternion(qx, qy, qz, w));
-
-        for (const shape of this.shapes) {
-            this.removeShape(shape);
+        if (velocity) {
+            const { x, y, z } = velocity;
+            options.velocity = new CANNON.Vec3(x, y, z);
         }
 
-        const result = threeToCannon(this.mesh);
-        if (!result) return;
+        if (material) {
+            options.material = new CANNON.Material(material);
+        }
 
-        const { shape } = result;
-        if (shape) this.addShape(shape);
+        if (quaternion) {
+            const { x, y, z, w } = quaternion;
+            options.quaternion = new CANNON.Quaternion(x, y, z, w);
+        }
+
+        if (angularVelocity) {
+            const { x, y, z } = angularVelocity;
+            options.angularVelocity = new CANNON.Vec3(x, y, z);
+        }
+
+        if (linearFactor) {
+            const { x, y, z } = linearFactor;
+            options.linearFactor = new CANNON.Vec3(x, y, z);
+        }
+
+        if (angularFactor) {
+            const { x, y, z } = angularFactor;
+            options.angularFactor = new CANNON.Vec3(x, y, z);
+        }
+
+        return new Body(options);
     }
 }
 
