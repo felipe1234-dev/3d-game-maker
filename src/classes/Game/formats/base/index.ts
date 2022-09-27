@@ -10,3 +10,5 @@ export type { default as ObjectFormat } from "./Object.interface";
 export type { default as MeshFormat } from "./Mesh.interface";
 export type { default as BodyFormat } from "./Body.interface";
 export type { default as GeometryFormat } from "./Geometry.interface";
+
+export type { default as AttributeFormat } from "./Attribute.interface";
