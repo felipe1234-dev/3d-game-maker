@@ -49,11 +49,8 @@ class Physics extends CANNON.World {
         };
 
         if (this.frictionGravity) {
-            json.frictionGravity = {
-                x: this.frictionGravity.x,
-                y: this.frictionGravity.y,
-                z: this.frictionGravity.z,
-            };
+            const { x, y, z } = this.frictionGravity;
+            json.frictionGravity = { x, y, z };
         }
 
         return json;
@@ -61,22 +58,16 @@ class Physics extends CANNON.World {
 
     public static fromJSON(json: Game.PhysicsFormat): Physics {
         const physics = json;
-        const options: any = {};
+        const options: Game.PhysicsOptions = {};
 
         if (physics.gravity) {
-            options.gravity = new CANNON.Vec3(
-                physics.gravity.x,
-                physics.gravity.y,
-                physics.gravity.z
-            );
+            const { x, y, z } = physics.gravity;
+            options.gravity = new CANNON.Vec3(x, y, z);
         }
 
         if (physics.frictionGravity) {
-            options.frictionGravity = new CANNON.Vec3(
-                physics.frictionGravity.x,
-                physics.frictionGravity.y,
-                physics.frictionGravity.z
-            );
+            const { x, y, z } = physics.frictionGravity;
+            options.frictionGravity = new CANNON.Vec3(x, y, z);
         }
 
         options.allowSleep = !!physics.allowSleep;
@@ -90,7 +81,7 @@ class Physics extends CANNON.World {
         }
 
         options.quatNormalizeFast = !!physics.quatNormalizeFast;
-        options.quatNormalizeSkip = !!physics.quatNormalizeSkip;
+        options.quatNormalizeSkip = physics.quatNormalizeSkip;
 
         return new Physics(options);
     }
