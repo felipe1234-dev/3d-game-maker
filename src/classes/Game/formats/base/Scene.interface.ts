@@ -2,7 +2,7 @@ import PhysicsFormat from "./Physics.interface";
 import BodyFormat from "./Body.interface";
 import ObjectFormat from "./Object.interface";
 
-interface SceneFormat {
+interface Scene {
     metadata: {
         version: number;
         type: "Object";
@@ -13,6 +13,7 @@ interface SceneFormat {
     bodies: BodyFormat[];
     physics: PhysicsFormat;
     object: {
+        id: number;
         uuid: string;
         name: string;
         game?: string;
@@ -23,4 +24,4 @@ interface SceneFormat {
     };
 }
 
-export default SceneFormat;
+export default Scene;
