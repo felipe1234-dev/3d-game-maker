@@ -2,6 +2,8 @@ import * as CANNON from "cannon-es";
 import { Game } from "@local/classes";
 
 interface BodyOptions {
+    id?: number;
+    uuid?: string;
     mesh?: Game.Mesh;
     collisionFilterGroup?: number;
     collisionFilterMask?: number;
