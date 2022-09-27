@@ -16,29 +16,44 @@ function GameProvider(props: { children: React.ReactNode }) {
     useEffect(() => {
         if (inputGame instanceof Game.Core) {
         } else {
-            const material = new THREE.MeshPhysicalMaterial({
+            const greenMaterial = new THREE.MeshPhysicalMaterial({
                 color: 0x00ff00,
+            });
+            const brownMaterial = new THREE.MeshPhysicalMaterial({
+                color: "#553820",
             });
 
             const stage1 = new Game.Stage("Stage 1");
             const scene1 = new Game.Scene("Scene 1");
+
             const box = new THREE.BoxGeometry(1, 1, 1);
-            const cube = new Game.Mesh(box, material);
+            const cube = new Game.Mesh(box, greenMaterial);
+            cube.position.y = 0.5;
+            cube.name = "Oliver";
             scene1.add(cube);
 
-            const spotLight = new THREE.SpotLight(0xffffff);
-            spotLight.position.set(10, 10, 10);
-            scene1.add(spotLight);
+            const rect = new THREE.BoxGeometry(6, 0.5, 6);
+            const ground = new Game.Mesh(rect, brownMaterial);
+            ground.position.y = -0.2;
+            ground.name = "Ground";
+            scene1.add(ground);
 
-            /* const spotLightHelper = new THREE.SpotLightHelper( spotLight );
-            scene.add(spotLightHelper); */
+            const hemisphereLight = new Game.HemisphereLight();
+            hemisphereLight.intensity = 2;
+            hemisphereLight.name = "Hemisphere Light";
+            scene1.add(hemisphereLight);
+
+            const directionalLight = new Game.DirectionalLight();
+            directionalLight.position.set(3.1, 3.1, 2);
+            directionalLight.name = "Directional Light";
+            scene1.add(directionalLight);
 
             stage1.addScene(scene1);
 
             const stage2 = new Game.Stage("Stage 2");
             const scene2 = new Game.Scene("Scene 2");
             const ball = new THREE.SphereGeometry(1, 50, 50);
-            const sphere = new Game.Mesh(ball, material);
+            const sphere = new Game.Mesh(ball, greenMaterial);
             scene2.add(sphere);
             stage2.addScene(scene2);
 
