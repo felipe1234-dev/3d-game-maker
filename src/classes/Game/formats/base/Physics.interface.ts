@@ -1,4 +1,4 @@
-interface PhysicsFormat {
+interface Physics {
     gravity?: {
         x: number;
         y: number;
@@ -18,4 +18,4 @@ interface PhysicsFormat {
     quatNormalizeSkip?: number;
 }
 
-export default PhysicsFormat;
+export default Physics;
