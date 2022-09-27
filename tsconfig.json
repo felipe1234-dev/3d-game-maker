@@ -1,35 +1,26 @@
 {
-  "compilerOptions": {
-    "target": "es2015",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "downlevelIteration": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "declaration": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@local/*": ["src/*"]
+    "compilerOptions": {
+        "target": "es2015",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "declaration": true,
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@local/*": ["src/*"]
+        },
+        "typeRoots": ["./node_modules/@types/", "./src/"]
     },
-    "typeRoots": [
-      "./node_modules/@types/", 
-      "./src/"
-    ]
-  },
-  "include": [
-    "src"
-  ]
+    "include": ["src"]
 }
