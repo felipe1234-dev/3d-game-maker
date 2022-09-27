@@ -4,15 +4,7 @@ import { Game } from "@local/classes";
 class Physics extends CANNON.World {
     public bodies: Game.Body[];
 
-    constructor(options?: {
-        gravity?: CANNON.Vec3;
-        frictionGravity?: CANNON.Vec3;
-        allowSleep?: boolean;
-        broadphase?: CANNON.Broadphase;
-        solver?: CANNON.Solver;
-        quatNormalizeFast?: boolean;
-        quatNormalizeSkip?: number;
-    }) {
+    constructor(options?: Game.PhysicsOptions) {
         super(options);
 
         const scope = this;
