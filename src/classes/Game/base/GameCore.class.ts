@@ -92,6 +92,7 @@ class GameCore extends THREE.EventDispatcher {
 
     public toJSON(): Game.GameFormat {
         const json: Game.GameFormat = {
+            id: this.id,
             uuid: this.uuid,
             name: this.name,
             description: this.description,
@@ -117,56 +118,38 @@ class GameCore extends THREE.EventDispatcher {
     }
 
     public static fromJSON(json: Game.GameFormat): Game.Core {
+        const stages: Game.Stage[] = [];
+        const scenes: Game.Scene[] = [];
+
         for (const stageJSON of json.stages) {
             const stage = Game.Stage.fromJSON(stageJSON);
-            const stageScenes = json.scenes.filter(
-                scene => scene.object.stage === stage.uuid
+            const sceneJSONs = json.scenes.filter(
+                sceneJSON => sceneJSON.object.stage === stage.uuid
             );
 
-            for (const sceneJSON of stageScenes) {
+            for (const sceneJSON of sceneJSONs) {
                 const scene = Game.Scene.fromJSON(sceneJSON);
+
                 stage.addScene(scene);
+                scenes.push(scene);
             }
+
+            stages.push(stage);
         }
 
         const game = new Game.Core({
+            id: json.id,
+            uuid: json.uuid,
+
             name: json.name,
             description: json.description,
-            stages: [],
-            scenes: [],
+
+            stages,
+            scenes,
             cameras: [],
-            renderer: new Game.Renderer({ antialias: true }),
+
+            renderer: Game.Renderer.fromJSON(json.renderer),
         });
-
-        (game as any).uuid = json.uuid;
-
-        if (json.renderer.autoClear)
-            game.renderer.autoClear = json.renderer.autoClear;
-        if (json.renderer.autoClearColor)
-            game.renderer.autoClearColor = json.renderer.autoClearColor;
-        if (json.renderer.autoClearDepth)
-            game.renderer.autoClearDepth = json.renderer.autoClearDepth;
-        if (json.renderer.autoClearStencil)
-            game.renderer.autoClearStencil = json.renderer.autoClearStencil;
-        if (json.renderer.sortObjects)
-            game.renderer.sortObjects = json.renderer.sortObjects;
-        if (json.renderer.localClippingEnabled)
-            game.renderer.localClippingEnabled =
-                json.renderer.localClippingEnabled;
-        if (json.renderer.physicallyCorrectLights)
-            game.renderer.physicallyCorrectLights =
-                json.renderer.physicallyCorrectLights;
-        if (json.renderer.toneMapping)
-            game.renderer.toneMapping = json.renderer.toneMapping;
-        if (json.renderer.toneMappingExposure)
-            game.renderer.toneMappingExposure =
-                json.renderer.toneMappingExposure;
-        if (json.renderer.shadowMap?.type)
-            game.renderer.shadowMap.type = json.renderer.shadowMap.type;
-        if (json.renderer.shadowMap?.enabled)
-            game.renderer.shadowMap.enabled = json.renderer.shadowMap.enabled;
-        if (json.renderer.pixelRatio)
-            game.renderer.pixelRatio = json.renderer.pixelRatio;
 
         return game;
     }
