@@ -4,6 +4,65 @@ import { threeToCannon } from "three-to-cannon";
 import { Game } from "@local/classes";
 
 /**
+ * @param {string} type
+ * @param {number[]} array
+ * @returns {
+ *     Float64Array | Float32Array |
+ *     Int32Array | Int16Array | Int8Array |
+ *     Uint32Array | Uint16Array | Uint8Array |
+ *     Uint8ClampedArray | number[]
+ * }
+ */
+const getTypedArray = (type, array) => {
+    switch (type) {
+        case "Float64Array":
+            return new Float64Array(array);
+        case "Float32Array":
+            return new Float32Array(array);
+
+        case "Int32Array":
+            return new Int32Array(array);
+        case "Int16Array":
+            return new Int16Array(array);
+        case "Int8Array":
+            return new Int8Array(array);
+
+        case "Uint32Array":
+            return new Uint32Array(array);
+        case "Uint16Array":
+            return new Uint16Array(array);
+        case "Uint8Array":
+            return new Uint8Array(array);
+
+        case "Uint8ClampedArray":
+            return new Uint8ClampedArray(array);
+
+        default:
+            return array;
+    }
+};
+
+/**
+ * @param {Game.AttributeFormat} attribute
+ * @returns {THREE.BufferAttribute}
+ */
+const bufferAttributeFromJSON = attribute => {
+    const bufferAttribute = new THREE.BufferAttribute(
+        getTypedArray(attribute.type, attribute.array),
+        attribute.itemSize,
+        attribute.normalized
+    );
+
+    bufferAttribute.name = attribute.name || "";
+
+    if (attribute.usage !== undefined) bufferAttribute.usage = attribute.usage;
+    if (attribute.updateRange)
+        bufferAttribute.updateRange = attribute.updateRange;
+
+    return bufferAttribute;
+};
+
+/**
  * @implements {Game.Object}
  */
 class Mesh extends THREE.Mesh {
@@ -14,6 +73,8 @@ class Mesh extends THREE.Mesh {
      */
     constructor(geometry, material, body) {
         super(geometry, material);
+
+        this.id = Game.generateID();
 
         /**
          * @type {THREE.BoxHelper}
@@ -60,10 +121,10 @@ class Mesh extends THREE.Mesh {
             });
         }
 
-        if (!body) {
-            const result = threeToCannon(this) || {};
-            const { shape } = result;
+        const result = threeToCannon(this) || {};
+        const { shape: defaultShape } = result;
 
+        if (!body) {
             const { x: px, y: py, z: pz } = this.position;
             const { x: qx, y: qy, z: qz, w } = this.quaternion;
 
@@ -75,10 +136,13 @@ class Mesh extends THREE.Mesh {
                 mesh: this,
                 position: new CANNON.Vec3(px, py, pz),
                 quaternion: new CANNON.Quaternion(qx, qy, qz, w),
-                shape,
+                shape: defaultShape,
             });
         } else {
             body.mesh = this;
+            if (body.shapes.length === 0 && defaultShape)
+                body.addShape(defaultShape);
+
             this.body = body;
         }
 
@@ -130,87 +194,22 @@ class Mesh extends THREE.Mesh {
     /**
      * @public
      * @override
+     * @param {Game.MetaFormat=} meta
      * @returns {Game.MeshFormat}
      */
     toJSON(meta) {
         const json = super.toJSON(meta);
-        const isRootObject = !!meta;
+        const isRootObject = !meta;
 
         if (!isRootObject) {
             json.bodies = [];
-            json.bodies.push(this.body.toJSON());
+            json.bodies.push(this.body.toJSON(meta));
         } else {
-            if (!meta.bodies) meta.bodies = [];
-            meta.bodies.push(this.body.toJSON());
+            if (!meta.bodies) meta.bodies = {};
+            meta.bodies[this.body.uuid] = this.body.toJSON(meta);
         }
 
         json.object.body = this.body.uuid;
-
-        const geometry = this.geometry;
-        if (!geometry || geometry.type === "BufferGeometry") {
-            return json;
-        }
-
-        const geometryJSON = isRootObject
-            ? { ...json.geometry }
-            : { ...meta.geometries[geometry.uuid] };
-        geometryJSON.data = {};
-
-        if (geometry.index !== null) {
-            const index = geometry.index;
-
-            geometryJSON.data.index = {
-                type: index.array.constructor.name,
-                array: Array.prototype.slice.call(index.array),
-            };
-        }
-
-        geometryJSON.data.attributes = {};
-        for (const [key, attribute] of Object.entries(geometry.attributes)) {
-            geometryJSON.data.attributes[key] = attribute.toJSON(
-                geometryJSON.data
-            );
-        }
-
-        const morphAttributes = {};
-        let hasMorphAttributes = false;
-        for (const [key, attributeArr] of Object.entries(
-            geometry.morphAttributes
-        )) {
-            const array = [];
-
-            for (const attribute in attributeArr) {
-                array.push(attribute.toJSON(geometryJSON.data));
-            }
-
-            if (array.length > 0) {
-                morphAttributes[key] = array;
-                hasMorphAttributes = true;
-            }
-        }
-
-        if (hasMorphAttributes) {
-            geometryJSON.data.morphAttributes = morphAttributes;
-            geometryJSON.data.morphTargetsRelative =
-                geometry.morphTargetsRelative;
-        }
-
-        if (geometry.groups.length > 0) {
-            geometryJSON.data.groups = JSON.parse(
-                JSON.stringify(geometry.groups)
-            );
-        }
-
-        if (geometry.boundingSphere !== null) {
-            const boundingSphere = geometry.boundingSphere;
-
-            geometryJSON.data.boundingSphere = {
-                center: boundingSphere.center.toArray(),
-                radius: boundingSphere.radius,
-            };
-        }
-
-        json.geometry = geometryJSON;
 
         return json;
     }
@@ -218,24 +217,111 @@ class Mesh extends THREE.Mesh {
     /**
      * @public
      * @param {Game.MeshFormat} json
-     * @param {{
-     *     geometry?: any;
-     *     material?: any;
-     *     body?: Game.BodyFormat;
-     * }=} meta
+     * @param {Game.MetaFormat=} meta
      * @returns {Game.Mesh}
      */
     static fromJSON(json, meta) {
+        /**
+         * @type {THREE.BufferGeometry=}
+         */
         let geometry = undefined;
+        /**
+         * @type {THREE.Material=}
+         */
         let material = undefined;
+        /**
+         * @type {Game.Body=}
+         */
         let body = undefined;
 
-        if (meta?.geometry) {
-            geometry = THREE[meta.geometry.type].fromJSON(meta.geometry);
+        const geometries = meta?.geometries || {};
+        const materials = meta?.materials || {};
+        const bodies = meta?.bodies || {};
+
+        const geometryUid = json.geometry || "";
+        const materialUid = json.material || "";
+        const bodyUid = json.body || "";
+
+        if (geometries[geometryUid]) {
+            const geomJSON = geometries[geometryUid];
+
+            geometry = THREE[geomJSON.type].fromJSON(geomJSON);
+
+            geometry.id = geomJSON.id;
+            geometry.uuid = geomJSON.uuid;
+            geometry.name = geomJSON.name || "";
+
+            const data = geomJSON.data;
+
+            if (data.index) {
+                geometry.setIndex(data.index.array);
+            }
+
+            if (data.attributes) {
+                const attributes = Object.entries(data.attributes);
+
+                for (const [name, attributeJSON] of attributes) {
+                    geometry.setAttribute(
+                        name,
+                        bufferAttributeFromJSON(attributeJSON)
+                    );
+                }
+            }
+
+            if (data.morphAttributes) {
+                const morphAttributes = Object.entries(data.morphAttributes);
+                /**
+                 * @type {{
+                 *     [name: string]: THREE.BufferAttribute[]
+                 * }}
+                 */
+                const newMorphAttributes = {};
+
+                for (const [name, list] of morphAttributes) {
+                    newMorphAttributes[name] = list.map(attributeJSON =>
+                        bufferAttributeFromJSON(attributeJSON)
+                    );
+                }
+
+                geometry.morphAttributes = newMorphAttributes;
+                if (data.morphTargetsRelative !== undefined)
+                    geometry.morphTargetsRelative = data.morphTargetsRelative;
+            }
+
+            if (data.groups?.length > 0) {
+                geometry.groups = JSON.parse(JSON.stringify(data.groups));
+            }
+
+            if (data.boundingSphere) {
+                const sphereJSON = data.boundingSphere;
+                const center = sphereJSON.center;
+                const [x, y, z] = center;
+                const radius = sphereJSON.radius;
+
+                geometry.boundingSphere = new THREE.Sphere(
+                    new THREE.Vector3(x, y, z),
+                    radius
+                );
+            }
         }
 
-        if (meta?.material) {
+        if (materials[materialUid]) {
+            const matJSON = materials[materialUid];
+
+            material = THREE[matJSON.type].fromJSON(matJSON);
+
+            material.id = matJSON.id;
+            material.uuid = matJSON.uuid;
+            material.name = matJSON.name || "";
         }
+
+        if (bodies[bodyUid]) {
+            const bodyJSON = bodies[bodyUid];
+
+            body = Game.Body.fromJSON(bodyJSON);
+        }
+
+        return new Game.Mesh(geometry, material, body);
     }
 }
 
