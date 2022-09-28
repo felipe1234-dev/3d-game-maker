@@ -3,3 +3,5 @@ export type { default as Object } from "./GameObject.interface";
 export type { default as ObjectHelper } from "./ObjectHelper.interface";
 export type { default as BodyOptions } from "./BodyOptions.interface";
 export type { default as PhysicsOptions } from "./PhysicsOptions.interface";
+export type { default as SceneOptions } from "./SceneOptions.interface";
+export type { default as StageOptions } from "./StageOptions.interface";
