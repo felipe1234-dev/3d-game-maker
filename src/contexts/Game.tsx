@@ -23,8 +23,8 @@ function GameProvider(props: { children: React.ReactNode }) {
                 color: "#553820",
             });
 
-            const stage1 = new Game.Stage("Stage 1");
-            const scene1 = new Game.Scene("Scene 1");
+            const stage1 = new Game.Stage({ name: "Stage 1" });
+            const scene1 = new Game.Scene({ name: "Scene 1" });
 
             const box = new THREE.BoxGeometry(1, 1, 1);
             const cube = new Game.Mesh(box, greenMaterial);
@@ -50,8 +50,8 @@ function GameProvider(props: { children: React.ReactNode }) {
 
             stage1.addScene(scene1);
 
-            const stage2 = new Game.Stage("Stage 2");
-            const scene2 = new Game.Scene("Scene 2");
+            const stage2 = new Game.Stage({ name: "Stage 2" });
+            const scene2 = new Game.Scene({ name: "Scene 2" });
             const ball = new THREE.SphereGeometry(1, 50, 50);
             const sphere = new Game.Mesh(ball, greenMaterial);
             scene2.add(sphere);
