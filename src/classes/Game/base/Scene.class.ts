@@ -93,7 +93,7 @@ class Scene extends THREE.Scene {
 
         for (const object of objects) {
             if (object instanceof Game.Mesh) {
-                this.physics.addBody(object.body);
+                if (object.body) this.physics.addBody(object.body);
             }
         }
 
@@ -110,7 +110,7 @@ class Scene extends THREE.Scene {
 
         for (const object of objects) {
             if (object instanceof Game.Mesh) {
-                this.physics.removeBody(object.body);
+                if (object.body) this.physics.removeBody(object.body);
             }
         }
 

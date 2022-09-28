@@ -121,27 +121,18 @@ class Mesh extends THREE.Mesh {
             });
         }
 
-        const result = threeToCannon(this) || {};
-        const { shape: defaultShape } = result;
+        if (body) {
+            const result = threeToCannon(this) || {};
+            const { shape: defaultShape } = result;
 
-        if (!body) {
             const { x: px, y: py, z: pz } = this.position;
             const { x: qx, y: qy, z: qz, w } = this.quaternion;
 
-            /**
-             * @type {Game.Body}
-             * @public
-             */
-            this.body = new Game.Body({
-                mesh: this,
-                position: new CANNON.Vec3(px, py, pz),
-                quaternion: new CANNON.Quaternion(qx, qy, qz, w),
-                shape: defaultShape,
-            });
-        } else {
             body.mesh = this;
             if (body.shapes.length === 0 && defaultShape)
                 body.addShape(defaultShape);
+            body.position.set(px, py, pz);
+            body.quaternion.set(qx, qy, qz, w);
 
             this.body = body;
         }
@@ -149,6 +140,8 @@ class Mesh extends THREE.Mesh {
         this.position = new Proxy(this.position, {
             set: function (position, axis, value) {
                 position[axis] = Number(value);
+
+                if (!scope.body) return true;
 
                 const { x, y, z } = position;
                 scope.body.position.copy(new CANNON.Vec3(x, y, z));
@@ -161,6 +154,8 @@ class Mesh extends THREE.Mesh {
             set: function (rotation, axis, value) {
                 rotation[axis] = Number(value);
                 rotation._onChangeCallback();
+
+                if (!scope.body) return true;
 
                 const { x, y, z, order } = rotation;
                 scope.body.quaternion.setFromEuler(x, y, z, order);
@@ -201,15 +196,15 @@ class Mesh extends THREE.Mesh {
         const json = super.toJSON(meta);
         const isRootObject = !meta;
 
-        if (!isRootObject) {
+        if (!isRootObject && this.body) {
             json.bodies = [];
             json.bodies.push(this.body.toJSON(meta));
-        } else {
+        } else if (this.body) {
             if (!meta.bodies) meta.bodies = {};
             meta.bodies[this.body.uuid] = this.body.toJSON(meta);
         }
 
-        json.object.body = this.body.uuid;
+        if (this.body) json.object.body = this.body.uuid;
 
         return json;
     }
