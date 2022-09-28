@@ -160,10 +160,11 @@ class Stage extends THREE.EventDispatcher {
     }
 
     public static fromJSON(json: Game.StageFormat): Game.Stage {
-        const stage = new Game.Stage(json.name);
-
-        (stage as any).id = json.id;
-        (stage as any).uuid = json.uuid;
+        const stage = new Game.Stage({
+            id: json.id,
+            uuid: json.uuid,
+            name: json.name,
+        });
 
         return stage;
     }
