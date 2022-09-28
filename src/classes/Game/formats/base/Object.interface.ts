@@ -2,7 +2,7 @@ interface Object {
     id: number;
     uuid: string;
     type: string;
-    name: string;
+    name?: string;
     matrix: number[];
     children?: Object[];
     receiveShadow?: boolean;
