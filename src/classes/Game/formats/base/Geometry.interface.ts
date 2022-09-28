@@ -1,18 +1,20 @@
+import AttributeFormat from "./Attribute.interface";
+
 interface Geometry {
     id: number;
     uuid: string;
     type: string;
-    name: string;
+    name?: string;
     data: {
         attributes?: {
-            [key: string]: any;
+            [name: string]: AttributeFormat;
         };
         index?: {
             type: string;
-            array: ArrayLike<number>;
+            array: number[];
         };
         morphAttributes?: {
-            [key: string]: any[];
+            [name: string]: AttributeFormat[];
         };
         morphTargetsRelative?: boolean;
         groups?: {
