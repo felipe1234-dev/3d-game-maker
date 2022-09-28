@@ -3,6 +3,7 @@ import SceneFormat from "./Scene.interface";
 import RendererFormat from "./Renderer.interface";
 
 interface Game {
+    id: number;
     uuid: string;
     name: string;
     description: string;
