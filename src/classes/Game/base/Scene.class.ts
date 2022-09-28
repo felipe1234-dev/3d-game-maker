@@ -5,21 +5,51 @@ class Scene extends THREE.Scene {
     static DEFAULT_BACKGROUND: THREE.Color = new THREE.Color("#444");
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
+    static DEFAULT_PHYSICS: Game.Physics = new Game.Physics();
 
     public game?: Game.Core;
     public stage?: Game.Stage;
     public physics: Game.Physics;
 
-    constructor(name: string, game?: Game.Core) {
+    constructor(
+        options: Game.SceneOptions = {
+            name: "",
+            children: [],
+        }
+    ) {
         super();
+
+        const {
+            id = Game.generateID(),
+            uuid = this.uuid,
+            name = "",
+
+            background = Scene.DEFAULT_BACKGROUND,
+            environment = Scene.DEFAULT_ENVIRONMENT,
+            fog = Scene.DEFAULT_FOG,
+
+            game,
+            physics = Scene.DEFAULT_PHYSICS,
+            stage,
+
+            children = [],
+        } = options;
+
+        this.id = id;
+        this.uuid = uuid;
         this.name = name;
+
+        this.background = background;
+        this.environment = environment;
+        this.fog = fog;
+
         this.game = game;
+        this.stage = stage;
+        this.physics = physics;
 
-        this.background = Scene.DEFAULT_BACKGROUND;
-        this.environment = Scene.DEFAULT_ENVIRONMENT;
-        this.fog = Scene.DEFAULT_FOG;
-
-        this.physics = new Game.Physics();
+        for (const object of children) {
+            this.add(object);
+        }
     }
 
     public select(): void {
@@ -91,34 +121,103 @@ class Scene extends THREE.Scene {
         return this;
     }
 
-    public override toJSON(meta?: Game.MetaFormat): Game.SceneFormat {
-        const json = super.toJSON(meta) as Game.SceneFormat;
+    public override toJSON(): Game.SceneFormat {
+        const json = super.toJSON() as Game.SceneFormat;
 
+        json.object.id = this.id;
         if (this.stage) json.object.stage = this.stage.uuid;
         if (this.game) json.object.game = this.game.uuid;
-        json.bodies = [];
 
+        json.bodies = [];
         for (const body of this.physics.bodies) {
             json.bodies.push(body.toJSON());
         }
 
-        json.physics = this.physics.toJSON();
+        json.object.physics = this.physics.toJSON();
 
         return json;
     }
 
     public static fromJSON(json: Game.SceneFormat): Game.Scene {
-        const scene = new Game.Scene(json.object.name);
-        (scene as any).uuid = json.object.uuid;
-        scene.physics = Game.Physics.fromJSON(json.physics);
+        let background: THREE.Color | THREE.Texture | null = null;
+        const bgIsColor = typeof json.object.background === "number";
+        const bgIsTexture = typeof json.object.background === "string";
+        const bgIsNull = !json.object.background;
+
+        if (bgIsColor) {
+            const color = json.object.background as THREE.ColorRepresentation;
+            background = new THREE.Color(color);
+        }
+
+        if (bgIsTexture) {
+            const texture = json.textures?.find(
+                texture => texture.uuid === json.object.background
+            );
+            const image = json.images?.find(
+                image => image.uuid === texture?.image
+            );
+
+            if (texture && image) {
+                background = textureFromJSON(texture, image.url);
+            }
+        }
+
+        if (bgIsNull) {
+            background = null;
+        }
+
+        let environment: THREE.Texture | null = null;
+        const envIsTexture = typeof json.object.environment === "string";
+        const envIsNull = !json.object.environment;
+
+        if (envIsTexture) {
+            const texture = json.textures?.find(
+                texture => texture.uuid === json.object.environment
+            );
+            const image = json.images?.find(
+                image => image.uuid === texture?.image
+            );
+
+            if (texture && image) {
+                environment = textureFromJSON(texture, image.url);
+            }
+        }
+
+        if (envIsNull) {
+            environment = null;
+        }
+
+        let fog: THREE.FogBase | undefined = undefined;
+        if (json.object.fog) {
+            if (json.object.fog.type === "Fog") {
+                const { color, near, far } = json.object.fog;
+                fog = new THREE.Fog(color, near, far);
+            } else if (json.object.fog.type === "FogExp2") {
+                const { color, density } = json.object.fog;
+                fog = new THREE.FogExp2(color, density);
+            }
+        }
+
+        const scene = new Game.Scene({
+            id: json.object.id,
+            uuid: json.object.uuid,
+            name: json.object.name,
+            background,
+            environment,
+            fog,
+            physics: Game.Physics.fromJSON(json.object.physics),
+        });
 
         for (const objectJSON of json.object.children) {
+            const meta: Game.MetaFormat = {};
+
             switch (objectJSON.type) {
                 case "Mesh":
                     const meshJSON = objectJSON as Game.MeshFormat;
                     const mesh = Game.Mesh.fromJSON(meshJSON);
                     scene.add(mesh);
                     break;
+
                 default:
                     break;
             }
@@ -129,3 +228,44 @@ class Scene extends THREE.Scene {
 }
 
 export default Scene;
+
+function textureFromJSON(json: Game.TextureFormat, url: string): THREE.Texture {
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(url);
+
+    texture.uuid = json.uuid;
+    texture.name = json.name;
+
+    const [wrapS, wrapT] = json.wrap;
+    texture.wrapS = wrapS;
+    texture.wrapT = wrapT;
+
+    texture.magFilter = json.magFilter;
+    texture.minFilter = json.minFilter;
+
+    texture.format = json.format;
+    texture.type = json.type;
+    texture.encoding = json.encoding;
+    texture.anisotropy = json.anisotropy;
+    texture.mapping = json.mapping;
+
+    const [rx, ry] = json.repeat;
+    texture.repeat = new THREE.Vector2(rx, ry);
+
+    const [ox, oy] = json.offset;
+    texture.offset = new THREE.Vector2(ox, oy);
+
+    const [cx, cy] = json.center;
+    texture.center = new THREE.Vector2(cx, cy);
+
+    texture.rotation = json.rotation;
+    texture.flipY = json.flipY;
+
+    texture.premultiplyAlpha = json.premultiplyAlpha;
+    texture.unpackAlignment = json.unpackAlignment;
+
+    texture.userData = json.userData;
+    texture.needsUpdate = true;
+
+    return texture;
+}
