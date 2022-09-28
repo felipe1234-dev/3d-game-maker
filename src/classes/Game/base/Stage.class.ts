@@ -9,15 +9,33 @@ class Stage extends THREE.EventDispatcher {
     public name: string;
     public scenes: Game.Scene[];
 
-    constructor(name: string, game?: Game.Core) {
+    constructor(
+        options: Game.StageOptions = {
+            name: "",
+            scenes: [],
+        }
+    ) {
         super();
 
-        this.id = new Date().valueOf();
-        this.uuid = THREE.MathUtils.generateUUID();
-        this.game = game;
+        const {
+            id = Game.generateID(),
+            uuid = THREE.MathUtils.generateUUID(),
+            name = "",
 
+            game,
+            scenes = [],
+        } = options;
+
+        this.id = id;
+        this.uuid = uuid;
+
+        this.game = game;
         this.name = name;
         this.scenes = [];
+
+        for (const scene of scenes) {
+            this.addScene(scene);
+        }
     }
 
     public addScene(scene: Game.Scene): void {
