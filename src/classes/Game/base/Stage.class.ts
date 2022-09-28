@@ -33,7 +33,7 @@ class Stage extends THREE.EventDispatcher {
         this.game?.scenes.push(scene);
         this.scenes.push(scene);
 
-        this.dispatchEvent({ type: "add-scene", scene });
+        this.dispatchEvent({ type: "addScene", scene });
     }
 
     public removeScene(sceneOrUuidOrId: Game.Scene | string | number): void {
@@ -72,7 +72,7 @@ class Stage extends THREE.EventDispatcher {
                 );
         }
 
-        this.dispatchEvent({ type: "remove-scene", scene });
+        this.dispatchEvent({ type: "removeScene", scene });
     }
 
     public transferScene(sceneOrUuidOrId: Game.Scene | string | number): void {
