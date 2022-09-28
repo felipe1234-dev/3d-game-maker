@@ -1,15 +1,16 @@
 import * as THREE from "three";
 import { Game } from "@local/classes";
+import GamePhysics from "./Physics.class";
 
 class Scene extends THREE.Scene {
     static DEFAULT_BACKGROUND: THREE.Color = new THREE.Color("#444");
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
-    static DEFAULT_PHYSICS: Game.Physics = new Game.Physics();
+    static DEFAULT_PHYSICS: GamePhysics = new GamePhysics();
 
     public game?: Game.Core;
     public stage?: Game.Stage;
-    public physics: Game.Physics;
+    public physics: GamePhysics;
 
     constructor(
         options: Game.SceneOptions = {
@@ -142,7 +143,6 @@ class Scene extends THREE.Scene {
         let background: THREE.Color | THREE.Texture | null = null;
         const bgIsColor = typeof json.object.background === "number";
         const bgIsTexture = typeof json.object.background === "string";
-        const bgIsNull = !json.object.background;
 
         if (bgIsColor) {
             const color = json.object.background as THREE.ColorRepresentation;
@@ -162,13 +162,8 @@ class Scene extends THREE.Scene {
             }
         }
 
-        if (bgIsNull) {
-            background = null;
-        }
-
         let environment: THREE.Texture | null = null;
         const envIsTexture = typeof json.object.environment === "string";
-        const envIsNull = !json.object.environment;
 
         if (envIsTexture) {
             const texture = json.textures?.find(
@@ -183,11 +178,7 @@ class Scene extends THREE.Scene {
             }
         }
 
-        if (envIsNull) {
-            environment = null;
-        }
-
-        let fog: THREE.FogBase | undefined = undefined;
+        let fog: THREE.FogBase | null = null;
         if (json.object.fog) {
             if (json.object.fog.type === "Fog") {
                 const { color, near, far } = json.object.fog;
@@ -205,7 +196,7 @@ class Scene extends THREE.Scene {
             background,
             environment,
             fog,
-            physics: Game.Physics.fromJSON(json.object.physics),
+            physics: GamePhysics.fromJSON(json.object.physics),
         });
 
         for (const objectJSON of json.object.children) {
