@@ -14,3 +14,4 @@ export type { default as AttributeFormat } from "./Attribute.interface";
 export type { default as GeometryFormat } from "./Geometry.interface";
 export type { default as TextureFormat } from "./Texture.interface";
 export type { default as SourceFormat } from "./Source.interface";
+export type { default as MaterialFormat } from "./Material.interface";

@@ -1,8 +1,12 @@
-import PhysicsFormat from "./Physics.interface";
-import BodyFormat from "./Body.interface";
-import ObjectFormat from "./Object.interface";
-import TextureFormat from "./Texture.interface";
-import SourceFormat from "./Source.interface";
+import {
+    PhysicsFormat,
+    BodyFormat,
+    ObjectFormat,
+    TextureFormat,
+    SourceFormat,
+    GeometryFormat,
+    MaterialFormat,
+} from ".";
 
 interface Scene {
     metadata: {
@@ -10,11 +14,15 @@ interface Scene {
         type: "Object";
         generator: "ObjectExporter";
     };
-    geometries?: object[];
-    materials?: object[];
+    geometries?: GeometryFormat[];
+    materials?: MaterialFormat[];
     images?: SourceFormat[];
     bodies?: BodyFormat[];
     textures?: TextureFormat[];
+    shapes?: any[];
+    skeletons?: any[];
+    nodes?: any[];
+    animations?: any[];
     object: {
         id: number;
         uuid: string;

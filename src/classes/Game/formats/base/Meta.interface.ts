@@ -1,18 +1,23 @@
-import GeometryFormat from "./Geometry.interface";
-import BodyFormat from "./Body.interface";
+import {
+    BodyFormat,
+    TextureFormat,
+    SourceFormat,
+    GeometryFormat,
+    MaterialFormat,
+} from ".";
 
 interface Meta {
     geometries?: {
         [uuid: string]: GeometryFormat;
     };
     materials?: {
-        [uuid: string]: any;
+        [uuid: string]: MaterialFormat;
     };
     textures?: {
-        [uuid: string]: any;
+        [uuid: string]: TextureFormat;
     };
     images?: {
-        [uuid: string]: any;
+        [uuid: string]: SourceFormat;
     };
     shapes?: {
         [uuid: string]: any;
