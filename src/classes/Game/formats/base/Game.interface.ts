@@ -11,6 +11,11 @@ interface Game {
     scenes: SceneFormat[];
     cameras: object[];
     renderer: RendererFormat;
+    current: {
+        scene: string;
+        stage: string;
+        camera: string;
+    };
 }
 
 export default Game;

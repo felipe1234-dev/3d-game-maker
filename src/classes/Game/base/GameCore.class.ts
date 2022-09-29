@@ -36,32 +36,32 @@ class GameCore extends THREE.EventDispatcher {
         super();
 
         const {
-            id,
-            uuid,
+            id = Game.generateID(),
+            uuid = THREE.MathUtils.generateUUID(),
 
             name,
             description,
-            scenes,
-            stages,
-            cameras,
-            renderer,
+            scenes = [],
+            stages = [],
+            cameras = [],
+            renderer = new Game.Renderer({ antialias: true }),
         } = options;
 
-        this.id = id ?? Game.generateID();
-        this.uuid = uuid || THREE.MathUtils.generateUUID();
+        this.id = id;
+        this.uuid = uuid;
 
         this.name = name;
         this.description = description;
 
         this.current = {
-            scene: scenes ? scenes[0] : undefined,
-            stage: scenes ? scenes[0].stage : undefined,
-            camera: cameras ? cameras[0] : undefined,
+            scene: scenes[0] || undefined,
+            stage: scenes[0]?.stage || undefined,
+            camera: cameras[0] || undefined,
         };
 
-        this.stages = stages || [];
-        this.scenes = scenes || [];
-        this.cameras = cameras || [];
+        this.stages = stages;
+        this.scenes = scenes;
+        this.cameras = cameras;
 
         for (const stage of this.stages) {
             stage.game = this;
@@ -75,7 +75,7 @@ class GameCore extends THREE.EventDispatcher {
             camera.game = this;
         }
 
-        this.renderer = renderer || new Game.Renderer({ antialias: true });
+        this.renderer = renderer;
     }
 
     public get currentScene(): Game.Scene | undefined {
@@ -100,6 +100,11 @@ class GameCore extends THREE.EventDispatcher {
             scenes: [],
             cameras: [],
             renderer: this.renderer.toJSON(),
+            current: {
+                scene: this.currentScene?.uuid || "",
+                stage: this.currentStage?.uuid || "",
+                camera: this.currentCamera?.uuid || "",
+            },
         };
 
         for (const stage of this.stages) {
