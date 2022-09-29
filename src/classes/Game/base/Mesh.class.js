@@ -4,65 +4,6 @@ import { threeToCannon } from "three-to-cannon";
 import { Game } from "@local/classes";
 
 /**
- * @param {string} type
- * @param {number[]} array
- * @returns {
- *     Float64Array | Float32Array |
- *     Int32Array | Int16Array | Int8Array |
- *     Uint32Array | Uint16Array | Uint8Array |
- *     Uint8ClampedArray | number[]
- * }
- */
-const getTypedArray = (type, array) => {
-    switch (type) {
-        case "Float64Array":
-            return new Float64Array(array);
-        case "Float32Array":
-            return new Float32Array(array);
-
-        case "Int32Array":
-            return new Int32Array(array);
-        case "Int16Array":
-            return new Int16Array(array);
-        case "Int8Array":
-            return new Int8Array(array);
-
-        case "Uint32Array":
-            return new Uint32Array(array);
-        case "Uint16Array":
-            return new Uint16Array(array);
-        case "Uint8Array":
-            return new Uint8Array(array);
-
-        case "Uint8ClampedArray":
-            return new Uint8ClampedArray(array);
-
-        default:
-            return array;
-    }
-};
-
-/**
- * @param {Game.AttributeFormat} attribute
- * @returns {THREE.BufferAttribute}
- */
-const bufferAttributeFromJSON = attribute => {
-    const bufferAttribute = new THREE.BufferAttribute(
-        getTypedArray(attribute.type, attribute.array),
-        attribute.itemSize,
-        attribute.normalized
-    );
-
-    bufferAttribute.name = attribute.name || "";
-
-    if (attribute.usage !== undefined) bufferAttribute.usage = attribute.usage;
-    if (attribute.updateRange)
-        bufferAttribute.updateRange = attribute.updateRange;
-
-    return bufferAttribute;
-};
-
-/**
  * @implements {Game.Object}
  */
 class Mesh extends THREE.Mesh {
@@ -196,7 +137,7 @@ class Mesh extends THREE.Mesh {
         const json = super.toJSON(meta);
         const isRootObject = !meta;
 
-        if (!isRootObject && this.body) {
+        if (isRootObject && this.body) {
             json.bodies = [];
             json.bodies.push(this.body.toJSON(meta));
         } else if (this.body) {
@@ -242,7 +183,6 @@ class Mesh extends THREE.Mesh {
 
             geometry = THREE[geomJSON.type].fromJSON(geomJSON);
 
-            geometry.id = geomJSON.id;
             geometry.uuid = geomJSON.uuid;
             geometry.name = geomJSON.name || "";
 
@@ -258,7 +198,7 @@ class Mesh extends THREE.Mesh {
                 for (const [name, attributeJSON] of attributes) {
                     geometry.setAttribute(
                         name,
-                        bufferAttributeFromJSON(attributeJSON)
+                        Game.bufferAttributeFromJSON(attributeJSON)
                     );
                 }
             }
@@ -274,7 +214,7 @@ class Mesh extends THREE.Mesh {
 
                 for (const [name, list] of morphAttributes) {
                     newMorphAttributes[name] = list.map(attributeJSON =>
-                        bufferAttributeFromJSON(attributeJSON)
+                        Game.bufferAttributeFromJSON(attributeJSON)
                     );
                 }
 
@@ -303,9 +243,11 @@ class Mesh extends THREE.Mesh {
         if (materials[materialUid]) {
             const matJSON = materials[materialUid];
 
+            console.log(matJSON);
+            console.log(THREE);
+
             material = THREE[matJSON.type].fromJSON(matJSON);
 
-            material.id = matJSON.id;
             material.uuid = matJSON.uuid;
             material.name = matJSON.name || "";
         }
@@ -316,7 +258,26 @@ class Mesh extends THREE.Mesh {
             body = Game.Body.fromJSON(bodyJSON);
         }
 
-        return new Game.Mesh(geometry, material, body);
+        const mesh = new Game.Mesh(geometry, material, body);
+
+        mesh.id = json.id;
+        mesh.uuid = json.uuid;
+        mesh.name = json.name;
+
+        const matrix = new THREE.Matrix4().fromArray(json.matrix);
+        mesh.applyMatrix4(matrix);
+
+        for (const child of json.children || []) {
+        }
+        /* children?: Object[];
+    receiveShadow?: boolean;
+    castShadow?: boolean;
+    visible?: boolean;
+    frustumCulled?: boolean;
+    renderOrder?: number;
+    userData?: any; */
+
+        return mesh;
     }
 }
 

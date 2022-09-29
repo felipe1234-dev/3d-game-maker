@@ -158,7 +158,7 @@ class Scene extends THREE.Scene {
             );
 
             if (texture && image) {
-                background = textureFromJSON(texture, image.url);
+                background = Game.textureFromJSON(texture, image.url);
             }
         }
 
@@ -174,7 +174,7 @@ class Scene extends THREE.Scene {
             );
 
             if (texture && image) {
-                environment = textureFromJSON(texture, image.url);
+                environment = Game.textureFromJSON(texture, image.url);
             }
         }
 
@@ -199,13 +199,13 @@ class Scene extends THREE.Scene {
             physics: GamePhysics.fromJSON(json.object.physics),
         });
 
-        for (const objectJSON of json.object.children) {
-            const meta: Game.MetaFormat = {};
+        const meta = Game.metaFromJSON(json);
 
+        for (const objectJSON of json.object.children) {
             switch (objectJSON.type) {
                 case "Mesh":
                     const meshJSON = objectJSON as Game.MeshFormat;
-                    const mesh = Game.Mesh.fromJSON(meshJSON);
+                    const mesh = Game.Mesh.fromJSON(meshJSON, meta);
                     scene.add(mesh);
                     break;
 
@@ -219,44 +219,3 @@ class Scene extends THREE.Scene {
 }
 
 export default Scene;
-
-function textureFromJSON(json: Game.TextureFormat, url: string): THREE.Texture {
-    const loader = new THREE.TextureLoader();
-    const texture = loader.load(url);
-
-    texture.uuid = json.uuid;
-    texture.name = json.name;
-
-    const [wrapS, wrapT] = json.wrap;
-    texture.wrapS = wrapS;
-    texture.wrapT = wrapT;
-
-    texture.magFilter = json.magFilter;
-    texture.minFilter = json.minFilter;
-
-    texture.format = json.format;
-    texture.type = json.type;
-    texture.encoding = json.encoding;
-    texture.anisotropy = json.anisotropy;
-    texture.mapping = json.mapping;
-
-    const [rx, ry] = json.repeat;
-    texture.repeat = new THREE.Vector2(rx, ry);
-
-    const [ox, oy] = json.offset;
-    texture.offset = new THREE.Vector2(ox, oy);
-
-    const [cx, cy] = json.center;
-    texture.center = new THREE.Vector2(cx, cy);
-
-    texture.rotation = json.rotation;
-    texture.flipY = json.flipY;
-
-    texture.premultiplyAlpha = json.premultiplyAlpha;
-    texture.unpackAlignment = json.unpackAlignment;
-
-    texture.userData = json.userData;
-    texture.needsUpdate = true;
-
-    return texture;
-}
