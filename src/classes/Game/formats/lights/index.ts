@@ -1,5 +1,5 @@
-export type { default as AmbientLightFormat } from "./AmbientLight.interface";
-export type { default as DirectionalLightFormat } from "./DirectionalLight.interface";
-export type { default as HemisphereLightFormat } from "./HemisphereLight.interface";
-export type { default as PointLightFormat } from "./PointLight.interface";
-export type { default as SpotLightFormat } from "./SpotLight.interface";
+export type { default as AmbientLight } from "./AmbientLight.interface";
+export type { default as DirectionalLight } from "./DirectionalLight.interface";
+export type { default as HemisphereLight } from "./HemisphereLight.interface";
+export type { default as PointLight } from "./PointLight.interface";
+export type { default as SpotLight } from "./SpotLight.interface";

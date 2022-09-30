@@ -10,11 +10,11 @@ export * from "./cameras";
 // Misc
 export * from "./misc";
 
-// Formats
-export * from "./formats";
+// Models
+export * from "./models";
 
-// Interfaces
-export * from "./interfaces";
+// Formats
+export * as Formats from "./formats";
 
 // Utils
-export * from "./utils";
+export * as Utils from "./utils";

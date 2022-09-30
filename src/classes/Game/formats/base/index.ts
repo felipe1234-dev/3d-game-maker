@@ -1,17 +1,17 @@
-export type { default as MetaFormat } from "./Meta.interface";
-export type { default as GameFormat } from "./Game.interface";
-export type { default as RendererFormat } from "./Renderer.interface";
+export type { default as Meta } from "./Meta.interface";
+export type { default as Game } from "./Game.interface";
+export type { default as Renderer } from "./Renderer.interface";
 
-export type { default as SceneFormat } from "./Scene.interface";
-export type { default as StageFormat } from "./Stage.interface";
-export type { default as PhysicsFormat } from "./Physics.interface";
+export type { default as Scene } from "./Scene.interface";
+export type { default as Stage } from "./Stage.interface";
+export type { default as Physics } from "./Physics.interface";
 
-export type { default as ObjectFormat } from "./Object.interface";
-export type { default as MeshFormat } from "./Mesh.interface";
-export type { default as BodyFormat } from "./Body.interface";
-export type { default as AttributeFormat } from "./Attribute.interface";
+export type { default as Object } from "./Object.interface";
+export type { default as Mesh } from "./Mesh.interface";
+export type { default as Body } from "./Body.interface";
+export type { default as Attribute } from "./Attribute.interface";
 
-export type { default as GeometryFormat } from "./Geometry.interface";
-export type { default as TextureFormat } from "./Texture.interface";
-export type { default as SourceFormat } from "./Source.interface";
-export type { default as MaterialFormat } from "./Material.interface";
+export type { default as Geometry } from "./Geometry.interface";
+export type { default as Texture } from "./Texture.interface";
+export type { default as Source } from "./Source.interface";
+export type { default as Material } from "./Material.interface";
