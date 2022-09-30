@@ -1,7 +1,10 @@
 import * as THREE from "three";
 import { Game } from "@local/classes";
 
-function textureFromJSON(json: Game.TextureFormat, url: string): THREE.Texture {
+function textureFromJSON(
+    json: Game.Formats.Texture,
+    url: string
+): THREE.Texture {
     const loader = new THREE.TextureLoader();
     const texture = loader.load(url);
 

@@ -43,7 +43,7 @@ function getTypedArray(type: string, array: number[]): TypedArray {
 }
 
 function bufferAttributeFromJSON(
-    attribute: Game.AttributeFormat
+    attribute: Game.Formats.Attribute
 ): THREE.BufferAttribute {
     const bufferAttribute = new THREE.BufferAttribute(
         getTypedArray(attribute.type, attribute.array),

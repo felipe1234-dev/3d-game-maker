@@ -1,7 +1,7 @@
 import { Game } from "@local/classes";
 
-function metaFromJSON(json: Game.SceneFormat): Game.MetaFormat {
-    const meta: Game.MetaFormat = {};
+function metaFromJSON(json: Game.Formats.Scene): Game.Formats.Meta {
+    const meta: Game.Formats.Meta = {};
 
     for (const geometry of json.geometries || []) {
         if (!meta.geometries) meta.geometries = {};
