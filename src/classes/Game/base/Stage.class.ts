@@ -1,6 +1,14 @@
 import * as THREE from "three";
 import { Game } from "@local/classes";
 
+interface StageOptions {
+    id?: number;
+    uuid?: string;
+    name: string;
+    game?: Game.Core;
+    scenes?: Game.Scene[];
+}
+
 class Stage extends THREE.EventDispatcher {
     public readonly id: number;
     public readonly uuid: string;
@@ -10,7 +18,7 @@ class Stage extends THREE.EventDispatcher {
     public scenes: Game.Scene[];
 
     constructor(
-        options: Game.StageOptions = {
+        options: StageOptions = {
             name: "",
             scenes: [],
         }
@@ -18,7 +26,7 @@ class Stage extends THREE.EventDispatcher {
         super();
 
         const {
-            id = Game.generateID(),
+            id = Game.Utils.generateID(),
             uuid = THREE.MathUtils.generateUUID(),
             name = "",
 
@@ -141,33 +149,7 @@ class Stage extends THREE.EventDispatcher {
         this.game?.stages.forEach(stage => stage.removeScene(sceneOrUuidOrId));
         this.addScene(sceneClone);
     }
-
-    public toJSON(): Game.StageFormat {
-        const json: Game.StageFormat = {
-            id: this.id,
-            uuid: this.uuid,
-            name: this.name,
-            scenes: [],
-        };
-
-        if (this.game) json.game = this.game.uuid;
-
-        for (const scene of this.scenes) {
-            json.scenes.push(scene.uuid);
-        }
-
-        return json;
-    }
-
-    public static fromJSON(json: Game.StageFormat): Game.Stage {
-        const stage = new Game.Stage({
-            id: json.id,
-            uuid: json.uuid,
-            name: json.name,
-        });
-
-        return stage;
-    }
 }
 
 export default Stage;
+export type { StageOptions };

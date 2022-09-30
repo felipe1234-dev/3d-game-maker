@@ -36,7 +36,7 @@ class GameCore extends THREE.EventDispatcher {
         super();
 
         const {
-            id = Game.generateID(),
+            id = Game.Utils.generateID(),
             uuid = THREE.MathUtils.generateUUID(),
 
             name,
@@ -88,75 +88,6 @@ class GameCore extends THREE.EventDispatcher {
 
     public get currentCamera(): Game.Camera | undefined {
         return this.current.camera;
-    }
-
-    public toJSON(): Game.GameFormat {
-        const json: Game.GameFormat = {
-            id: this.id,
-            uuid: this.uuid,
-            name: this.name,
-            description: this.description,
-            stages: [],
-            scenes: [],
-            cameras: [],
-            renderer: this.renderer.toJSON(),
-            current: {
-                scene: this.currentScene?.uuid || "",
-                stage: this.currentStage?.uuid || "",
-                camera: this.currentCamera?.uuid || "",
-            },
-        };
-
-        for (const stage of this.stages) {
-            json.stages.push(stage.toJSON());
-        }
-
-        for (const scene of this.scenes) {
-            json.scenes.push(scene.toJSON());
-        }
-
-        for (const camera of this.cameras) {
-            json.cameras.push(camera.toJSON());
-        }
-
-        return json;
-    }
-
-    public static fromJSON(json: Game.GameFormat): Game.Core {
-        const stages: Game.Stage[] = [];
-        const scenes: Game.Scene[] = [];
-
-        for (const stageJSON of json.stages) {
-            const stage = Game.Stage.fromJSON(stageJSON);
-            const sceneJSONs = json.scenes.filter(
-                sceneJSON => sceneJSON.object.stage === stage.uuid
-            );
-
-            for (const sceneJSON of sceneJSONs) {
-                const scene = Game.Scene.fromJSON(sceneJSON);
-
-                stage.addScene(scene);
-                scenes.push(scene);
-            }
-
-            stages.push(stage);
-        }
-
-        const game = new Game.Core({
-            id: json.id,
-            uuid: json.uuid,
-
-            name: json.name,
-            description: json.description,
-
-            stages,
-            scenes,
-            cameras: [],
-
-            renderer: Game.Renderer.fromJSON(json.renderer),
-        });
-
-        return game;
     }
 }
 

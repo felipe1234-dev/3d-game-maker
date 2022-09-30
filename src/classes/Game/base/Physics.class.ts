@@ -1,10 +1,20 @@
 import * as CANNON from "cannon-es";
 import { Game } from "@local/classes";
 
+interface PhysicsOptions {
+    gravity?: CANNON.Vec3;
+    frictionGravity?: CANNON.Vec3;
+    allowSleep?: boolean;
+    broadphase?: CANNON.Broadphase;
+    solver?: CANNON.Solver;
+    quatNormalizeFast?: boolean;
+    quatNormalizeSkip?: number;
+}
+
 class Physics extends CANNON.World {
     public bodies: Game.Body[];
 
-    constructor(options?: Game.PhysicsOptions) {
+    constructor(options?: PhysicsOptions) {
         super(options);
 
         const scope = this;
@@ -31,60 +41,7 @@ class Physics extends CANNON.World {
 
         this.bodies = [];
     }
-
-    public toJSON(): Game.PhysicsFormat {
-        const json: Game.PhysicsFormat = {
-            gravity: {
-                x: this.gravity.x,
-                y: this.gravity.y,
-                z: this.gravity.z,
-            },
-            allowSleep: this.allowSleep,
-            broadphase: {
-                useBoundingBoxes: this.broadphase.useBoundingBoxes,
-                dirty: this.broadphase.dirty,
-            },
-            quatNormalizeFast: this.quatNormalizeFast,
-            quatNormalizeSkip: this.quatNormalizeSkip,
-        };
-
-        if (this.frictionGravity) {
-            const { x, y, z } = this.frictionGravity;
-            json.frictionGravity = { x, y, z };
-        }
-
-        return json;
-    }
-
-    public static fromJSON(json: Game.PhysicsFormat): Physics {
-        const physics = json;
-        const options: Game.PhysicsOptions = {};
-
-        if (physics.gravity) {
-            const { x, y, z } = physics.gravity;
-            options.gravity = new CANNON.Vec3(x, y, z);
-        }
-
-        if (physics.frictionGravity) {
-            const { x, y, z } = physics.frictionGravity;
-            options.frictionGravity = new CANNON.Vec3(x, y, z);
-        }
-
-        options.allowSleep = !!physics.allowSleep;
-
-        if (physics.broadphase) {
-            const broadphase = new CANNON.Broadphase();
-            broadphase.useBoundingBoxes = !!physics.broadphase.useBoundingBoxes;
-            broadphase.dirty = !!physics.broadphase.dirty;
-
-            options.broadphase = broadphase;
-        }
-
-        options.quatNormalizeFast = !!physics.quatNormalizeFast;
-        options.quatNormalizeSkip = physics.quatNormalizeSkip;
-
-        return new Physics(options);
-    }
 }
 
 export default Physics;
+export type { PhysicsOptions };
