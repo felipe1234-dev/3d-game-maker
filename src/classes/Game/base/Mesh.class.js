@@ -15,7 +15,7 @@ class Mesh extends THREE.Mesh {
     constructor(geometry, material, body) {
         super(geometry, material);
 
-        this.id = Game.generateID();
+        this.id = Game.Utils.generateID();
 
         /**
          * @type {THREE.BoxHelper}
@@ -29,7 +29,7 @@ class Mesh extends THREE.Mesh {
 
         const scope = this;
 
-        if (geometry) {
+        if (geometry && geometry.parameters) {
             geometry.parameters = new Proxy(geometry.parameters, {
                 set: function (parameters, param, value) {
                     const oldParameters = parameters;
