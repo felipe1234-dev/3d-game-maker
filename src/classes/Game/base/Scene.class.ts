@@ -15,7 +15,7 @@ interface SceneOptions {
     stage?: Game.Stage;
     physics?: Game.Physics;
 
-    children?: Game.Models.Object[];
+    children?: Game.Object[];
 }
 
 class Scene extends THREE.Scene {
