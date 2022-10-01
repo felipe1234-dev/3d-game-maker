@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
 
-interface HemisphereLight extends Game.ObjectFormat {
+interface HemisphereLight extends Game.Formats.Object {
     type: "HemisphereLight";
     skyColor: number;
     groundColor: number;

@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
 
-interface AmbientLight extends Game.ObjectFormat {
+interface AmbientLight extends Game.Formats.Object {
     type: "AmbientLight";
     color: number;
     intensity: number;

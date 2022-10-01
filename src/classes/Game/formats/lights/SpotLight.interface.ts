@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
 
-interface SpotLight extends Game.ObjectFormat {
+interface SpotLight extends Game.Formats.Object {
     type: "SpotLight";
     color: number;
     intensity: number;
