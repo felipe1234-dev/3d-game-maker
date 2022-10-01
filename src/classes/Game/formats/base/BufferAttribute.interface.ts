@@ -1,4 +1,4 @@
-interface Attribute {
+interface BufferAttribute {
     itemSize: number;
     type: string;
     array: number[];
@@ -11,4 +11,4 @@ interface Attribute {
     };
 }
 
-export default Attribute;
+export default BufferAttribute;
