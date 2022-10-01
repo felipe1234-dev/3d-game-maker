@@ -1,12 +1,10 @@
-import {
-    PhysicsFormat,
-    BodyFormat,
-    ObjectFormat,
-    TextureFormat,
-    SourceFormat,
-    GeometryFormat,
-    MaterialFormat,
-} from ".";
+import PhysicsFormat from "./Physics.interface";
+import BodyFormat from "./Body.interface";
+import ObjectFormat from "./Object.interface";
+import TextureFormat from "./Texture.interface";
+import SourceFormat from "./Source.interface";
+import GeometryFormat from "./Geometry.interface";
+import MaterialFormat from "./Material.interface";
 
 interface Scene {
     metadata: {
