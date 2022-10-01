@@ -9,7 +9,7 @@ export type { default as Physics } from "./Physics.interface";
 export type { default as Object } from "./Object.interface";
 export type { default as Mesh } from "./Mesh.interface";
 export type { default as Body } from "./Body.interface";
-export type { default as Attribute } from "./Attribute.interface";
+export type { default as BufferAttribute } from "./BufferAttribute.interface";
 
 export type { default as Geometry } from "./Geometry.interface";
 export type { default as Texture } from "./Texture.interface";
