@@ -1,4 +1,5 @@
 export { default as generateID } from "./generateID.function";
+export { default as getTypedArray } from "./getTypedArray.function";
 export { default as bufferAttribute } from "./bufferAttribute";
 export { default as texture } from "./texture";
 export { default as material } from "./material";
