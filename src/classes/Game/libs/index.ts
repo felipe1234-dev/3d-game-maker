@@ -1,0 +1,1 @@
+export { default as geometries } from "./geometries.object";
