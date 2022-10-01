@@ -1,4 +1,4 @@
-import AttributeFormat from "./Attribute.interface";
+import BufferAttributeFormat from "./BufferAttribute.interface";
 
 interface Geometry {
     id: number;
@@ -7,14 +7,11 @@ interface Geometry {
     name?: string;
     data: {
         attributes?: {
-            [name: string]: AttributeFormat;
+            [name: string]: BufferAttributeFormat;
         };
-        index?: {
-            type: string;
-            array: number[];
-        };
+        index?: BufferAttributeFormat;
         morphAttributes?: {
-            [name: string]: AttributeFormat[];
+            [name: string]: BufferAttributeFormat[];
         };
         morphTargetsRelative?: boolean;
         groups?: {
