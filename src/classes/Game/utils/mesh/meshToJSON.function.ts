@@ -2,7 +2,12 @@ import { Game } from "@local/classes";
 
 function meshToJSON(
     mesh: Game.Mesh,
-    meta?: Game.Formats.Meta
+    meta?: Required<
+        Pick<
+            Game.Formats.Meta,
+            "geometries" | "materials" | "textures" | "images" | "bodies"
+        >
+    >
 ): Game.Formats.Mesh {
     const json = mesh.toJSON(meta);
     const isRootObject = !meta;

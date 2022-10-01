@@ -9,7 +9,18 @@ function geometryFromJSON(json) {
     /**
      * @type {THREE.BufferGeometry}
      */
-    const geometry = THREE[json.type].fromJSON(json);
+    const mock = new THREE[json.type]();
+
+    const args = [];
+
+    for (const param in mock.parameters) {
+        args.push(json[param]);
+    }
+
+    /**
+     * @type {THREE.BufferGeometry}
+     */
+    const geometry = new THREE[json.type](...args);
 
     geometry.uuid = json.uuid;
     geometry.name = json.name || "";
@@ -17,7 +28,8 @@ function geometryFromJSON(json) {
     const data = json.data;
 
     if (data.index) {
-        geometry.setIndex(data.index.array);
+        const attribute = Game.Utils.bufferAttribute.fromJSON(data.index);
+        geometry.setIndex(attribute);
     }
 
     if (data.attributes) {

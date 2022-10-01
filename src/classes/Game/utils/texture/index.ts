@@ -1,4 +1,4 @@
-import textureFromJSON from "../textureFromJSON";
+import textureFromJSON from "./textureFromJSON.function";
 
 const texture = {
     fromJSON: textureFromJSON,
