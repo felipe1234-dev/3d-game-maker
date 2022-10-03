@@ -1,7 +1,7 @@
 import BodyFormat from "./Body.interface";
 import TextureFormat from "./Texture.interface";
 import SourceFormat from "./Source.interface";
-import GeometryFormat from "./Geometry.interface";
+import GeometryFormat from "../geometries/Geometry.interface";
 import MaterialFormat from "./Material.interface";
 
 interface Meta {
