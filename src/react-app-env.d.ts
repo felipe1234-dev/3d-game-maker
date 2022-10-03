@@ -2,8 +2,6 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 
-declare module "react-resizable";
-
 declare namespace NodeJS {
     interface ProcessEnv {
         readonly NODE_ENV: "development" | "production" | "test";
@@ -142,14 +140,4 @@ declare module "*.module.scss" {
 declare module "*.module.sass" {
     const classes: { readonly [key: string]: string };
     export default classes;
-}
-
-import { Game, Editor, Utils } from "./classes";
-
-declare global {
-    interface Window {
-        Game: typeof Game;
-        Editor: typeof Editor;
-        Utils: typeof Utils;
-    }
 }
