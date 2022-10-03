@@ -1,9 +1,10 @@
-import BufferAttributeFormat from "./BufferAttribute.interface";
+import { Game } from "@local/classes";
+import BufferAttributeFormat from "../base/BufferAttribute.interface";
 
 interface Geometry {
     id: number;
     uuid: string;
-    type: string;
+    type: typeof Game.Libs.geometries[number];
     name?: string;
     data: {
         attributes?: {

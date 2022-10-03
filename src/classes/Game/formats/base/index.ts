@@ -11,7 +11,6 @@ export type { default as Mesh } from "./Mesh.interface";
 export type { default as Body } from "./Body.interface";
 export type { default as BufferAttribute } from "./BufferAttribute.interface";
 
-export type { default as Geometry } from "./Geometry.interface";
 export type { default as Texture } from "./Texture.interface";
 export type { default as Source } from "./Source.interface";
 export type { default as Material } from "./Material.interface";
