@@ -1,10 +1,18 @@
-import { Game } from "@local/classes";
+import { Light, isLight } from "./Light.interface";
 
-interface AmbientLight extends Game.Formats.Object {
+interface AmbientLight extends Light {
     type: "AmbientLight";
-    color: number;
-    intensity: number;
     receiveShadow: false;
 }
 
-export default AmbientLight;
+function isAmbientLight(json: any): json is AmbientLight {
+    if (!isLight(json)) return false;
+
+    const typeIsCorrect = json.type === "AmbientLight";
+    const receiveShadowIsCorrect = !!json.receiveShadow === false;
+
+    return typeIsCorrect && receiveShadowIsCorrect;
+}
+
+export type { AmbientLight };
+export { isAmbientLight };
