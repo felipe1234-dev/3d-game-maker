@@ -1,6 +1,7 @@
-import GeometryFormat from "../base/Geometry.interface";
+import GeometryFormat from "./Geometry.interface";
 
 interface BoxGeometry extends GeometryFormat {
+    type: "BoxGeometry";
     width: number;
     height: number;
     depth: number;
