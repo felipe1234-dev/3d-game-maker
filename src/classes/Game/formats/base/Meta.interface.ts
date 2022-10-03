@@ -1,12 +1,12 @@
-import BodyFormat from "./Body.interface";
+import { Body } from "./Body.interface";
 import TextureFormat from "./Texture.interface";
-import SourceFormat from "./Source.interface";
-import GeometryFormat from "../geometries/Geometry.interface";
-import MaterialFormat from "./Material.interface";
+import { Source } from "./Source.interface";
+import { Geometry, isGeometry } from "../geometries/Geometry.interface";
+import MaterialFormat from "../materials/Material.interface";
 
 interface Meta {
     geometries?: {
-        [uuid: string]: GeometryFormat;
+        [uuid: string]: Geometry;
     };
     materials?: {
         [uuid: string]: MaterialFormat;
@@ -15,7 +15,7 @@ interface Meta {
         [uuid: string]: TextureFormat;
     };
     images?: {
-        [uuid: string]: SourceFormat;
+        [uuid: string]: Source;
     };
     shapes?: {
         [uuid: string]: any;
@@ -30,8 +30,23 @@ interface Meta {
         [uuid: string]: any;
     };
     bodies?: {
-        [uuid: string]: BodyFormat;
+        [uuid: string]: Body;
     };
 }
 
-export default Meta;
+function isMeta(json: any): json is Meta {
+    if (!(json instanceof Object)) return false;
+
+    if (json.geometries) {
+        const geometries = Object.values(json.geometries);
+
+        for (const geo of geometries) {
+            if (!isGeometry(geo)) return false;
+        }
+    }
+
+    return true;
+}
+
+export type { Meta };
+export { isMeta };
