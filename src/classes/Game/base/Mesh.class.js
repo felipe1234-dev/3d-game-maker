@@ -190,9 +190,9 @@ class Mesh extends THREE.Mesh {
         const materials = meta?.materials || {};
         const bodies = meta?.bodies || {};
 
-        const geometryUid = json.geometry || "";
-        const materialUid = json.material || "";
-        const bodyUid = json.body || "";
+        const geometryUid = json.object.geometry || "";
+        const materialUid = json.object.material || "";
+        const bodyUid = json.object.body || "";
 
         if (geometries[geometryUid]) {
             const geomJSON = geometries[geometryUid];
