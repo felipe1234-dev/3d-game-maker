@@ -2,6 +2,7 @@
     "compilerOptions": {
         "target": "es2015",
         "lib": ["dom", "dom.iterable", "esnext"],
+        "types": ["node", "jest"],
         "allowJs": true,
         "skipLibCheck": true,
         "downlevelIteration": true,
@@ -22,5 +23,6 @@
         },
         "typeRoots": ["./node_modules/@types/", "./src/"]
     },
-    "include": ["src"]
+    "include": ["src"],
+    "exclude": ["node_modules"]
 }
