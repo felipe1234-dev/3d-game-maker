@@ -1,5 +1,4 @@
 export { default as Renderer } from "./GameRenderer.class";
-export { default as Mesh } from "./Mesh.class";
 
 export { default as Core } from "./GameCore.class";
 export type { GameOptions } from "./GameCore.class";
@@ -15,3 +14,6 @@ export type { SceneOptions } from "./Scene.class";
 
 export { default as Physics } from "./Physics.class";
 export type { PhysicsOptions } from "./Physics.class";
+
+export { default as BaseObject3D } from "./BaseObject3D.class";
+export { default as Mesh } from "./Mesh.class";
