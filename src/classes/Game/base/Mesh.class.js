@@ -1,6 +1,10 @@
 import { threeToCannon } from "three-to-cannon";
 import { Game } from "@local/classes";
-import { generateID } from "../utils/private";
+import {
+    generateID,
+    parseObjectChildren,
+    applyObject3DJSON
+} from "../utils/private";
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
 
@@ -217,24 +221,9 @@ class Mesh extends THREE.Mesh {
         mesh.id = json.id;
         mesh.uuid = json.uuid;
         mesh.name = json.name || "";
-        mesh.type = "Mesh";
 
-        const matrix = new THREE.Matrix4().fromArray(json.matrix);
-        mesh.applyMatrix4(matrix);
-
-        for (const childJSON of json.children || []) {
-            const object =
-                Game[childJSON.type].fromJSON(childJSON, meta) || undefined;
-            if (object) mesh.add(object);
-        }
-
-        mesh.receiveShadow = !!json.receiveShadow;
-        mesh.castShadow = !!json.castShadow;
-        mesh.visible = !!json.visible;
-        mesh.frustumCulled = !!json.frustumCulled;
-
-        if (json.renderOrder) mesh.renderOrder = json.renderOrder;
-        if (json.userData) mesh.userData = json.userData;
+        applyObject3DJSON(mesh, json);
+        parseObjectChildren(mesh, json, meta);
 
         return mesh;
     }
