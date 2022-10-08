@@ -148,11 +148,7 @@ class Scene extends THREE.Scene {
         if (this.game) json.object.game = this.game.uuid;
         if (this.children.length === 0) json.object.children = [];
 
-        json.bodies = [];
-        for (const body of this.physics.bodies) {
-            json.bodies.push(body.toJSON());
-        }
-
+        json.bodies = this.physics.bodies.map(body => body.toJSON());
         json.object.physics = this.physics.toJSON();
 
         return json;
