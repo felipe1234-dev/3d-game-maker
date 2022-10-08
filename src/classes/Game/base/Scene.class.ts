@@ -1,5 +1,9 @@
 import { Game } from "@local/classes";
-import { generateID, metaFromSceneJSON } from "../utils/private";
+import {
+    generateID,
+    metaFromSceneJSON,
+    parseObjectChildren
+} from "../utils/private";
 import GamePhysics from "./Physics.class";
 import * as THREE from "three";
 
@@ -83,9 +87,9 @@ class Scene extends THREE.Scene {
         const previousScene = this.game.currentScene;
         this.game.current.scene = this;
 
-        this.dispatchEvent({ 
-            type: "changeScene", 
-            previousScene 
+        this.dispatchEvent({
+            type: "changeScene",
+            previousScene
         });
         this.game.dispatchEvent({
             type: "changeScene",
@@ -144,6 +148,9 @@ class Scene extends THREE.Scene {
         const json = obj as Game.Formats.Scene;
 
         json.object.id = this.id;
+        json.object.uuid = this.uuid;
+        json.object.name = this.name;
+
         if (this.stage) json.object.stage = this.stage.uuid;
         if (this.game) json.object.game = this.game.uuid;
         if (this.children.length === 0) json.object.children = [];
@@ -215,11 +222,7 @@ class Scene extends THREE.Scene {
         });
 
         const meta = metaFromSceneJSON(json);
-
-        for (const childJSON of json.object.children) {
-            const child = Game[childJSON.type].fromJSON(childJSON, meta);
-            if (child) scene.add(child);
-        }
+        parseObjectChildren(scene, json, meta);
 
         return scene;
     }
