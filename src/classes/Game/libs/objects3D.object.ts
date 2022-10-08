@@ -6,6 +6,7 @@ const objects3D = [
     ...lights,
     "Mesh",
     "Group",
+    "Scene",
 ] as const;
 
 export default objects3D;
