@@ -1,74 +1,35 @@
 import { Physics, isPhysics } from "./Physics.interface";
-import { Body, isBody } from "./Body.interface";
 import { Object3D, isObject3D } from "./Object3D.interface";
-import TextureFormat from "./Texture.interface";
-import { Source, isSource } from "./Source.interface";
-import { Geometry, isGeometry } from "../geometries/Geometry.interface";
-import MaterialFormat from "../materials/Material.interface";
 
-interface Scene {
-    geometries?: Geometry[];
-    materials?: MaterialFormat[];
-    images?: Source[];
-    bodies?: Body[];
-    textures?: TextureFormat[];
-    shapes?: any[];
-    skeletons?: any[];
-    nodes?: any[];
-    animations?: any[];
-    object: {
-        id: number;
-        uuid: string;
+interface SceneObject extends Object3D { }
+
+interface Scene extends Object3D {
+    object: Object3D["object"] & {
+        type: "Scene";
         name: string;
+        children: Object3D[];
         game?: string;
         stage?: string;
-        type: "Scene";
-        matrix: number[];
         physics: Physics;
         background?: number | string; // Color representation as a number or texture uuid as a string
         environment?: string;
         fog?:
-            | {
-                  type: "Fog";
-                  color: number;
-                  near: number;
-                  far: number;
-              }
-            | {
-                  type: "FogExp2";
-                  color: number;
-                  density: number;
-              };
-        children: Object3D[];
+        | {
+            type: "Fog";
+            color: number;
+            near: number;
+            far: number;
+        }
+        | {
+            type: "FogExp2";
+            color: number;
+            density: number;
+        };
     };
 }
 
 function isScene(json: any): json is Scene {
     if (!(json instanceof Object)) return false;
-
-    if (json.geometries) {
-        if (!Array.isArray(json.geometries)) return false;
-
-        for (const item of json.geometries) {
-            if (!isGeometry(item)) return false;
-        }
-    }
-
-    if (json.images) {
-        if (!Array.isArray(json.images)) return false;
-
-        for (const item of json.images) {
-            if (!isSource(item)) return false;
-        }
-    }
-
-    if (json.bodies) {
-        if (!Array.isArray(json.bodies)) return false;
-
-        for (const item of json.bodies) {
-            if (!isBody(item)) return false;
-        }
-    }
 
     const object = json.object;
 
@@ -119,6 +80,8 @@ function isScene(json: any): json is Scene {
     for (const item of object.children) {
         if (!isObject3D(item)) return false;
     }
+
+    if (!isObject3D(json)) return false;
 
     return true;
 }
