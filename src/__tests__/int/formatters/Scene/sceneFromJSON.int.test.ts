@@ -1,15 +1,15 @@
 import { Game } from "@local/classes";
 import * as THREE from "three";
 
-describe("Game.Utils.scene.fromJSON()", () => {
+describe("Game.Scene.fromJSON()", () => {
     const gray = "#444";
 
     test("background color should be kept the same", () => {
         const scene = new Game.Scene();
         scene.background = new THREE.Color(gray);
 
-        const format = Game.Utils.scene.toJSON(scene);
-        const result = Game.Utils.scene.fromJSON(format);
+        const format = scene.toJSON();
+        const result = Game.Scene.fromJSON(format);
 
         const fColor = format.object.background;
         const resBg =

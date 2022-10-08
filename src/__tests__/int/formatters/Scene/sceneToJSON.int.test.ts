@@ -17,39 +17,44 @@ describe("Game.Utils.scene.toJSON()", () => {
 
     test("should have the same ID after being formatted", () => {
         const scene = createDefaultScene();
-        const format = Game.Utils.scene.toJSON(scene);
+        const format = scene.toJSON();
 
         expect(format.object.id).toBe(scene.id);
     });
+
     test("should have the same uuid after being formatted", () => {
         const scene = createDefaultScene();
-        const format = Game.Utils.scene.toJSON(scene);
+        const format = scene.toJSON();
 
         expect(format.object.uuid).toBe(scene.uuid);
     });
+
     test("should have the same name after being formatted", () => {
         const scene = createDefaultScene();
-        const format = Game.Utils.scene.toJSON(scene);
+        const format = scene.toJSON();
 
         expect(format.object.name).toBe(scene.name);
     });
+
     test("format.object.children should always be an array even if there are no children", () => {
         const scene = createDefaultScene();
         scene.remove(object);
-        const format = Game.Utils.scene.toJSON(scene);
+        const format = scene.toJSON();
 
         expect(format.object.children).toBeDefined();
         expect(format.object.children).toEqual([]);
     });
+    
     test("no child objects should be lost", () => {
         const scene = createDefaultScene();
-        const format = Game.Utils.scene.toJSON(scene);
+        const format = scene.toJSON();
 
         expect(format.object.children.length).toBe(scene.children.length);
     });
+
     test("no bodies should be lost", () => {
         const scene = createDefaultScene();
-        const format = Game.Utils.scene.toJSON(scene);
+        const format = scene.toJSON();
 
         expect(format.bodies?.length).toBe(scene.physics.bodies.length);
     });
