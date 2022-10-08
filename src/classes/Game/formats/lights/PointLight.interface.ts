@@ -1,10 +1,12 @@
 import { Light, isLight } from "./Light.interface";
 
 interface PointLight extends Light {
-    type: "PointLight";
-    distance: number;
-    decay: number;
-    receiveShadow: false;
+    object: Light["object"] & {
+        type: "PointLight";
+        distance: number;
+        decay: number;
+        receiveShadow: false;
+    }
 }
 
 function isPointLight(json: any): json is PointLight {

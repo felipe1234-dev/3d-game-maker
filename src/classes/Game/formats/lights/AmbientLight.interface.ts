@@ -1,15 +1,17 @@
 import { Light, isLight } from "./Light.interface";
 
 interface AmbientLight extends Light {
-    type: "AmbientLight";
-    receiveShadow: false;
+    object: Light["object"] & {
+        type: "AmbientLight";
+        receiveShadow: false;
+    }
 }
 
 function isAmbientLight(json: any): json is AmbientLight {
     if (!isLight(json)) return false;
 
-    const typeIsCorrect = json.type === "AmbientLight";
-    const receiveShadowIsCorrect = !!json.receiveShadow === false;
+    const typeIsCorrect = json.object.type === "AmbientLight";
+    const receiveShadowIsCorrect = !!json.object.receiveShadow === false;
 
     return typeIsCorrect && receiveShadowIsCorrect;
 }

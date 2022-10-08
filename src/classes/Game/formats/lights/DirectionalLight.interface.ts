@@ -1,15 +1,17 @@
 import { Light, isLight } from "./Light.interface";
 
 interface DirectionalLight extends Light {
-    type: "DirectionalLight";
-    receiveShadow: false;
+    object: Light["object"] & {
+        type: "DirectionalLight";
+        receiveShadow: false;
+    }
 }
 
 function isDirectionalLight(json: any): json is DirectionalLight {
     if (!isLight(json)) return false;
 
-    const typeIsCorrect = json.type === "DirectionalLight";
-    const receiveShadowIsCorrect = !!json.receiveShadow === false;
+    const typeIsCorrect = json.object.type === "DirectionalLight";
+    const receiveShadowIsCorrect = !!json.object.receiveShadow === false;
 
     return typeIsCorrect && receiveShadowIsCorrect;
 }

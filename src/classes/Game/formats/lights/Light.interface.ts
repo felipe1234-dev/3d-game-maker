@@ -1,18 +1,24 @@
-import { Game } from "@local/classes";
+import { Object3D, isObject3D } from "../base";
+import { lights } from "../../libs";
 
-interface Light extends Game.Formats.Object3D {
-    type: typeof Game.Libs.lights[number];
-    color: string | number; // Color representation
-    intensity: number;
+interface Light extends Object3D {
+    object: Object3D["object"] & {
+        type: typeof lights[number];
+        color: string | number; // Color representation
+        intensity: number;
+    }
 }
 
 function isLight(json: any): json is Light {
-    const isObject3D = Game.Formats.isObject3D(json);
-    const typeIsCorrect = !!Game.Libs.lights[json.type];
-    const colorIsCorrect = ["string", "number"].includes(typeof json.color);
-    const intensityIsCorrect = typeof json.intensity === "number";
+    if (!(json instanceof Object)) return false;
+    if (!(json.object instanceof Object)) return false;
 
-    return isObject3D && typeIsCorrect && colorIsCorrect && intensityIsCorrect;
+    const isObj3D = isObject3D(json);
+    const typeIsCorrect = [...lights].includes(json.object.type);
+    const colorIsCorrect = ["string", "number"].includes(typeof json.object.color);
+    const intensityIsCorrect = typeof json.object.intensity === "number";
+
+    return isObj3D && typeIsCorrect && colorIsCorrect && intensityIsCorrect;
 }
 
 export type { Light };
