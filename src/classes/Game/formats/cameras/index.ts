@@ -1,1 +1,1 @@
-export type {};
+export * from "./PerspectiveCamera.interface";
