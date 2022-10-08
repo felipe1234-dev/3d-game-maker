@@ -5,7 +5,7 @@ import * as THREE from "three";
 import * as CANNON from "cannon-es";
 
 /**
- * @implements {Game.Object}
+ * @implements {Game.Object3D}
  */
 class Mesh extends THREE.Mesh {
     /**
@@ -24,7 +24,7 @@ class Mesh extends THREE.Mesh {
         this.helper = new THREE.BoxHelper(this);
 
         /**
-         * @type {GameObject[]}
+         * @type {Game.Object3D[]}
          */
         this.children = [];
 
