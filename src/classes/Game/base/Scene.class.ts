@@ -1,6 +1,7 @@
-import * as THREE from "three";
 import { Game } from "@local/classes";
+import { generateID, metaFromSceneJSON } from "../utils/private";
 import GamePhysics from "./Physics.class";
+import * as THREE from "three";
 
 interface SceneOptions {
     id?: number;
@@ -37,7 +38,7 @@ class Scene extends THREE.Scene {
         super();
 
         const {
-            id = Game.Utils.generateID(),
+            id = generateID(),
             uuid = this.uuid,
             name = "",
 
@@ -75,18 +76,17 @@ class Scene extends THREE.Scene {
         }
 
         const { currentScene } = this.game;
-        if (!currentScene) {
-            return;
-        }
-
-        if (currentScene.uuid === this.uuid) {
+        if ((currentScene || {}).uuid === this.uuid) {
             return;
         }
 
         const previousScene = this.game.currentScene;
         this.game.current.scene = this;
 
-        this.dispatchEvent({ type: "changeScene", previousScene });
+        this.dispatchEvent({ 
+            type: "changeScene", 
+            previousScene 
+        });
         this.game.dispatchEvent({
             type: "changeScene",
             previousScene,
@@ -136,6 +136,96 @@ class Scene extends THREE.Scene {
         });
 
         return this;
+    }
+
+    public override toJSON(): Game.Formats.Scene {
+        const obj = super.toJSON();
+        delete obj.metadata;
+        const json = obj as Game.Formats.Scene;
+
+        json.object.id = this.id;
+        if (this.stage) json.object.stage = this.stage.uuid;
+        if (this.game) json.object.game = this.game.uuid;
+        if (this.children.length === 0) json.object.children = [];
+
+        json.bodies = [];
+        for (const body of this.physics.bodies) {
+            json.bodies.push(body.toJSON());
+        }
+
+        json.object.physics = this.physics.toJSON();
+
+        return json;
+    }
+
+    public static fromJSON(json: Game.Formats.Scene): Scene {
+        let background: THREE.Color | THREE.Texture | null = null;
+        const bgIsColor = typeof json.object.background === "number";
+        const bgIsTexture = typeof json.object.background === "string";
+
+        if (bgIsColor) {
+            const color = json.object.background as THREE.ColorRepresentation;
+            background = new THREE.Color(color);
+        }
+
+        if (bgIsTexture) {
+            const texture = json.textures?.find(
+                texture => texture.uuid === json.object.background
+            );
+            const image = json.images?.find(
+                image => image.uuid === texture?.image
+            );
+
+            if (texture && image) {
+                background = Game.Utils.texture.fromJSON(texture, image.url);
+            }
+        }
+
+        let environment: THREE.Texture | null = null;
+        const envIsTexture = typeof json.object.environment === "string";
+
+        if (envIsTexture) {
+            const texture = json.textures?.find(
+                texture => texture.uuid === json.object.environment
+            );
+            const image = json.images?.find(
+                image => image.uuid === texture?.image
+            );
+
+            if (texture && image) {
+                environment = Game.Utils.texture.fromJSON(texture, image.url);
+            }
+        }
+
+        let fog: THREE.FogBase | null = null;
+        if (json.object.fog) {
+            if (json.object.fog.type === "Fog") {
+                const { color, near, far } = json.object.fog;
+                fog = new THREE.Fog(color, near, far);
+            } else if (json.object.fog.type === "FogExp2") {
+                const { color, density } = json.object.fog;
+                fog = new THREE.FogExp2(color, density);
+            }
+        }
+
+        const scene = new Scene({
+            id: json.object.id,
+            uuid: json.object.uuid,
+            name: json.object.name,
+            background,
+            environment,
+            fog,
+            physics: Game.Physics.fromJSON(json.object.physics),
+        });
+
+        const meta = metaFromSceneJSON(json);
+
+        for (const childJSON of json.object.children) {
+            const child = Game[childJSON.type].fromJSON(childJSON, meta);
+            if (child) scene.add(child);
+        }
+
+        return scene;
     }
 }
 

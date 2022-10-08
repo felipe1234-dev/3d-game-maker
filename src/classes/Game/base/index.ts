@@ -1,6 +1,8 @@
-export { default as Core } from "./GameCore.class";
 export { default as Renderer } from "./GameRenderer.class";
 export { default as Mesh } from "./Mesh.class";
+
+export { default as Core } from "./GameCore.class";
+export type { GameOptions } from "./GameCore.class";
 
 export { default as Body } from "./Body.class";
 export type { BodyOptions } from "./Body.class";

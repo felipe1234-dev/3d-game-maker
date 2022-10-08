@@ -1,6 +1,6 @@
 import { Body } from "./Body.interface";
 import TextureFormat from "./Texture.interface";
-import { Source } from "./Source.interface";
+import { Source, isSource } from "./Source.interface";
 import { Geometry, isGeometry } from "../geometries/Geometry.interface";
 import MaterialFormat from "../materials/Material.interface";
 
@@ -42,6 +42,14 @@ function isMeta(json: any): json is Meta {
 
         for (const geo of geometries) {
             if (!isGeometry(geo)) return false;
+        }
+    }
+
+    if (json.images) {
+        const images = Object.values(json.images);
+
+        for (const img of images) {
+            if (!isSource(img)) return false;
         }
     }
 

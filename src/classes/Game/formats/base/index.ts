@@ -1,5 +1,3 @@
-export type { default as Renderer } from "./Renderer.interface";
-export type { default as Scene } from "./Scene.interface";
 export type { default as Texture } from "./Texture.interface";
 export type { default as Material } from "../materials/Material.interface";
 

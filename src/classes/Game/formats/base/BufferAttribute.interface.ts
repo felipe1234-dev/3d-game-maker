@@ -1,10 +1,12 @@
+import * as THREE from "three";
+
 interface BufferAttribute {
     itemSize: number;
     type: string;
     array: number[];
     normalized: boolean;
     name?: string;
-    usage?: number;
+    usage?: THREE.Usage;
     updateRange?: {
         offset: number;
         count: number;

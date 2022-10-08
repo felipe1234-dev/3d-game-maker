@@ -1,7 +1,9 @@
+import { Game } from "@local/classes";
+
 interface Object3D {
     id: number;
     uuid: string;
-    type: string;
+    type: typeof Game.Libs.objects3D[number];
     name?: string;
     matrix: number[];
     children?: Object3D[];

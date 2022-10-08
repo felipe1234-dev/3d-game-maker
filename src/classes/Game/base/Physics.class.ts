@@ -41,6 +41,59 @@ class Physics extends CANNON.World {
 
         this.bodies = [];
     }
+
+    public toJSON(): Game.Formats.Physics {
+        const json: Game.Formats.Physics = {
+            gravity: {
+                x: this.gravity.x,
+                y: this.gravity.y,
+                z: this.gravity.z,
+            },
+            allowSleep: this.allowSleep,
+            broadphase: {
+                useBoundingBoxes: this.broadphase.useBoundingBoxes,
+                dirty: this.broadphase.dirty,
+            },
+            quatNormalizeFast: this.quatNormalizeFast,
+            quatNormalizeSkip: this.quatNormalizeSkip,
+        };
+
+        if (this.frictionGravity) {
+            const { x, y, z } = this.frictionGravity;
+            json.frictionGravity = { x, y, z };
+        }
+
+        return json;
+    }
+
+    public static fromJSON(json: Game.Formats.Physics): Physics {
+        const options: Game.PhysicsOptions = {};
+
+        {
+            const { x, y, z } = json.gravity;
+            options.gravity = new CANNON.Vec3(x, y, z);
+        }
+
+        if (json.frictionGravity) {
+            const { x, y, z } = json.frictionGravity;
+            options.frictionGravity = new CANNON.Vec3(x, y, z);
+        }
+
+        options.allowSleep = json.allowSleep;
+
+        {
+            const broadphase = new CANNON.Broadphase();
+            broadphase.useBoundingBoxes = json.broadphase.useBoundingBoxes;
+            broadphase.dirty = json.broadphase.dirty;
+
+            options.broadphase = broadphase;
+        }
+
+        options.quatNormalizeFast = json.quatNormalizeFast;
+        options.quatNormalizeSkip = json.quatNormalizeSkip;
+
+        return new Physics(options);
+    }
 }
 
 export default Physics;
