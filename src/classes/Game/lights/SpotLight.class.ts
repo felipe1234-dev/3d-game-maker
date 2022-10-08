@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { Game } from "@local/classes";
+import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
-class SpotLight extends THREE.SpotLight implements Game.Object {
+class SpotLight extends THREE.SpotLight implements Game.Object3D {
     public helper: THREE.SpotLightHelper;
     public readonly receiveShadow: boolean;
 
@@ -20,6 +21,25 @@ class SpotLight extends THREE.SpotLight implements Game.Object {
 
         this.receiveShadow = false;
         this.castShadow = true;
+    }
+
+    public static fromJSON(
+        json: Game.Formats.SpotLight,
+        meta?: Game.Formats.Meta,
+    ): SpotLight {
+        const light = new SpotLight(
+            json.object.color,
+            json.object.intensity,
+            json.object.distance,
+            json.object.angle,
+            json.object.penumbra,
+            json.object.decay
+        );
+
+        applyObject3DJSON(light, json);
+        parseObjectChildren(light, json, meta);
+
+        return light;
     }
 }
 

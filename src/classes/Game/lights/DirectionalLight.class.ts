@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { Game } from "@local/classes";
+import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
-class DirectionalLight extends THREE.DirectionalLight implements Game.Object {
+class DirectionalLight extends THREE.DirectionalLight implements Game.Object3D {
     public helper: THREE.DirectionalLightHelper;
     public readonly receiveShadow: boolean;
 
@@ -13,6 +14,21 @@ class DirectionalLight extends THREE.DirectionalLight implements Game.Object {
 
         this.receiveShadow = false;
         this.castShadow = true;
+    }
+
+    public static fromJSON(
+        json: Game.Formats.DirectionalLight,
+        meta?: Game.Formats.Meta
+    ): DirectionalLight {
+        const light = new DirectionalLight(
+            json.object.color,
+            json.object.intensity,
+        );
+
+        applyObject3DJSON(light, json);
+        parseObjectChildren(light, json, meta);
+
+        return light;
     }
 }
 
