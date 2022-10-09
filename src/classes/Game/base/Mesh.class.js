@@ -154,7 +154,7 @@ class Mesh extends THREE.Mesh {
      * @returns {Game.Formats.Mesh}
      */
     toJSON(meta) {
-        const json = this.toJSON(meta);
+        const json = super.toJSON(meta);
         const isRootObject = !meta;
 
         if (isRootObject && this.body) {
