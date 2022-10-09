@@ -1,7 +1,4 @@
-import { Game } from "@local/classes";
-import * as THREE from "three";
-
-describe("Game.Utils.scene.toJSON()", () => {
+/* describe("Game.Utils.scene.toJSON()", () => {
     const object = new Game.Mesh();
     const gray = "#444";
 
@@ -58,6 +55,6 @@ describe("Game.Utils.scene.toJSON()", () => {
 
         expect(format.bodies?.length).toBe(scene.physics.bodies.length);
     });
-});
+}); */
 
-export {};
+export { };

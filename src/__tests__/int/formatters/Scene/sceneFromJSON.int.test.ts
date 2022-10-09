@@ -1,7 +1,4 @@
-import { Game } from "@local/classes";
-import * as THREE from "three";
-
-describe("Game.Scene.fromJSON()", () => {
+/* describe("Game.Scene.fromJSON()", () => {
     const gray = "#444";
 
     test("background color should be kept the same", () => {
@@ -25,6 +22,6 @@ describe("Game.Scene.fromJSON()", () => {
         expect(resBg).toEqual(formBg);
         expect(resBg).toEqual(origBg);
     });
-});
+}); */
 
-export {};
+export { };
