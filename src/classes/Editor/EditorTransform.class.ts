@@ -9,7 +9,7 @@ class EditorTransform extends ThreeControls.TransformControls {
     public readonly raycaster: THREE.Raycaster;
     public readonly mouse: THREE.Vector2;
     public intersected?: THREE.Intersection;
-    public helper?: Game.ObjectHelper;
+    public helper?: Game.Helper;
     public blacklist: THREE.Object3D[];
     public locked: boolean;
 
@@ -23,11 +23,11 @@ class EditorTransform extends ThreeControls.TransformControls {
 
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
-        
+
         this.canvas.addEventListener("pointermove", this.onMouseMove, false);
         this.canvas.addEventListener("pointerdown", this.onMouseDown, false);
 
-        this.blacklist = [ this ];
+        this.blacklist = [this];
         this.locked = false;
     }
 
@@ -64,12 +64,12 @@ class EditorTransform extends ThreeControls.TransformControls {
         }
 
         this.raycaster.setFromCamera(this.mouse, this.camera);
-        
+
         const objects = currentScene.children.filter((object) => (
             !this.blacklist.includes(object)
         ));
         const gizmos = this.gizmos;
-        
+
         const intersects = this.raycaster.intersectObjects([
             ...objects,
             ...gizmos
@@ -84,41 +84,41 @@ class EditorTransform extends ThreeControls.TransformControls {
         if (!container && !this.canvas) {
             return;
         }
-        
+
         if (this.dragging && this.helper) {
             this.helper.update();
         }
-        
+
         const view = container ?? this.canvas;
-        
-        this.mouse.x = (event.clientX/view.offsetWidth) * 2 - 1;
-        this.mouse.y = -(event.clientY/view.offsetHeight) * 2 + 1;
+
+        this.mouse.x = (event.clientX / view.offsetWidth) * 2 - 1;
+        this.mouse.y = -(event.clientY / view.offsetHeight) * 2 + 1;
 
         const intersectedNow = this.intersects[0];
         const intersectedBefore = this.intersected;
-        
+
         if (intersectedBefore === intersectedNow) {
             return;
         }
-        
+
         let cursor = "default";
-        
+
         if (intersectedNow) {
             if (this.gizmos.includes(intersectedNow.object)) {
                 cursor = "grab";
             }
-            
+
             if (this.dragging) {
                 cursor = "grabbing";
             }
-            
+
             if (intersectedNow.object instanceof THREE.Mesh) {
                 cursor = "pointer";
             }
         }
-        
+
         this.canvas.style.cursor = cursor;
-        
+
         if (intersectedBefore && intersectedBefore.object instanceof THREE.Mesh) {
             const material: THREE.Material | Array<THREE.Material> =
                 intersectedBefore.object.material;
@@ -150,19 +150,19 @@ class EditorTransform extends ThreeControls.TransformControls {
                 material.needsUpdate = true;
             });
         }
-        
+
         this.intersected = intersectedNow;
     }
 
     protected onMouseDown = (): void => {
         if (
-            !this.intersected && 
-            this.object && 
+            !this.intersected &&
+            this.object &&
             this.helper
         ) {
             this.unselect();
         } else if (
-            this.intersected && 
+            this.intersected &&
             this.gizmos.includes(this.intersected.object) &&
             this.helper
         ) {
@@ -172,23 +172,23 @@ class EditorTransform extends ThreeControls.TransformControls {
             !this.object &&
             !this.helper
         ) {
-            this.select(this.intersected.object as Game.Object);
+            this.select(this.intersected.object as Game.Object3D);
         }
     }
-    
+
     public setMode = (mode: Mode): void => {
         if (this.locked) return;
 
         this.mode = mode;
-        
+
         this.dispatchEvent({ type: "setMode", mode });
     }
-    
+
     public delete = (): void => {
         if (!this.object) {
             return;
         }
-        
+
         const { currentScene } = this.editor.game;
         if (!currentScene) {
             return;
@@ -196,20 +196,20 @@ class EditorTransform extends ThreeControls.TransformControls {
 
         currentScene.remove(this.object);
         this.unselect();
-        
+
         this.dispatchEvent({ type: "unselect" });
         this.dispatchEvent({ type: "delete" });
     }
 
-    public select = (object: Game.Object): void => {
+    public select = (object: Game.Object3D): void => {
         const { scene: currentScene } = this.editor.game.current;
         if (!currentScene) {
             return;
         }
 
         if (
-            !this.intersected && 
-            this.object && 
+            !this.intersected &&
+            this.object &&
             this.helper
         ) {
             this.unselect();
@@ -219,10 +219,10 @@ class EditorTransform extends ThreeControls.TransformControls {
         this.helper.visible = true;
         currentScene.add(this.helper);
         this.helper.update();
-        
+
         this.attach(object);
         currentScene.add(this);
-        
+
         this.editor.orbitControls.enableRotate = false;
         this.dispatchEvent({ type: "select", object });
     }
@@ -232,17 +232,17 @@ class EditorTransform extends ThreeControls.TransformControls {
         if (!currentScene || !this.helper) {
             return;
         }
-        
+
         const object = this.object;
         this.detach();
 
         currentScene.remove(this.helper);
         currentScene.remove(this);
-        
+
         this.helper.visible = false;
         this.helper = undefined;
         this.editor.orbitControls.enableRotate = true;
-                
+
         this.dispatchEvent({ type: "unselect", object });
     }
 
