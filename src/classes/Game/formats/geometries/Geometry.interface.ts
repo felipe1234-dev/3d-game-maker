@@ -5,7 +5,6 @@ import {
 } from "../base/BufferAttribute.interface";
 
 interface Geometry {
-    id: number;
     uuid: string;
     type: typeof Game.Libs.geometries[number];
     name?: string;
