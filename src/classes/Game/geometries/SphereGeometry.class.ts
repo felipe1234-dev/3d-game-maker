@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import { applyData } from "../utils/private";
 
-class SphereGeometry extends THREE.SphereGeometry {
+class SphereGeometry extends THREE.SphereGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.SphereGeometry {
         return super.toJSON();
     }
@@ -11,8 +11,8 @@ class SphereGeometry extends THREE.SphereGeometry {
         json: Game.Formats.SphereGeometry
     ): SphereGeometry {
         const sphere = new SphereGeometry(
-            json.radius, 
-            json.widthSegments, 
+            json.radius,
+            json.widthSegments,
             json.heightSegments,
             json.phiStart,
             json.phiLength,

@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import { applyData } from "../utils/private";
 
-class TorusGeometry extends THREE.TorusGeometry {
+class TorusGeometry extends THREE.TorusGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.TorusGeometry {
         return super.toJSON();
     }
@@ -11,10 +11,10 @@ class TorusGeometry extends THREE.TorusGeometry {
         json: Game.Formats.TorusGeometry
     ): TorusGeometry {
         const torus = new TorusGeometry(
-            json.radius, 
-            json.tube, 
-            json.radialSegments, 
-            json.tubularSegments, 
+            json.radius,
+            json.tube,
+            json.radialSegments,
+            json.tubularSegments,
             json.arc
         );
 

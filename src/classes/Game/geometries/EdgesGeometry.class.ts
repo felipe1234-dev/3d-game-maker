@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import { applyData } from "../utils/private";
 
-class EdgesGeometry extends THREE.EdgesGeometry {
+class EdgesGeometry extends THREE.EdgesGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.EdgesGeometry {
         const json: Game.Formats.EdgesGeometry = super.toJSON();
 

@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import { applyData } from "../utils/private";
 
-class LatheGeometry extends THREE.LatheGeometry {
+class LatheGeometry extends THREE.LatheGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.LatheGeometry {
         const json: Game.Formats.LatheGeometry = super.toJSON();
 

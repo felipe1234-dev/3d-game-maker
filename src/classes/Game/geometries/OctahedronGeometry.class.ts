@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import { applyData } from "../utils/private";
 
-class OctahedronGeometry extends THREE.OctahedronGeometry {
+class OctahedronGeometry extends THREE.OctahedronGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.OctahedronGeometry {
         return super.toJSON();
     }
@@ -11,7 +11,7 @@ class OctahedronGeometry extends THREE.OctahedronGeometry {
         json: Game.Formats.OctahedronGeometry
     ): OctahedronGeometry {
         const oct = new OctahedronGeometry(
-            json.radius, 
+            json.radius,
             json.detail
         );
 

@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import { applyData } from "../utils/private";
 
-class DodecahedronGeometry extends THREE.DodecahedronGeometry {
+class DodecahedronGeometry extends THREE.DodecahedronGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.DodecahedronGeometry {
         return super.toJSON();
     }

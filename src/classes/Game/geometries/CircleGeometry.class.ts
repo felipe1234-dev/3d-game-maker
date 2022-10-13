@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import { applyData } from "../utils/private";
 
-class CircleGeometry extends THREE.CircleGeometry {
+class CircleGeometry extends THREE.CircleGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.CircleGeometry {
         return super.toJSON();
     }
