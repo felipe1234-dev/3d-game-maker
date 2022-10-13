@@ -1,14 +1,14 @@
 import { Game } from "@local/classes";
 import { Body, isBody } from "./Body.interface";
-import TextureFormat from "./Texture.interface";
 import { Source, isSource } from "./Source.interface";
+import { isTexture, Texture } from "../textures/Texture.interface";
 import { Geometry, isGeometry } from "../geometries/Geometry.interface";
-import MaterialFormat from "../materials/Material.interface";
+import { Material, isMaterial } from "../materials/Material.interface";
 
 interface Object3D {
     geometries?: Geometry[];
-    materials?: MaterialFormat[];
-    textures?: TextureFormat[];
+    materials?: Material[];
+    textures?: Texture[];
     images?: Source[];
     shapes?: any[];
     skeletons?: any[];
@@ -109,6 +109,22 @@ function isObject3D(json: any): json is Object3D {
         )
         : false;
 
+    const hasMaterials = json.materials !== undefined;
+    const isMaterials = hasMaterials
+        ? !!(
+            Array.isArray(json.materials) &&
+            json.materials.every((item: any) => isMaterial(item))
+        )
+        : false;
+
+    const hasTextures = json.textures !== undefined;
+    const isTestures = hasTextures
+        ? !!(
+            Array.isArray(json.textures) &&
+            json.textures.every((item: any) => isTexture(item))
+        )
+        : false;
+
     return (
         isID &&
         isUuid &&
@@ -128,7 +144,9 @@ function isObject3D(json: any): json is Object3D {
 
         (hasGeometries ? isGeometries : true) &&
         (hasSources ? isSources : true) &&
-        (hasBodies ? isBodies : true)
+        (hasBodies ? isBodies : true) &&
+        (hasMaterials ? isMaterials : true) &&
+        (hasTextures ? isTestures : true)
     );
 }
 

@@ -1,18 +1,18 @@
 import { Body } from "./Body.interface";
-import TextureFormat from "./Texture.interface";
 import { Source, isSource } from "./Source.interface";
+import { Texture, isTexture } from "../textures/Texture.interface";
 import { Geometry, isGeometry } from "../geometries/Geometry.interface";
-import MaterialFormat from "../materials/Material.interface";
+import { Material, isMaterial } from "../materials/Material.interface";
 
 interface Meta {
     geometries?: {
         [uuid: string]: Geometry;
     };
     materials?: {
-        [uuid: string]: MaterialFormat;
+        [uuid: string]: Material;
     };
     textures?: {
-        [uuid: string]: TextureFormat;
+        [uuid: string]: Texture;
     };
     images?: {
         [uuid: string]: Source;
@@ -50,6 +50,22 @@ function isMeta(json: any): json is Meta {
 
         for (const img of images) {
             if (!isSource(img)) return false;
+        }
+    }
+
+    if (json.textures) {
+        const textures = Object.values(json.textures);
+
+        for (const text of textures) {
+            if (!isTexture(text)) return false;
+        }
+    }
+
+    if (json.materials) {
+        const materials = Object.values(json.images);
+
+        for (const text of materials) {
+            if (!isMaterial(text)) return false;
         }
     }
 

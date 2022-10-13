@@ -1,8 +1,6 @@
 import { Physics, isPhysics } from "./Physics.interface";
 import { Object3D, isObject3D } from "./Object3D.interface";
 
-interface SceneObject extends Object3D { }
-
 interface Scene extends Object3D {
     object: Object3D["object"] & {
         type: "Scene";

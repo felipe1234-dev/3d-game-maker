@@ -1,6 +1,3 @@
-export type { default as Texture } from "./Texture.interface";
-export type { default as Material } from "../materials/Material.interface";
-
 export * from "./Game.interface";
 export * from "./Object3D.interface";
 export * from "./Body.interface";
