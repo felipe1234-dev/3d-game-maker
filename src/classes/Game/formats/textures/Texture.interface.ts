@@ -32,4 +32,9 @@ interface Texture {
     userData: any;
 }
 
-export default Texture;
+function isTexture(json: any): json is Texture {
+    return true;
+}
+
+export type { Texture };
+export { isTexture };
