@@ -1,7 +1,7 @@
 import { Game } from "@local/classes";
 
 /**
- * Converts all JSONs from children and adds them to the object.
+ * Converts all child JSONs to objects, and adds them to the passed object.
  */
 function parseObjectChildren(
     object: Game.Object3D,
@@ -9,7 +9,7 @@ function parseObjectChildren(
     meta?: Game.Formats.Meta
 ): void {
     for (const childJson of json.object.children || []) {
-        let child: Game.Object3D = new Game.BaseObject3D();
+        let child: Game.Object3D | undefined = undefined;
 
         for (const type of Game.Libs.objects3D) {
             if (Game.Formats[`is${type}`](childJson)) {
