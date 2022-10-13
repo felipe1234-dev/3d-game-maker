@@ -29,7 +29,7 @@ function isPerspectiveCamera(json: any): json is PerspectiveCamera {
 
     if (json.object.type !== "PerspectiveCamera") return false;
 
-    const numberKeys = [
+    const requiredNumbers = [
         "fov",
         "zoom",
         "near",
@@ -40,8 +40,8 @@ function isPerspectiveCamera(json: any): json is PerspectiveCamera {
         "filmOffset",
     ];
 
-    for (const key of numberKeys) {
-        if (typeof json.object[key] !== "number") return false;
+    for (const prop of requiredNumbers) {
+        if (typeof json.object[prop] !== "number") return false;
     }
 
     if (json.object.view instanceof Object) {
