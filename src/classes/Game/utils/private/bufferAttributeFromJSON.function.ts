@@ -2,6 +2,9 @@ import * as THREE from "three";
 import { Game } from "@local/classes";
 import getTypedArray from "./getTypedArray.function";
 
+/**
+ * Creates an instance of THREE.BufferAttribute from JSON.
+ */
 function bufferAttributeFromJSON(
     attribute: Game.Formats.BufferAttribute
 ): THREE.BufferAttribute {

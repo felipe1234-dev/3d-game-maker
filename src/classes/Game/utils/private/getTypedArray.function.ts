@@ -10,6 +10,9 @@ type TypedArray =
     | Uint8ClampedArray
     | number[];
 
+/**
+ * Generates a typed array from an array and class name (type parameter).
+ */
 function getTypedArray(type: string, array: number[]): TypedArray {
     switch (type) {
         case "Float64Array":

@@ -2,6 +2,9 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import bufferAttributeFromJSON from "./bufferAttributeFromJSON.function";
 
+/** 
+ * Applies the base properties of geometries.
+ */
 function applyBaseGeometryJSON(
     geometry: Game.Geometry,
     json: Game.Formats.Geometry
