@@ -1,7 +1,7 @@
 import { getTypedArray } from "@local/classes/Game/utils/private";
 
-describe("Testing private utils", () => {
-    test("getTypedArray.function", () => {
+describe("getTypedArray.function", () => {
+    it("should return the correct class instance for the type parameter", () => {
         const array = [0, 3, 4, 1, 17];
 
         expect(getTypedArray("Float64Array", array)).toEqual(new Float64Array(array));
@@ -18,4 +18,12 @@ describe("Testing private utils", () => {
 
         expect(getTypedArray("Uint8ClampedArray", array)).toEqual(new Uint8ClampedArray(array));
     });
+
+    it(
+        "should return the array that was passed as an argument if the type argument does not match any typed array",
+        () => {
+            const array = [0, 15, 3, 4, 5, 6];
+            expect(getTypedArray("wrong class name", array)).toEqual(array);
+        }
+    );
 });

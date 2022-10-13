@@ -1,8 +1,8 @@
 import { Game } from "@local/classes";
 import { applyObject3DJSON } from "@local/classes/Game/utils/private";
 
-describe("Testing private utils", () => {
-    test("applyObject3DJSON.function", () => {
+describe("applyObject3DJSON.function", () => {
+    it("should correctly apply all the properties", () => {
         const object = new Game.Mesh();
 
         object.position.x = 10;

@@ -2,8 +2,8 @@ import { Game } from "@local/classes";
 import { bufferAttributeFromJSON } from "@local/classes/Game/utils/private";
 import * as THREE from "three";
 
-describe("Testing private utils", () => {
-    test("bufferAttributeFromJSON.function", () => {
+describe("bufferAttributeFromJSON.function", () => {
+    it("should return an instance with the same properties as the other instance generated with the JSON", () => {
         const bufferAttribute = new THREE.BufferAttribute(
             new Uint16Array([
                 -1.0, -1.0, 1.0,
