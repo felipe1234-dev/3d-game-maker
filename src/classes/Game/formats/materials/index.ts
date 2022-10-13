@@ -1,1 +1,15 @@
-export type {};
+export * from "./Material.interface";
+export * from "./LineBasicMaterial.interface";
+export * from "./LineDashedMaterial.interface";
+export * from "./MeshBasicMaterial.interface";
+export * from "./MeshDepthMaterial.interface";
+export * from "./MeshDistanceMaterial.interface";
+export * from "./MeshLambertMaterial.interface";
+export * from "./MeshMatcapMaterial.interface";
+export * from "./MeshNormalMaterial.interface";
+export * from "./MeshPhongMaterial.interface";
+export * from "./MeshPhysicalMaterial.interface";
+export * from "./MeshStandardMaterial.interface";
+export * from "./MeshToonMaterial.interface";
+export * from "./PointsMaterial.interface";
+export * from "./SpriteMaterial.interface";

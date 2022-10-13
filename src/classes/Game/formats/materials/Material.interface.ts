@@ -5,135 +5,98 @@ interface Material {
     type: string;
     name?: string;
 
-    color?: number; // Color representation as a number
-    roughness?: number;
-    metalness?: number;
-
-    sheen?: number;
-    sheenColor?: number; // Color representation as a number
-    sheenRoughness?: number;
-    emissive?: number; // Color representation as a number
-    emissiveIntensity?: number;
-
-    specular?: number; // Color representation as a number
-    specularIntensity?: number;
-    specularColor?: number; // Color representation as a number
-
-    shininess?: number;
-    clearcoat?: number;
-    clearcoatRoughness?: number;
-    clearcoatMap?: string; // Texture uuid
-    clearcoatRoughnessMap?: string; // Texture uuid
-    clearcoatNormalMap?: string; // Texture uuid
-    clearcoatNormalScale?: [x: number, y: number];
-
-    iridescence?: number;
-    iridesceneceIOR?: number;
-    iridescenceThicknessRange?: number[];
-    iridescenceMap?: string; // Texture uuid
-    iridescenceThicknessMap?: string; // Texture uuid
-
-    map?: string; // Texture uuid
-    matcap?: string; // Texture uuid
-    alphaMap?: string; // Texture uuid
-
-    lightMap?: string; // Texture uuid
-    lightMapIntensity?: number;
-
-    aoMap?: string; // Texture uuid
-    aoMapIntensity?: number;
-
-    bumpMap?: string; // Texture uuid
-    bumpScale?: number;
-
-    normalMap?: string; // Texture uuid
-    normalMapType?: THREE.NormalMapTypes;
-    normalScale?: [x: number, y: number];
-
-    displacementMap?: string; // Texture uuid
-    displacementScale?: number;
-    displacementBias?: number;
-
-    roughnessMap?: string; // Texture uuid
-    metalnessMap?: string; // Texture uuid
-
-    emissiveMap?: string; // Texture uuid
-    specularMap?: string; // Texture uuid
-    specularIntensityMap?: string; // Texture uuid
-    specularColorMap?: string; // Texture uuid
-
-    envMap?: string; // Texture uuid
-    combine?: THREE.Combine;
-
-    envMapIntensity?: number;
-    reflectivity?: number;
-    refractionRatio?: number;
-
-    gradientMap?: string; // Texture uuid
-
-    transmission?: number;
-    transmissionMap?: string; // Texture uuid
-
-    thickness?: number;
-    thicknessMap?: string; // Texture uuid
-
-    attenuationDistance?: number;
-    attenuationColor?: number; // Color representation as a number
-
-    size?: number;
-    shadowSize?: number;
-    sizeAttenuation?: number;
-
-    blending?: THREE.Blending;
-    side?: THREE.Side;
-    vertexColors?: boolean;
-
-    opacity?: number;
-    transparent?: boolean;
-
-    depthFunc: THREE.DepthModes;
-    depthTest: boolean;
-    depthWrite: boolean;
-    colorWrite: boolean;
-
-    stencilWrite: boolean;
-    stencilFunc: THREE.StencilFunc;
+    alphaTest?: number;
     stencilRef: number;
     stencilWriteMask: number;
     stencilFuncMask: number;
-    stencilFail: THREE.StencilOp;
-    stencilZFail: THREE.StencilOp;
-    stencilZPass: THREE.StencilOp;
-
-    rotation?: number;
-    polygonOffset?: boolean;
+    opacity?: number;
     polygonOffsetFactor?: number;
     polygonOffsetUnits?: number;
 
-    lineWidth?: number;
-    dashSize?: number;
-
-    gapSize?: number;
-    scale?: number;
-
-    dithering?: boolean;
-
-    alphaTest?: number;
     alphaToCoverage?: boolean;
+    colorWrite: boolean;
+    depthTest: boolean;
+    depthWrite: boolean;
+    stencilWrite: boolean;
+    polygonOffset?: boolean;
     premultipliedAlpha?: boolean;
-
-    wireframe?: boolean;
-    wireframeLinewidth?: number;
-    wireframeLinecap?: string;
-    wireframeLinejoin?: string;
-
-    flatShading?: boolean;
-    visible?: boolean;
+    dithering?: boolean;
     toneMapped?: boolean;
+    transparent?: boolean;
+    vertexColors?: boolean;
+    visible?: boolean;
 
-    fog?: boolean;
+    blending?: THREE.Blending;
+    stencilFunc: THREE.StencilFunc;
+    depthFunc: THREE.DepthModes;
+    stencilFail: THREE.StencilOp;
+    stencilZFail: THREE.StencilOp;
+    stencilZPass: THREE.StencilOp;
+    side?: THREE.Side;
+    shadowSide?: THREE.Side;
 
-    userData: any;
+    userData?: any;
 }
 
-export default Material;
+function isMaterial(json: any): json is Material {
+    if (!(json instanceof Object)) return false;
+
+    if (typeof json.uuid !== "string") return false;
+    if (typeof json.name !== "string") return false;
+    if (json.name !== undefined) {
+        if (typeof json.type !== "string") return false;
+    }
+
+    const requiredNumbers = [
+        "alphaTest",
+        "stencilRef",
+        "stencilWriteMask",
+        "stencilFuncMask",
+        "opacity",
+        "polygonOffsetFactor",
+        "polygonOffsetUnits",
+    ];
+    for (const prop of requiredNumbers) {
+        if (typeof json[prop] !== "number") return false;
+    }
+
+    const optionalNumbers = [
+        "blendDstAlpha?",
+        "blendEquationAlpha?",
+        "blendSrcAlpha?",
+    ];
+    for (const prop of optionalNumbers) {
+        if (json[prop] !== undefined) {
+            if (typeof json[prop] !== "number") return false;
+        }
+    }
+
+    const requiredBooleans = [
+        "alphaToCoverage",
+        "clipIntersection",
+        "clipShadows",
+        "colorWrite",
+        "depthTest",
+        "depthWrite",
+        "stencilWrite",
+        "polygonOffset",
+        "premultipliedAlpha",
+        "dithering",
+        "toneMapped",
+        "transparent",
+        "vertexColors",
+        "visible",
+    ];
+    for (const prop of requiredBooleans) {
+        if (typeof json[prop] !== "boolean") return false;
+    }
+
+    if (json.userData) {
+        if (!(json.userData instanceof Object)) return false;
+    }
+
+    return true;
+}
+
+export type { Material };
+export { isMaterial };
