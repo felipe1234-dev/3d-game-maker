@@ -134,23 +134,7 @@ class Mesh extends THREE.Mesh {
 
     /**
      * @public
-     * @param {{
-     *     geometries: {
-     *         [uuid: string]: Game.Formats.Geometry
-     *     };
-     *     materials: {
-     *         [uuid: string]: Game.Formats.Material
-     *     };
-     *     textures: {
-     *         [uuid: string]: Game.Formats.Texture
-     *     };
-     *     images: {
-     *         [uuid: string]: Game.Formats.Source
-     *     };
-     *     bodies: {
-     *         [uuid: string]: Game.Formats.Body
-     *     };
-     * }} meta
+     * @param {Game.Formats.Meta=} meta
      * @returns {Game.Formats.Mesh}
      */
     toJSON(meta) {
