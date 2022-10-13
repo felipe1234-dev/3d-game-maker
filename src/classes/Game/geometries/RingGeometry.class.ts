@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class RingGeometry extends THREE.RingGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.RingGeometry {
@@ -19,7 +19,7 @@ class RingGeometry extends THREE.RingGeometry implements Game.Geometry {
             json.thetaLength
         );
 
-        applyData(ring, json.data);
+        applyBaseGeometryJSON(ring, json);
 
         return ring;
     }

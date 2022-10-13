@@ -2,10 +2,12 @@ import { Game } from "@local/classes";
 import * as THREE from "three";
 import bufferAttributeFromJSON from "./bufferAttributeFromJSON.function";
 
-function applyData(
-    geometry: THREE.BufferGeometry,
-    data: Game.Formats.Geometry["data"]
+function applyBaseGeometryJSON(
+    geometry: Game.Geometry,
+    json: Game.Formats.Geometry
 ): void {
+    const { data } = json;
+
     if (data.index) {
         const attribute = bufferAttributeFromJSON(data.index);
         geometry.setIndex(attribute);
@@ -53,4 +55,4 @@ function applyData(
     }
 }
 
-export default applyData;
+export default applyBaseGeometryJSON;

@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class OctahedronGeometry extends THREE.OctahedronGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.OctahedronGeometry {
@@ -15,7 +15,7 @@ class OctahedronGeometry extends THREE.OctahedronGeometry implements Game.Geomet
             json.detail
         );
 
-        applyData(oct, json.data);
+        applyBaseGeometryJSON(oct, json);
 
         return oct;
     }

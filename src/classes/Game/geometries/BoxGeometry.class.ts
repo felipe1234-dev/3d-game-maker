@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class BoxGeometry extends THREE.BoxGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.BoxGeometry {
@@ -20,7 +20,7 @@ class BoxGeometry extends THREE.BoxGeometry implements Game.Geometry {
             json.depthSegments
         );
 
-        applyData(box, json.data);
+        applyBaseGeometryJSON(box, json);
 
         return box;
     }

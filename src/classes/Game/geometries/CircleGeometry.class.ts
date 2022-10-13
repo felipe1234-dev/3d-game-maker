@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class CircleGeometry extends THREE.CircleGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.CircleGeometry {
@@ -17,7 +17,7 @@ class CircleGeometry extends THREE.CircleGeometry implements Game.Geometry {
             json.thetaLength
         );
 
-        applyData(cirlce, json.data);
+        applyBaseGeometryJSON(cirlce, json);
 
         return cirlce;
     }

@@ -1,9 +1,9 @@
 import { Game } from "@local/classes";
-import { applyData } from "@local/classes/Game/utils/private";
+import { applyBaseGeometryJSON } from "@local/classes/Game/utils/private";
 import * as THREE from "three";
 
 describe("Testing private utils", () => {
-    test("applyData.function", () => {
+    test("applyBaseGeometryJSON.function", () => {
         const geometry = new Game.BoxGeometry();
         const vertices = new Float32Array([
             -1.0, -1.0, 1.0,
@@ -20,7 +20,7 @@ describe("Testing private utils", () => {
         const json = geometry.toJSON();
 
         const cmpGeometry = new Game.BoxGeometry();
-        applyData(cmpGeometry, json.data);
+        applyBaseGeometryJSON(cmpGeometry, json);
 
         expect(cmpGeometry.attributes.position).toEqual(cmpGeometry.attributes.position);
         expect(cmpGeometry.attributes.scale).toEqual(cmpGeometry.attributes.scale);

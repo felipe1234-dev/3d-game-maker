@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class SphereGeometry extends THREE.SphereGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.SphereGeometry {
@@ -20,7 +20,7 @@ class SphereGeometry extends THREE.SphereGeometry implements Game.Geometry {
             json.thetaLength
         );
 
-        applyData(sphere, json.data);
+        applyBaseGeometryJSON(sphere, json);
 
         return sphere;
     }

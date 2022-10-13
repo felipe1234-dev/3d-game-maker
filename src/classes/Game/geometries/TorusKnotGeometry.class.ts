@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class TorusKnotGeometry extends THREE.TorusKnotGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.TorusKnotGeometry {
@@ -19,7 +19,7 @@ class TorusKnotGeometry extends THREE.TorusKnotGeometry implements Game.Geometry
             json.q
         );
 
-        applyData(torusKnot, json.data);
+        applyBaseGeometryJSON(torusKnot, json);
 
         return torusKnot;
     }

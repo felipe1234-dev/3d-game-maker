@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class EdgesGeometry extends THREE.EdgesGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.EdgesGeometry {
@@ -23,7 +23,7 @@ class EdgesGeometry extends THREE.EdgesGeometry implements Game.Geometry {
             json.thresholdAngle
         );
 
-        applyData(edges, json.data);
+        applyBaseGeometryJSON(edges, json);
 
         return edges;
     }

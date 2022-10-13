@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class PlaneGeometry extends THREE.PlaneGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.PlaneGeometry {
@@ -17,7 +17,7 @@ class PlaneGeometry extends THREE.PlaneGeometry implements Game.Geometry {
             json.heightSegments,
         );
 
-        applyData(plane, json.data);
+        applyBaseGeometryJSON(plane, json);
 
         return plane;
     }

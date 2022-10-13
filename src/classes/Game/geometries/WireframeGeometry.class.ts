@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class WireframeGeometry extends THREE.WireframeGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.WireframeGeometry {
@@ -20,7 +20,7 @@ class WireframeGeometry extends THREE.WireframeGeometry implements Game.Geometry
 
         const frame = new WireframeGeometry(geometry);
 
-        applyData(frame, json.data);
+        applyBaseGeometryJSON(frame, json);
 
         return frame;
     }

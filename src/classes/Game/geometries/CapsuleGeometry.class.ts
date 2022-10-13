@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
+import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
-import { applyData } from "../utils/private";
 
 class CapsuleGeometry extends THREE.CapsuleGeometry implements Game.Geometry {
     public override toJSON(): Game.Formats.CapsuleGeometry {
@@ -18,7 +18,7 @@ class CapsuleGeometry extends THREE.CapsuleGeometry implements Game.Geometry {
             json.radialSegments
         );
 
-        applyData(capsule, json.data);
+        applyBaseGeometryJSON(capsule, json);
 
         return capsule;
     }
