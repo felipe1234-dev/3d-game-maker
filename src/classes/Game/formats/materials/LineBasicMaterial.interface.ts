@@ -6,7 +6,6 @@ interface LineBasicMaterial extends Material {
     linewidth?: number;
     linecap?: "butt" | "round" | "square";
     linejoin?: "round" | "bevel" | "miter";
-    fog?: boolean;
 }
 
 function isLineBasicMaterial(json: any): json is LineBasicMaterial {
@@ -27,11 +26,6 @@ function isLineBasicMaterial(json: any): json is LineBasicMaterial {
 
     if (json.linejoin !== undefined) {
         if (!["round", "bevel", "mitter"].includes(json.linejoin))
-            return false;
-    }
-
-    if (json.fog !== undefined) {
-        if (typeof json.fog !== "boolean")
             return false;
     }
 
