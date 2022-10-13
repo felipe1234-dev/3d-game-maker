@@ -6,6 +6,10 @@ function applyBaseGeometryJSON(
     geometry: Game.Geometry,
     json: Game.Formats.Geometry
 ): void {
+    geometry.uuid = json.uuid;
+    geometry.id = json.id;
+    geometry.name = json.name || "";
+
     const { data } = json;
 
     if (data.index) {
