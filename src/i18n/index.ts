@@ -1,10 +1,10 @@
 import en_US from "./en_US";
 import pt_BR from "./pt_BR";
 
-const i18n: { 
+const i18n: {
     [lang: string]: {
         [key: string]: string
-    } 
+    }
 } = {
     en_US,
     pt_BR
@@ -37,8 +37,8 @@ const getLang = () => {
 const t = (key: string) => {
     const lang = getLang();
 
-    return i18n[lang][key] || key; 
+    return i18n[lang][key] || key;
 };
 
 export default i18n;
-export { getLang, t };
+export { getLang, t, DEFAULT_LANG };
