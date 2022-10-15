@@ -13,16 +13,17 @@ const i18n: {
 const DEFAULT_LANG = "en_US";
 
 const getLang = () => {
-    const langInURL = window.location.href.replace(/^.+\/#\/(\w+)\/.+$/, "$1");
-    const fixedLang = langInURL.replace("-", "_").replace(/_(\w+)$/g, m => m.toUpperCase()); // pt-br -> pt_BR
+    const langInURL = window.location.href.replace(/^.+\/#\/(\w+).*$/, "$1");
+    const fixedLang = langInURL.replace(/[\s-]+/g, "_").toLowerCase(); // pT-Br -> pt_br / pt br -> pt_br
+    const trans = i18n[fixedLang];
 
-    let trans = i18n[fixedLang];
-        
     if (!trans) {
-        const closestMatch = Object.keys(i18n).find(lang => (
-            lang.includes(fixedLang) || fixedLang.includes(lang)
-        ));
-            
+        const closestMatch = Object.keys(i18n).find(lang => {
+            lang = lang.toLowerCase();
+
+            return lang.includes(fixedLang) || fixedLang.includes(lang);
+        });
+
         if (closestMatch) {
             return closestMatch;
         } else {
