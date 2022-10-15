@@ -1,6 +1,6 @@
-import { Material, isMaterial } from "./Material.interface";
+import { LineBasicMaterial, isLineBasicMaterial } from "./LineBasicMaterial.interface";
 
-interface LineDashedMaterial extends Material {
+interface LineDashedMaterial extends Omit<LineBasicMaterial, "type"> {
     type: "LineDashedMaterial";
     scale: number;
     dashSize: number;
@@ -22,7 +22,10 @@ function isLineDashedMaterial(json: any): json is LineDashedMaterial {
         if (typeof json[prop] !== "number") return false;
     }
 
-    if (!isMaterial(json)) return false;
+    if (!isLineBasicMaterial({
+        ...json,
+        type: "LineBasicMaterial",
+    })) return false;
 
     return true;
 }
