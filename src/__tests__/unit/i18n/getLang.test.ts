@@ -1,23 +1,11 @@
 import { getLang, DEFAULT_LANG } from "@local/i18n";
 import { getEnv } from "@local/functions";
+import openWindow from "@local/__mocks__/openWindow.mock";
 
 const PORT = getEnv("port");
 const BASE_URL = `http://localhost:${PORT}/#`;
 
 describe("i18n.getLang", () => {
-    const openWindow = (url: string) => {
-        Object.defineProperty(global, "window", {
-            value: {
-                ...window,
-                location: {
-                    ...window.location,
-                    href: url
-                },
-            },
-            writable: true,
-        });
-    };
-
     it("should return the default language if none provided in the URL", () => {
         openWindow(BASE_URL);
 
