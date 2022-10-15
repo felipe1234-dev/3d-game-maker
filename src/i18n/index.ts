@@ -10,6 +10,8 @@ const i18n: {
     pt_BR
 }
 
+const DEFAULT_LANG = "en_US";
+
 const getLang = () => {
     const langInURL = window.location.href.replace(/^.+\/#\/(\w+)\/.+$/, "$1");
     const fixedLang = langInURL.replace("-", "_").replace(/_(\w+)$/g, m => m.toUpperCase()); // pt-br -> pt_BR
@@ -24,7 +26,7 @@ const getLang = () => {
         if (closestMatch) {
             return closestMatch;
         } else {
-            return "en_US"; // default
+            return DEFAULT_LANG; // default
         }
     } else {
         return fixedLang;
