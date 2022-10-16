@@ -15,19 +15,6 @@ class MeshNormalMaterial extends THREE.MeshNormalMaterial implements Game.Materi
         json: Game.Formats.MeshNormalMaterial,
         meta?: Game.Formats.Meta
     ): MeshNormalMaterial {
-        const applyMap = (
-            mapType:
-                "bumpMap" | "normalMap" | "displacementMap",
-            json: Game.Formats.Texture
-        ) => {
-            Game.Texture.fromJSON(json, meta).then((texture) => {
-                material[mapType] = texture;
-                material.needsUpdate = true;
-            }).catch(err => {
-                console.error(`Error parsing ${mapType} texture:`, err);
-            });
-        };
-
         const {
             bumpMap,
             normalMap,
@@ -40,19 +27,25 @@ class MeshNormalMaterial extends THREE.MeshNormalMaterial implements Game.Materi
         const textures = meta?.textures || {};
         const material = new MeshNormalMaterial(params);
 
-        if (bumpMap && textures[bumpMap]) {
-            const bumpMapJSON = textures[bumpMap];
-            applyMap("bumpMap", bumpMapJSON);
-        }
+        const maps = Object.entries({
+            bumpMap,
+            normalMap,
+            displacementMap,
+        });
 
-        if (normalMap && textures[normalMap]) {
-            const normalMapJSON = textures[normalMap];
-            applyMap("normalMap", normalMapJSON);
-        }
+        for (const [mapType, mapUuid] of maps) {
+            if (mapUuid === undefined) continue;
 
-        if (displacementMap && textures[displacementMap]) {
-            const displacementMapJSON = textures[displacementMap];
-            applyMap("displacementMap", displacementMapJSON);
+            const mapJSON = textures[mapUuid];
+            if (!mapJSON) continue;
+
+            Game.Texture.fromJSON(mapJSON, meta).then((texture) => {
+                // @ts-ignore
+                material[mapType] = texture;
+                material.needsUpdate = true;
+            }).catch(err => {
+                console.error(`Error parsing ${mapType} texture:`, err);
+            });
         }
 
         if (normalScale) {
