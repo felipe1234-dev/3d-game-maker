@@ -16,5 +16,8 @@ export * from "./textures";
 // Cameras
 export * from "./cameras";
 
+// Lights
+export * from "./lights";
+
 // Misc
 export * from "./misc";
