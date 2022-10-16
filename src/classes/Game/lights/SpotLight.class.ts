@@ -3,8 +3,9 @@ import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
 class SpotLight extends THREE.SpotLight implements Game.Object3D {
-    public helper: THREE.SpotLightHelper;
+    public readonly type: "SpotLight" = "SpotLight";
     public readonly receiveShadow: boolean;
+    public helper: THREE.SpotLightHelper;
 
     constructor(
         color?: THREE.ColorRepresentation,
@@ -21,6 +22,18 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
 
         this.receiveShadow = false;
         this.castShadow = true;
+    }
+
+    public override toJSON(
+        meta?: Game.Formats.Meta
+    ): Game.Formats.SpotLight {
+        return super.toJSON(meta ? {
+            geometries: {},
+            materials: {},
+            textures: {},
+            images: {},
+            ...meta
+        } : undefined);
     }
 
     public static fromJSON(

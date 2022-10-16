@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class BoxGeometry extends THREE.BoxGeometry implements Game.Geometry {
+    public readonly type: "BoxGeometry" = "BoxGeometry";
+
     public override toJSON(): Game.Formats.BoxGeometry {
         const json = super.toJSON();
         return json;

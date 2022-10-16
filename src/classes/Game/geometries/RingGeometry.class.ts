@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class RingGeometry extends THREE.RingGeometry implements Game.Geometry {
+    public readonly type: "RingGeometry" = "RingGeometry";
+
     public override toJSON(): Game.Formats.RingGeometry {
         return super.toJSON();
     }

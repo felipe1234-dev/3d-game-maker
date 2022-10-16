@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class TetrahedronGeometry extends THREE.TetrahedronGeometry implements Game.Geometry {
+    public readonly type: "TetrahedronGeometry" = "TetrahedronGeometry";
+
     public override toJSON(): Game.Formats.TetrahedronGeometry {
         return super.toJSON();
     }

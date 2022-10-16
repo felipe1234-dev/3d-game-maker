@@ -3,8 +3,9 @@ import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
 class AmbientLight extends THREE.AmbientLight implements Game.Object3D {
-    public helper: THREE.BoxHelper;
+    public readonly type: "AmbientLight" = "AmbientLight";
     public readonly receiveShadow: boolean;
+    public helper: THREE.BoxHelper;
 
     constructor(color?: THREE.ColorRepresentation, intensity?: number) {
         super(color, intensity);
@@ -14,6 +15,18 @@ class AmbientLight extends THREE.AmbientLight implements Game.Object3D {
 
         this.receiveShadow = false;
         this.castShadow = true;
+    }
+
+    public override toJSON(
+        meta?: Game.Formats.Meta
+    ): Game.Formats.AmbientLight {
+        return super.toJSON(meta ? {
+            geometries: {},
+            materials: {},
+            textures: {},
+            images: {},
+            ...meta
+        } : undefined);
     }
 
     public static fromJSON(

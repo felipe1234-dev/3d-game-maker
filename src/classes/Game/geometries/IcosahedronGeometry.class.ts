@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class IcosahedronGeometry extends THREE.IcosahedronGeometry implements Game.Geometry {
+    public readonly type: "IcosahedronGeometry" = "IcosahedronGeometry";
+
     public override toJSON(): Game.Formats.IcosahedronGeometry {
         return super.toJSON();
     }

@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class WireframeGeometry extends THREE.WireframeGeometry implements Game.Geometry {
+    public readonly type: "WireframeGeometry" = "WireframeGeometry";
+
     public override toJSON(): Game.Formats.WireframeGeometry {
         const json: Game.Formats.WireframeGeometry = super.toJSON();
 

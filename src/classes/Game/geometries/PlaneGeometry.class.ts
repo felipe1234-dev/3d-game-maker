@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class PlaneGeometry extends THREE.PlaneGeometry implements Game.Geometry {
+    public readonly type: "PlaneGeometry" = "PlaneGeometry";
+
     public override toJSON(): Game.Formats.PlaneGeometry {
         return super.toJSON();
     }

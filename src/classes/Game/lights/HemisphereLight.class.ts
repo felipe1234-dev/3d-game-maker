@@ -3,9 +3,10 @@ import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
 class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
-    public helper: THREE.HemisphereLightHelper;
+    public readonly type: "HemisphereLight" = "HemisphereLight";
     public readonly castShadow: boolean;
     public readonly receiveShadow: boolean;
+    public helper: THREE.HemisphereLightHelper;
 
     constructor(
         skyColor?: THREE.ColorRepresentation,
@@ -23,6 +24,18 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
 
     public set skyColor(skyColor: THREE.ColorRepresentation) {
         this.color = new THREE.Color(skyColor);
+    }
+
+    public override toJSON(
+        meta?: Game.Formats.Meta
+    ): Game.Formats.HemisphereLight {
+        return super.toJSON(meta ? {
+            geometries: {},
+            materials: {},
+            textures: {},
+            images: {},
+            ...meta
+        } : undefined);
     }
 
     public static fromJSON(

@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class SphereGeometry extends THREE.SphereGeometry implements Game.Geometry {
+    public readonly type: "SphereGeometry" = "SphereGeometry";
+
     public override toJSON(): Game.Formats.SphereGeometry {
         return super.toJSON();
     }

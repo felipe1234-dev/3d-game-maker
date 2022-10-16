@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class TorusKnotGeometry extends THREE.TorusKnotGeometry implements Game.Geometry {
+    public readonly type: "TorusKnotGeometry" = "TorusKnotGeometry";
+
     public override toJSON(): Game.Formats.TorusKnotGeometry {
         return super.toJSON();
     }

@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class LatheGeometry extends THREE.LatheGeometry implements Game.Geometry {
+    public readonly type: "LatheGeometry" = "LatheGeometry";
+
     public override toJSON(): Game.Formats.LatheGeometry {
         const json: Game.Formats.LatheGeometry = super.toJSON();
 

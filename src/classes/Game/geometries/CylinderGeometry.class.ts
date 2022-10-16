@@ -3,6 +3,8 @@ import { applyBaseGeometryJSON } from "../utils/private";
 import * as THREE from "three";
 
 class CylinderGeometry extends THREE.CylinderGeometry implements Game.Geometry {
+    public readonly type: "CylinderGeometry" = "CylinderGeometry";
+
     public override toJSON(): Game.Formats.CylinderGeometry {
         return super.toJSON();
     }
