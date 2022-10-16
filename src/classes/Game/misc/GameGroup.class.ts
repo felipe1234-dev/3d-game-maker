@@ -16,10 +16,11 @@ class GameGroup extends THREE.Group implements Game.Object3D {
         const json: Game.Formats.Group = super.toJSON(
             meta
                 ? {
-                    geometries: meta.geometries || {},
-                    materials: meta.materials || {},
-                    textures: meta.textures || {},
-                    images: meta.images || {},
+                    geometries: {},
+                    materials: {},
+                    textures: {},
+                    images: {},
+                    ...meta
                 }
                 : undefined
         );
