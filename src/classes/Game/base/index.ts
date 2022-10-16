@@ -15,5 +15,5 @@ export type { SceneOptions } from "./Scene.class";
 export { default as Physics } from "./Physics.class";
 export type { PhysicsOptions } from "./Physics.class";
 
-export { default as Object3D } from "./Object3D.class";
+export { default as BaseObject3D } from "./BaseObject3D.class";
 export { default as Mesh } from "./Mesh.class";
