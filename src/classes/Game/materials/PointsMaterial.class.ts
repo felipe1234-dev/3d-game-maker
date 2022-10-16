@@ -16,16 +16,12 @@ class PointsMaterial extends THREE.PointsMaterial implements Game.Material {
         meta?: Game.Formats.Meta
     ): PointsMaterial {
         const {
-            color, // Color representation
-
             map, // Map uuid
             alphaMap, // Map uuid
 
             ...params
         } = json;
         const material = new PointsMaterial(params);
-
-        material.color = new THREE.Color(color);
 
         const maps = Object.entries({ map, alphaMap });
         const textures = meta?.textures || {};

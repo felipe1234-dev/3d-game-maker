@@ -16,9 +16,6 @@ class MeshToonMaterial extends THREE.MeshToonMaterial implements Game.Material {
         meta?: Game.Formats.Meta
     ): MeshToonMaterial {
         const {
-            color, // Color representation
-            emissive, // Color representation
-
             gradientMap, // Map uuid
             map, // Map uuid
             lightMap, // Map uuid
@@ -34,9 +31,6 @@ class MeshToonMaterial extends THREE.MeshToonMaterial implements Game.Material {
             ...params
         } = json;
         const material = new MeshToonMaterial(params);
-
-        material.color = new THREE.Color(color);
-        material.emissive = new THREE.Color(emissive);
 
         const maps = Object.entries({
             gradientMap,

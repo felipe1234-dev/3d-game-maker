@@ -14,10 +14,6 @@ class MeshPhongMaterial extends THREE.MeshPhongMaterial implements Game.Material
         meta?: Game.Formats.Meta
     ): MeshPhongMaterial {
         const {
-            color, // Color representation 
-            specular, // Color representation 
-            emissive, // Color representation 
-
             map, // Map uuid
             lightMap, // Map uuid
             aoMap, // Map uuid
@@ -34,10 +30,6 @@ class MeshPhongMaterial extends THREE.MeshPhongMaterial implements Game.Material
             ...params
         } = json;
         const material = new MeshPhongMaterial(params);
-
-        material.color = new THREE.Color(color);
-        material.specular = new THREE.Color(specular);
-        material.emissive = new THREE.Color(emissive);
 
         const maps = Object.entries({
             map,

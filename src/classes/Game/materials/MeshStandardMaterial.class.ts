@@ -16,9 +16,6 @@ class MeshStandardMaterial extends THREE.MeshStandardMaterial implements Game.Ma
         meta?: Game.Formats.Meta
     ): MeshStandardMaterial {
         const {
-            color, // Color representation
-            emissive, // Color representation
-
             map, // Map uuid
             lightMap, // Map uuid
             aoMap, // Map uuid
@@ -36,9 +33,6 @@ class MeshStandardMaterial extends THREE.MeshStandardMaterial implements Game.Ma
             ...params
         } = json;
         const material = new MeshStandardMaterial(params);
-
-        material.color = new THREE.Color(color);
-        material.emissive = new THREE.Color(emissive);
 
         const maps = Object.entries({
             map,

@@ -16,16 +16,12 @@ class SpriteMaterial extends THREE.SpriteMaterial implements Game.Material {
         meta?: Game.Formats.Meta
     ): SpriteMaterial {
         const {
-            color, // Color representation
-
             map, // Map uuid
             alphaMap, // Map uuid
 
             ...params
         } = json;
         const material = new SpriteMaterial(params);
-
-        material.color = new THREE.Color(color);
 
         const maps = Object.entries({ map, alphaMap });
         const textures = meta?.textures || {};
