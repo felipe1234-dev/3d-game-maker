@@ -8,59 +8,51 @@ import {
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
 
-/**
- * @implements {Game.Object3D}
- */
-class Mesh extends THREE.Mesh {
-    /**
-     * @param {THREE.BufferGeometry=} geometry
-     * @param {THREE.Material=} material
-     * @param {Game.Body=} body
-     */
-    constructor(geometry, material, body) {
+class Mesh extends THREE.Mesh implements Game.Object3D {
+    public readonly type: "Mesh";
+    public body?: Game.Body;
+    public helper: Game.Helper;
+
+    constructor(
+        geometry?: Game.Geometry,
+        material?: Game.Material,
+        body?: Game.Body
+    ) {
         super(geometry, material);
 
         this.id = generateID();
-
-        /**
-         * @type {THREE.BoxHelper}
-         */
         this.helper = new THREE.BoxHelper(this);
-
-        /**
-         * @type {Game.Object3D[]}
-         */
-        this.children = [];
-
-        const scope = this;
+        this.type = "Mesh";
 
         if (geometry && geometry.parameters) {
             geometry.parameters = new Proxy(geometry.parameters, {
-                set: function (parameters, param, value) {
+                set: (parameters, param, value) => {
                     const oldParameters = parameters;
                     const newParameters = {
                         ...oldParameters,
                         [param]: value,
                     };
 
-                    const args = [];
+                    const args: any[] = [];
 
                     Object.entries(newParameters).forEach(([key, value]) => {
                         args.push(value);
                         parameters[key] = value;
                     });
 
-                    const newGeometry = new THREE[geometry.type](...args);
+                    const newGeometry = new Game[geometry.type](...args);
 
                     Object.keys(geometry).forEach(key => {
                         if (["uuid", "id", "parameters"].includes(key)) {
                             return;
                         }
 
+                        // @ts-ignore
                         geometry[key] = newGeometry[key];
                     });
 
-                    scope.body.needsUpdate = true;
+                    if (this.body)
+                        this.body.needsUpdate = true;
 
                     return true;
                 },
@@ -68,8 +60,8 @@ class Mesh extends THREE.Mesh {
         }
 
         if (body) {
-            const result = threeToCannon(this) || {};
-            const { shape: defaultShape } = result;
+            const result = threeToCannon(this);
+            const defaultShape = result?.shape || undefined;
 
             const { x: px, y: py, z: pz } = this.position;
             const { x: qx, y: qy, z: qz, w } = this.quaternion;
@@ -84,27 +76,35 @@ class Mesh extends THREE.Mesh {
         }
 
         this.position = new Proxy(this.position, {
-            set: function (position, axis, value) {
+            set: (
+                position,
+                axis: "x" | "y" | "z",
+                value
+            ) => {
                 position[axis] = Number(value);
 
-                if (!scope.body) return true;
+                if (!this.body) return true;
 
                 const { x, y, z } = position;
-                scope.body.position.copy(new CANNON.Vec3(x, y, z));
+                this.body.position.copy(new CANNON.Vec3(x, y, z));
 
                 return true;
             },
         });
 
         this.rotation = new Proxy(this.rotation, {
-            set: function (rotation, axis, value) {
+            set: (
+                rotation,
+                axis: "x" | "y" | "z",
+                value
+            ) => {
                 rotation[axis] = Number(value);
                 rotation._onChangeCallback();
 
-                if (!scope.body) return true;
+                if (!this.body) return true;
 
                 const { x, y, z, order } = rotation;
-                scope.body.quaternion.setFromEuler(x, y, z, order);
+                this.body.quaternion.setFromEuler(x, y, z, order);
 
                 return true;
             },
@@ -112,15 +112,9 @@ class Mesh extends THREE.Mesh {
 
         this.receiveShadow = true;
         this.castShadow = true;
-
-        this.material.side = THREE.DoubleSide;
-        this.material.needsUpdate = true;
     }
 
-    /**
-     * @param {boolean} bool
-     */
-    set needsUpdate(bool) {
+    set needsUpdate(bool: boolean) {
         if (!this.body || !bool) {
             return;
         }
@@ -132,13 +126,14 @@ class Mesh extends THREE.Mesh {
         this.quaternion.copy(new THREE.Quaternion(qx, qy, qz, w));
     }
 
-    /**
-     * @public
-     * @param {Game.Formats.Meta=} meta
-     * @returns {Game.Formats.Mesh}
-     */
-    toJSON(meta) {
-        const json = super.toJSON(meta);
+    public override toJSON(meta?: Game.Formats.Meta): Game.Formats.Mesh {
+        const json: Game.Formats.Mesh = super.toJSON(meta ? {
+            geometries: {},
+            materials: {},
+            textures: {},
+            images: {},
+            ...meta,
+        } : undefined);
         const isRootObject = !meta;
 
         if (isRootObject && this.body) {
@@ -154,57 +149,55 @@ class Mesh extends THREE.Mesh {
         return json;
     }
 
-    /**
-     * @public
-     * @param {Game.Formats.Mesh} json
-     * @param {Game.Formats.Meta=} meta
-     * @returns {Mesh}
-     */
-    static fromJSON(json, meta) {
-        /**
-         * @type {THREE.BufferGeometry | undefined}
-         */
-        let geometry = undefined;
-        /**
-         * @type {THREE.Material | undefined}
-         */
-        let material = undefined;
-        /**
-         * @type {Game.Body | undefined}
-         */
-        let body = undefined;
+    public static fromJSON(
+        json: Game.Formats.Mesh,
+        meta?: Game.Formats.Meta
+    ): Mesh {
+        let geometry: Game.Geometry | undefined = undefined;
+        let material: Game.Material | undefined = undefined;
+        let body: Game.Body | undefined = undefined;
 
         const geometries = meta?.geometries || {};
         const materials = meta?.materials || {};
         const bodies = meta?.bodies || {};
 
-        const geometryUid = json.object.geometry || "";
-        const materialUid = json.object.material || "";
-        const bodyUid = json.object.body || "";
+        const geometryUuid = json.object.geometry || "";
+        const materialUuid = json.object.material || "";
+        const bodyUuid = json.object.body || "";
 
-        if (geometries[geometryUid]) {
-            const geomJSON = geometries[geometryUid];
+        if (geometries[geometryUuid]) {
+            const geomJSON = geometries[geometryUuid];
 
-            geometry = Game[geomJSON.type].fromJSON(geomJSON);
+            for (const type of Game.Libs.geometries) {
+                if (Game.Formats[`is${type}`](geomJSON)) {
+                    // @ts-ignore
+                    geometry = Game[type].fromJSON(geomJSON, meta);
+                }
+            }
         }
 
-        if (materials[materialUid]) {
-            const matJSON = materials[materialUid];
+        if (materials[materialUuid]) {
+            const matJSON = materials[materialUuid];
 
-            material = Game[matJSON.type].fromJSON(matJSON);
+            for (const type of Game.Libs.materials) {
+                if (Game.Formats[`is${type}`](matJSON)) {
+                    // @ts-ignore
+                    material = Game[type].fromJSON(matJSON, meta);
+                }
+            }
         }
 
-        if (bodies[bodyUid]) {
-            const bodyJSON = bodies[bodyUid];
+        if (bodies[bodyUuid]) {
+            const bodyJSON = bodies[bodyUuid];
 
             body = Game.Body.fromJSON(bodyJSON);
         }
 
         const mesh = new Game.Mesh(geometry, material, body);
 
-        mesh.id = json.id;
-        mesh.uuid = json.uuid;
-        mesh.name = json.name || "";
+        mesh.id = json.object.id;
+        mesh.uuid = json.object.uuid;
+        mesh.name = json.object.name || "";
 
         applyObject3DJSON(mesh, json);
         parseObjectChildren(mesh, json, meta);
