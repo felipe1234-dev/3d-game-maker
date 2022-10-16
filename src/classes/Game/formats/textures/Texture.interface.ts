@@ -2,34 +2,34 @@ import * as THREE from "three";
 
 interface Texture {
     uuid: string;
-    name: string;
+    name?: string;
 
-    type: THREE.TextureDataType;
+    type?: THREE.TextureDataType;
 
-    image: string; // Image uuid
+    image?: string; // Image uuid
 
-    mapping: THREE.Mapping;
+    mapping?: THREE.Mapping;
 
-    repeat: [x: number, y: number];
-    offset: [x: number, y: number];
-    center: [x: number, y: number];
-    wrap: [wrapS: THREE.Wrapping, wrapT: THREE.Wrapping];
+    repeat?: [x: number, y: number];
+    offset?: [x: number, y: number];
+    center?: [x: number, y: number];
+    wrap?: [wrapS: THREE.Wrapping, wrapT: THREE.Wrapping];
 
-    rotation: number;
-    format: THREE.PixelFormat;
-    encoding: THREE.TextureEncoding;
+    rotation?: number;
+    format?: THREE.PixelFormat;
+    encoding?: THREE.TextureEncoding;
 
-    minFilter: THREE.TextureFilter;
-    magFilter: THREE.TextureFilter;
+    minFilter?: THREE.TextureFilter;
+    magFilter?: THREE.TextureFilter;
 
-    anisotropy: number;
+    anisotropy?: number;
 
-    flipY: boolean;
+    flipY?: boolean;
 
-    premultiplyAlpha: boolean;
-    unpackAlignment: number;
+    premultiplyAlpha?: boolean;
+    unpackAlignment?: number;
 
-    userData: any;
+    userData?: any;
 }
 
 function isTexture(json: any): json is Texture {
