@@ -4,6 +4,7 @@ import lights from "./lights.object";
 const objects3D = [
     ...cameras,
     ...lights,
+    "BaseObject3D",
     "Mesh",
     "Group",
     "Scene",
