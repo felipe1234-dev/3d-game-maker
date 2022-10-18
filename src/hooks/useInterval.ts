@@ -1,9 +1,9 @@
 import { useRef, useEffect } from "react";
 
 export default function useInterval(
-    callback: (id: NodeJS.Timer) => void, 
-    delay: number,
-    triggers: any[]
+    callback: (id: NodeJS.Timer) => void,
+    delay: number | null,
+    triggers: any[] = []
 ) {
     const savedCallback = useRef<Function>((id: NodeJS.Timer) => {
         clearInterval(id);
@@ -14,9 +14,14 @@ export default function useInterval(
     }, [callback]);
 
     useEffect(() => {
+        if (delay === null) {
+            return;
+        }
+
         const id = setInterval(() => {
             savedCallback.current(id);
         }, delay);
+
         return () => clearInterval(id);
     }, [delay, ...triggers]);
 };
