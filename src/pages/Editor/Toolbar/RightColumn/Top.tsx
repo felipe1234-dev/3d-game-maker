@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import {
     DeleteOutlineRounded as TrashIcon,
@@ -9,30 +9,31 @@ import {
 import { ShapePolygon } from "@styled-icons/boxicons-regular";
 import { Link, useLocation } from "react-router-dom";
 
-import { useEditor } from "@local/contexts";
-import { Mode } from "@local/classes/Editor/EditorTransform.class";
+import { useEditor, useGame } from "@local/contexts";
+import { useUnmount, useForceUpdate } from "@local/hooks";
 import { t } from "@local/i18n";
 
 function Top() {
-    const [isDisabled, setIsDisabled] = useState(true);
-    const [mode, setMode] = useState<Mode>("translate");
     const editor = useEditor();
     const transformer = editor.transformControls;
+    const game = useGame();
+    const { forceUpdate } = useForceUpdate();
     const location = useLocation();
 
-    const onSetStates = () => {
-        setIsDisabled(!transformer.object || transformer.locked);
-        setMode(transformer.mode);
-    };
+    const isDisabled = !transformer.object || transformer.locked;
+    const mode = transformer.mode;
+
+    const objectTree = document.querySelector(".ObjectTree");
 
     useEffect(() => {
-        const events = ["select", "unselect", "setMode"];
+        objectTree?.addEventListener("click", forceUpdate);
+        game.renderer.canvas.addEventListener("click", forceUpdate);
+    }, [game]);
 
-        events.forEach(type => {
-            transformer.addEventListener(type, onSetStates);
-            transformer.dispatchEvent({ type });
-        });
-    }, [editor]);
+    useUnmount(() => {
+        objectTree?.removeEventListener("click", forceUpdate);
+        game.renderer.canvas.removeEventListener("click", forceUpdate);
+    });
 
     return (
         <Box>

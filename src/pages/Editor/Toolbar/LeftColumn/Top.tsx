@@ -1,18 +1,18 @@
-import { useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { GridOn, GridOff } from "@styled-icons/material";
+
 import { useEditor } from "@local/contexts";
+import { useForceUpdate } from "@local/hooks";
 import { t } from "@local/i18n";
 
 function Top() {
     const editor = useEditor();
-    const [showGrids, setShowGrids] = useState(
-        editor.gridsHelper.visible || false
-    );
+    const showGrids = editor.gridsHelper.visible;
 
+    const { forceUpdate } = useForceUpdate();
     const toggleGrids = () => {
-        setShowGrids(!editor.gridsHelper.visible);
-        editor.gridsHelper.visible = !editor.gridsHelper.visible;
+        editor.gridsHelper.visible = !showGrids;
+        forceUpdate();
     };
 
     const buttonSize = "1.3em";
