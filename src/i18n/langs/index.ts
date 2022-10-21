@@ -3,7 +3,7 @@ import pt_BR from "./pt_BR";
 
 const DEFAULT_LANG = "en_US";
 
-const table: {
+const langs: {
     [lang: string]: {
         [key: string]: string
     }
@@ -12,5 +12,5 @@ const table: {
     pt_BR
 }
 
-export default table;
+export default langs;
 export { DEFAULT_LANG, en_US, pt_BR };
