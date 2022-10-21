@@ -23,15 +23,17 @@ interface SceneOptions {
     children?: Game.Object3D[];
 }
 
-class Scene extends THREE.Scene {
+class Scene extends THREE.Scene implements Game.Object3D {
     static DEFAULT_BACKGROUND: THREE.Color = new THREE.Color("#444");
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
     static DEFAULT_PHYSICS: GamePhysics = new GamePhysics();
 
+    public readonly type: "Scene";
     public game?: Game.Core;
     public stage?: Game.Stage;
     public physics: GamePhysics;
+    public children: (Game.Object3D | THREE.Object3D)[];
 
     constructor(
         options: SceneOptions = {
@@ -60,6 +62,7 @@ class Scene extends THREE.Scene {
         this.id = id;
         this.uuid = uuid;
         this.name = name;
+        this.type = "Scene";
 
         this.background = background;
         this.environment = environment;
@@ -69,6 +72,7 @@ class Scene extends THREE.Scene {
         this.stage = stage;
         this.physics = physics;
 
+        this.children = [];
         for (const object of children) {
             this.add(object);
         }
@@ -108,7 +112,7 @@ class Scene extends THREE.Scene {
         return clone;
     }
 
-    public override add(...objects: THREE.Object3D[]): this {
+    public override add(...objects: (Game.Object3D | THREE.Object3D)[]): this {
         super.add(...objects);
 
         for (const object of objects) {
