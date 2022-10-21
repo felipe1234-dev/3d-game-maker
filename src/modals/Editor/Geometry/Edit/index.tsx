@@ -12,8 +12,7 @@ function EditGeometryModal() {
     const geometryInfo = geometryList.find(
         geom =>
             object instanceof THREE.Mesh &&
-            object.geometry.constructor.name ===
-                geom.Constructor.prototype.constructor.name
+            object.geometry.type === geom.Constructor.prototype.constructor.name
     );
 
     return (
@@ -22,9 +21,7 @@ function EditGeometryModal() {
             width={400}
             placement="bottom-left"
             draggable
-            header={`${t(geometryInfo?.label || "Edit geometry")} ${
-                object?.name || ""
-            }`}
+            header={`${t(geometryInfo?.label || "Edit geometry")} ${object?.name || ""}`}
             body={
                 <>
                     {(geometryInfo?.attributes || []).map((attr, i) => {
