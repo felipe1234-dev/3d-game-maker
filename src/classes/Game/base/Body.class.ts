@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
 import { Game } from "@local/classes";
+import { generateID } from "../utils/private";
 import { threeToCannon } from "three-to-cannon";
 
 interface BodyOptions {
@@ -36,7 +37,7 @@ class Body extends CANNON.Body {
 
     constructor(options: BodyOptions = {}) {
         const {
-            id = Game.Utils.generateID(),
+            id = generateID(),
             uuid = THREE.MathUtils.generateUUID(),
             mesh,
             ...rest
