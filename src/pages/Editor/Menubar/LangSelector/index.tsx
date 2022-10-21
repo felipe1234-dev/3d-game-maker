@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { 
-    Button, 
-    Menu, 
-    MenuItem, 
-    Fade, 
-    ListItemIcon 
+import {
+    Button,
+    Menu,
+    MenuItem,
+    Fade,
+    ListItemIcon
 } from "@mui/material";
 import { Language } from "@styled-icons/ionicons-outline";
 import { CheckCircle } from "@styled-icons/feather";
 import { useNavigate } from "react-router-dom";
-import i18n, { getLang } from "@local/i18n";
+import { langs, getLang } from "@local/i18n";
 
 const labelLang = (lang: string) => lang.replace("_", " ").replace(/\s(\w+)$/, " ($1)");
 
@@ -47,7 +47,7 @@ function LangSelector() {
                 aria-controls={open ? menuId : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
-            
+
                 startIcon={<Language width={20} />}
                 onClick={onOpen}
             >
@@ -61,7 +61,7 @@ function LangSelector() {
                 onClose={onClose}
                 TransitionComponent={Fade}
             >
-                {Object.keys(i18n).map((lang, i) => (
+                {Object.keys(langs).map((lang, i) => (
                     <MenuItem key={i} onClick={() => changeLang(lang)}>
                         <ListItemIcon>
                             {currentLang === lang && <CheckCircle width={20} />}
