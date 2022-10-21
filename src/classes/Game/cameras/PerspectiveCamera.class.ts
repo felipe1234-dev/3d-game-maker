@@ -1,8 +1,11 @@
-import * as THREE from "three";
 import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import * as THREE from "three";
 
-class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Object3D {
+class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
+    public readonly type: "PerspectiveCamera" = "PerspectiveCamera";
+    public game?: Game.Core;
+
     public override toJSON(
         meta?: Game.Formats.Meta
     ): Game.Formats.PerspectiveCamera {
