@@ -3,12 +3,14 @@ import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
 class AmbientLight extends THREE.AmbientLight implements Game.Object3D {
-    public readonly type: "AmbientLight" = "AmbientLight";
+    public readonly type: "AmbientLight";
     public readonly receiveShadow: boolean;
     public helper: THREE.BoxHelper;
 
     constructor(color?: THREE.ColorRepresentation, intensity?: number) {
         super(color, intensity);
+
+        this.type = "AmbientLight";
 
         this.helper = new THREE.BoxHelper(this);
         this.helper.visible = false;

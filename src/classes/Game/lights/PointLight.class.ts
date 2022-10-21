@@ -3,9 +3,10 @@ import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
 class PointLight extends THREE.PointLight implements Game.Object3D {
-    public readonly type: "PointLight" = "PointLight";
+    public readonly type: "PointLight";
     public readonly receiveShadow: boolean;
     public helper: THREE.PointLightHelper;
+    public children: Game.Object3D[];
 
     constructor(
         color?: THREE.ColorRepresentation,
@@ -15,11 +16,15 @@ class PointLight extends THREE.PointLight implements Game.Object3D {
     ) {
         super(color, intensity, distance, decay);
 
+        this.type = "PointLight";
+
         this.helper = new THREE.PointLightHelper(this);
         this.helper.visible = false;
 
         this.receiveShadow = false;
         this.castShadow = true;
+
+        this.children = [];
     }
 
     public override toJSON(

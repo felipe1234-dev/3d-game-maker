@@ -3,7 +3,7 @@ import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
 class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
-    public readonly type: "HemisphereLight" = "HemisphereLight";
+    public readonly type: "HemisphereLight";
     public readonly castShadow: boolean;
     public readonly receiveShadow: boolean;
     public helper: THREE.HemisphereLightHelper;
@@ -14,6 +14,8 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
         intensity?: number
     ) {
         super(skyColor, groundColor, intensity);
+
+        this.type = "HemisphereLight";
 
         this.helper = new THREE.HemisphereLightHelper(this, 1);
         this.helper.visible = false;

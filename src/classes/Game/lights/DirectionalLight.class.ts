@@ -3,12 +3,14 @@ import { Game } from "@local/classes";
 import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
 
 class DirectionalLight extends THREE.DirectionalLight implements Game.Object3D {
-    public readonly type: "DirectionalLight" = "DirectionalLight";
+    public readonly type: "DirectionalLight";
     public readonly receiveShadow: boolean;
     public helper: THREE.DirectionalLightHelper;
 
     constructor(color?: THREE.ColorRepresentation, intensity?: number) {
         super(color, intensity);
+
+        this.type = "DirectionalLight";
 
         this.helper = new THREE.DirectionalLightHelper(this);
         this.helper.visible = false;
