@@ -241,10 +241,10 @@ class Scene extends THREE.Scene implements Game.Object3D {
         if (json.object.fog) {
             if (json.object.fog.type === "Fog") {
                 const { color, near, far } = json.object.fog;
-                fog = new THREE.Fog(color, near, far);
+                scene.fog = new THREE.Fog(color, near, far);
             } else if (json.object.fog.type === "FogExp2") {
                 const { color, density } = json.object.fog;
-                fog = new THREE.FogExp2(color, density);
+                scene.fog = new THREE.FogExp2(color, density);
             }
         }
 
