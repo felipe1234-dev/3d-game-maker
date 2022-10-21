@@ -162,45 +162,51 @@ class Scene extends THREE.Scene {
     }
 
     public static fromJSON(json: Game.Formats.Scene): Scene {
-        let background: THREE.Color | THREE.Texture | null = null;
+        const meta = metaFromSceneJSON(json);
+        const scene = new Scene({
+            id: json.object.id,
+            uuid: json.object.uuid,
+            name: json.object.name,
+            physics: Game.Physics.fromJSON(json.object.physics)
+        });
+
         const bgIsColor = typeof json.object.background === "number";
         const bgIsTexture = typeof json.object.background === "string";
 
         if (bgIsColor) {
             const color = json.object.background as THREE.ColorRepresentation;
-            background = new THREE.Color(color);
-        }
-
-        if (bgIsTexture) {
-            const texture = json.textures?.find(
+            scene.background = new THREE.Color(color);
+        } else if (bgIsTexture) {
+            const textureJSON = json.textures?.find(
                 texture => texture.uuid === json.object.background
             );
-            const image = json.images?.find(
-                image => image.uuid === texture?.image
-            );
 
-            if (texture && image) {
-                background = Game.Utils.texture.fromJSON(texture, image.url);
+            if (textureJSON) {
+                Game.Texture.fromJSON(textureJSON, meta).then((texture) => {
+                    texture.needsUpdate = true;
+                    scene.background = texture;
+                }).catch((error) => {
+                    console.error(error);
+                });
             }
         }
 
-        let environment: THREE.Texture | null = null;
-        const envIsTexture = typeof json.object.environment === "string";
-
-        if (envIsTexture) {
-            const texture = json.textures?.find(
+        const envIsDefined = json.object.environment !== undefined;
+        if (envIsDefined) {
+            const textureJSON = json.textures?.find(
                 texture => texture.uuid === json.object.environment
             );
-            const image = json.images?.find(
-                image => image.uuid === texture?.image
-            );
 
-            if (texture && image) {
-                environment = Game.Utils.texture.fromJSON(texture, image.url);
+            if (textureJSON) {
+                Game.Texture.fromJSON(textureJSON, meta).then((texture) => {
+                    texture.needsUpdate = true;
+                    scene.environment = texture;
+                }).catch((error) => {
+                    console.error(error);
+                });
             }
         }
 
-        let fog: THREE.FogBase | null = null;
         if (json.object.fog) {
             if (json.object.fog.type === "Fog") {
                 const { color, near, far } = json.object.fog;
@@ -211,17 +217,6 @@ class Scene extends THREE.Scene {
             }
         }
 
-        const scene = new Scene({
-            id: json.object.id,
-            uuid: json.object.uuid,
-            name: json.object.name,
-            background,
-            environment,
-            fog,
-            physics: Game.Physics.fromJSON(json.object.physics),
-        });
-
-        const meta = metaFromSceneJSON(json);
         parseObjectChildren(scene, json, meta);
 
         return scene;
