@@ -28,6 +28,10 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
         this.color = new THREE.Color(skyColor);
     }
 
+    public get skyColor(): THREE.Color {
+        return this.color;
+    }
+
     public override toJSON(
         meta?: Game.Formats.Meta
     ): Game.Formats.HemisphereLight {
