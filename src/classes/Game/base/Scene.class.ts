@@ -125,7 +125,34 @@ class Scene extends THREE.Scene {
         return this;
     }
 
-    public override remove(...objects: THREE.Object3D[]): this {
+    public override getObjectByProperty(
+        name: string,
+        value: any
+    ): Game.Object3D | THREE.Object3D | undefined {
+        return super.getObjectByProperty(name, value);
+    }
+
+    public getObjectByUuid(
+        uuid: string
+    ): Game.Object3D | THREE.Object3D | undefined {
+        return this.getObjectByProperty("uuid", uuid);
+    }
+
+    public override getObjectById(
+        id: number
+    ): Game.Object3D | THREE.Object3D | undefined {
+        return super.getObjectById(id) as Game.Object3D | undefined;
+    }
+
+    public override getObjectByName(
+        name: string
+    ): Game.Object3D | THREE.Object3D | undefined {
+        return super.getObjectByName(name) as Game.Object3D | undefined;
+    }
+
+    public override remove(
+        ...objects: (Game.Object3D | THREE.Object3D)[]
+    ): this {
         super.remove(...objects);
 
         for (const object of objects) {
