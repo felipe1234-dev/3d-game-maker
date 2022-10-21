@@ -16,7 +16,6 @@ import "@local/styles/fields/MultiNumberField.scss";
 const axes = ["x", "y", "z"] as const;
 
 function Body() {
-    3
     const editor = useEditor();
     const { forceUpdate } = useForceUpdate();
     const {
