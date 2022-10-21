@@ -1,3 +1,4 @@
+export * from "./BaseObject3D.interface";
 export * from "./Game.interface";
 export * from "./Object3D.interface";
 export * from "./Body.interface";
