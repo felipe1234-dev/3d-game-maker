@@ -1,15 +1,8 @@
-import * as THREE from "three";
+import { Game } from "@local/classes";
 
 export default [
     {
-        Constructor: THREE.BufferGeometry,
-        label: "Free shape",
-        attributes: [
-            "points"
-        ]
-    },
-    {
-        Constructor: THREE.BoxGeometry,
+        Constructor: Game.BoxGeometry,
         label: "Cube",
         attributes: [
             "type",
@@ -24,7 +17,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.CircleGeometry,
+        Constructor: Game.CircleGeometry,
         label: "Circle",
         attributes: [
             "type",
@@ -37,7 +30,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.CylinderGeometry,
+        Constructor: Game.CylinderGeometry,
         label: "Cylinder",
         attributes: [
             "type",
@@ -52,17 +45,17 @@ export default [
         ]
     },
     {
-        Constructor: THREE.DodecahedronGeometry,
+        Constructor: Game.DodecahedronGeometry,
         label: "Dodecahedron",
         attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
-        Constructor: THREE.IcosahedronGeometry,
+        Constructor: Game.IcosahedronGeometry,
         label: "Icosahedron",
         attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
-        Constructor: THREE.LatheGeometry,
+        Constructor: Game.LatheGeometry,
         label: "Lathe",
         attributes: [
             "type",
@@ -75,12 +68,12 @@ export default [
         ]
     },
     {
-        Constructor: THREE.OctahedronGeometry,
+        Constructor: Game.OctahedronGeometry,
         label: "Octahedron",
         attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
-        Constructor: THREE.PlaneGeometry,
+        Constructor: Game.PlaneGeometry,
         label: "Plane",
         attributes: [
             "type",
@@ -93,7 +86,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.RingGeometry,
+        Constructor: Game.RingGeometry,
         label: "Ring",
         attributes: [
             "type",
@@ -108,7 +101,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.SphereGeometry,
+        Constructor: Game.SphereGeometry,
         label: "Sphere",
         attributes: [
             "type",
@@ -124,12 +117,12 @@ export default [
         ]
     },
     {
-        Constructor: THREE.TetrahedronGeometry,
+        Constructor: Game.TetrahedronGeometry,
         label: "Tetrahedron",
         attributes: ["type", "name", "uuid", "parameters.radius", "parameters.detail"]
     },
     {
-        Constructor: THREE.TorusGeometry,
+        Constructor: Game.TorusGeometry,
         label: "Torus",
         attributes: [
             "type",
@@ -143,7 +136,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.TorusKnotGeometry,
+        Constructor: Game.TorusKnotGeometry,
         label: "Torus knot",
         attributes: [
             "type",

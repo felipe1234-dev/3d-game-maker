@@ -16,23 +16,23 @@ function GameProvider(props: { children: React.ReactNode }) {
     useEffect(() => {
         if (inputGame instanceof Game.Core) {
         } else {
-            const greenMaterial = new THREE.MeshPhysicalMaterial({
+            const greenMaterial = new Game.MeshPhysicalMaterial({
                 color: 0x00ff00,
             });
-            const brownMaterial = new THREE.MeshPhysicalMaterial({
+            const brownMaterial = new Game.MeshPhysicalMaterial({
                 color: "#553820",
             });
 
             const stage1 = new Game.Stage({ name: "Stage 1" });
             const scene1 = new Game.Scene({ name: "Scene 1" });
 
-            const box = new THREE.BoxGeometry(1, 1, 1);
+            const box = new Game.BoxGeometry(1, 1, 1);
             const cube = new Game.Mesh(box, greenMaterial);
             cube.position.y = 0.5;
             cube.name = "Oliver";
             scene1.add(cube);
 
-            const rect = new THREE.BoxGeometry(6, 0.5, 6);
+            const rect = new Game.BoxGeometry(6, 0.5, 6);
             const ground = new Game.Mesh(rect, brownMaterial);
             ground.position.y = -0.2;
             ground.name = "Ground";
@@ -52,7 +52,7 @@ function GameProvider(props: { children: React.ReactNode }) {
 
             const stage2 = new Game.Stage({ name: "Stage 2" });
             const scene2 = new Game.Scene({ name: "Scene 2" });
-            const ball = new THREE.SphereGeometry(1, 50, 50);
+            const ball = new Game.SphereGeometry(1, 50, 50);
             const sphere = new Game.Mesh(ball, greenMaterial);
             scene2.add(sphere);
             stage2.addScene(scene2);
