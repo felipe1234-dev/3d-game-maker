@@ -1,39 +1,38 @@
-import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 
 import { useGame } from "@local/contexts";
+import { useForceUpdate } from "@local/hooks";
 import { t } from "@local/i18n";
 
 function Body() {
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
     const game = useGame();
+    const { forceUpdate } = useForceUpdate();
 
-    useEffect(() => {
-        setName(game.name);
-        setDescription(game.description);
-    }, [game]);
-
-    useEffect(() => {
+    const onChangeName = (name: string) => {
         game.name = name;
+        forceUpdate();
+    };
+
+    const onChangeDescription = (description: string) => {
         game.description = description;
-    }, [name, description]);
+        forceUpdate();
+    };
 
     return (
         <>
             <TextField
                 label={t("Name")}
                 variant="outlined"
-                onChange={evt => setName(evt.target.value)}
-                value={name}
+                onChange={evt => onChangeName(evt.target.value)}
+                value={game.name}
                 sx={{ mb: 2 }}
             />
             <TextField
                 multiline
                 label={t("Description")}
                 variant="outlined"
-                onChange={evt => setDescription(evt.target.value)}
-                value={description}
+                onChange={evt => onChangeDescription(evt.target.value)}
+                value={game.description}
                 minRows={4}
             />
         </>

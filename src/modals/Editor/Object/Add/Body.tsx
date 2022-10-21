@@ -33,6 +33,33 @@ const categories = [
     { label: "Controls", Icon: Controls, list: [] },
 ];
 
+function generateModalProps(
+    props: {
+        cancel: () => void;
+        confirm: () => void;
+    }
+): ModalProps {
+    return ({
+        placement: "center",
+        height: 170,
+        header: t("Group this object with the currently selected one?"),
+        footer: (
+            <>
+                <Button
+                    onClick={props.cancel}
+                >
+                    {t("No")}
+                </Button>
+                <Button
+                    onClick={props.confirm}
+                >
+                    {t("Yes")}
+                </Button>
+            </>
+        ),
+    })
+}
+
 function Body() {
     const game = useGame();
     const editor = useEditor();
@@ -52,7 +79,7 @@ function Body() {
         const geometry = new item.Constructor();
         geometry.name = geometry.type;
 
-        const material = new THREE.MeshPhysicalMaterial({
+        const material = new Game.MeshPhysicalMaterial({
             color: stringToColor(item.label),
             side: THREE.DoubleSide,
         });
@@ -69,42 +96,33 @@ function Body() {
         }
 
         if (selectedObject) {
+            const cancel = () => {
+                game.currentScene?.add(object);
+                setOpenModal(false);
+            };
+
+            const confirm = () => {
+                const group = new Game.Group();
+                const selectedObject = editor.transformControls.object;
+
+                if (!selectedObject) return;
+
+                group.add(object);
+                group.add(selectedObject);
+
+                game.currentScene?.add(group);
+
+                setOpenModal(false);
+            };
+
             setModalProps(prevState => ({
                 ...prevState,
-                placement: "center",
-                height: 170,
-                header: t("Group this object with the currently selected one?"),
-                footer: (
-                    <>
-                        <Button
-                            onClick={() => {
-                                game.currentScene?.add(object);
-                                setOpenModal(false);
-                            }}
-                        >
-                            {t("No")}
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                const group = new Game.Group();
-                                const selectedObject =
-                                    editor.transformControls.object;
-
-                                if (!selectedObject) return;
-
-                                group.add(object);
-                                group.add(selectedObject);
-
-                                game.currentScene?.add(group);
-
-                                setOpenModal(false);
-                            }}
-                        >
-                            {t("Yes")}
-                        </Button>
-                    </>
-                ),
+                ...generateModalProps({
+                    cancel,
+                    confirm
+                }),
             }));
+
             setOpenModal(true);
         } else {
             currentScene.add(object);
@@ -117,6 +135,8 @@ function Body() {
 
         game.currentScene?.add(miscObject);
     };
+
+    const showModal = openModal && Object.keys(modalProps).length > 0;
 
     return (
         <List component="ul">
@@ -183,7 +203,7 @@ function Body() {
                 );
             })}
 
-            {openModal && Object.keys(modalProps) && <Modal {...modalProps} />}
+            {showModal && <Modal {...modalProps} />}
         </List>
     );
 }

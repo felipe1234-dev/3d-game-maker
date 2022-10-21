@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
     Box,
     FormControl,
@@ -10,30 +9,38 @@ import {
 import * as THREE from "three";
 
 import { useEditor } from "@local/contexts";
-import { useUnmount } from "@local/hooks";
+import { useForceUpdate } from "@local/hooks";
 
 import "@local/styles/fields/MultiNumberField.scss";
 
 const axes = ["x", "y", "z"] as const;
 
 function Body() {
+    3
     const editor = useEditor();
-    const { vertexHelper, transformControls: transformer } = editor;
-    const [vertices, setVertices] = useState<THREE.Mesh[]>(
-        vertexHelper.vertices
-    );
+    const { forceUpdate } = useForceUpdate();
+    const {
+        vertexHelper,
+        transformControls: transformer
+    } = editor;
 
-    const updateVertices = () => setVertices([...vertexHelper.vertices]);
+    const deleteVertex = () => {
+        if (
+            transformer.object &&
+            transformer.object instanceof THREE.Mesh
+        ) {
+            vertexHelper.deleteVertex(
+                transformer.object
+            );
+        }
 
-    useEffect(() => {
-        vertexHelper.addEventListener("addVertex", updateVertices);
-        vertexHelper.addEventListener("changeVertex", updateVertices);
-    }, [editor]);
+        forceUpdate();
+    };
 
-    useUnmount(() => {
-        vertexHelper.removeEventListener("addVertex", updateVertices);
-        vertexHelper.removeEventListener("changeVertex", updateVertices);
-    });
+    const addVertex = () => {
+        vertexHelper.addVertex(0, 0, 0);
+        forceUpdate();
+    };
 
     return (
         <div>
@@ -44,23 +51,14 @@ function Body() {
                     justifyContent: "flex-end",
                 }}
             >
-                <Button
-                    onClick={() => {
-                        if (
-                            transformer.object &&
-                            transformer.object instanceof THREE.Mesh
-                        ) {
-                            vertexHelper.deleteVertex(transformer.object);
-                        }
-                    }}
-                >
+                <Button onClick={deleteVertex}>
                     Del
                 </Button>
-                <Button onClick={() => vertexHelper.addVertex(0, 0, 0)}>
+                <Button onClick={addVertex}>
                     Add
                 </Button>
             </Box>
-            {vertices.map(vert => (
+            {vertexHelper.vertices.map(vert => (
                 <FormControl key={vert.uuid} className="MultiNumberField">
                     <FormLabel className="MultiNumberField-label">
                         {vert.name}
@@ -74,15 +72,15 @@ function Body() {
                                 className="MultiNumberField-row-input"
                                 defaultValue={vert.position[ax]}
                                 onChange={evt =>
-                                    (vert.position[ax] = Number(
-                                        evt.target.value
-                                    ))
+                                    vert.position[ax] = Number(evt.target.value)
                                 }
                                 inputProps={{
                                     type: "number",
                                     step: 0.1,
                                 }}
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
                             />
                         ))}
                     </FormGroup>

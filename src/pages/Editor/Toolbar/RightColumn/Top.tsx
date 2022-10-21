@@ -23,16 +23,18 @@ function Top() {
     const isDisabled = !transformer.object || transformer.locked;
     const mode = transformer.mode;
 
-    const objectTree = document.querySelector(".ObjectTree");
+    const events = ["select", "unselect", "changeMode"];
 
     useEffect(() => {
-        objectTree?.addEventListener("click", forceUpdate);
-        game.renderer.canvas.addEventListener("click", forceUpdate);
+        for (const event of events) {
+            transformer.addEventListener(event, forceUpdate);
+        }
     }, [game]);
 
     useUnmount(() => {
-        objectTree?.removeEventListener("click", forceUpdate);
-        game.renderer.canvas.removeEventListener("click", forceUpdate);
+        for (const event of events) {
+            transformer.removeEventListener(event, forceUpdate);
+        }
     });
 
     return (
@@ -60,20 +62,6 @@ function Top() {
                     </IconButton>
                 </span>
             </Tooltip>
-            {/* <Tooltip title={t("Resize object")} placement="left" arrow>
-                <span>
-                    <IconButton
-                        aria-label={t("Resize object")}
-                        onClick={() =>
-                            transformer.setMode("scale")
-                        }
-                        data-selected={mode === "scale"}
-                        disabled={isDisabled}
-                    >
-                        <ResizeIcon />
-                    </IconButton>
-                </span>
-            </Tooltip> */}
             <Tooltip title={t("Rotate object")} placement="left" arrow>
                 <span>
                     <IconButton

@@ -10,21 +10,19 @@ import {
 import { Plus } from "@styled-icons/boxicons-regular";
 import { Minus } from "@styled-icons/heroicons-outline";
 
-import * as THREE from "three";
 import { Game } from "@local/classes";
+import {
+    stringToColor,
+    getGameObjects
+} from "@local/functions";
+import {
+    useEditor,
+    useGame
+} from "@local/contexts";
 import { t } from "@local/i18n";
-import { stringToColor } from "@local/functions";
-import { useEditor, useGame } from "@local/contexts";
-
-function getGameObjects(children: (Game.Object3D | THREE.Object3D)[]) {
-    return children.filter(child => Game.isObject3D(child)) as Game.Object3D[];
-}
 
 function getChildrenOfChildren(object: Game.Object3D) {
-    const children = object.children as (Game.Object3D | THREE.Object3D)[];
-    const gameObjects = getGameObjects(children);
-
-    return gameObjects.reduce((childList, child) => {
+    return getGameObjects(object).reduce((childList, child) => {
         const children = getChildrenOfChildren(child);
 
         childList.push(child, ...children);
@@ -72,7 +70,6 @@ function TreeItem(props: TreeItemProps) {
 
     const selectObject = () => {
         transformer.select(object);
-        rerenderTreeList();
     };
 
     const dragStart = (evt: React.DragEvent) => {
@@ -131,7 +128,9 @@ function TreeItem(props: TreeItemProps) {
             return;
         }
 
-        if (object.uuid === child.parent?.uuid) {
+        const objIsParent = child.parent?.uuid === object.uuid;
+
+        if (objIsParent) {
             object.parent?.add(child);
         } else {
             object.add(child);
@@ -140,9 +139,7 @@ function TreeItem(props: TreeItemProps) {
         rerenderTreeList();
     };
 
-    const gameObjects = getGameObjects(
-        object.children as (Game.Object3D | THREE.Object3D)[]
-    );
+    const gameObjects = getGameObjects(object);
 
     return (
         <>
@@ -150,6 +147,7 @@ function TreeItem(props: TreeItemProps) {
                 key={object.uuid}
                 className="ObjectTree-list-item"
                 component="li"
+
                 onClick={selectObject}
                 onDragStart={dragStart}
                 onDragEnd={dragEnd}
@@ -157,12 +155,13 @@ function TreeItem(props: TreeItemProps) {
                 onDragEnter={dragEnter}
                 onDragLeave={dragLeave}
                 onDrop={drop}
+
                 selected={selected}
                 draggable
             >
                 <ListItemIcon>
                     <div onClick={toggleCollapser}>
-                        {object.children.length > 0 && (
+                        {gameObjects.length > 0 && (
                             openDropdown ? (
                                 <Minus width={15} />
                             ) : (

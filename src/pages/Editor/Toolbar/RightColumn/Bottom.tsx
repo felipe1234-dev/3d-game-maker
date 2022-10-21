@@ -1,5 +1,4 @@
-// Libs
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -9,48 +8,51 @@ import {
     InterestsRounded as ShapeIcon,
     TextureRounded as TextureIcon,
 } from "@mui/icons-material";
-import { Atom as AtomIcon } from "@styled-icons/fa-solid";
-import * as THREE from "three";
+import {
+    Atom as AtomIcon
+} from "@styled-icons/fa-solid";
 
-import { t } from "@local/i18n";
+import { Game } from "@local/classes";
 import { Pressable } from "@local/components";
-import { useEditor } from "@local/contexts";
+import {
+    useUnmount,
+    useForceUpdate
+} from "@local/hooks";
+import {
+    useEditor,
+    useGame
+} from "@local/contexts";
+import { t } from "@local/i18n";
 
 function Bottom() {
-    const [editObjIsDisabled, setEditObjIsDisabled] = useState(true);
-    const [editGeomIsDisabled, setEditGeomIsDisabled] = useState(true);
-    const [editTextIsDisabled, setEditTextIsDisabled] = useState(true);
-    const [zoomSpeed, setZoomSpeed] = useState(50);
-
     const location = useLocation();
     const editor = useEditor();
+    const game = useGame();
+    const { forceUpdate } = useForceUpdate();
+    const transformer = editor.transformControls;
 
-    const onEnableButtons = () => {
-        const selectedObject = editor.transformControls.object;
+    const zoomSpeed = 50;
+    const selectedObject = transformer.object;
+    const isMesh = selectedObject instanceof Game.Mesh;
 
-        if (!selectedObject) {
-            setEditObjIsDisabled(true);
-            setEditGeomIsDisabled(true);
-            setEditTextIsDisabled(true);
-        } else if (selectedObject instanceof THREE.Mesh) {
-            setEditObjIsDisabled(false);
-            setEditGeomIsDisabled(!selectedObject.geometry);
-            setEditTextIsDisabled(!selectedObject.material);
-        }
-    };
+    const isSelected = !!selectedObject;
+    const hasGeometry = isMesh;
+    const hasTexture = isMesh;
+    const hasPhysics = isMesh && !!selectedObject.body;
+
+    const events = ["select", "unselect", "changeMode"];
 
     useEffect(() => {
-        const { transformControls: transform } = editor;
+        for (const event of events) {
+            transformer.addEventListener(event, forceUpdate);
+        }
+    }, [game, editor]);
 
-        // TODO: Set zoom speed on change
-
-        const events = ["select", "unselect", "setMode"];
-
-        events.forEach(type => {
-            transform.addEventListener(type, onEnableButtons);
-            transform.dispatchEvent({ type });
-        });
-    }, [editor]);
+    useUnmount(() => {
+        for (const event of events) {
+            transformer.removeEventListener(event, forceUpdate);
+        }
+    });
 
     return (
         <Box>
@@ -83,7 +85,7 @@ function Bottom() {
                             background: location,
                             useLoader: false,
                         }}
-                        disabled={editObjIsDisabled}
+                        disabled={!isSelected}
                     >
                         <CubeIcon />
                     </IconButton>
@@ -99,7 +101,7 @@ function Bottom() {
                             background: location,
                             useLoader: false,
                         }}
-                        disabled={editGeomIsDisabled}
+                        disabled={!hasGeometry}
                     >
                         <ShapeIcon />
                     </IconButton>
@@ -115,7 +117,7 @@ function Bottom() {
                             background: location,
                             useLoader: false,
                         }}
-                        disabled={editTextIsDisabled}
+                        disabled={!hasTexture}
                     >
                         <TextureIcon />
                     </IconButton>
@@ -131,7 +133,7 @@ function Bottom() {
                             background: location,
                             useLoader: false,
                         }}
-                        disabled={editTextIsDisabled}
+                        disabled={!hasPhysics}
                     >
                         <AtomIcon width={24} />
                     </IconButton>

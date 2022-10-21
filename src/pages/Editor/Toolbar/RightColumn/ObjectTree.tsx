@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { List } from "@mui/material";
 
+import { getGameObjects } from "@local/functions";
 import {
     useForceUpdate,
     useUnmount
 } from "@local/hooks";
-import { Game } from "@local/classes";
-import { useGame } from "@local/contexts";
+import {
+    useGame,
+    useEditor
+} from "@local/contexts";
 
 import TreeItem from "./TreeItem";
 
@@ -14,22 +17,32 @@ import "@local/styles/pages/EditorPage/ObjectTree.scss";
 
 function ObjectTree() {
     const game = useGame();
+    const editor = useEditor();
+    const transformer = editor.transformControls;
     const { forceUpdate } = useForceUpdate();
+
     const [activeObject, setActiveObject] = useState("");
 
-
-    const allObjects = (game.currentScene?.children || []);
-    const gameObjects = allObjects.filter(child => (
-        Game.isObject3D(child)
-    )) as Game.Object3D[];
+    const events = [
+        "select",
+        "unselect",
+        "changeMode"
+    ];
 
     useEffect(() => {
-        game.renderer.canvas.addEventListener("click", forceUpdate);
+        for (const event of events) {
+            transformer.addEventListener(event, forceUpdate);
+        }
     }, [game]);
 
     useUnmount(() => {
-        game.renderer.canvas.removeEventListener("click", forceUpdate);
+        for (const event of events) {
+            transformer.removeEventListener(event, forceUpdate);
+        }
     });
+
+    const scene = game.current.scene;
+    const gameObjects = scene ? getGameObjects(scene) : [];
 
     return (
         <List className="ObjectTree-list" component="ul">
