@@ -43,7 +43,7 @@ class EditorTransform extends ThreeControls.TransformControls {
         return this.domElement;
     }
 
-    public get gizmos(): Array<THREE.Object3D> {
+    public get gizmos(): THREE.Object3D[] {
         if (this.object) {
             const child = this.children[0];
 
@@ -57,7 +57,7 @@ class EditorTransform extends ThreeControls.TransformControls {
         }
     }
 
-    public get intersects(): Array<THREE.Intersection> {
+    public get intersects(): THREE.Intersection[] {
         const { scene: currentScene } = this.editor.game.current;
         if (!currentScene) {
             return [];
@@ -181,7 +181,7 @@ class EditorTransform extends ThreeControls.TransformControls {
 
         this.mode = mode;
 
-        this.dispatchEvent({ type: "setMode", mode });
+        this.dispatchEvent({ type: "changeMode", mode });
     }
 
     public delete = (): void => {
@@ -201,7 +201,9 @@ class EditorTransform extends ThreeControls.TransformControls {
         this.dispatchEvent({ type: "delete" });
     }
 
-    public select = (object: Game.Object3D): void => {
+    public select = (
+        object: THREE.Object3D & { helper?: Game.Helper }
+    ): void => {
         const { scene: currentScene } = this.editor.game.current;
         if (!currentScene) {
             return;
@@ -215,10 +217,13 @@ class EditorTransform extends ThreeControls.TransformControls {
             this.unselect();
         }
 
-        this.helper = object.helper || new THREE.BoxHelper(object);
-        this.helper.visible = true;
-        currentScene.add(this.helper);
-        this.helper.update();
+        if (object.helper) {
+            this.helper = object.helper || new THREE.BoxHelper(object);
+
+            this.helper.visible = true;
+            currentScene.add(this.helper);
+            this.helper.update();
+        }
 
         this.attach(object);
         currentScene.add(this);
