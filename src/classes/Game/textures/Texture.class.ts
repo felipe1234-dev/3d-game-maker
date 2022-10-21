@@ -154,7 +154,7 @@ class Texture extends THREE.Texture implements Game.Texture {
         if (srcJSON) {
             texture = await Texture.fromURL(srcJSON.url, params);
         } else {
-            texture = new Game.Texture(params);
+            texture = new Texture(params);
         }
 
         return texture;
