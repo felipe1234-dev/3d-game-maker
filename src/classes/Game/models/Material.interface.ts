@@ -6,4 +6,15 @@ interface Material extends THREE.Material {
     toJSON(): Game.Formats.Material;
 }
 
-export default Material;
+function isMaterial(obj: any): obj is Material {
+    if (!(obj instanceof Object)) return false;
+
+    if (!Game.Libs.materials.includes(obj.type)) return false;
+    if (typeof obj.toJSON !== "function") return false;
+    if (!(obj instanceof THREE.Material)) return false;
+
+    return true;
+}
+
+export type { Material };
+export { isMaterial };

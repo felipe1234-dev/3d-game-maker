@@ -1,5 +1,5 @@
-export type { default as Geometry } from "./Geometry.interface";
-export type { default as Object3D } from "./Object3D.interface";
-export type { default as Helper } from "./Helper.interface";
-export type { default as Material } from "./Material.interface";
-export type { default as Camera } from "./Camera.interface";
+export * from "./Geometry.interface";
+export * from "./Object3D.interface";
+export * from "./Helper.interface";
+export * from "./Material.interface";
+export * from "./Camera.interface";
