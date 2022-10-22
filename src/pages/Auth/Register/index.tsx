@@ -1,16 +1,21 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Box, InputAdornment, TextField, IconButton } from "@mui/material";
-import { TextFieldProps } from "@mui/material";
+import {
+    Box,
+    InputAdornment,
+    TextField,
+    TextFieldProps,
+    IconButton
+} from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import {
     MailOutline as MailOutlineIcon,
     Visibility as VisibilityOnIcon,
     VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
-
-import { useAlert } from "@local/contexts";
 import { useNavigate } from "react-router-dom";
 
+import { useAlert } from "@local/contexts";
+import { validateEmail } from "@local/functions";
 import { Alert } from "@local/interfaces";
 import { auth } from "@local/api";
 import { t } from "@local/i18n";
@@ -62,6 +67,13 @@ function Register(props: RegisterProps) {
                 };
             }
 
+            if (!validateEmail(email)) {
+                throw {
+                    severity: "error",
+                    message: t("Please enter a valid email address")
+                };
+            }
+
             await auth.register({
                 firstName,
                 lastName,
@@ -87,10 +99,10 @@ function Register(props: RegisterProps) {
 
         setSubmitIsDisabled(
             !data.get("email") ||
-                !data.get("password") ||
-                !data.get("confirmPassword") ||
-                !data.get("fName") ||
-                !data.get("lName")
+            !data.get("password") ||
+            !data.get("confirmPassword") ||
+            !data.get("fName") ||
+            !data.get("lName")
         );
     };
 
