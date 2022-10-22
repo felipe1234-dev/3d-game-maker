@@ -24,7 +24,7 @@ const pt_BR = {
 
     "Error!": "Erro!",
     "Warning!": "Atenção!",
-    "Info!": "Informação!", 
+    "Info!": "Informação!",
     "Success!": "Sucesso!",
 
     "Where games come true": "Onde jogos se tornam realidade",
@@ -46,7 +46,7 @@ const pt_BR = {
     "Create a game": "Criar um jogo",
 
     "Scene name": "Nome do cenário",
-    "The image that all objects in the scene will reflect by default. You can change this for individual objects.": 
+    "The image that all objects in the scene will reflect by default. You can change this for individual objects.":
         "A imagem que todos os objetos na cena refletirão por padrão. Você pode alterar isso para os objetos individualmente.",
     "Environment": "Ambiente",
     "Background": "Fundo",
@@ -64,7 +64,7 @@ const pt_BR = {
 
     "Refraction": "Refração",
 
-    "Email verification sent successfully. Check your spam box.": 
+    "Email verification sent successfully. Check your spam box.":
         "Email de verificação enviado com sucesso. Cheque a sua caixa de spam.",
     "Email verified": "Email verificado",
     "Your email is not verified. Try resending a verification email or checking your spam box.":
@@ -195,7 +195,11 @@ const pt_BR = {
     "Free shape": "Formato livre",
 
     "Radius": "Raio",
-    "Edit vertices": "Editar vértices"
+    "Edit vertices": "Editar vértices",
+
+    "Test": "Testar",
+
+    "Please enter a valid email address": "Por favor, preencha com um endereço de email válido",
 }
 
 export default pt_BR;
