@@ -1,4 +1,5 @@
 import BaseModel from "./BaseModel.model";
+import { validateURL } from "@local/functions";
 
 class Media extends BaseModel {
     public title: string;
@@ -26,23 +27,13 @@ class Media extends BaseModel {
     }
 
     public static testType(obj: any): obj is Media {
-        const URLisValid = (url: string) => {
-            try {
-                new URL(url);
-            } catch (err) {
-                return false;
-            }
-
-            return true;
-        }
-
-        return (
+        return obj instanceof Media || (
             obj.title && typeof obj.title === "string" &&
             obj.description && typeof obj.description === "string" &&
             obj.folders && typeof obj.folders === "string" &&
             obj.mimeType && typeof obj.mimeType === "string" &&
             obj.extension && typeof obj.extension === "string" &&
-            obj.url && typeof obj.url === "string" && URLisValid(obj.url) &&
+            obj.url && typeof obj.url === "string" && validateURL(obj.url) &&
             obj.createdBy && typeof obj.createdBy === "string" &&
             BaseModel.testType(obj)
         );

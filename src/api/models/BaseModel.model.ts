@@ -13,11 +13,11 @@ class BaseModel {
     }
 
     public static testType(obj: any): obj is BaseModel {
-        return (
-            obj &&
+        return obj instanceof BaseModel || (
+            obj && obj instanceof Object &&
             obj.uid && typeof obj.uid === "string" &&
-            obj.tags && obj.tags instanceof Array && 
-            obj.tags.filter((item: unknown) => typeof item === "string").length === obj.tags.length &&
+            obj.tags && obj.tags instanceof Array &&
+            obj.tags.every((item: unknown) => typeof item === "string") &&
             obj.createdAt instanceof Timestamp
         );
     }
