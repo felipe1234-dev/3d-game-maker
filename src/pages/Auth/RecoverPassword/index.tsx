@@ -3,8 +3,7 @@ import { Box, TextField } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 
-import * as auth from "@local/api/auth";
-
+import { auth } from "@local/api";
 import { useAlert } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 import { t } from "@local/i18n";

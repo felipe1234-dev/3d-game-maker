@@ -12,8 +12,7 @@ import { useAlert } from "@local/contexts";
 import { useNavigate } from "react-router-dom";
 
 import { Alert } from "@local/interfaces";
-import * as auth from "@local/api/auth";
-
+import { auth } from "@local/api";
 import { t } from "@local/i18n";
 
 interface RegisterProps {

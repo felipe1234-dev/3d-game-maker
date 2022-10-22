@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Modal } from "@local/components";
 import { useMediaModal, MediaModalProvider } from "./Context";
 import { Media } from "@local/api/models";
@@ -6,7 +7,6 @@ import Body from "./Body";
 import Footer from "./Footer";
 
 import "@local/styles/components/MediaModal.scss";
-import { useEffect } from "react";
 
 interface MediaModalProps {
     title: string;

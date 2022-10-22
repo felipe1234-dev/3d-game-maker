@@ -4,11 +4,9 @@ import { LoadingButton as Button } from "@mui/lab";
 import { DropzoneArea } from "material-ui-dropzone";
 import { Upload as UploadIcon } from "@styled-icons/bootstrap";
 
-import * as gallery from "@local/api/collections/gallery";
-
+import { gallery } from "@local/api";
 import { useAlert } from "@local/contexts";
 import { useMediaModal } from "../Context";
-
 import { Alert } from "@local/interfaces";
 
 function Upload() {

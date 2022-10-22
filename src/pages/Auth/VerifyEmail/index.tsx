@@ -9,9 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { UserCredential } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 
-import * as auth from "@local/api/auth";
-import * as users from "@local/api/collections/users";
-
+import { auth, users } from "@local/api";
 import { useAlert } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 import { toAlert } from "@local/api/functions";

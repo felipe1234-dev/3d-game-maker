@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, useLocation, Location } from "react-router-dom";
-import * as auth from "@local/api/auth";
+
+import { auth } from "@local/api";
 import { isRouteState } from "@local/functions";
 import { useAlert } from "@local/contexts";
 import { Alert } from "@local/interfaces";

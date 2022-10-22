@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
-import * as auth from "@local/api/auth";
+import { auth } from "@local/api";
 import { useAlert } from "@local/contexts";
 import { Alert } from "@local/interfaces";
 import { t } from "@local/i18n";

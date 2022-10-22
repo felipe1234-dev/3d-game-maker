@@ -1,5 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import * as gallery from "@local/api/collections/gallery";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useState
+} from "react";
+import { gallery } from "@local/api";
 import { Media } from "@local/api/models";
 import { useAlert } from "@local/contexts";
 import { Alert, Filter } from "@local/interfaces";

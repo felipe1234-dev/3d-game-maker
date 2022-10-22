@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 
-import * as users from "@local/api/collections/users";
+import { users } from "@local/api";
 import { Media, User } from "@local/api/models";
 
 import { useAlert } from "@local/contexts";
