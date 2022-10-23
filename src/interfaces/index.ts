@@ -1,19 +1,20 @@
 import { Location } from "react-router-dom";
-import { 
-    Severity, 
-    WhereClasule, 
-    OrderByClasule 
+import {
+    Severity,
+    WhereClasule,
+    OrderByClasule
 } from "@local/types";
 
-export interface Alert { 
-    severity: Severity,
-    message: string
+export interface Alert {
+    severity: Severity;
+    message: string;
 }
 
-export interface RouteState { 
-    from?: Location, 
-    background?: Location, 
-    useLoader?: boolean
+export interface RouteState {
+    from?: Location;
+    background?: Location;
+    useLoader?: boolean;
+    gameUrl?: string;
 }
 
 export interface Filter {
