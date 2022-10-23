@@ -49,8 +49,6 @@ function isObject3D(json: any): json is Object3D {
         typeof json.object.type === "string" &&
         Game.Libs.objects3D.includes(json.object.type);
 
-    console.log(isID, isUuid, isType);
-
     const hasName = !!json.object.name;
     const isName = hasName ? typeof json.object.name === "string" : false;
 
@@ -100,9 +98,6 @@ function isObject3D(json: any): json is Object3D {
         )
         : false;
 
-    console.log("hasGeometries", hasGeometries);
-    console.log("isGeometries", isGeometries);
-
     const hasSources = json.sources !== undefined;
     const isSources = hasSources
         ? !!(
@@ -126,9 +121,6 @@ function isObject3D(json: any): json is Object3D {
             json.materials.every((item: any) => isMaterial(item))
         )
         : false;
-
-    console.log("hasMaterials", hasMaterials);
-    console.log("isMaterials", isMaterials);
 
     const hasTextures = json.textures !== undefined;
     const isTestures = hasTextures
