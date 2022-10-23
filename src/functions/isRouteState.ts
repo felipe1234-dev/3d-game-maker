@@ -1,17 +1,18 @@
+import { validateURL } from "@local/functions";
 import { RouteState } from "@local/interfaces";
 import isLocation from "./isLocation";
 
-function isRouteState(object: any): object is RouteState {
-    switch(true) {
-        case !object || typeof object !== "object":
-        case "from" in object && !isLocation(object.from):
-        case "background" in object && !isLocation(object.background):
-        case "useLoader" in object && typeof object.useLoader !== "boolean":
-        case !("from" in object || "background" in object || "useLoader" in object):
-            return false;
-        default: 
-            return true;
-    }
+function isRouteState(obj: any): obj is RouteState {
+    return (
+        obj && obj instanceof Object &&
+        (obj.from === undefined || isLocation(obj.from)) &&
+        (obj.background === undefined || isLocation(obj.background)) &&
+        (obj.useLoader === undefined || typeof obj.useLoader === "boolean") &&
+        (
+            obj.gameUrl === undefined ||
+            typeof obj.gameUrl === "string" && validateURL(obj.gameUrl)
+        )
+    );
 }
 
 export default isRouteState;
