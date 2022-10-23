@@ -10,7 +10,7 @@ import { Game as GameFormat } from "@local/classes/Game/formats";
 /**
  * Serves to update and create new games.
  */
-export default function save(format: GameFormat): Promise<Game> {
+function save(format: GameFormat): Promise<Game> {
     return new Promise(async (resolve, reject) => {
         try {
             const game = new Game();
@@ -70,4 +70,6 @@ export default function save(format: GameFormat): Promise<Game> {
             reject(toAlert(error as FirebaseError));
         }
     });
-};
+}
+
+export default save;
