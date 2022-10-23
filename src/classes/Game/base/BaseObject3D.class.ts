@@ -17,14 +17,11 @@ class Object3D extends THREE.Object3D implements Game.Object3D {
         return super.toJSON(newMeta);
     }
 
-    public static fromJSON(
-        json: Game.Formats.Object3D,
-        meta?: Game.Formats.Meta
-    ): Object3D {
+    public static fromJSON(json: Game.Formats.Object3D): Object3D {
         const object = new Object3D();
 
         applyObject3DJSON(object, json);
-        parseObjectChildren(object, json, meta);
+        parseObjectChildren(object, json);
 
         return object;
     }

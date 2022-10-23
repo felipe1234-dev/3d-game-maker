@@ -45,8 +45,7 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
     }
 
     public static fromJSON(
-        json: Game.Formats.HemisphereLight,
-        meta?: Game.Formats.Meta
+        json: Game.Formats.HemisphereLight
     ): HemisphereLight {
         const light = new HemisphereLight(
             json.object.skyColor,
@@ -55,7 +54,7 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
         );
 
         applyObject3DJSON(light, json);
-        parseObjectChildren(light, json, meta);
+        parseObjectChildren(light, json);
 
         return light;
     }

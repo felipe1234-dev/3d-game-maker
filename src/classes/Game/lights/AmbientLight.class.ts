@@ -31,17 +31,14 @@ class AmbientLight extends THREE.AmbientLight implements Game.Object3D {
         } : undefined);
     }
 
-    public static fromJSON(
-        json: Game.Formats.AmbientLight,
-        meta?: Game.Formats.Meta
-    ): AmbientLight {
+    public static fromJSON(json: Game.Formats.AmbientLight): AmbientLight {
         const light = new AmbientLight(
             json.object.color,
             json.object.intensity,
         );
 
         applyObject3DJSON(light, json);
-        parseObjectChildren(light, json, meta);
+        parseObjectChildren(light, json);
 
         return light;
     }

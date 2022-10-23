@@ -5,6 +5,11 @@ import {
 } from "../base/BufferAttribute.interface";
 
 interface Geometry {
+    metadata?: {
+        version: 4.5;
+        type: "BufferGeometry";
+        generator: "BufferGeometry.toJSON";
+    };
     uuid: string;
     type: typeof Game.Libs.geometries[number];
     name?: string;
@@ -39,7 +44,7 @@ function isGeometry(json: any): json is Geometry {
 
     if (!Game.Libs.geometries.includes(json.type)) return false;
 
-    if (json.name && typeof json.name !== "string") return false;
+    if (json.name !== undefined && typeof json.name !== "string") return false;
 
     if (!(json.data instanceof Object)) return false;
 

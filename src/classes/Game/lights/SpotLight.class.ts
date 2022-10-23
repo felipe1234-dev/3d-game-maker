@@ -6,7 +6,6 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
     public readonly type: "SpotLight";
     public readonly receiveShadow: boolean;
     public helper: THREE.SpotLightHelper;
-    public children: Game.Object3D[];
 
     constructor(
         color?: THREE.ColorRepresentation,
@@ -25,8 +24,6 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
 
         this.receiveShadow = false;
         this.castShadow = true;
-
-        this.children = [];
     }
 
     public override toJSON(
@@ -42,8 +39,7 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
     }
 
     public static fromJSON(
-        json: Game.Formats.SpotLight,
-        meta?: Game.Formats.Meta,
+        json: Game.Formats.SpotLight
     ): SpotLight {
         const light = new SpotLight(
             json.object.color,
@@ -55,7 +51,7 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
         );
 
         applyObject3DJSON(light, json);
-        parseObjectChildren(light, json, meta);
+        parseObjectChildren(light, json);
 
         return light;
     }

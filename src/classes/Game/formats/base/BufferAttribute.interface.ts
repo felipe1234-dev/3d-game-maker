@@ -16,9 +16,9 @@ interface BufferAttribute {
 function isBufferAttribute(json: any): json is BufferAttribute {
     if (!(json instanceof Object)) return false;
 
-    if (typeof json.itemSize === "number") return false;
+    if (typeof json.itemSize !== "number") return false;
 
-    if (typeof json.type === "string") return false;
+    if (typeof json.type !== "string") return false;
 
     if (!Array.isArray(json.array)) return false;
 
@@ -26,9 +26,9 @@ function isBufferAttribute(json: any): json is BufferAttribute {
 
     if (typeof json.normalized !== "boolean") return false;
 
-    if (json.name && typeof json.name !== "string") return false;
+    if (json.name !== undefined && typeof json.name !== "string") return false;
 
-    if (json.usage && typeof json.usage !== "number") return false;
+    if (json.usage !== undefined && typeof json.usage !== "number") return false;
 
     if (json.updateRange) {
         if (!(json.updateRange instanceof Object)) return false;

@@ -1,7 +1,7 @@
 import { Game } from "@local/classes";
 import {
     generateID,
-    metaFromSceneJSON,
+    metaFromObjectJSON,
     parseObjectChildren
 } from "../utils/private";
 import GamePhysics from "./Physics.class";
@@ -193,7 +193,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
     }
 
     public static fromJSON(json: Game.Formats.Scene): Scene {
-        const meta = metaFromSceneJSON(json);
+        const meta = metaFromObjectJSON(json);
         const scene = new Scene({
             id: json.object.id,
             uuid: json.object.uuid,

@@ -32,8 +32,7 @@ class DirectionalLight extends THREE.DirectionalLight implements Game.Object3D {
     }
 
     public static fromJSON(
-        json: Game.Formats.DirectionalLight,
-        meta?: Game.Formats.Meta
+        json: Game.Formats.DirectionalLight
     ): DirectionalLight {
         const light = new DirectionalLight(
             json.object.color,
@@ -41,7 +40,7 @@ class DirectionalLight extends THREE.DirectionalLight implements Game.Object3D {
         );
 
         applyObject3DJSON(light, json);
-        parseObjectChildren(light, json, meta);
+        parseObjectChildren(light, json);
 
         return light;
     }

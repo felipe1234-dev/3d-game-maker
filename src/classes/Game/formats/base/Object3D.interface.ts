@@ -6,6 +6,11 @@ import { Geometry, isGeometry } from "../geometries/Geometry.interface";
 import { Material, isMaterial } from "../materials/Material.interface";
 
 interface Object3D {
+    metadata?: {
+        version: 4.5;
+        type: "Object";
+        generator: "Object3D.toJSON";
+    };
     geometries?: Geometry[];
     materials?: Material[];
     textures?: Texture[];
@@ -21,7 +26,7 @@ interface Object3D {
         type: typeof Game.Libs.objects3D[number];
         name?: string;
         matrix: number[];
-        children?: Object3D[];
+        children?: Object3D["object"][];
         receiveShadow?: boolean;
         castShadow?: boolean;
         visible?: boolean;
@@ -38,11 +43,13 @@ function isObject3D(json: any): json is Object3D {
     const isObject = json.object instanceof Object;
     if (!isObject) return false;
 
-    const isID = typeof json.object.id === "string";
+    const isID = typeof json.object.id === "number";
     const isUuid = typeof json.object.uuid === "string";
     const isType =
         typeof json.object.type === "string" &&
         Game.Libs.objects3D.includes(json.object.type);
+
+    console.log(isID, isUuid, isType);
 
     const hasName = !!json.object.name;
     const isName = hasName ? typeof json.object.name === "string" : false;
@@ -54,7 +61,7 @@ function isObject3D(json: any): json is Object3D {
     const hasChildren = !!json.object.children;
     const isChildren =
         hasChildren && Array.isArray(json.object.children)
-            ? json.object.children.every((item: any) => isObject3D(item))
+            ? json.object.children.every((item: any) => isObject3D({ object: item }))
             : false;
 
     const hasReceiveShadow = json.object.receiveShadow !== undefined;
@@ -70,9 +77,9 @@ function isObject3D(json: any): json is Object3D {
     const hasVisible = json.object.visible !== undefined;
     const isVisible = hasVisible ? typeof json.object.visible === "boolean" : false;
 
-    const hasFrustumCulled = json.object.hasFrustumCulled !== undefined;
+    const hasFrustumCulled = json.object.frustumCulled !== undefined;
     const isFrustumCulled = hasFrustumCulled
-        ? typeof json.object.hasFrustumCulled === "boolean"
+        ? typeof json.object.frustumCulled === "boolean"
         : false;
 
     const hasRenderOrder = json.object.renderOrder !== undefined;
@@ -92,6 +99,9 @@ function isObject3D(json: any): json is Object3D {
             json.geometries.every((item: any) => isGeometry(item))
         )
         : false;
+
+    console.log("hasGeometries", hasGeometries);
+    console.log("isGeometries", isGeometries);
 
     const hasSources = json.sources !== undefined;
     const isSources = hasSources
@@ -116,6 +126,9 @@ function isObject3D(json: any): json is Object3D {
             json.materials.every((item: any) => isMaterial(item))
         )
         : false;
+
+    console.log("hasMaterials", hasMaterials);
+    console.log("isMaterials", isMaterials);
 
     const hasTextures = json.textures !== undefined;
     const isTestures = hasTextures

@@ -7,6 +7,10 @@ import * as THREE from "three";
  * in the JSON that mandatorily exist in all objects.
  */
 function applyObject3DJSON(object: Game.Object3D, json: Game.Formats.Object3D): void {
+    object.id = json.object.id;
+    object.uuid = json.object.uuid;
+    object.name = json.object.name || "";
+
     const matrix = new THREE.Matrix4().fromArray(json.object.matrix);
     object.applyMatrix4(matrix);
 

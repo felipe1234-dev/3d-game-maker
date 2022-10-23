@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
 
-function metaFromSceneJSON(json: Game.Formats.Scene): Game.Formats.Meta {
+function metaFromObjectJSON(json: Game.Formats.Object3D): Game.Formats.Meta {
     const meta: Game.Formats.Meta = {};
 
     for (const geometry of json.geometries || []) {
@@ -60,4 +60,4 @@ function metaFromSceneJSON(json: Game.Formats.Scene): Game.Formats.Meta {
     return meta;
 }
 
-export default metaFromSceneJSON;
+export default metaFromObjectJSON;

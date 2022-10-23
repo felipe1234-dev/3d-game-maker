@@ -13,8 +13,7 @@ class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
     }
 
     public static fromJSON(
-        json: Game.Formats.PerspectiveCamera,
-        meta?: Game.Formats.Meta
+        json: Game.Formats.PerspectiveCamera
     ): PerspectiveCamera {
         const camera = new PerspectiveCamera(
             json.object.fov,
@@ -38,7 +37,7 @@ class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
         camera.filmOffset = json.object.filmOffset;
 
         applyObject3DJSON(camera, json);
-        parseObjectChildren(camera, json, meta);
+        parseObjectChildren(camera, json);
 
         return camera;
     }

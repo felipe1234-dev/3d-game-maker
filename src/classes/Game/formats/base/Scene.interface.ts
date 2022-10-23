@@ -5,7 +5,7 @@ interface Scene extends Object3D {
     object: Object3D["object"] & {
         type: "Scene";
         name: string;
-        children: Object3D[];
+        children: Object3D["object"][];
         game?: string;
         stage?: string;
         physics: Physics;
@@ -76,7 +76,7 @@ function isScene(json: any): json is Scene {
 
     if (!Array.isArray(object.children)) return false;
     for (const item of object.children) {
-        if (!isObject3D(item)) return false;
+        if (!isObject3D({ object: item })) return false;
     }
 
     if (!isObject3D(json)) return false;

@@ -5,8 +5,7 @@ import { Game } from "@local/classes";
  */
 function parseObjectChildren(
     object: Game.Object3D,
-    json: Game.Formats.Object3D,
-    meta?: Game.Formats.Meta
+    json: Game.Formats.Object3D
 ): void {
     for (const childJson of json.object.children || []) {
         let child: Game.Object3D | undefined = undefined;
@@ -14,7 +13,7 @@ function parseObjectChildren(
         for (const type of Game.Libs.objects3D) {
             if (Game.Formats[`is${type}`](childJson)) {
                 // @ts-ignore
-                child = Game[type].fromJSON(childJson, meta);
+                child = Game[type].fromJSON({ ...json, object: childJson });
             }
         }
 

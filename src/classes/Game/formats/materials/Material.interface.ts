@@ -2,6 +2,11 @@ import { materials } from "../../libs";
 import * as THREE from "three";
 
 interface Material {
+    metadata?: {
+        version: 4.5;
+        type: "Material";
+        generator: "Material.toJSON";
+    };
     uuid: string;
     type: typeof materials[number];
     name?: string;
@@ -134,7 +139,7 @@ function isMaterial(json: any): json is Material {
         stencilZPass: stencilOps
     });
     for (const [prop, options] of requiredEnums) {
-        if (options.includes(json[prop])) return false;
+        if (!options.includes(json[prop])) return false;
     }
 
     const sides = [

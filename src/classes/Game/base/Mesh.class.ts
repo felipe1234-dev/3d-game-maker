@@ -3,7 +3,8 @@ import { Game } from "@local/classes";
 import {
     generateID,
     parseObjectChildren,
-    applyObject3DJSON
+    applyObject3DJSON,
+    metaFromObjectJSON
 } from "../utils/private";
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
@@ -149,17 +150,16 @@ class Mesh extends THREE.Mesh implements Game.Object3D {
         return json;
     }
 
-    public static fromJSON(
-        json: Game.Formats.Mesh,
-        meta?: Game.Formats.Meta
-    ): Mesh {
+    public static fromJSON(json: Game.Formats.Mesh): Mesh {
+        const meta = metaFromObjectJSON(json);
+
         let geometry: Game.Geometry | undefined = undefined;
         let material: Game.Material | undefined = undefined;
         let body: Game.Body | undefined = undefined;
 
-        const geometries = meta?.geometries || {};
-        const materials = meta?.materials || {};
-        const bodies = meta?.bodies || {};
+        const geometries = meta.geometries || {};
+        const materials = meta.materials || {};
+        const bodies = meta.bodies || {};
 
         const geometryUuid = json.object.geometry || "";
         const materialUuid = json.object.material || "";
@@ -200,7 +200,7 @@ class Mesh extends THREE.Mesh implements Game.Object3D {
         mesh.name = json.object.name || "";
 
         applyObject3DJSON(mesh, json);
-        parseObjectChildren(mesh, json, meta);
+        parseObjectChildren(mesh, json);
 
         return mesh;
     }

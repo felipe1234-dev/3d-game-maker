@@ -6,7 +6,6 @@ class PointLight extends THREE.PointLight implements Game.Object3D {
     public readonly type: "PointLight";
     public readonly receiveShadow: boolean;
     public helper: THREE.PointLightHelper;
-    public children: Game.Object3D[];
 
     constructor(
         color?: THREE.ColorRepresentation,
@@ -23,8 +22,6 @@ class PointLight extends THREE.PointLight implements Game.Object3D {
 
         this.receiveShadow = false;
         this.castShadow = true;
-
-        this.children = [];
     }
 
     public override toJSON(
@@ -40,8 +37,7 @@ class PointLight extends THREE.PointLight implements Game.Object3D {
     }
 
     public static fromJSON(
-        json: Game.Formats.PointLight,
-        meta?: Game.Formats.Meta
+        json: Game.Formats.PointLight
     ): PointLight {
         const light = new PointLight(
             json.object.color,
@@ -51,7 +47,7 @@ class PointLight extends THREE.PointLight implements Game.Object3D {
         );
 
         applyObject3DJSON(light, json);
-        parseObjectChildren(light, json, meta);
+        parseObjectChildren(light, json);
 
         return light;
     }

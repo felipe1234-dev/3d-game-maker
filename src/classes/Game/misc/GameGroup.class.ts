@@ -33,13 +33,12 @@ class GameGroup extends THREE.Group implements Game.Object3D {
     }
 
     public static fromJSON(
-        json: Game.Formats.Object3D,
-        meta?: Game.Formats.Meta
+        json: Game.Formats.Group
     ): GameGroup {
         const group = new GameGroup();
 
         applyObject3DJSON(group, json);
-        parseObjectChildren(group, json, meta);
+        parseObjectChildren(group, json);
 
         return group;
     }
