@@ -5,7 +5,7 @@ interface MeshPhongMaterial extends Material {
     type: "MeshNormalMaterial";
 
     color: number | string; // Color representation 
-    specular: number | string; // Color representation 
+    specular?: number | string; // Color representation 
     emissive: number | string; // Color representation 
 
     map?: string; // Map uuid
@@ -45,17 +45,21 @@ interface MeshPhongMaterial extends Material {
 function isMeshPhongMaterial(json: any): json is MeshPhongMaterial {
     if (!(json instanceof Object)) return false;
 
-    if (json.type !== "MeshNormalMaterial") return false;
+    if (json.type !== "MeshPhongMaterial") return false;
 
     const requiredColors = [
         "color",
-        "specular",
         "emissive",
     ];
     for (const prop of requiredColors) {
         if (!["string", "number"].includes(typeof json[prop]))
             return false;
     }
+
+    if (
+        json.specular !== undefined &&
+        !["string", "number"].includes(typeof json.specular)
+    ) return false;
 
     const optionalMaps = [
         "map",
