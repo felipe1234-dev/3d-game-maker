@@ -11,10 +11,10 @@ interface PointLight extends Light {
 
 function isPointLight(json: any): json is PointLight {
     const isLightFormat = isLight(json);
-    const typeIsCorrect = json.type === "PointLight";
-    const distanceIsCorrect = typeof json.distance === "number";
-    const decayIsCorrect = typeof json.decay === "number";
-    const receiveShadowIsCorrect = !!json.receiveShadow === false;
+    const typeIsCorrect = json.object.type === "PointLight";
+    const distanceIsCorrect = typeof json.object.distance === "number";
+    const decayIsCorrect = typeof json.object.decay === "number";
+    const receiveShadowIsCorrect = !!json.object.receiveShadow === false;
 
     return (
         isLightFormat &&
