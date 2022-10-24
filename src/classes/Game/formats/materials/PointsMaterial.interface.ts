@@ -17,7 +17,7 @@ function isPointsMaterial(json: any): json is PointsMaterial {
     if (!(json instanceof Object)) return false;
     if (json.type !== "PointsMaterial") return false;
 
-    if (!["string", "number"].includes(json.color)) return false;
+    if (!["string", "number"].includes(typeof json.color)) return false;
 
     if (
         json.map !== undefined &&

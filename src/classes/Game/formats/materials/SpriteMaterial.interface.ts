@@ -19,7 +19,7 @@ function isSpriteMaterial(json: any): json is SpriteMaterial {
     if (!(json instanceof Object)) return false;
     if (json.type !== "SpriteMaterial") return false;
 
-    if (!["string", "number"].includes(json.color)) return false;
+    if (!["string", "number"].includes(typeof json.color)) return false;
 
     const optionalMaps = ["map", "alphaMap"];
     for (const prop of optionalMaps) {
