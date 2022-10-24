@@ -70,15 +70,12 @@ function isMeshStandardMaterial(json: any): json is MeshStandardMaterial {
         }
     }
 
-    const optionalNumbers = ["roughness", "metalness"];
-    for (const prop of optionalNumbers) {
-        if (
-            json[prop] !== undefined &&
-            typeof json[prop] !== "number"
-        ) return false;
+    const requiredNumbers = ["roughness", "metalness"];
+    for (const prop of requiredNumbers) {
+        if (typeof json[prop] !== "number") return false;
     }
 
-    const requiredNumbers = [
+    const optionalNumbers = [
         "lightMapIntensity",
         "envMapIntensity",
         "aoMapIntensity",
@@ -88,8 +85,11 @@ function isMeshStandardMaterial(json: any): json is MeshStandardMaterial {
         "displacementBias",
         "wireframeLinewidth",
     ];
-    for (const prop of requiredNumbers) {
-        if (typeof json[prop] !== "number") return false;
+    for (const prop of optionalNumbers) {
+        if (
+            json[prop] !== undefined &&
+            typeof json[prop] !== "number"
+        ) return false;
     }
 
     const optionalBooleans = [
