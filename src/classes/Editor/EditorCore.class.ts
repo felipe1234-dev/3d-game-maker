@@ -61,8 +61,9 @@ class EditorCore {
         );
 
         game.addEventListener("changeScene", evt => {
-            const currentScene = evt.currentScene as Game.Scene;
-            const previousScene = evt.previousScene as Game.Scene;
+            const currentScene = evt.currentScene as Game.Scene | undefined;
+            const previousScene = evt.previousScene as Game.Scene | undefined;
+            if (!currentScene || !previousScene) return;
 
             const updateGravityHelper = () => {
                 const { x, y, z } = currentScene.physics.gravity;
