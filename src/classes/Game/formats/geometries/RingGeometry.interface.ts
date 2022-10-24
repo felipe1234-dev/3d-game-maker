@@ -13,12 +13,12 @@ interface RingGeometry extends Geometry {
 function isRingGeometry(json: any): json is RingGeometry {
     const isGeo = isGeometry(json);
     const isType = json.type === "RingGeometry";
-    
+
     const isInnerRadius = typeof json.innerRadius === "number";
     const isOuterRadius = typeof json.outerRadius === "number";
 
-    const isThetaSegments = typeof json.radialSegments === "number";
-    const isPhiSegments = typeof json.heightSegments === "number";
+    const isThetaSegments = typeof json.thetaSegments === "number";
+    const isPhiSegments = typeof json.phiSegments === "number";
 
     const isThetaStart = typeof json.thetaStart === "number";
     const isThetaLength = typeof json.thetaLength === "number";
@@ -26,7 +26,7 @@ function isRingGeometry(json: any): json is RingGeometry {
     return (
         isGeo &&
         isType &&
-        
+
         isInnerRadius &&
         isOuterRadius &&
 
