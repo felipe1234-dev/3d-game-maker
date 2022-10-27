@@ -1,6 +1,6 @@
-import { Material, isMaterial } from "./Material.interface";
+import { MeshStandardMaterial, isMeshStandardMaterial } from "./MeshStandardMaterial.interface";
 
-interface MeshPhysicalMaterial extends Material {
+interface MeshPhysicalMaterial extends Omit<MeshStandardMaterial, "type"> {
     type: "MeshPhysicalMaterial";
 
     clearcoatRoughnessMap?: string; // Map uuid
@@ -102,7 +102,10 @@ function isMeshPhysicalMaterial(json: any): json is MeshPhysicalMaterial {
         if (typeof y !== "number") return false;
     }
 
-    if (!isMaterial(json)) return false;
+    if (!isMeshStandardMaterial({
+        ...json,
+        type: "MeshStandardMaterial"
+    })) return false;
 
     return true;
 }
