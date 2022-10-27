@@ -6,6 +6,7 @@ class Game extends BaseModel {
     public description: string;
     public createdBy: string;
     public url: string;
+    public snippet: boolean;
 
     constructor() {
         super();
@@ -14,6 +15,7 @@ class Game extends BaseModel {
         this.description = "";
         this.createdBy = "";
         this.url = "";
+        this.snippet = false;
     }
 
     public static testType(obj: any): obj is Game {
@@ -24,6 +26,7 @@ class Game extends BaseModel {
             typeof obj.createdBy === "string" &&
             typeof obj.url === "string" &&
             validateURL(obj.url) &&
+            typeof obj.snippet === "boolean" &&
             BaseModel.testType(obj)
         );
     }
