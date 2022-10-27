@@ -1,8 +1,8 @@
-import * as THREE from "three";
+import { Game } from "@local/classes";
 
 export default [
     {
-        Constructor: THREE.MeshStandardMaterial,
+        Constructor: Game.MeshStandardMaterial,
         label: "3D Standard Material",
         attributes: [
             "list",
@@ -40,7 +40,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.MeshPhysicalMaterial,
+        Constructor: Game.MeshPhysicalMaterial,
         label: "Physical Material",
         attributes: [
             "list",
@@ -87,17 +87,17 @@ export default [
         ]
     },
     {
-        Constructor: THREE.LineBasicMaterial,
+        Constructor: Game.LineBasicMaterial,
         label: "Line Basic Material",
         attributes: ["type", "name", "uuid"]
     },
     {
-        Constructor: THREE.LineDashedMaterial,
+        Constructor: Game.LineDashedMaterial,
         label: "Line Dashed Material",
         attributes: ["type", "name", "uuid"]
     },
     {
-        Constructor: THREE.MeshBasicMaterial,
+        Constructor: Game.MeshBasicMaterial,
         label: "Basic Material",
         attributes: [
             "list",
@@ -124,12 +124,12 @@ export default [
         ]
     },
     {
-        Constructor: THREE.MeshDepthMaterial,
+        Constructor: Game.MeshDepthMaterial,
         label: "Depth Material",
         attributes: ["type", "name", "uuid"]
     },
     {
-        Constructor: THREE.MeshLambertMaterial,
+        Constructor: Game.MeshLambertMaterial,
         label: "Lambert Material",
         attributes: [
             "list",
@@ -159,7 +159,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.MeshMatcapMaterial,
+        Constructor: Game.MeshMatcapMaterial,
         label: "Matcap Material",
         attributes: [
             "list",
@@ -189,7 +189,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.MeshPhongMaterial,
+        Constructor: Game.MeshPhongMaterial,
         label: "Blinn-Phong Material",
         attributes: [
             "list",
@@ -228,7 +228,7 @@ export default [
         ]
     },
     {
-        Constructor: THREE.MeshToonMaterial,
+        Constructor: Game.MeshToonMaterial,
         label: "Cartoon Material",
         attributes: [
             "list",
