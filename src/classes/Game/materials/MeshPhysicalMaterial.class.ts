@@ -16,10 +16,23 @@ class MeshPhysicalMaterial extends THREE.MeshPhysicalMaterial implements Game.Ma
         meta?: Game.Formats.Meta
     ): MeshPhysicalMaterial {
         const {
+            color, // Color representation
+            emissive, // Color representation
             sheenColor, // Color representation
             attenuationColor, // Color representation
             specularColor, // Color representation 
 
+            map, // Map uuid
+            lightMap, // Map uuid
+            aoMap, // Map uuid
+            emissiveMap, // Map uuid
+            bumpMap, // Map uuid
+            normalMap, // Map uuid
+            displacementMap, // Map uuid
+            roughnessMap, // Map uuid
+            metalnessMap, // Map uuid
+            alphaMap, // Map uuid
+            envMap, // Map uuid
             clearcoatRoughnessMap, // Map uuid
             clearcoatMap, // Map uuid
             clearcoatNormalMap, // Map uuid
@@ -33,16 +46,37 @@ class MeshPhysicalMaterial extends THREE.MeshPhysicalMaterial implements Game.Ma
             iridescenceThicknessMap, // Map uuid
 
             clearcoatNormalScale,
+            normalScale,
 
             ...params
         } = json;
         const material = new MeshPhysicalMaterial(params);
 
-        material.sheenColor = new THREE.Color(sheenColor);
-        material.attenuationColor = new THREE.Color(attenuationColor);
-        material.specularColor = new THREE.Color(specularColor);
+        const colors = Object.entries({
+            color,
+            emissive,
+            sheenColor,
+            attenuationColor,
+            specularColor,
+        });
+
+        for (const [prop, value] of colors) {
+            // @ts-ignore
+            material[prop] = new THREE.Color(value);
+        }
 
         const maps = Object.entries({
+            map,
+            lightMap,
+            aoMap,
+            emissiveMap,
+            bumpMap,
+            normalMap,
+            displacementMap,
+            roughnessMap,
+            metalnessMap,
+            alphaMap,
+            envMap,
             clearcoatRoughnessMap,
             clearcoatMap,
             clearcoatNormalMap,
@@ -75,6 +109,11 @@ class MeshPhysicalMaterial extends THREE.MeshPhysicalMaterial implements Game.Ma
         if (clearcoatNormalScale) {
             const [x, y] = clearcoatNormalScale;
             material.clearcoatNormalScale = new THREE.Vector2(x, y);
+        }
+
+        if (normalScale) {
+            const [x, y] = normalScale;
+            material.normalScale = new THREE.Vector2(x, y);
         }
 
         applyBaseMaterialJSON(material, json);
