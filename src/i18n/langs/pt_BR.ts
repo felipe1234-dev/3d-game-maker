@@ -198,6 +198,7 @@ const pt_BR = {
     "Edit vertices": "Editar vértices",
 
     "Test": "Testar",
+    "Save": "Salvar",
 
     "Please enter a valid email address": "Por favor, preencha com um endereço de email válido",
 }
