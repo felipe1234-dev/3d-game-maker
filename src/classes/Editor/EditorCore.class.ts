@@ -98,7 +98,11 @@ class EditorCore {
         });
     }
 
-    public removeEditorStuff(): void {
+    public saveGame(
+        callback?: (format: Game.Formats.Game) => void
+    ): void {
+        this.transformControls.unselect();
+
         for (const scene of this.game.scenes) {
             scene.remove(
                 this.transformControls,
@@ -107,6 +111,17 @@ class EditorCore {
                 this.vertexHelper
             );
         }
+
+        const json = this.game.toJSON();
+
+        this.game.current.scene?.add(
+            this.transformControls,
+            this.gridsHelper,
+            this.gravityHelper,
+            this.vertexHelper
+        );
+
+        if (callback) callback(json);
     }
 }
 
