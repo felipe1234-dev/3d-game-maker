@@ -248,7 +248,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
             }
         }
 
-        parseObjectChildren(scene, json, meta);
+        parseObjectChildren(scene, json);
 
         return scene;
     }
