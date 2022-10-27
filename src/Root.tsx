@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box } from "@mui/material";
 import {
     Routes as Switch,
@@ -7,14 +7,14 @@ import {
     Location,
 } from "react-router-dom";
 import { AlertMessage, PageLoader, Composer } from "@local/components";
-import { useAlert } from "@local/contexts";
+import { useAlert, useLoader } from "@local/contexts";
 import { isRouteState } from "@local/functions";
 
 import routes from "@local/consts/routes";
 
 function Root() {
-    const [pageIsLoading, setPageIsLoading] = useState(true);
-    const { message, setMessage, severity, setSeverity } = useAlert();
+    const loader = useLoader();
+    const alert = useAlert();
 
     const pageLocation = useLocation();
     const { pathname: pathNow, state } = pageLocation;
@@ -28,12 +28,16 @@ function Root() {
     }
 
     useEffect(() => {
-        setPageIsLoading(enablePageLoader);
+        if (enablePageLoader) {
+            loader.show();
+        } else {
+            loader.hide();
+        }
     }, [pathNow]);
 
     useEffect(() => {
         setTimeout(() => {
-            setPageIsLoading(false);
+            loader.hide();
         }, 3000);
     });
 
@@ -77,18 +81,18 @@ function Root() {
                 )}
 
                 <AlertMessage
-                    open={!!message && !!severity}
-                    type={severity ?? undefined}
+                    open={!!alert.message && !!alert.severity}
+                    type={alert.severity ?? undefined}
                     duration={6000}
-                    message={message}
+                    message={alert.message}
                     onClose={() => {
-                        setMessage(null);
-                        setSeverity(null);
+                        alert.setMessage(null);
+                        alert.setSeverity(null);
                     }}
                 />
             </Box>
 
-            <PageLoader hidden={!pageIsLoading} />
+            <PageLoader hidden={!loader.visible} />
         </>
     );
 }

@@ -3,7 +3,11 @@ import { useLocation } from "react-router-dom";
 
 import { getLang, t } from "./i18n";
 import { Composer } from "./components";
-import { AlertProvider, HistoryProvider } from "./contexts";
+import {
+    AlertProvider,
+    HistoryProvider,
+    LoaderProvider,
+} from "./contexts";
 
 import routes from "./consts/routes";
 import Root from "./Root";
@@ -47,7 +51,14 @@ function App() {
     }, [pathname]);
 
     return (
-        <Composer components={[AlertProvider, HistoryProvider, ...providers]}>
+        <Composer
+            components={[
+                AlertProvider,
+                HistoryProvider,
+                LoaderProvider,
+                ...providers
+            ]}
+        >
             <Root />
         </Composer>
     );
