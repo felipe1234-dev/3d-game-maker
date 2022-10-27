@@ -29,7 +29,7 @@ function Register(props: RegisterProps) {
     const [submitIsDisabled, setSubmitIsDisabled] = useState<boolean>(false);
     const [passIsMasked, setPassIsMasked] = useState<boolean>(true);
 
-    const { setSeverity, setMessage } = useAlert();
+    const alert = useAlert();
     const navigate = useNavigate();
 
     const baseTextField: TextFieldProps = {
@@ -81,14 +81,14 @@ function Register(props: RegisterProps) {
                 password,
             });
 
-            setSeverity("success");
-            setMessage(t("Logged in successfully"));
+            alert.setSeverity("success");
+            alert.setMessage(t("Logged in successfully"));
             setTimeout(() => navigate(props.redirect, { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
 
-            setSeverity(err.severity);
-            setMessage(err.message);
+            alert.setSeverity(err.severity);
+            alert.setMessage(err.message);
         } finally {
             setTimeout(() => setFormIsLoading(false), 3000);
         }

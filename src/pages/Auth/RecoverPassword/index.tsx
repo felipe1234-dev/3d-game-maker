@@ -12,7 +12,7 @@ function RecoverPassword() {
     const [formIsLoading, setFormIsLoading] = useState<boolean>(false);
     const [submitIsDisabled, setSubmitIsDisabled] = useState<boolean>(false);
 
-    const { setSeverity, setMessage } = useAlert();
+    const alert = useAlert();
     const navigate = useNavigate();
 
     const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -31,14 +31,14 @@ function RecoverPassword() {
         try {
             await auth.recoverPassword(email);
 
-            setSeverity("success");
-            setMessage(t("Password reset email sent successfully"));
+            alert.setSeverity("success");
+            alert.setMessage(t("Password reset email sent successfully"));
             setTimeout(() => navigate("/auth", { replace: true }), 3000);
         } catch (error) {
             const err = error as Alert;
 
-            setSeverity(err.severity);
-            setMessage(err.message);
+            alert.setSeverity(err.severity);
+            alert.setMessage(err.message);
         } finally {
             setTimeout(() => setFormIsLoading(false), 3000);
         }

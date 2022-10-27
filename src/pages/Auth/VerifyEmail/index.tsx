@@ -20,7 +20,7 @@ function VerifyEmail() {
     const [userCredential, setUserCredential] = useState<UserCredential>();
     const [state, setState] = useState<string>("processing");
 
-    const { setSeverity, setMessage } = useAlert();
+    const alert = useAlert();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,8 +41,8 @@ function VerifyEmail() {
                             emailVerified: true,
                         });
 
-                        setSeverity("success");
-                        setMessage(t("Email verified"));
+                        alert.setSeverity("success");
+                        alert.setMessage(t("Email verified"));
 
                         setState("verified");
 
@@ -55,8 +55,8 @@ function VerifyEmail() {
 
                         setState("not-verified");
 
-                        setSeverity("info");
-                        setMessage(
+                        alert.setSeverity("info");
+                        alert.setMessage(
                             t(
                                 "Your email is not verified. Try resending a verification email or checking your spam box."
                             )
@@ -67,13 +67,13 @@ function VerifyEmail() {
 
                     setState("error");
 
-                    setSeverity(err.severity);
-                    setMessage(err.message);
+                    alert.setSeverity(err.severity);
+                    alert.setMessage(err.message);
                 }
             }, 3000);
         } else {
-            setSeverity("error");
-            setMessage(t("You're not authorized to access this page."));
+            alert.setSeverity("error");
+            alert.setMessage(t("You're not authorized to access this page."));
 
             setState("error");
 
@@ -101,16 +101,16 @@ function VerifyEmail() {
         try {
             await auth.sendConfirmationEmail(userCredential, email, password);
 
-            setSeverity("success");
-            setMessage(
+            alert.setSeverity("success");
+            alert.setMessage(
                 t("Email verification sent successfully. Check your spam box.")
             );
 
             setTimeout(() => navigate("/auth"), 3000);
         } catch (error) {
             const err = toAlert(error as FirebaseError);
-            setSeverity(err.severity);
-            setMessage(err.message);
+            alert.setSeverity(err.severity);
+            alert.setMessage(err.message);
         } finally {
             setIsLoading(false);
         }
