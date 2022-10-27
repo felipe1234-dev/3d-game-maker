@@ -1,9 +1,9 @@
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, updateDoc, doc, getDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 
 import { db, auth, games, storage } from "@local/api";
-import { Game as Game } from "@local/api/models";
+import { Game } from "@local/api/models";
 import { split, toAlert } from "@local/api/functions";
 import { Game as GameFormat } from "@local/classes/Game/formats";
 
@@ -61,15 +61,24 @@ function save(format: GameFormat): Promise<Game> {
                 `${game.uid}.json`,
                 { type: "application/json" }
             );
-
+                
             const storageRef = ref(storage, `games/${game.createdBy}/${file.name}`);
             await uploadBytes(storageRef, file);
-
+    
             const url = await getDownloadURL(storageRef);
             game.url = url;
-
+            
             const docRef = doc(db, games.collectionName, game.uid);
-            await setDoc(docRef, { ...game });
+            const docSnap = await getDoc(docRef);
+            
+            const isNewGame = docSnap.exists();
+
+            if (isNewGame) {
+                await setDoc(docRef, { ...game });
+            } else {
+                game.createdAt = (docSnap.data() as Game).createdAt;
+                await updateDoc(docRef, { ...game });
+            }
 
             resolve(game);
         } catch (error) {
