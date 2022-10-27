@@ -7,6 +7,14 @@ import { Game as Game } from "@local/api/models";
 import { split, toAlert } from "@local/api/functions";
 import { Game as GameFormat } from "@local/classes/Game/formats";
 
+function replacer(key: string, value: any): any {
+    if (value === Infinity) {
+        return "Infinity";
+    }
+
+    return value;
+}
+
 /**
  * Serves to update and create new games.
  */
@@ -49,11 +57,9 @@ function save(format: GameFormat): Promise<Game> {
             game.tags = game.tags.map(tag => tag.toLowerCase());
 
             const file = new File(
-                [JSON.stringify(format)],
-                `${game.uid}-${game.name}-${game.createdAt.seconds}.json`,
-                {
-                    type: "application/json"
-                }
+                [JSON.stringify(format, replacer)],
+                `${game.uid}.json`,
+                { type: "application/json" }
             );
 
             const storageRef = ref(storage, `games/${game.createdBy}/${file.name}`);
