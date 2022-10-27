@@ -3,8 +3,7 @@ import { Light, isLight } from "./Light.interface";
 interface HemisphereLight extends Light {
     object: Light["object"] & {
         type: "HemisphereLight";
-        skyColor: number;
-        groundColor: number;
+        groundColor: string | number; // Color representation
         castShadow: false;
         receiveShadow: false;
     }
@@ -13,15 +12,13 @@ interface HemisphereLight extends Light {
 function isHemisphereLight(json: any): json is HemisphereLight {
     const isLightFormat = isLight(json);
     const typeIsCorrect = json.object.type === "HemisphereLight";
-    const skyColorIsCorrect = typeof json.object.skyColor === "number";
-    const groundColorIsCorrect = typeof json.object.groundColor === "number";
+    const groundColorIsCorrect = ["string", "number"].includes(typeof json.object.groundColor);
     const castShadowIsCorrect = !!json.object.castShadow === false;
     const receiveShadow = !!json.object.receiveShadow === false;
 
     return (
         isLightFormat &&
         typeIsCorrect &&
-        skyColorIsCorrect &&
         groundColorIsCorrect &&
         castShadowIsCorrect &&
         receiveShadow

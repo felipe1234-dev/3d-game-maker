@@ -48,7 +48,7 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
         json: Game.Formats.HemisphereLight
     ): HemisphereLight {
         const light = new HemisphereLight(
-            json.object.skyColor,
+            json.object.color,
             json.object.groundColor,
             json.object.intensity
         );
