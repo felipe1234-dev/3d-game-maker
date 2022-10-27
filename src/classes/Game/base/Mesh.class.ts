@@ -25,9 +25,16 @@ class Mesh extends THREE.Mesh implements Game.Object3D {
         this.helper = new THREE.BoxHelper(this);
         this.type = "Mesh";
 
+        if (!geometry) {
+            geometry = new Game.BoxGeometry();
+            this.geometry = geometry;
+        }
+
         if (geometry && geometry.parameters) {
             geometry.parameters = new Proxy(geometry.parameters, {
                 set: (parameters, param, value) => {
+                    if (!geometry) return false;
+
                     const oldParameters = parameters;
                     const newParameters = {
                         ...oldParameters,
