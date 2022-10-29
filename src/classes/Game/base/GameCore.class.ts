@@ -1,13 +1,10 @@
-import * as THREE from "three";
 import { Game } from "@local/classes";
 import { generateID } from "../utils/private";
+import * as THREE from "three";
 
 interface GameOptions {
     id?: number;
     uuid?: string;
-
-    name: string;
-    description: string;
 
     scenes?: Game.Scene[];
     stages?: Game.Stage[];
@@ -19,9 +16,6 @@ interface GameOptions {
 class GameCore extends THREE.EventDispatcher {
     public readonly id: number;
     public readonly uuid: string;
-
-    public name: string;
-    public description: string;
 
     public stages: Game.Stage[];
     public scenes: Game.Scene[];
@@ -41,20 +35,14 @@ class GameCore extends THREE.EventDispatcher {
         const {
             id = generateID(),
             uuid = THREE.MathUtils.generateUUID(),
-
-            name,
-            description,
             scenes = [],
             stages = [],
             cameras = [],
-            renderer = new Game.Renderer({ antialias: true }),
+            renderer = new Game.Renderer({ antialias: true })
         } = options;
 
         this.id = id;
         this.uuid = uuid;
-
-        this.name = name;
-        this.description = description;
 
         this.current = {
             scene: scenes[0] || undefined,
@@ -97,8 +85,6 @@ class GameCore extends THREE.EventDispatcher {
         const json: Game.Formats.Game = {
             id: this.id,
             uuid: this.uuid,
-            name: this.name,
-            description: this.description,
             stages: this.stages.map(stage => stage.toJSON()),
             scenes: this.scenes.map(scene => scene.toJSON()),
             cameras: this.cameras.map(camera => camera.toJSON()),
@@ -136,9 +122,6 @@ class GameCore extends THREE.EventDispatcher {
         const game = new GameCore({
             id: json.id,
             uuid: json.uuid,
-
-            name: json.name,
-            description: json.description,
 
             stages,
             scenes,

@@ -5,8 +5,6 @@ import { Renderer, isRenderer } from "./Renderer.interface";
 interface Game {
     id: number;
     uuid: string;
-    name: string;
-    description: string;
     stages: Stage[];
     scenes: Scene[];
     cameras: object[];
@@ -23,8 +21,6 @@ function isGame(json: any): json is Game {
 
     if (typeof json.id !== "number") return false;
     if (typeof json.uuid !== "number") return false;
-    if (typeof json.name !== "string") return false;
-    if (typeof json.description !== "string") return false;
 
     if (!Array.isArray(json.stages)) return false;
     for (const item of json.stages) {
