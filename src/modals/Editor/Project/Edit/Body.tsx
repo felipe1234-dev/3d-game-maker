@@ -1,20 +1,20 @@
 import { TextField } from "@mui/material";
 
-import { useGame } from "@local/contexts";
+import { useMetadata } from "@local/contexts";
 import { useForceUpdate } from "@local/hooks";
 import { t } from "@local/i18n";
 
 function Body() {
-    const game = useGame();
+    const { metadata, updateMetadata } = useMetadata();
     const { forceUpdate } = useForceUpdate();
 
     const onChangeName = (name: string) => {
-        game.name = name;
+        updateMetadata({ name });
         forceUpdate();
     };
 
     const onChangeDescription = (description: string) => {
-        game.description = description;
+        updateMetadata({ description });
         forceUpdate();
     };
 
@@ -24,7 +24,7 @@ function Body() {
                 label={t("Name")}
                 variant="outlined"
                 onChange={evt => onChangeName(evt.target.value)}
-                value={game.name}
+                value={metadata.name || ""}
                 sx={{ mb: 2 }}
             />
             <TextField
@@ -32,7 +32,7 @@ function Body() {
                 label={t("Description")}
                 variant="outlined"
                 onChange={evt => onChangeDescription(evt.target.value)}
-                value={game.description}
+                value={metadata.description || ""}
                 minRows={4}
             />
         </>
