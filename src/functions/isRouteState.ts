@@ -1,4 +1,4 @@
-import { validateURL } from "@local/functions";
+import { Game } from "@local/api/models";
 import { RouteState } from "@local/interfaces";
 import isLocation from "./isLocation";
 
@@ -8,10 +8,7 @@ function isRouteState(obj: any): obj is RouteState {
         (obj.from === undefined || isLocation(obj.from)) &&
         (obj.background === undefined || isLocation(obj.background)) &&
         (obj.useLoader === undefined || typeof obj.useLoader === "boolean") &&
-        (
-            obj.gameUrl === undefined ||
-            typeof obj.gameUrl === "string" && validateURL(obj.gameUrl)
-        )
+        (obj.game === undefined || Game.testType(obj.game))
     );
 }
 

@@ -4,6 +4,7 @@ import {
     WhereClasule,
     OrderByClasule
 } from "@local/types";
+import { Game } from "@local/api/models";
 
 export interface Alert {
     severity: Severity;
@@ -14,7 +15,7 @@ export interface RouteState {
     from?: Location;
     background?: Location;
     useLoader?: boolean;
-    gameUrl?: string;
+    game?: Game;
 }
 
 export interface Filter {
