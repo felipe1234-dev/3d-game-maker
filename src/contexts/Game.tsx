@@ -5,26 +5,29 @@ import React, {
     useState
 } from "react";
 import { useLocation } from "react-router-dom";
+import * as THREE from "three";
 
 import { Game } from "@local/classes";
-import { Game as GameFormat } from "@local/classes/Game/formats";
+
+import { auth, games } from "@local/api";
+import { Game as GameMetadata } from "@local/api/models";
+import { parseGameJSON } from "@local/api/functions";
+
 import { useAlert } from "@local/contexts";
 import { Alert, RouteState } from "@local/interfaces";
 import { isRouteState } from "@local/functions";
-import { games } from "@local/api";
 
-function replacer(key: string, value: any): any {
-    if (value === "Infinity") {
-        return Infinity;
-    }
-
-    return value;
+interface GameValue {
+    game?: Game.Core;
+    metadata?: Partial<GameMetadata>;
+    updateMetadata: (updates: Partial<GameMetadata>) => void;
 }
 
-const GameContext = createContext<Game.Core | undefined>(undefined);
+const GameContext = createContext<GameValue | undefined>(undefined);
 
 function GameProvider(props: { children: React.ReactNode }) {
     const [game, setGame] = useState<Game.Core>();
+    const [metadata, setMetadata] = useState<Partial<GameMetadata>>();
 
     const alert = useAlert();
     const { state } = useLocation();
@@ -34,19 +37,32 @@ function GameProvider(props: { children: React.ReactNode }) {
         routeState = state;
     }
 
+    const updateMetadata = (updates: Partial<GameMetadata>) => {
+        setMetadata(
+            prev => ({
+                ...prev,
+                ...updates
+            })
+        );
+    };
+
     useEffect(() => {
         (async () => {
             try {
-                const { gameUrl } = routeState;
+                const user = await auth.currentUser();
+                const { game: gameMetadata } = routeState;
 
-                if (gameUrl) {
+                if (user && gameMetadata) {
+                    setMetadata({ ...gameMetadata });
+
+                    const gameUrl = gameMetadata.url;
                     const data = await fetch(gameUrl);
                     const json = await data.text();
-                    const format = JSON.parse(json, replacer) as GameFormat;
+                    const format = parseGameJSON(json);
                     const core = Game.Core.fromJSON(format);
 
                     setGame(core);
-                } else {
+                } else if (user) {
                     const snippets = await games.list({
                         where: [
                             ["snippet", "==", true]
@@ -56,10 +72,22 @@ function GameProvider(props: { children: React.ReactNode }) {
                         ],
                     });
 
-                    const gameUrl = snippets[0].url;
+                    const snippet = snippets[0];
+                    const uid = THREE.MathUtils.generateUUID();
+
+                    setMetadata({
+                        ...snippet,
+                        uid,
+                        snippet: false
+                    });
+
+                    const gameUrl = snippet.url;
                     const data = await fetch(gameUrl);
                     const json = await data.text();
-                    const format = JSON.parse(json, replacer) as GameFormat;
+
+                    const format = parseGameJSON(json);
+                    format.uuid = uid;
+
                     const core = Game.Core.fromJSON(format);
 
                     setGame(core);
@@ -77,7 +105,7 @@ function GameProvider(props: { children: React.ReactNode }) {
     }
 
     return (
-        <GameContext.Provider value={game}>
+        <GameContext.Provider value={{ game, metadata, updateMetadata }}>
             {props.children}
         </GameContext.Provider>
     );
@@ -86,11 +114,25 @@ function GameProvider(props: { children: React.ReactNode }) {
 function useGame() {
     const context = useContext(GameContext);
 
-    if (!context) {
+    if (!context || !context.game) {
         throw new Error("useGame must be used within a GameProvider");
     }
 
-    return context;
+    return context.game;
 }
 
-export { useGame, GameProvider, GameContext };
+function useMetadata() {
+    const context = useContext(GameContext);
+
+    if (!context || !context.metadata) {
+        throw new Error("useMetadata must be used within a GameProvider");
+    }
+
+    return ({
+        metadata: context.metadata,
+        updateMetadata: context.updateMetadata,
+    });
+}
+
+export { useGame, useMetadata, GameProvider, GameContext };
+export type { GameValue };

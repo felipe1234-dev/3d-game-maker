@@ -1,19 +1,20 @@
-import React, { useEffect, useContext, createContext, useState } from "react";
+import React, {
+    useState,
+    useEffect,
+    useContext,
+    createContext,
+} from "react";
 
 import { Editor } from "@local/classes";
-import { GameContext } from "@local/contexts";
+import { useGame } from "@local/contexts";
 
 const EditorContext = createContext<Editor.Core | undefined>(undefined);
 
 function EditorProvider(props: { children: React.ReactNode }) {
     const [editor, setEditor] = useState<Editor.Core>();
-    const game = useContext(GameContext);
+    const game = useGame();
 
     useEffect(() => {
-        if (!game) {
-            return;
-        }
-
         setEditor(new Editor.Core(game));
     }, [game]);
 
