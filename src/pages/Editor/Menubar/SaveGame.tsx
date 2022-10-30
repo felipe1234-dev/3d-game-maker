@@ -1,26 +1,17 @@
 import { Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import { TestTube } from "@styled-icons/boxicons-regular";
+import { SaveEdit } from "@styled-icons/fluentui-system-regular";
 
-import { t, getLang } from "@local/i18n";
-import {
-    useGame,
-    useMetadata,
-    useEditor,
-    useLoader,
-    useAlert
-} from "@local/contexts";
+import { t } from "@local/i18n";
+import { useMetadata, useEditor, useLoader, useAlert } from "@local/contexts";
 import { auth, games } from "@local/api";
 import { isAlert } from "@local/functions";
 
 function SaveGame() {
-    const location = useLocation();
-    const game = useGame();
     const { metadata, updateMetadata } = useMetadata();
+    const { setSeverity, setMessage } = useAlert();
+
     const editor = useEditor();
     const loader = useLoader();
-    const { setSeverity, setMessage } = useAlert();
-    const lang = getLang();
 
     const saveGame = () => {
         editor.saveGame(async (format) => {
@@ -62,7 +53,7 @@ function SaveGame() {
 
     return (
         <Button
-            startIcon={<TestTube width={15} />}
+            startIcon={<SaveEdit width={15} />}
             onClick={saveGame}
         >
             {t("Save")}
