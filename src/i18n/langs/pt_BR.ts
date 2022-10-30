@@ -201,6 +201,23 @@ const pt_BR = {
     "Save": "Salvar",
 
     "Please enter a valid email address": "Por favor, preencha com um endereço de email válido",
+
+    "Dynamic": "Dinâmico",
+    "Dynamic bodies are affected by forces, and can have a velocity and move around":
+        "Corpos dinâmicos são afetados por forças, e podem ter uma velocidade e se mover",
+
+    "Kinematic": "Cinemático",
+    "Kinematic bodies aren't affected by forces but can have a velocity and move around":
+        "Corpos cinemáticos não são afetados por forças, mas podem ter uma velocidade e se mover",
+
+    "Static": "Estático",
+    "Static bodies can only be positioned in the world, but aren't affected by forces, have velocity nor can be moved":
+        "Corpos estáticos só podem ser posicionados no mundo, mas não são afetados por forças, não têm velocidade nem podem ser movidos",
+
+    "User not authenticated": "Usuário não autenticado",
+    "Game not found": "Jogo não encontrado",
+    "Game already exists": "Jogo já existe",
+    "You are not allowed to update this game": "Você não tem permissão para editar esse jogo",
 }
 
 export default pt_BR;
