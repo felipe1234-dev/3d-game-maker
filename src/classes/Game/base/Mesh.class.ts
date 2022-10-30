@@ -1,5 +1,8 @@
 import { threeToCannon } from "three-to-cannon";
 import { Game } from "@local/classes";
+import { BoxGeometry } from "../geometries";
+import { MeshPhysicalMaterial } from "../materials";
+import { Body } from "../base";
 import {
     generateID,
     parseObjectChildren,
@@ -10,6 +13,12 @@ import * as THREE from "three";
 import * as CANNON from "cannon-es";
 
 class Mesh extends THREE.Mesh implements Game.Object3D {
+    public static DEFAULT_GEOMETRY = new BoxGeometry();
+    public static DEFAULT_MATERIAL = new MeshPhysicalMaterial();
+    public static DEFAULT_BODY = new Body({
+        type: CANNON.BODY_TYPES.STATIC
+    });
+
     public readonly type: "Mesh";
     public body?: Game.Body;
     public helper: Game.Helper;
@@ -26,7 +35,7 @@ class Mesh extends THREE.Mesh implements Game.Object3D {
         this.type = "Mesh";
 
         if (!geometry) {
-            geometry = new Game.BoxGeometry();
+            geometry = Game.Mesh.DEFAULT_GEOMETRY;
             this.geometry = geometry;
         }
 
@@ -65,6 +74,16 @@ class Mesh extends THREE.Mesh implements Game.Object3D {
                     return true;
                 },
             });
+        }
+
+        if (!material) {
+            material = Game.Mesh.DEFAULT_MATERIAL;
+            this.material = material;
+        }
+
+        if (!body) {
+            body = Game.Mesh.DEFAULT_BODY;
+            this.body = body;
         }
 
         if (body) {
