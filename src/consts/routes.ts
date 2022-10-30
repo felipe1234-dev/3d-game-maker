@@ -1,23 +1,24 @@
-import { 
-    AuthPage, 
-    HomePage, 
+import {
+    AuthPage,
+    HomePage,
     EditorPage,
     TestPage
 } from "@local/pages";
-import { 
+import {
     AddObjectModal,
-    EditObjectModal, 
+    EditObjectModal,
     EditProjectModal,
     EditTextureModal,
     EditGeometryModal,
     EditSceneModal,
     EditSceneTreeModal,
     EditVerticesModal,
-    EditRendererModal
+    EditRendererModal,
+    EditPhysicsModal
 } from "@local/modals";
-import { 
-    GameProvider, 
-    EditorProvider 
+import {
+    GameProvider,
+    EditorProvider
 } from "@local/contexts";
 import { RouteInfo } from "@local/interfaces";
 import { RequireAuth } from "@local/components";
@@ -78,6 +79,15 @@ const modalRoutes: RouteInfo[] = [
         Element: EditRendererModal,
         wrappers: [
             RequireAuth
+        ],
+        providers: []
+    },
+    // Body 
+    {
+        path: "/editor/physics/edit",
+        Element: EditPhysicsModal,
+        wrappers: [
+            RequireAuth,
         ],
         providers: []
     },
