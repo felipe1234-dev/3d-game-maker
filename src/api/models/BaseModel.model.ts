@@ -18,7 +18,13 @@ class BaseModel {
             obj.uid && typeof obj.uid === "string" &&
             obj.tags && obj.tags instanceof Array &&
             obj.tags.every((item: unknown) => typeof item === "string") &&
-            obj.createdAt instanceof Timestamp
+            (
+                obj.createdAt instanceof Timestamp || (
+                    obj.createdAt instanceof Object &&
+                    typeof obj.createdAt.seconds === "number" &&
+                    typeof obj.createdAt.nanoseconds === "number"
+                )
+            )
         );
     }
 }
