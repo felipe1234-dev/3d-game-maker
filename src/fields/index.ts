@@ -1,5 +1,5 @@
 export interface FieldProps {
-    scope: "object" | "object.geometry" | "object.material";
+    scope: "object" | "object.geometry" | "object.material" | "object.body";
     labels: string[];
     attributes: string[];
     step?: number;
@@ -7,6 +7,7 @@ export interface FieldProps {
     max?: number;
     maxLength?: number;
     minLength?: number;
+    helpTexts?: string[];
     options?: Array<{
         label: string;
         value: any;

@@ -1,5 +1,5 @@
 import { useEditor } from "@local/contexts";
-import { Modal, Helper } from "@local/components";
+import { Modal } from "@local/components";
 import { t } from "@local/i18n";
 
 import geometryList from "@local/consts/editor/geometries/list";
@@ -15,39 +15,34 @@ function EditGeometryModal() {
             object.geometry.type === geom.Constructor.prototype.constructor.name
     );
 
+    const header = `${t(geometryInfo?.label || "Edit geometry")} ${object?.name || ""}`;
+
+    const body = (
+        <>
+            {(geometryInfo?.attributes || []).map((attr, i) => {
+                const field = geometryFields.find(
+                    field => field.key === attr
+                );
+
+                if (!field) {
+                    return <></>;
+                }
+
+                const { Component: Field, ...props } = field;
+
+                return <Field scope="object.geometry" {...props} />;
+            })}
+        </>
+    );
+
     return (
         <Modal
             height={500}
             width={400}
             placement="bottom-left"
             draggable
-            header={`${t(geometryInfo?.label || "Edit geometry")} ${object?.name || ""}`}
-            body={
-                <>
-                    {(geometryInfo?.attributes || []).map((attr, i) => {
-                        const field = geometryFields.find(
-                            field => field.key === attr
-                        );
-
-                        if (!field) {
-                            return <></>;
-                        }
-
-                        const { Component: Field, helpText, ...props } = field;
-
-                        return (
-                            <Helper
-                                key={`${attr}-${i}`}
-                                text={helpText ? t(helpText) : undefined}
-                                placement="right"
-                                arrow
-                            >
-                                <Field scope="object.geometry" {...props} />
-                            </Helper>
-                        );
-                    })}
-                </>
-            }
+            header={header}
+            body={body}
         />
     );
 }

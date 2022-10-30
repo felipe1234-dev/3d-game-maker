@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Slider, Input, InputProps } from "@mui/material";
-import * as THREE from "three";
+import {
+    Grid,
+    Slider,
+    Input,
+    InputProps
+} from "@mui/material";
 
+import { Game } from "@local/classes";
 import { useEditor } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
+import { Helper } from "@local/components";
+import { FieldProps } from "@local/fields";
 import { t } from "@local/i18n";
-import { FieldProps } from "../index";
 
 import "@local/styles/fields/RangeField.scss";
 
@@ -16,11 +22,13 @@ function RangeField(props: FieldProps & InputProps) {
         step,
         min = 0,
         max = 1,
+        helpTexts = [],
         scope,
         ...inputProps
     } = props;
     const attrPath = attributes[0];
     const label = labels[0];
+    const helpText = helpTexts[0];
     const editor = useEditor();
 
     const [value, setValue] = useState<number>(0);
@@ -72,7 +80,7 @@ function RangeField(props: FieldProps & InputProps) {
         if (object) {
             setProperty(attrPath, value, object);
 
-            if (object instanceof THREE.Material) {
+            if (Game.isMaterial(object)) {
                 object.needsUpdate = true;
             }
 
@@ -82,7 +90,11 @@ function RangeField(props: FieldProps & InputProps) {
 
     return (
         <Grid className="RangeField" container spacing={2} alignItems="center">
-            <Grid item>{t(label)}</Grid>
+            <Helper text={t(helpText)} placement="right" arrow>
+                <Grid item>
+                    {t(label)}
+                </Grid>
+            </Helper>
             <Grid item xs>
                 <Slider
                     onChange={onSliderChange}

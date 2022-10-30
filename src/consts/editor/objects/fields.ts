@@ -1,4 +1,4 @@
-import { 
+import {
     ColorField,
     CheckboxField,
     MultiNumberField,
@@ -11,26 +11,26 @@ export default [
     {
         key: "name",
         Component: TextField,
-        attributes: [ "name" ],
-        labels: [ "Name" ]
+        attributes: ["name"],
+        labels: ["Name"]
     },
     {
         key: "color",
         Component: ColorField,
-        attributes: [ "color" ],
-        labels: [ "Color" ]
+        attributes: ["color"],
+        labels: ["Color"]
     },
     {
         key: "skyColor",
         Component: ColorField,
-        attributes: [ "skyColor" ],
-        labels: [ "Sky color" ]
+        attributes: ["skyColor"],
+        labels: ["Sky color"]
     },
     {
         key: "groundColor",
         Component: ColorField,
-        attributes: [ "groundColor" ],
-        labels: [ "Ground color" ]
+        attributes: ["groundColor"],
+        labels: ["Ground color"]
     },
     {
         key: "position",
@@ -51,12 +51,12 @@ export default [
     {
         key: "rotation",
         Component: MultiNumberField,
-        attributes: [ 
+        attributes: [
             "rotation.x",
             "rotation.y",
             "rotation.z"
         ],
-        labels: [ 
+        labels: [
             "Rotation",
             "X",
             "Y",
@@ -84,23 +84,23 @@ export default [
     {
         key: "intensity",
         Component: SingleNumberField,
-        attributes: [ "intensity" ],
-        labels: [ "Intensity" ],
+        attributes: ["intensity"],
+        labels: ["Intensity"],
         step: 0.01
     },
     {
         key: "distance",
         Component: SingleNumberField,
-        attributes: [ "distance" ],
-        labels: [ "Distance" ],
+        attributes: ["distance"],
+        labels: ["Distance"],
         step: 0.01,
         min: 0.00
     },
     {
         key: "angle",
         Component: RangeField,
-        attributes: [ "angle" ],
-        labels: [ "Angle (radians)" ],
+        attributes: ["angle"],
+        labels: ["Angle (radians)"],
         step: 0.001,
         max: 1.571,
         min: 0.000
@@ -108,8 +108,8 @@ export default [
     {
         key: "penumbra",
         Component: RangeField,
-        attributes: [ "penumbra" ],
-        labels: [ "Penumbra" ],
+        attributes: ["penumbra"],
+        labels: ["Penumbra"],
         step: 0.01,
         max: 1.00,
         min: 0.00
@@ -117,63 +117,65 @@ export default [
     {
         key: "decay",
         Component: SingleNumberField,
-        attributes: [ "decay" ],
-        labels: [ "Decay" ],
+        attributes: ["decay"],
+        labels: ["Decay"],
         step: 0.01,
         min: 0.00
     },
     {
         key: "shadowBias",
         Component: SingleNumberField,
-        attributes: [ "shadowBias" ],
-        labels: [ "Shadow bias" ],
+        attributes: ["shadowBias"],
+        labels: ["Shadow bias"],
         step: 0.00001
     },
     {
         key: "shadowNormalBias",
         Component: SingleNumberField,
-        attributes: [ "shadowNormalBias" ],
-        labels: [ "Shadow normal bias" ],
+        attributes: ["shadowNormalBias"],
+        labels: ["Shadow normal bias"],
         step: 0.01
     },
     {
         key: "shadowRadius",
         Component: SingleNumberField,
-        attributes: [ "shadowRadius" ],
-        labels: [ "Shadow radius" ],
+        attributes: ["shadowRadius"],
+        labels: ["Shadow radius"],
         step: 0.01
     },
     {
         key: "visible",
         Component: CheckboxField,
-        attributes: [ "visible" ],
-        labels: [ "Visible" ],
-        
+        attributes: ["visible"],
+        labels: ["Visible"],
+
     },
     {
         key: "frustumCulled",
         Component: CheckboxField,
-        attributes: [ "frustumCulled" ],
-        labels: [ "Frustum Culled" ],
-        helpText: "If checked, this object will not be rendered if it is out of the camera field of view"
+        attributes: ["frustumCulled"],
+        labels: ["Frustum Culled"],
+        helpTexts: [
+            "If checked, this object will not be rendered if it is out of the camera field of view"
+        ]
     },
     {
         key: "castShadow",
         Component: CheckboxField,
-        attributes: [ "castShadow" ],
-        labels: [ "Cast shadow" ]
+        attributes: ["castShadow"],
+        labels: ["Cast shadow"]
     },
     {
         key: "receiveShadow",
         Component: CheckboxField,
-        attributes: [ "receiveShadow" ],
-        labels: [ "Receive shadow" ]
+        attributes: ["receiveShadow"],
+        labels: ["Receive shadow"]
     },
     {
         key: "renderOrder",
         Component: SingleNumberField,
-        attributes: [ "renderOrder" ],
-        labels: [ "Render order" ],
+        attributes: ["renderOrder"],
+        labels: ["Render order"],
         step: 1,
         min: 0
     },

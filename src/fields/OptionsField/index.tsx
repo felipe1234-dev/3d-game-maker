@@ -1,21 +1,31 @@
 import { useState, useEffect } from "react";
 import { MenuItem, TextField, TextFieldProps } from "@mui/material";
-import * as THREE from "three";
 
+import { Game } from "@local/classes";
 import { useEditor } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
+import { Helper } from "@local/components";
+import { FieldProps } from "@local/fields";
 import { t } from "@local/i18n";
-import { FieldProps } from "..";
 
 import "@local/styles/fields/OptionsField.scss";
 
 function OptionsField(props: FieldProps & TextFieldProps) {
-    const { scope, options = [], attributes, labels } = props;
+    const {
+        scope,
+        options = [],
+        attributes,
+        labels,
+        helpTexts = [],
+    } = props;
     const attrPath = attributes[0];
-    const label = labels[0];
+    const label = t(labels[0]);
     const editor = useEditor();
 
     const [value, setValue] = useState<any>("");
+
+    const values = options.map(opt => opt.value);
+    const helpText = t(helpTexts[values.indexOf(value)]);
 
     useEffect(() => {
         const object = getProperty<Object | undefined>(
@@ -26,7 +36,7 @@ function OptionsField(props: FieldProps & TextFieldProps) {
         if (object) {
             setValue(getProperty<any>(attrPath, object));
         }
-    }, [editor?.transformControls.object]);
+    }, [editor.transformControls.object]);
 
     useEffect(() => {
         const object = getProperty<Object | undefined>(
@@ -38,7 +48,7 @@ function OptionsField(props: FieldProps & TextFieldProps) {
         if (object) {
             setProperty(attrPath, value, object);
 
-            if (object instanceof THREE.Material) {
+            if (Game.isMaterial(object)) {
                 object.needsUpdate = true;
             }
 
@@ -47,19 +57,21 @@ function OptionsField(props: FieldProps & TextFieldProps) {
     }, [value]);
 
     return (
-        <TextField
-            className="OptionsField"
-            select
-            label={t(label)}
-            value={value}
-            onChange={evt => setValue(evt.target.value)}
-        >
-            {options.map((option, i) => (
-                <MenuItem key={i} value={option.value}>
-                    {t(option.label)}
-                </MenuItem>
-            ))}
-        </TextField>
+        <Helper text={helpText} placement="right" arrow>
+            <TextField
+                select
+                className="OptionsField"
+                label={label}
+                value={value}
+                onChange={evt => setValue(evt.target.value)}
+            >
+                {options.map((option, i) => (
+                    <MenuItem key={i} value={option.value}>
+                        {t(option.label)}
+                    </MenuItem>
+                ))}
+            </TextField>
+        </Helper>
     );
 }
 

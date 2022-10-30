@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { useEditor } from "@local/contexts";
-import { FieldProps } from "../index";
+import { FieldProps } from "@local/fields";
+import { Helper } from "@local/components";
 import { getProperty, setProperty } from "@local/functions";
 import { t } from "@local/i18n";
 
@@ -14,9 +15,15 @@ function ColorField(props: FieldProps) {
     const defaultColor = "#fff";
     const [color, setColor] = useState(new THREE.Color(defaultColor));
 
-    const { labels, attributes, scope } = props;
+    const {
+        labels,
+        attributes,
+        helpTexts = [],
+        scope
+    } = props;
     const label = t(labels[0]);
     const attrPath = attributes[0];
+    const helpText = t(helpTexts[0]);
     const editor = useEditor();
 
     useEffect(() => {
@@ -28,7 +35,7 @@ function ColorField(props: FieldProps) {
         if (object) {
             setColor(getProperty<THREE.Color>(attrPath, object));
         }
-    }, [editor?.transformControls.object]);
+    }, [editor.transformControls.object]);
 
     useEffect(() => {
         const object = getProperty<object | undefined | null>(
@@ -45,20 +52,24 @@ function ColorField(props: FieldProps) {
         }
     }, [color]);
 
+    const hexValue = "#" + color.getHexString();
+
     return (
-        <ColorPicker
-            className="ColorField"
-            variant="outlined"
-            label={label}
-            onChange={value => setColor(new THREE.Color(value))}
-            value={"#" + color.getHexString()}
-            InputProps={{
-                style: {
-                    color: "#" + color.getHexString(),
-                },
-                value: "#" + color.getHexString(),
-            }}
-        />
+        <Helper text={helpText} placement="right" arrow>
+            <ColorPicker
+                className="ColorField"
+                variant="outlined"
+                label={label}
+                onChange={value => setColor(new THREE.Color(value))}
+                value={hexValue}
+                InputProps={{
+                    style: {
+                        color: hexValue,
+                    },
+                    value: hexValue,
+                }}
+            />
+        </Helper>
     );
 }
 

@@ -1,12 +1,20 @@
 import { FormControl, FormLabel, FormGroup } from "@mui/material";
-import { getProperty } from "@local/functions";
+
 import { useEditor } from "@local/contexts";
-import { FieldProps, SingleNumberField } from "../index";
+import { getProperty } from "@local/functions";
+import { FieldProps, SingleNumberField } from "@local/fields";
 import { t } from "@local/i18n";
+
 import "@local/styles/fields/MultiNumberField.scss";
 
 function MultiNumberField(props: FieldProps) {
-    const { labels, attributes, scope, ...rest } = props;
+    const {
+        labels,
+        attributes,
+        helpTexts = [],
+        scope,
+        ...rest
+    } = props;
 
     const editor = useEditor();
     const object = getProperty<Object | undefined>(
@@ -27,8 +35,9 @@ function MultiNumberField(props: FieldProps) {
                         <SingleNumberField
                             key={i}
                             className="MultiNumberField-row-input"
-                            labels={[t(labels[i + 1])]}
+                            labels={[labels[i + 1]]}
                             attributes={[attrPath]}
+                            helpTexts={[helpTexts[i]]}
                             scope={scope}
                             {...rest}
                         />

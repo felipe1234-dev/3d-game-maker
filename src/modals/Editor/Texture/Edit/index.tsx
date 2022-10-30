@@ -1,7 +1,6 @@
-import * as THREE from "three";
-
+import { Game } from "@local/classes";
 import { useEditor } from "@local/contexts";
-import { Modal, Helper } from "@local/components";
+import { Modal } from "@local/components";
 import { t } from "@local/i18n";
 
 import materialList from "@local/consts/editor/materials/list";
@@ -9,11 +8,33 @@ import materialFields from "@local/consts/editor/materials/fields";
 
 function EditTextureModal() {
     const editor = useEditor();
-    const object = editor.transformControls.object || null;
+    const object = editor.transformControls.object;
     const materialInfo = materialList.find(
         mat =>
-            object instanceof THREE.Mesh &&
+            object instanceof Game.Mesh &&
             object.material instanceof mat.Constructor
+    );
+
+    const header = `${t(materialInfo?.label || "Edit material")} ${object?.name || ""}`;
+
+    const body = (
+        <>
+            {(materialInfo?.attributes || []).map((attr, i) => {
+                const field = materialFields.find(
+                    field => field.key === attr
+                );
+
+                if (!field) {
+                    return <></>;
+                }
+
+                const { Component: Field, ...props } = field;
+
+                return (
+                    <Field scope="object.material" {...props} />
+                );
+            })}
+        </>
     );
 
     return (
@@ -22,35 +43,8 @@ function EditTextureModal() {
             height={500}
             width={400}
             placement="bottom-left"
-            header={`${t(materialInfo?.label || "Edit material")} ${
-                object?.name || ""
-            }`}
-            body={
-                <>
-                    {(materialInfo?.attributes || []).map((attr, i) => {
-                        const field = materialFields.find(
-                            field => field.key === attr
-                        );
-
-                        if (!field) {
-                            return <></>;
-                        }
-
-                        const { Component: Field, helpText, ...props } = field;
-
-                        return (
-                            <Helper
-                                key={`${field.key}-${i}`}
-                                text={helpText ? t(helpText) : undefined}
-                                placement="right"
-                                arrow
-                            >
-                                <Field scope="object.material" {...props} />
-                            </Helper>
-                        );
-                    })}
-                </>
-            }
+            header={header}
+            body={body}
         />
     );
 }
