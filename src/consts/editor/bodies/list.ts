@@ -7,6 +7,9 @@ export default [
         attributes: [
             "type",
             "mass",
+            "linearDamping",
+            "collisionFilterGroup",
+            "collisionFilterMask",
         ],
     }
 ];

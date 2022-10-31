@@ -34,5 +34,37 @@ export default [
         labels: ["Mass (kg)"],
         step: 0.01,
         min: 0.00
+    },
+    {
+        key: "linearDamping",
+        Component: SingleNumberField,
+        attributes: ["linearDamping"],
+        labels: ["Linear damping"],
+        helpTexts: [
+            "How much to damp the body velocity each step. It can go from 0 to 1"
+        ],
+        step: 0.01,
+        min: 0.00,
+        max: 1.00
+    },
+    {
+        key: "collisionFilterGroup",
+        Component: SingleNumberField,
+        attributes: ["collisionFilterGroup"],
+        labels: ["Collision group"],
+        helpTexts: [
+            "The collision group the body belongs to"
+        ],
+        step: 1.00
+    },
+    {
+        key: "collisionFilterMask",
+        Component: SingleNumberField,
+        attributes: ["collisionFilterMask"],
+        labels: ["Collision mask"],
+        helpTexts: [
+            "The collision group the body can collide with"
+        ],
+        step: 1.00
     }
 ];
