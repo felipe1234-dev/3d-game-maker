@@ -3,7 +3,7 @@ import { SaveEdit } from "@styled-icons/fluentui-system-regular";
 
 import { t } from "@local/i18n";
 import { useMetadata, useEditor, useLoader, useAlert } from "@local/contexts";
-import { auth, games } from "@local/api";
+import { games } from "@local/api";
 import { isAlert } from "@local/functions";
 
 function SaveGame() {
@@ -18,15 +18,9 @@ function SaveGame() {
             loader.show();
 
             try {
-                const user = await auth.currentUser();
-                const gameExists = (
-                    await games.list({
-                        where: [
-                            ["uid", "==", metadata.uid],
-                            ["createdBy", "==", user?.uid]
-                        ]
-                    })
-                ).length > 0;
+                const gameUid = metadata.uid;
+                if (!gameUid) return;
+                const gameExists = !!(await games.byUid(gameUid));
 
                 const newMetadata = gameExists
                     ? await games.update(format.uuid, metadata, format)
