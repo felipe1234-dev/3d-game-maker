@@ -1,4 +1,28 @@
 const pt_BR = {
+    // General 
+    "Yes": "Sim",
+    "No": "Não",
+
+    "Name": "Nome",
+    "Description": "Descrição",
+    "No name": "Sem nome",
+    "Group": "Grupo",
+    "Object3D": "Objeto 3D",
+    "Mesh": "Malha",
+
+    "Add": "Adicionar",
+    "Edit": "Editar",
+
+    "File": "Arquivo",
+    "Change image": "Mudar de imagem",
+    "Upload an image": "Baixar uma imagem",
+
+
+
+    // Home
+    "Create a game": "Criar um jogo",
+
+
     // Auth
     "Where games come true": "Onde jogos se tornam realidade",
     "Create an account": "Criar uma conta",
@@ -27,22 +51,7 @@ const pt_BR = {
     "Password reset email sent successfully": "Email de resetar senha enviado com sucesso",
     "Send password reset email": "Enviar email de resetar senha",
 
-    // Firebase Errors
-    "permission-denied": "Sessão expirada (passou-se mais de 1h). Recarregue a página e logue novamente.",
-    "auth/weak-password": "A senha deve ter pelo menos 6 caracteres",
-    "auth/email-already-in-use": "Email já está em uso. Escolha outro email.",
-    "auth/wrong-password": "Senha errada. Corrija sua senha.",
-    "auth/user-not-found": "Usuário não encontrado. Talvez você não tenha uma conta?",
-    "auth/network-request-failed": "Sua conexão de internet pode estar lenta. Por favor, tente mais tarde.",
-    "storage/object-not-found": "Arquivo não encontrado",
-    "auth/too-many-requests": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login fracassadas. Você pode restaurá-la imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
-    "unknown-error": "Erro desconhecido",
 
-    // Alerts
-    "Error!": "Erro!",
-    "Warning!": "Atenção!",
-    "Info!": "Informação!",
-    "Success!": "Sucesso!",
 
     // Editor
     "Save": "Salvar",
@@ -50,7 +59,34 @@ const pt_BR = {
     "Test": "Testar",
     "Game saved": "Jogo salvo",
 
-    // Editor/Scene
+    "Show grids": "Mostrar grades",
+    "Hide grids": "Esconder grades",
+
+    "Zoom In": "Mais zoom",
+    "Zoom Out": "Menos zoom",
+
+    "Object tree": "Árvore de objetos",
+    "Scene tree": "Árvore de cenários",
+
+    "Scene": "Cenário",
+    "Stage": "Fase",
+
+    "Edit scene": "Editar cenário",
+    "Edit object": "Editar objeto",
+    "Edit geometry": "Editar geometria",
+    "Edit texture": "Editar textura",
+    "Edit physics": "Editar física",
+
+    "Delete object": "Deletar objeto",
+    "Move object": "Mover objeto",
+    "Resize object": "Redimensionar objeto",
+    "Rotate object": "Rotacionar objeto",
+
+    "Project": "Projeto",
+    "Renderer": "Renderizador",
+
+
+    // Editor/edit/scene
     "none": "Nenhum",
     "uvMapping": "Textura UV",
     "equirectMapping": "Equirectangular",
@@ -64,78 +100,15 @@ const pt_BR = {
     "linear": "Linear",
     "exponential": "Exponencial",
 
-    "Show grids": "Mostrar grades",
-    "Hide grids": "Esconder grades",
-
-
-
-    "Create a game": "Criar um jogo",
-
     "Scene name": "Nome do cenário",
     "The image that all objects in the scene will reflect by default. You can change this for individual objects.":
         "A imagem que todos os objetos na cena refletirão por padrão. Você pode alterar isso para os objetos individualmente.",
     "Environment": "Ambiente",
     "Background": "Fundo",
 
-    "Object tree": "Árvore de objetos",
-    "Scene tree": "Árvore de cenários",
-    "Scene": "Cenário",
-    "Edit scene": "Editar cenário",
-    "Edit physics": "Editar física",
-
-    "Stage": "Fase",
-
-    "Change image": "Mudar de imagem",
-    "Upload an image": "Baixar uma imagem",
-
-    "Refraction": "Refração",
 
 
-
-    "Add": "Adicionar",
-    "Edit": "Editar",
-    "File": "Arquivo",
-
-    "Zoom In": "Mais zoom",
-    "Zoom Out": "Menos zoom",
-
-    "Edit object": "Editar objeto",
-    "Edit geometry": "Editar geometria",
-    "Edit texture": "Editar textura",
-    "Delete object": "Deletar objeto",
-    "Move object": "Mover objeto",
-    "Resize object": "Redimensionar objeto",
-    "Rotate object": "Rotacionar objeto",
-
-    "Mesh": "Malha",
-    "Add object": "Adicionar objeto",
-    "Add objects": "Adicionar objetos",
-
-    "Lights": "Luzes",
-    "Shapes": "Formatos",
-    "Cameras": "Câmeras",
-    "Controls": "Controles",
-
-    "Ambient light": "Luz de ambiente",
-    "Directional light": "Luz direcional",
-    "Hemisphere light": "Luz de hemisfério",
-    "Point light": "Ponto de luz",
-    "Spotlight": "Holofote",
-
-    "Cube": "Cubo",
-    "Cylinder": "Cilindro",
-    "Circle": "Círculo",
-    "Dodecahedron": "Dodecaedro",
-    "Icosahedron": "Icosaedro",
-    "Lathe": "Vaso",
-    "Octahedron": "Octaedro",
-    "Plane": "Plano",
-    "Ring": "Anel",
-    "Sphere": "Esfera",
-    "Tetrahedron": "Tetraedro",
-    "Torus": "Toro",
-    "Torus knot": "Nó toral",
-
+    // Editor/edit/objects 
     "Position": "Posição",
     "Rotation": "Rotação",
     "Scale": "Escala",
@@ -149,16 +122,22 @@ const pt_BR = {
     "If checked, this object will not be rendered if it is out of the camera field of view":
         "Se checado, este objeto não será renderizado se estiver fora do campo de visão da câmera",
 
-    "Group this object with the currently selected one?": "Agrupar esse objeto com o atualmente selecionado?",
-    "Yes": "Sim",
-    "No": "Não",
 
-    "Name": "Nome",
-    "Description": "Descrição",
-    "No name": "Sem nome",
-    "Group": "Grupo",
-    "Object3D": "Objeto 3D",
 
+    // Editor/add/objects
+    "Add object": "Adicionar objeto",
+    "Add objects": "Adicionar objetos",
+    "Lights": "Luzes",
+    "Shapes": "Formatos",
+    "Cameras": "Câmeras",
+    "Controls": "Controles",
+    "Free shape": "Formato livre",
+    "Group this object with the currently selected one?":
+        "Agrupar esse objeto com o atualmente selecionado?",
+
+
+
+    // Editor/edit/geometry
     "Width": "Largura",
     "Height": "Altura",
     "Depth": "Profundidade",
@@ -168,10 +147,12 @@ const pt_BR = {
     "Radial segments": "Segmentos radiais",
     "Top radius": "Raio do topo",
     "Bottom radius": "Raio da base",
+    "Radius": "Raio",
+    "Angle (radians)": "Ângulo em radianos",
 
-    "Project": "Projeto",
-    "Renderer": "Renderizador",
 
+
+    // Editor/edit/material
     "Blending": "Mesclagem",
     "No blending": "Sem mesclagem",
     "Normal blending": "Mesclagem normal",
@@ -189,8 +170,8 @@ const pt_BR = {
     "Specular color": "Cor especular",
     "Attenuation color": "Cor de Atenuação",
     "Emissive intensity": "Intensidade da Emissão",
+    "Refraction": "Refração",
 
-    "Angle (radians)": "Ângulo em radianos",
     "Roughness": "Dureza",
     "Metalness": "Metalicidade",
     "Clearcoat": "Efeito Verniz",
@@ -204,13 +185,9 @@ const pt_BR = {
     "Vertex colors": "Cores dos Vértices",
     "Flat shading": "Sem sombreamento",
 
-    "Free shape": "Formato livre",
 
-    "Radius": "Raio",
-    "Edit vertices": "Editar vértices",
 
-    "Please enter a valid email address": "Por favor, preencha com um endereço de email válido",
-
+    // Editor/edit/physics
     "Dynamic": "Dinâmico",
     "Dynamic bodies are affected by forces, and can have a velocity and move around":
         "Corpos dinâmicos são afetados por forças, e podem ter uma velocidade e se mover",
@@ -223,11 +200,6 @@ const pt_BR = {
     "Static bodies can only be positioned in the world, but aren't affected by forces, have velocity nor can be moved":
         "Corpos estáticos só podem ser posicionados no mundo, mas não são afetados por forças, não têm velocidade nem podem ser movidos",
 
-    "User not authenticated": "Usuário não autenticado",
-    "Game not found": "Jogo não encontrado",
-    "Game already exists": "Jogo já existe",
-    "You are not allowed to update this game": "Você não tem permissão para editar esse jogo",
-
     "Linear damping": "Amortecimento linear",
     "How much to damp the body velocity each step. It can go from 0 to 1":
         "O quanto amortecer a velocidade do corpo com o tempo. Pode ir de 0 a 1",
@@ -236,7 +208,76 @@ const pt_BR = {
     "The collision group the body belongs to": "O grupo de colisão que o corpo pertence",
 
     "Collision mask": "Máscara de colisão",
-    "The collision group the body can collide with": "O grupo de colisão que o corpo pode colidir"
+    "The collision group the body can collide with": "O grupo de colisão que o corpo pode colidir",
+
+
+
+
+    // Firebase Errors
+    "permission-denied": "Sessão expirada (passou-se mais de 1h). Recarregue a página e logue novamente.",
+    "auth/weak-password": "A senha deve ter pelo menos 6 caracteres",
+    "auth/email-already-in-use": "Email já está em uso. Escolha outro email.",
+    "auth/wrong-password": "Senha errada. Corrija sua senha.",
+    "auth/user-not-found": "Usuário não encontrado. Talvez você não tenha uma conta?",
+    "auth/network-request-failed": "Sua conexão de internet pode estar lenta. Por favor, tente mais tarde.",
+    "storage/object-not-found": "Arquivo não encontrado",
+    "auth/too-many-requests": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login fracassadas. Você pode restaurá-la imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
+    "unknown-error": "Erro desconhecido",
+
+
+
+    // Errors 
+    "User not authenticated": "Usuário não autenticado",
+    "Game not found": "Jogo não encontrado",
+    "Game already exists": "Jogo já existe",
+    "You are not allowed to update this game": "Você não tem permissão para editar esse jogo",
+    "Please enter a valid email address": "Por favor, preencha com um endereço de email válido",
+
+
+
+    // Alerts
+    "Error!": "Erro!",
+    "Warning!": "Atenção!",
+    "Info!": "Informação!",
+    "Success!": "Sucesso!",
+
+
+
+    // Lights
+    "Ambient light": "Luz de ambiente",
+    "Directional light": "Luz direcional",
+    "Hemisphere light": "Luz de hemisfério",
+    "Point light": "Ponto de luz",
+    "Spotlight": "Holofote",
+
+
+    // Geometries
+    "Cube": "Cubo",
+    "Cylinder": "Cilindro",
+    "Circle": "Círculo",
+    "Dodecahedron": "Dodecaedro",
+    "Icosahedron": "Icosaedro",
+    "Lathe": "Vaso",
+    "Octahedron": "Octaedro",
+    "Plane": "Plano",
+    "Ring": "Anel",
+    "Sphere": "Esfera",
+    "Tetrahedron": "Tetraedro",
+    "Torus": "Toro",
+    "Torus knot": "Nó toral",
+
+
+
+
+
+
+
+
+
+
+    "Edit vertices": "Editar vértices",
+
+
 }
 
 export default pt_BR;
