@@ -1,4 +1,33 @@
 const pt_BR = {
+    // Auth
+    "Where games come true": "Onde jogos se tornam realidade",
+    "Create an account": "Criar uma conta",
+    "Recover password": "Recuperar senha",
+    "Already have an account?": "Já tenho uma conta",
+    "Logged in successfully": "Logado com sucesso",
+    "First name": "Primeiro nome",
+    "Last name": "Último nome",
+    "Password": "Senha",
+    "Confirm password": "Confirmar senha",
+    "Login": "Entrar",
+    "Register": "Registrar",
+    "Email verification sent successfully. Check your spam box.":
+        "Email de verificação enviado com sucesso. Cheque a sua caixa de spam.",
+    "Email verified": "Email verificado",
+    "Your email is not verified. Try resending a verification email or checking your spam box.":
+        "Seu email não foi verificado. Tente reenviar um email de verificação ou checar sua caixa de spam",
+    "You're not authorized to access this page.": "Você não foi autorizado a acessar esta página.",
+
+    "Processing...": "Processando...",
+    "An error occurred": "Um erro ocorreu",
+    "Your email is not verified yet": "Seu email não foi verificado ainda",
+    "Resend Email Verification": "Reenviar Email de Verificação",
+
+    '"Password" and "Confirm password" do not match': 'Campos "Senha" e "Confirmar senha" não combinam',
+    "Password reset email sent successfully": "Email de resetar senha enviado com sucesso",
+    "Send password reset email": "Enviar email de resetar senha",
+
+    // Firebase Errors
     "permission-denied": "Sessão expirada (passou-se mais de 1h). Recarregue a página e logue novamente.",
     "auth/weak-password": "A senha deve ter pelo menos 6 caracteres",
     "auth/email-already-in-use": "Email já está em uso. Escolha outro email.",
@@ -9,6 +38,19 @@ const pt_BR = {
     "auth/too-many-requests": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login fracassadas. Você pode restaurá-la imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
     "unknown-error": "Erro desconhecido",
 
+    // Alerts
+    "Error!": "Erro!",
+    "Warning!": "Atenção!",
+    "Info!": "Informação!",
+    "Success!": "Sucesso!",
+
+    // Editor
+    "Save": "Salvar",
+    "Play": "Jogar",
+    "Test": "Testar",
+    "Game saved": "Jogo salvo",
+
+    // Editor/Scene
     "none": "Nenhum",
     "uvMapping": "Textura UV",
     "equirectMapping": "Equirectangular",
@@ -22,26 +64,10 @@ const pt_BR = {
     "linear": "Linear",
     "exponential": "Exponencial",
 
-    "Error!": "Erro!",
-    "Warning!": "Atenção!",
-    "Info!": "Informação!",
-    "Success!": "Sucesso!",
-
-    "Where games come true": "Onde jogos se tornam realidade",
-    "Create an account": "Criar uma conta",
-    "Recover password": "Recuperar senha",
-    "Already have an account?": "Já tenho uma conta",
-
     "Show grids": "Mostrar grades",
     "Hide grids": "Esconder grades",
 
-    "Logged in successfully": "Logado com sucesso",
-    "First name": "Primeiro nome",
-    "Last name": "Último nome",
-    "Password": "Senha",
-    "Confirm password": "Confirmar senha",
-    "Login": "Entrar",
-    "Register": "Registrar",
+
 
     "Create a game": "Criar um jogo",
 
@@ -64,21 +90,7 @@ const pt_BR = {
 
     "Refraction": "Refração",
 
-    "Email verification sent successfully. Check your spam box.":
-        "Email de verificação enviado com sucesso. Cheque a sua caixa de spam.",
-    "Email verified": "Email verificado",
-    "Your email is not verified. Try resending a verification email or checking your spam box.":
-        "Seu email não foi verificado. Tente reenviar um email de verificação ou checar sua caixa de spam",
-    "You're not authorized to access this page.": "Você não foi autorizado a acessar esta página.",
 
-    "Processing...": "Processando...",
-    "An error occurred": "Um erro ocorreu",
-    "Your email is not verified yet": "Seu email não foi verificado ainda",
-    "Resend Email Verification": "Reenviar Email de Verificação",
-
-    '"Password" and "Confirm password" do not match': 'Campos "Senha" e "Confirmar senha" não combinam',
-    "Password reset email sent successfully": "Email de resetar senha enviado com sucesso",
-    "Send password reset email": "Enviar email de resetar senha",
 
     "Add": "Adicionar",
     "Edit": "Editar",
@@ -197,9 +209,6 @@ const pt_BR = {
     "Radius": "Raio",
     "Edit vertices": "Editar vértices",
 
-    "Test": "Testar",
-    "Save": "Salvar",
-
     "Please enter a valid email address": "Por favor, preencha com um endereço de email válido",
 
     "Dynamic": "Dinâmico",
@@ -218,6 +227,16 @@ const pt_BR = {
     "Game not found": "Jogo não encontrado",
     "Game already exists": "Jogo já existe",
     "You are not allowed to update this game": "Você não tem permissão para editar esse jogo",
+
+    "Linear damping": "Amortecimento linear",
+    "How much to damp the body velocity each step. It can go from 0 to 1":
+        "O quanto amortecer a velocidade do corpo com o tempo. Pode ir de 0 a 1",
+
+    "Collision group": "Grupo de colisão",
+    "The collision group the body belongs to": "O grupo de colisão que o corpo pertence",
+
+    "Collision mask": "Máscara de colisão",
+    "The collision group the body can collide with": "O grupo de colisão que o corpo pode colidir"
 }
 
 export default pt_BR;
