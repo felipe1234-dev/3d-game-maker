@@ -13,8 +13,6 @@ import {
 
 import TreeItem from "./TreeItem";
 
-import "@local/styles/pages/EditorPage/ObjectTree.scss";
-
 function ObjectTree() {
     const game = useGame();
     const editor = useEditor();

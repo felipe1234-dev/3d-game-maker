@@ -1,16 +1,15 @@
-import React from "react";
 import { Box } from "@mui/material";
 
 import Menubar from "./Menubar";
 import Viewport from "./Viewport";
 import Toolbar from "./Toolbar";
 
-import "@local/styles/pages/EditorPage/index.scss";
+import "@local/styles/pages/EditorPage.scss";
 
 function EditorPage() {
     return (
         <Box component="div" className="Editor">
-            <Menubar /> 
+            <Menubar />
             <Viewport />
             <Toolbar />
         </Box>
