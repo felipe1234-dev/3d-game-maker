@@ -4,7 +4,7 @@ import React, {
     useEffect,
     useState
 } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as THREE from "three";
 
 import { Game } from "@local/classes";
@@ -16,6 +16,7 @@ import { parseGameJSON } from "@local/api/functions";
 import { useAlert } from "@local/contexts";
 import { Alert, RouteState } from "@local/interfaces";
 import { isRouteState } from "@local/functions";
+import { getLang } from "@local/i18n";
 
 interface GameValue {
     game?: Game.Core;
@@ -30,7 +31,11 @@ function GameProvider(props: { children: React.ReactNode }) {
     const [metadata, setMetadata] = useState<Partial<GameMetadata>>();
 
     const alert = useAlert();
-    const { state } = useLocation();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const lang = getLang();
+    const state = location.state;
 
     let routeState: RouteState = {};
     if (isRouteState(state)) {
@@ -50,19 +55,42 @@ function GameProvider(props: { children: React.ReactNode }) {
         (async () => {
             try {
                 const user = await auth.currentUser();
+                if (!user) {
+                    navigate(`/${lang}/auth`, {
+                        state: {
+                            useLoader: true,
+                        }
+                    });
+
+                    return;
+                }
+
                 const { game: gameMetadata } = routeState;
 
-                if (user && gameMetadata) {
-                    setMetadata({ ...gameMetadata });
-
+                if (gameMetadata) {
                     const gameUrl = gameMetadata.url;
+                    const isSnippet = gameMetadata.snippet;
+
                     const data = await fetch(gameUrl);
                     const json = await data.text();
                     const format = parseGameJSON(json);
+
+                    if (isSnippet) {
+                        const uid = THREE.MathUtils.generateUUID();
+
+                        format.uuid = uid;
+                        gameMetadata.uid = uid;
+                    }
+
                     const core = Game.Core.fromJSON(format);
 
+                    updateMetadata({
+                        ...gameMetadata,
+                        snippet: false,
+                    });
+
                     setGame(core);
-                } else if (user) {
+                } else {
                     const snippets = await games.list({
                         where: [
                             ["snippet", "==", true]
@@ -75,12 +103,6 @@ function GameProvider(props: { children: React.ReactNode }) {
                     const snippet = snippets[0];
                     const uid = THREE.MathUtils.generateUUID();
 
-                    setMetadata({
-                        ...snippet,
-                        uid,
-                        snippet: false
-                    });
-
                     const gameUrl = snippet.url;
                     const data = await fetch(gameUrl);
                     const json = await data.text();
@@ -89,6 +111,12 @@ function GameProvider(props: { children: React.ReactNode }) {
                     format.uuid = uid;
 
                     const core = Game.Core.fromJSON(format);
+
+                    updateMetadata({
+                        ...snippet,
+                        uid,
+                        snippet: false,
+                    });
 
                     setGame(core);
                 }
