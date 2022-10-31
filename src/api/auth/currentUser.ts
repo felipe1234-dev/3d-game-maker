@@ -17,16 +17,16 @@ export default function currentUser(): Promise<User | null> {
                 logOut().catch((error) => reject(error));
             }
         } else {
-            logOut().catch((error) => reject(error)); 
+            logOut().catch((error) => reject(error));
         }
-        
-        onAuthStateChanged(auth, (user) => {            
-            if (!!user) {
-                const { uid } = user; 
-                
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const { uid } = user;
+
                 users.byUid(uid)
                     .then((user) => (
-                        resolve(user)
+                        resolve(user || null)
                     ))
                     .catch((error) => (
                         reject(error)
@@ -34,6 +34,6 @@ export default function currentUser(): Promise<User | null> {
             } else {
                 resolve(null);
             }
-        });        
+        });
     });
 };
