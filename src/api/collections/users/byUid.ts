@@ -5,7 +5,7 @@ import { User } from "@local/api/models";
 import { toAlert } from "@local/api/functions";
 import { db } from "@local/api";
 
-function byUid(uid: string): Promise<User> {
+function byUid(uid: string): Promise<User | undefined> {
     return new Promise(async (resolve, reject) => {
         try {
             const docRef = doc(db, `${collectionName}/${uid}`);
@@ -14,10 +14,7 @@ function byUid(uid: string): Promise<User> {
             if (docSnap.exists()) {
                 resolve({ ...docSnap.data() } as User);
             } else {
-                reject({
-                    severity: "error",
-                    message: "User does not exist"
-                });
+                resolve(undefined);
             }
         } catch (error) {
             reject(toAlert(error as FirebaseError));
