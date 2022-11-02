@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigate, useLocation, Location } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { auth } from "@local/api";
 import { isRouteState } from "@local/functions";
@@ -18,11 +18,7 @@ function RequireAuth({ children }: RequireAuthProps) {
 
     const locationNow = useLocation();
     const { state } = locationNow;
-
-    let bgLocation: Location | null = null;
-    if (isRouteState(state)) {
-        bgLocation = state.background || null;
-    }
+    const bgLocation = isRouteState(state) ? state : null;
 
     useEffect(() => {
         setReady(false);
@@ -31,7 +27,6 @@ function RequireAuth({ children }: RequireAuthProps) {
             try {
                 const user = await auth.currentUser();
                 setAllowed(!!user);
-
                 setReady(true);
             } catch (error) {
                 const err = error as Alert;
