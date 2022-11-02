@@ -81,45 +81,22 @@ class Body extends CANNON.Body {
             collisionFilterGroup: this.collisionFilterGroup,
             collisionFilterMask: this.collisionFilterMask,
             collisionResponse: this.collisionResponse,
-            position: {
-                x: this.position.x,
-                y: this.position.y,
-                z: this.position.z,
-            },
-            velocity: {
-                x: this.velocity.x,
-                y: this.velocity.y,
-                z: this.velocity.z,
-            },
+
+            position: this.position.toArray(),
+            velocity: this.velocity.toArray(),
+
             mass: this.mass,
             linearDamping: this.linearDamping,
             type: this.type,
             allowSleep: this.allowSleep,
             sleepSpeedLimit: this.sleepSpeedLimit,
             sleepTimeLimit: this.sleepTimeLimit,
-            quaternion: {
-                x: this.quaternion.x,
-                y: this.quaternion.y,
-                z: this.quaternion.z,
-                w: this.quaternion.w,
-            },
-            angularVelocity: {
-                x: this.angularVelocity.x,
-                y: this.angularVelocity.y,
-                z: this.angularVelocity.z,
-            },
+            quaternion: this.quaternion.toArray(),
+            angularVelocity: this.angularVelocity.toArray(),
             fixedRotation: this.fixedRotation,
             angularDamping: this.angularDamping,
-            linearFactor: {
-                x: this.linearFactor.x,
-                y: this.linearFactor.y,
-                z: this.linearFactor.z,
-            },
-            angularFactor: {
-                x: this.angularFactor.x,
-                y: this.angularFactor.y,
-                z: this.angularFactor.z,
-            },
+            linearFactor: this.linearFactor.toArray(),
+            angularFactor: this.angularFactor.toArray(),
             isTrigger: this.isTrigger,
         };
 
@@ -151,12 +128,12 @@ class Body extends CANNON.Body {
         };
 
         {
-            const { x, y, z } = position;
+            const [x, y, z] = position;
             options.position = new CANNON.Vec3(x, y, z);
         }
 
         {
-            const { x, y, z } = velocity;
+            const [x, y, z] = velocity;
             options.velocity = new CANNON.Vec3(x, y, z);
         }
 
@@ -165,22 +142,22 @@ class Body extends CANNON.Body {
         }
 
         {
-            const { x, y, z, w } = quaternion;
+            const [x, y, z, w] = quaternion;
             options.quaternion = new CANNON.Quaternion(x, y, z, w);
         }
 
         {
-            const { x, y, z } = angularVelocity;
+            const [x, y, z] = angularVelocity;
             options.angularVelocity = new CANNON.Vec3(x, y, z);
         }
 
         {
-            const { x, y, z } = linearFactor;
+            const [x, y, z] = linearFactor;
             options.linearFactor = new CANNON.Vec3(x, y, z);
         }
 
         {
-            const { x, y, z } = angularFactor;
+            const [x, y, z] = angularFactor;
             options.angularFactor = new CANNON.Vec3(x, y, z);
         }
 

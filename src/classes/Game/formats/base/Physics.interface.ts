@@ -1,14 +1,14 @@
 interface Physics {
-    gravity: {
-        x: number;
-        y: number;
-        z: number;
-    };
-    frictionGravity?: {
-        x: number;
-        y: number;
-        z: number;
-    };
+    gravity: [
+        x: number,
+        y: number,
+        z: number,
+    ];
+    frictionGravity?: [
+        x: number,
+        y: number,
+        z: number,
+    ];
     allowSleep: boolean;
     broadphase: {
         useBoundingBoxes: boolean;
@@ -22,17 +22,15 @@ function isPhysics(json: any): json is Physics {
     if (!(json instanceof Object)) return false;
 
     const isGravity =
-        json.gravity instanceof Object &&
-        typeof json.gravity.x === "number" &&
-        typeof json.gravity.y === "number" &&
-        typeof json.gravity.z === "number";
+        Array.isArray(json.gravity) &&
+        json.gravity.length === 3 &&
+        json.gravity.every((item: any) => typeof item === "number");
 
     const hasFrictionGravity = !!json.frictionGravity;
     const isFrictionGravity =
-        json.frictionGravity instanceof Object &&
-        typeof json.frictionGravity.x === "number" &&
-        typeof json.frictionGravity.y === "number" &&
-        typeof json.frictionGravity.z === "number";
+        Array.isArray(json.frictionGravity) &&
+        json.frictionGravity.length === 3 &&
+        json.frictionGravity.every((item: any) => typeof item === "number");
 
     const isAllowSleep = typeof json.allowSleep === "boolean";
     const isQuatNormalizeFast = typeof json.quatNormalizeFast === "boolean";

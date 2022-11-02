@@ -7,16 +7,8 @@ interface Body {
     collisionFilterGroup: number;
     collisionFilterMask: number;
     collisionResponse: boolean;
-    position: {
-        x: number;
-        y: number;
-        z: number;
-    };
-    velocity: {
-        x: number;
-        y: number;
-        z: number;
-    };
+    position: [x: number, y: number, z: number];
+    velocity: [x: number, y: number, z: number];
     mass: number;
     material?: {
         friction: number;
@@ -27,29 +19,29 @@ interface Body {
     allowSleep: boolean;
     sleepSpeedLimit: number;
     sleepTimeLimit: number;
-    quaternion: {
-        x: number;
-        y: number;
-        z: number;
-        w: number;
-    };
-    angularVelocity: {
-        x: number;
-        y: number;
-        z: number;
-    };
+    quaternion: [
+        x: number,
+        y: number,
+        z: number,
+        w: number
+    ];
+    angularVelocity: [
+        x: number,
+        y: number,
+        z: number
+    ];
     fixedRotation: boolean;
     angularDamping: number;
-    linearFactor: {
-        x: number;
-        y: number;
-        z: number;
-    };
-    angularFactor: {
-        x: number;
-        y: number;
-        z: number;
-    };
+    linearFactor: [
+        x: number,
+        y: number,
+        z: number,
+    ];
+    angularFactor: [
+        x: number,
+        y: number,
+        z: number,
+    ];
     isTrigger: boolean;
 }
 

@@ -44,11 +44,7 @@ class Physics extends CANNON.World {
 
     public toJSON(): Game.Formats.Physics {
         const json: Game.Formats.Physics = {
-            gravity: {
-                x: this.gravity.x,
-                y: this.gravity.y,
-                z: this.gravity.z,
-            },
+            gravity: this.gravity.toArray(),
             allowSleep: this.allowSleep,
             broadphase: {
                 useBoundingBoxes: this.broadphase.useBoundingBoxes,
@@ -59,8 +55,7 @@ class Physics extends CANNON.World {
         };
 
         if (this.frictionGravity) {
-            const { x, y, z } = this.frictionGravity;
-            json.frictionGravity = { x, y, z };
+            json.frictionGravity = this.frictionGravity.toArray();
         }
 
         return json;
@@ -70,12 +65,12 @@ class Physics extends CANNON.World {
         const options: Game.PhysicsOptions = {};
 
         {
-            const { x, y, z } = json.gravity;
+            const [x, y, z] = json.gravity;
             options.gravity = new CANNON.Vec3(x, y, z);
         }
 
         if (json.frictionGravity) {
-            const { x, y, z } = json.frictionGravity;
+            const [x, y, z] = json.frictionGravity;
             options.frictionGravity = new CANNON.Vec3(x, y, z);
         }
 
