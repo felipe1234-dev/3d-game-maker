@@ -7,6 +7,7 @@ describe("Game.Formats.isObject3D", () => {
 
             const object = new Game[type]();
             const format = object.toJSON();
+            console.log(type, format);
 
             expect(Game.Formats.isObject3D(format)).toBe(true);
         }
