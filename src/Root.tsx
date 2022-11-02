@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Box } from "@mui/material";
 import {
-    Routes as Switch,
+    Routes,
     Route,
     useLocation,
     Location,
@@ -44,40 +44,40 @@ function Root() {
     return (
         <>
             <Box component="main">
-                <Switch location={backgroundLocation ?? pageLocation}>
-                    {routes.pages.map((item, i) => (
+                <Routes location={backgroundLocation || pageLocation}>
+                    {routes.pages.map((page, i) => (
                         <Route
                             key={i}
-                            path={`/:lang${item.path}`}
+                            path={page.path}
                             element={
                                 <Composer
                                     components={[
-                                        ...item.wrappers,
-                                        item.Element,
+                                        ...page.wrappers,
+                                        page.Element,
                                     ]}
                                 />
                             }
                         />
                     ))}
-                </Switch>
+                </Routes>
 
                 {backgroundLocation && (
-                    <Switch>
-                        {routes.modals.map((item, i) => (
+                    <Routes>
+                        {routes.modals.map((modal, i) => (
                             <Route
                                 key={i}
-                                path={`/:lang${item.path}`}
+                                path={modal.path}
                                 element={
                                     <Composer
                                         components={[
-                                            ...item.wrappers,
-                                            item.Element,
+                                            ...modal.wrappers,
+                                            modal.Element,
                                         ]}
                                     />
                                 }
                             />
                         ))}
-                    </Switch>
+                    </Routes>
                 )}
 
                 <AlertMessage

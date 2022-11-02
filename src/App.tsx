@@ -1,35 +1,42 @@
 import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
-import { getLang, t } from "./i18n";
-import { Composer } from "./components";
 import {
     AlertProvider,
     HistoryProvider,
     LoaderProvider,
 } from "./contexts";
-
+import { usePathPattern } from "./hooks";
+import { getLang, t } from "./i18n";
+import { Composer } from "./components";
 import routes from "./consts/routes";
+
 import Root from "./Root";
 
-function App() {
-    const { pathname } = useLocation();
+const commonProviders = [
+    AlertProvider,
+    HistoryProvider,
+    LoaderProvider
+];
 
-    const providers = useMemo(
-        () =>
-            routes.pages
-                .filter(item => pathname.includes(item.path))
-                .reduce((resu, item) => {
-                    resu.push(...item.providers);
-                    return resu;
-                }, [] as Function[]),
-        [pathname]
+function App() {
+    const pathPattern = usePathPattern();
+    const location = useLocation();
+
+    const pageProviders = useMemo(
+        () => {
+            const page = routes.pages.find(page => page.path === pathPattern);
+            return page?.providers || [];
+        },
+        [location]
     );
 
     const pageTitle = useMemo(
-        () =>
-            routes.pages.find(item => pathname.includes(item.path))?.pageTitle,
-        [pathname]
+        () => {
+            const page = routes.pages.find(page => page.path === pathPattern);
+            return page?.pageTitle;
+        },
+        [location]
     );
 
     useEffect(() => {
@@ -48,17 +55,15 @@ function App() {
             "Last Activity",
             new Date().getTime().toString()
         );
-    }, [pathname]);
+    }, [location]);
+
+    const providers = [
+        ...commonProviders,
+        ...pageProviders
+    ];
 
     return (
-        <Composer
-            components={[
-                AlertProvider,
-                HistoryProvider,
-                LoaderProvider,
-                ...providers
-            ]}
-        >
+        <Composer components={providers}>
             <Root />
         </Composer>
     );

@@ -26,22 +26,26 @@ import app from "./app";
 
 const pageRoutes: RouteInfo[] = [
     {
-        pageTitle: "Testing",
-        path: "/test",
+        pageTitle: `Testing - ${app.name}`,
+        path: "/:lang/test/:gameUid",
         Element: TestPage,
-        wrappers: [],
-        providers: []
+        wrappers: [
+            RequireAuth,
+        ],
+        providers: [
+            GameProvider
+        ]
     },
     {
         pageTitle: `Auth - ${app.name}`,
-        path: "/auth",
+        path: "/:lang/auth",
         Element: AuthPage,
         wrappers: [],
         providers: []
     },
     {
         pageTitle: `Home - ${app.name}`,
-        path: "/home",
+        path: "/:lang/home",
         Element: HomePage,
         wrappers: [
             RequireAuth
@@ -50,7 +54,7 @@ const pageRoutes: RouteInfo[] = [
     },
     {
         pageTitle: `Editor - ${app.name}`,
-        path: "/editor",
+        path: "/:lang/editor",
         Element: EditorPage,
         wrappers: [
             RequireAuth,
@@ -66,7 +70,7 @@ const pageRoutes: RouteInfo[] = [
 const modalRoutes: RouteInfo[] = [
     // Project
     {
-        path: "/editor/project/edit",
+        path: "/:lang/editor/project/edit",
         Element: EditProjectModal,
         wrappers: [
             RequireAuth
@@ -75,7 +79,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Renderer 
     {
-        path: "/editor/renderer/edit",
+        path: "/:lang/editor/renderer/edit",
         Element: EditRendererModal,
         wrappers: [
             RequireAuth
@@ -84,7 +88,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Body 
     {
-        path: "/editor/physics/edit",
+        path: "/:lang/editor/physics/edit",
         Element: EditPhysicsModal,
         wrappers: [
             RequireAuth,
@@ -93,7 +97,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Texture
     {
-        path: "/editor/texture/edit",
+        path: "/:lang/editor/texture/edit",
         Element: EditTextureModal,
         wrappers: [
             RequireAuth,
@@ -102,7 +106,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Geometry
     {
-        path: "/editor/geometry/edit",
+        path: "/:lang/editor/geometry/edit",
         Element: EditGeometryModal,
         wrappers: [
             RequireAuth,
@@ -111,7 +115,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Object
     {
-        path: "/editor/object/add",
+        path: "/:lang/editor/object/add",
         Element: AddObjectModal,
         wrappers: [
             RequireAuth,
@@ -119,7 +123,7 @@ const modalRoutes: RouteInfo[] = [
         providers: []
     },
     {
-        path: "/editor/object/edit",
+        path: "/:lang/editor/object/edit",
         Element: EditObjectModal,
         wrappers: [
             RequireAuth,
@@ -128,7 +132,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Scene
     {
-        path: "/editor/scene/edit",
+        path: "/:lang/editor/scene/edit",
         Element: EditSceneModal,
         wrappers: [
             RequireAuth,
@@ -136,7 +140,7 @@ const modalRoutes: RouteInfo[] = [
         providers: []
     },
     {
-        path: "/editor/scene-tree/edit",
+        path: "/:lang/editor/scene-tree/edit",
         Element: EditSceneTreeModal,
         wrappers: [
             RequireAuth,
@@ -145,7 +149,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Vertices
     {
-        path: "/editor/vertices/edit",
+        path: "/:lang/editor/vertices/edit",
         Element: EditVerticesModal,
         wrappers: [
             RequireAuth
