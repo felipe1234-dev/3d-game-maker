@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {
-    useEditor,
-    useGame,
-} from "@local/contexts";
+import { useEditor, useGame } from "@local/contexts";
 import { CursorTooltip } from "@local/components";
 import { t } from "@local/i18n";
 import { useUnmount } from "@local/hooks";
