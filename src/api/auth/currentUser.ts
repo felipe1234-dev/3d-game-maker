@@ -5,11 +5,11 @@ import logOut from "./logOut";
 
 export default function currentUser(): Promise<User | null> {
     return new Promise((resolve, reject) => {
-        const refreshToken = sessionStorage.getItem("Auth Token");
+        const refreshToken = localStorage.getItem("Auth Token");
         const auth = getAuth();
 
         if (refreshToken) {
-            const tokenDate = Number(sessionStorage.getItem("Last Activity"));
+            const tokenDate = Number(localStorage.getItem("Last Activity"));
             const timeNow = new Date().getTime();
             const minutesPassed = (timeNow - tokenDate) / (1000 * 60);
 

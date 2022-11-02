@@ -5,16 +5,16 @@ import { toAlert } from "../functions";
 export default function logOut(): Promise<void> {
     return new Promise((resolve, reject) => {
         const auth = getAuth();
-        
+
         signOut(auth)
             .then(() => {
-                sessionStorage.removeItem("Auth Token");
-                sessionStorage.removeItem("Last Activity");
-                
+                localStorage.removeItem("Auth Token");
+                localStorage.removeItem("Last Activity");
+
                 resolve();
             })
             .catch((error: FirebaseError) => (
-                reject(toAlert(error)) 
+                reject(toAlert(error))
             ));
-    }); 
+    });
 };

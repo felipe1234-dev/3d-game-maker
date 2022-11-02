@@ -5,13 +5,13 @@ import { toAlert } from "../functions";
 export default function logIn(email: string, password: string): Promise<UserCredential> {
     return new Promise(async (resolve, reject) => {
         const auth = getAuth();
-        
+
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            
-            sessionStorage.setItem("Auth Token", userCredential.user.refreshToken);
-            sessionStorage.setItem("Last Activity", (new Date().getTime()).toString());
-                
+
+            localStorage.setItem("Auth Token", userCredential.user.refreshToken);
+            localStorage.setItem("Last Activity", (new Date().getTime()).toString());
+
             resolve(userCredential);
         } catch (error) {
             reject(toAlert(error as FirebaseError))

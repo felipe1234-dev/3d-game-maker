@@ -44,7 +44,7 @@ function App() {
 
         document.title = t(pageTitle);
 
-        sessionStorage.setItem(
+        localStorage.setItem(
             "Last Activity",
             new Date().getTime().toString()
         );
