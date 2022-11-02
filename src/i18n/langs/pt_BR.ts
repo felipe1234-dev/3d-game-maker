@@ -58,6 +58,7 @@ const pt_BR = {
     "Play": "Jogar",
     "Test": "Testar",
     "Game saved": "Jogo salvo",
+    "You need to save your game before testing": "Você precisa salvar o seu jogo antes de testar",
 
     "Show grids": "Mostrar grades",
     "Hide grids": "Esconder grades",
