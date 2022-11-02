@@ -65,31 +65,10 @@ function GameProvider(props: { children: React.ReactNode }) {
                     return;
                 }
 
-                const { game: gameMetadata } = routeState;
+                let gameMetadata: GameMetadata;
 
-                if (gameMetadata) {
-                    const gameUrl = gameMetadata.url;
-                    const isSnippet = gameMetadata.snippet;
-
-                    const data = await fetch(gameUrl);
-                    const json = await data.text();
-                    const format = parseGameJSON(json);
-
-                    if (isSnippet) {
-                        const uid = THREE.MathUtils.generateUUID();
-
-                        format.uuid = uid;
-                        gameMetadata.uid = uid;
-                    }
-
-                    const core = Game.Core.fromJSON(format);
-
-                    updateMetadata({
-                        ...gameMetadata,
-                        snippet: false,
-                    });
-
-                    setGame(core);
+                if (routeState.game) {
+                    gameMetadata = routeState.game;
                 } else {
                     const snippets = await games.list({
                         where: [
@@ -99,27 +78,36 @@ function GameProvider(props: { children: React.ReactNode }) {
                             ["createdAt", "desc"]
                         ],
                     });
-
                     const snippet = snippets[0];
-                    const uid = THREE.MathUtils.generateUUID();
 
-                    const gameUrl = snippet.url;
-                    const data = await fetch(gameUrl);
-                    const json = await data.text();
-
-                    const format = parseGameJSON(json);
-                    format.uuid = uid;
-
-                    const core = Game.Core.fromJSON(format);
-
-                    updateMetadata({
-                        ...snippet,
-                        uid,
-                        snippet: false,
-                    });
-
-                    setGame(core);
+                    gameMetadata = snippet;
                 }
+
+                const gameUrl = gameMetadata.url;
+                const isSnippet = gameMetadata.snippet;
+
+                const data = await fetch(gameUrl);
+                const json = await data.text();
+                const format = parseGameJSON(json);
+
+                if (isSnippet) {
+                    const oldUid = gameMetadata.uid;
+                    const newUid = THREE.MathUtils.generateUUID();
+
+                    gameMetadata.tags = JSON.parse(
+                        JSON.stringify(gameMetadata.tags).replace(oldUid, newUid)
+                    );
+
+                    format.uuid = newUid;
+                    gameMetadata.uid = newUid;
+                }
+
+                gameMetadata.snippet = false;
+
+                updateMetadata({ ...gameMetadata });
+
+                const core = Game.Core.fromJSON(format);
+                setGame(core);
             } catch (error) {
                 const err = error as Alert;
                 alert.setSeverity(err.severity);
