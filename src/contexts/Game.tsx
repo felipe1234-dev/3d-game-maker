@@ -4,7 +4,11 @@ import React, {
     useEffect,
     useState
 } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+    useLocation,
+    useNavigate,
+    useParams
+} from "react-router-dom";
 import * as THREE from "three";
 
 import { Game } from "@local/classes";
@@ -33,16 +37,14 @@ function GameProvider(props: { children: React.ReactNode }) {
     const alert = useAlert();
     const location = useLocation();
     const navigate = useNavigate();
+    const params = useParams();
 
     const lang = getLang();
     const state = location.state;
 
-    let routeState: RouteState = {};
-    if (isRouteState(state)) {
-        routeState = state;
-    }
-
-    const updateMetadata = (updates: Partial<GameMetadata>) => {
+    const updateMetadata = (
+        updates: Partial<GameMetadata>
+    ) => {
         setMetadata(
             prev => ({
                 ...prev,
@@ -53,22 +55,36 @@ function GameProvider(props: { children: React.ReactNode }) {
 
     useEffect(() => {
         (async () => {
+            const user = await auth.currentUser();
+            if (!user) {
+                navigate(`/${lang}/auth`, {
+                    state: {
+                        useLoader: true,
+                    }
+                });
+
+                return;
+            }
+
+            const routeState: RouteState = isRouteState(state) ? state : {};
+
             try {
-                const user = await auth.currentUser();
-                if (!user) {
-                    navigate(`/${lang}/auth`, {
-                        state: {
-                            useLoader: true,
-                        }
-                    });
-
-                    return;
-                }
-
                 let gameMetadata: GameMetadata;
 
-                if (routeState.game) {
-                    gameMetadata = routeState.game;
+                if (params.gameUid) {
+                    const game = await games.byUid(params.gameUid);
+
+                    if (!game) {
+                        throw {
+                            severity: "error",
+                            message: "Game not found",
+                        };
+                    }
+
+                    gameMetadata = game;
+                } else if (routeState.game) {
+                    const game = routeState.game;
+                    gameMetadata = game;
                 } else {
                     const snippets = await games.list({
                         where: [
@@ -121,7 +137,13 @@ function GameProvider(props: { children: React.ReactNode }) {
     }
 
     return (
-        <GameContext.Provider value={{ game, metadata, updateMetadata }}>
+        <GameContext.Provider
+            value={{
+                game,
+                metadata,
+                updateMetadata
+            }}
+        >
             {props.children}
         </GameContext.Provider>
     );
