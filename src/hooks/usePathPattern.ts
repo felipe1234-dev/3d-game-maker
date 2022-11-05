@@ -1,10 +1,21 @@
 import { matchRoutes, useLocation } from "react-router-dom"
 import routes from "@local/consts/routes";
 
-function usePathPattern(scope: "pages" | "modals" = "pages") {
+function usePathPattern(scope: "pages" | "modals" | "all" = "all") {
     const location = useLocation();
+
+    let routeList = [];
+    if (scope === "all") {
+        routeList.push(
+            ...routes.pages,
+            ...routes.modals
+        );
+    } else {
+        routeList.push(...routes[scope]);
+    }
+
     const matches = matchRoutes(
-        routes[scope].map(({ path }) => ({ path })),
+        routeList.map(({ path }) => ({ path })),
         location
     );
 
