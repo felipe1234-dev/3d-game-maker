@@ -27,7 +27,7 @@ import app from "./app";
 const pageRoutes: RouteInfo[] = [
     {
         pageTitle: `Testing - ${app.name}`,
-        path: "/:lang/test/",
+        path: "/:lang/test/:gameUid",
         Element: TestPage,
         wrappers: [
             RequireAuth,
