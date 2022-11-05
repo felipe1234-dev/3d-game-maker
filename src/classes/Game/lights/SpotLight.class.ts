@@ -1,6 +1,21 @@
-import * as THREE from "three";
 import { Game } from "@local/classes";
-import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import {
+    applyObject3DJSON,
+    generateID,
+    parseObjectChildren
+} from "../utils/private";
+import * as THREE from "three";
+
+interface SpotLightOptions {
+    id?: number;
+    uuid?: string;
+    color?: THREE.ColorRepresentation;
+    intensity?: number;
+    distance?: number;
+    angle?: number;
+    penumbra?: number;
+    decay?: number;
+}
 
 class SpotLight extends THREE.SpotLight implements Game.Object3D {
     public readonly type: "SpotLight";
@@ -8,15 +23,22 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
     public helper: THREE.SpotLightHelper;
 
     constructor(
-        color?: THREE.ColorRepresentation,
-        intensity?: number,
-        distance?: number,
-        angle?: number,
-        penumbra?: number,
-        decay?: number
+        options: SpotLightOptions = {}
     ) {
+        const {
+            id = generateID(),
+            uuid = THREE.MathUtils.generateUUID(),
+            color,
+            intensity,
+            distance,
+            angle,
+            penumbra,
+            decay
+        } = options;
         super(color, intensity, distance, angle, penumbra, decay);
 
+        this.id = id;
+        this.uuid = uuid;
         this.type = "SpotLight";
 
         this.helper = new THREE.SpotLightHelper(this);
@@ -41,14 +63,7 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
     public static fromJSON(
         json: Game.Formats.SpotLight
     ): SpotLight {
-        const light = new SpotLight(
-            json.object.color,
-            json.object.intensity,
-            json.object.distance,
-            json.object.angle,
-            json.object.penumbra,
-            json.object.decay
-        );
+        const light = new SpotLight(json.object);
 
         applyObject3DJSON(light, json);
         parseObjectChildren(light, json);
@@ -58,3 +73,4 @@ class SpotLight extends THREE.SpotLight implements Game.Object3D {
 }
 
 export default SpotLight;
+export type { SpotLightOptions };

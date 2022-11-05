@@ -1,15 +1,36 @@
 import * as THREE from "three";
 import { Game } from "@local/classes";
-import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import {
+    generateID,
+    applyObject3DJSON,
+    parseObjectChildren
+} from "../utils/private";
+
+interface DirectionalLightOptions {
+    id?: number;
+    uuid?: string;
+    color?: THREE.ColorRepresentation;
+    intensity?: number;
+}
 
 class DirectionalLight extends THREE.DirectionalLight implements Game.Object3D {
     public readonly type: "DirectionalLight";
     public readonly receiveShadow: boolean;
     public helper: THREE.DirectionalLightHelper;
 
-    constructor(color?: THREE.ColorRepresentation, intensity?: number) {
+    constructor(
+        options: DirectionalLightOptions = {}
+    ) {
+        const {
+            id = generateID(),
+            uuid = THREE.MathUtils.generateUUID(),
+            color = "#fff",
+            intensity = 1
+        } = options;
         super(color, intensity);
 
+        this.id = id;
+        this.uuid = uuid;
         this.type = "DirectionalLight";
 
         this.helper = new THREE.DirectionalLightHelper(this);
@@ -34,10 +55,7 @@ class DirectionalLight extends THREE.DirectionalLight implements Game.Object3D {
     public static fromJSON(
         json: Game.Formats.DirectionalLight
     ): DirectionalLight {
-        const light = new DirectionalLight(
-            json.object.color,
-            json.object.intensity,
-        );
+        const light = new DirectionalLight(json.object);
 
         applyObject3DJSON(light, json);
         parseObjectChildren(light, json);
@@ -47,3 +65,4 @@ class DirectionalLight extends THREE.DirectionalLight implements Game.Object3D {
 }
 
 export default DirectionalLight;
+export type { DirectionalLightOptions };

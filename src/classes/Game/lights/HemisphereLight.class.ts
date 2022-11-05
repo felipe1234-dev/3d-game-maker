@@ -1,6 +1,18 @@
 import * as THREE from "three";
 import { Game } from "@local/classes";
-import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import {
+    generateID,
+    applyObject3DJSON,
+    parseObjectChildren
+} from "../utils/private";
+
+interface HemisphereLightOptions {
+    id?: number;
+    uuid?: string;
+    skyColor?: THREE.ColorRepresentation,
+    groundColor?: THREE.ColorRepresentation,
+    intensity?: number
+}
 
 class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
     public readonly type: "HemisphereLight";
@@ -9,12 +21,19 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
     public helper: THREE.HemisphereLightHelper;
 
     constructor(
-        skyColor?: THREE.ColorRepresentation,
-        groundColor?: THREE.ColorRepresentation,
-        intensity?: number
+        options: HemisphereLightOptions = {}
     ) {
+        const {
+            id = generateID(),
+            uuid = THREE.MathUtils.generateUUID(),
+            skyColor,
+            groundColor,
+            intensity
+        } = options;
         super(skyColor, groundColor, intensity);
 
+        this.id = id;
+        this.uuid = uuid;
         this.type = "HemisphereLight";
 
         this.helper = new THREE.HemisphereLightHelper(this, 1);
@@ -47,11 +66,7 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
     public static fromJSON(
         json: Game.Formats.HemisphereLight
     ): HemisphereLight {
-        const light = new HemisphereLight(
-            json.object.color,
-            json.object.groundColor,
-            json.object.intensity
-        );
+        const light = new HemisphereLight(json.object);
 
         applyObject3DJSON(light, json);
         parseObjectChildren(light, json);
@@ -61,3 +76,4 @@ class HemisphereLight extends THREE.HemisphereLight implements Game.Object3D {
 }
 
 export default HemisphereLight;
+export type { HemisphereLightOptions };

@@ -1,15 +1,35 @@
-import * as THREE from "three";
 import { Game } from "@local/classes";
-import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import {
+    applyObject3DJSON,
+    generateID,
+    parseObjectChildren
+} from "../utils/private";
+import * as THREE from "three";
+interface AmbientLightOptions {
+    id?: number;
+    uuid?: string;
+    color?: THREE.ColorRepresentation;
+    intensity?: number;
+}
 
 class AmbientLight extends THREE.AmbientLight implements Game.Object3D {
     public readonly type: "AmbientLight";
     public readonly receiveShadow: boolean;
     public helper: THREE.BoxHelper;
 
-    constructor(color?: THREE.ColorRepresentation, intensity?: number) {
+    constructor(
+        options: AmbientLightOptions = {}
+    ) {
+        const {
+            id = generateID(),
+            uuid = THREE.MathUtils.generateUUID(),
+            color = "#fff",
+            intensity = 1
+        } = options;
         super(color, intensity);
 
+        this.id = id;
+        this.uuid = uuid;
         this.type = "AmbientLight";
 
         this.helper = new THREE.BoxHelper(this);
@@ -32,10 +52,7 @@ class AmbientLight extends THREE.AmbientLight implements Game.Object3D {
     }
 
     public static fromJSON(json: Game.Formats.AmbientLight): AmbientLight {
-        const light = new AmbientLight(
-            json.object.color,
-            json.object.intensity,
-        );
+        const light = new AmbientLight(json.object);
 
         applyObject3DJSON(light, json);
         parseObjectChildren(light, json);
@@ -45,3 +62,4 @@ class AmbientLight extends THREE.AmbientLight implements Game.Object3D {
 }
 
 export default AmbientLight;
+export type { AmbientLightOptions };
