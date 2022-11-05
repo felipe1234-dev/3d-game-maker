@@ -1,10 +1,43 @@
 import { Game } from "@local/classes";
-import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import {
+    generateID,
+    applyObject3DJSON,
+    parseObjectChildren
+} from "../utils/private";
 import * as THREE from "three";
 
+interface PerspectiveCameraOptions {
+    id?: number;
+    uuid?: string;
+    fov?: number;
+    aspect?: number;
+    near?: number;
+    far?: number;
+}
+
 class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
-    public readonly type: "PerspectiveCamera" = "PerspectiveCamera";
+    public readonly type: "PerspectiveCamera";
+    public helper: THREE.CameraHelper;
     public game?: Game.Core;
+
+    constructor(
+        options: PerspectiveCameraOptions = {}
+    ) {
+        const {
+            id = generateID(),
+            uuid = THREE.MathUtils.generateUUID(),
+            fov = 50,
+            aspect = 1,
+            near = 0.1,
+            far = 2000
+        } = options;
+        super(fov, aspect, near, far);
+
+        this.id = id;
+        this.uuid = uuid;
+        this.type = "PerspectiveCamera";
+        this.helper = new THREE.CameraHelper(this);
+    }
 
     public override toJSON(
         meta?: Game.Formats.Meta
@@ -15,17 +48,25 @@ class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
     public static fromJSON(
         json: Game.Formats.PerspectiveCamera
     ): PerspectiveCamera {
-        const camera = new PerspectiveCamera(
-            json.object.fov,
-            json.object.aspect,
-            json.object.near,
-            json.object.far
-        );
+        const {
+            id,
+            uuid,
+            fov,
+            aspect,
+            near,
+            far
+        } = json.object;
 
-        camera.id = json.object.id;
-        camera.uuid = json.object.uuid;
+        const camera = new PerspectiveCamera({
+            id,
+            uuid,
+            fov,
+            aspect,
+            near,
+            far
+        });
+
         camera.name = json.object.name || "";
-
         camera.zoom = json.object.zoom;
         camera.focus = json.object.focus;
 
@@ -44,3 +85,4 @@ class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
 }
 
 export default PerspectiveCamera;
+export type { PerspectiveCameraOptions };
