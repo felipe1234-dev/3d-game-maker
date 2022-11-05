@@ -27,7 +27,7 @@ import app from "./app";
 const pageRoutes: RouteInfo[] = [
     {
         pageTitle: `Testing - ${app.name}`,
-        path: "/:lang/test/:gameUid",
+        path: "/:lang/test/",
         Element: TestPage,
         wrappers: [
             RequireAuth,
@@ -75,7 +75,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     // Renderer 
     {
@@ -84,7 +87,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     // Body 
     {
@@ -93,7 +99,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth,
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     // Texture
     {
@@ -102,7 +111,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth,
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     // Geometry
     {
@@ -111,7 +123,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth,
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     // Object
     {
@@ -120,7 +135,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth,
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     {
         path: "/:lang/editor/object/edit",
@@ -128,7 +146,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth,
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     // Scene
     {
@@ -137,7 +158,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth,
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     {
         path: "/:lang/editor/scene-tree/edit",
@@ -145,7 +169,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth,
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     },
     // Vertices
     {
@@ -154,7 +181,10 @@ const modalRoutes: RouteInfo[] = [
         wrappers: [
             RequireAuth
         ],
-        providers: []
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
     }
 ];
 

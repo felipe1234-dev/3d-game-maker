@@ -23,10 +23,13 @@ function App() {
     const pathPattern = usePathPattern();
     const location = useLocation();
 
-    const pageProviders = useMemo(
+    const routeProviders = useMemo(
         () => {
-            const page = routes.pages.find(page => page.path === pathPattern);
-            return page?.providers || [];
+            const route = [
+                ...routes.pages,
+                ...routes.modals
+            ].find(route => route.path === pathPattern);
+            return route?.providers || [];
         },
         [location]
     );
@@ -59,7 +62,7 @@ function App() {
 
     const providers = [
         ...commonProviders,
-        ...pageProviders
+        ...routeProviders
     ];
 
     return (
