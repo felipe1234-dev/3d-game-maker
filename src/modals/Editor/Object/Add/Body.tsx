@@ -24,12 +24,13 @@ import { t } from "@local/i18n";
 import miscList from "@local/consts/editor/aliases/misc/list";
 import lightList from "@local/consts/editor/aliases/lights/list";
 import shapeList from "@local/consts/editor/aliases/shapes/list";
+import cameraList from "@local/consts/editor/aliases/cameras/list";
 
 const categories = [
     { label: "Misc", Icon: Tools, list: miscList },
     { label: "Lights", Icon: Flashlight, list: lightList },
     { label: "Shapes", Icon: Shapes, list: shapeList },
-    { label: "Cameras", Icon: Camera, list: [] },
+    { label: "Cameras", Icon: Camera, list: cameraList },
     { label: "Controls", Icon: Controls, list: [] },
 ];
 
@@ -45,14 +46,10 @@ function generateModalProps(
         header: t("Group this object with the currently selected one?"),
         footer: (
             <>
-                <Button
-                    onClick={props.cancel}
-                >
+                <Button onClick={props.cancel}>
                     {t("No")}
                 </Button>
-                <Button
-                    onClick={props.confirm}
-                >
+                <Button onClick={props.confirm}>
                     {t("Yes")}
                 </Button>
             </>
@@ -63,9 +60,9 @@ function generateModalProps(
 function Body() {
     const game = useGame();
     const editor = useEditor();
+    const transformer = editor.transformControls;
 
-    const [openModal, setOpenModal] = useState(false);
-    const [modalProps, setModalProps] = useState<ModalProps>({});
+    const [showModal, setShowModal] = useState(false);
     const [expanded, setExpanded] = useState(-1);
 
     const addLight = (item: typeof lightList[number]) => {
@@ -73,6 +70,8 @@ function Body() {
         light.name = light.type;
 
         game.currentScene?.add(light);
+        transformer.unselect();
+        transformer.select(light);
     };
 
     const addShape = (item: typeof shapeList[number]) => {
@@ -88,45 +87,18 @@ function Body() {
         const object = new Game.Mesh(geometry, material);
         object.name = "Mesh";
 
-        const selectedObject = editor.transformControls.object;
+        game.currentScene?.add(object);
+        transformer.unselect();
+        transformer.select(object);
+    };
 
-        const { currentScene } = game;
-        if (!currentScene) {
-            return;
-        }
+    const addCamera = (item: typeof cameraList[number]) => {
+        const camera = new item.Constructor();
+        camera.name = camera.type;
 
-        if (selectedObject) {
-            const cancel = () => {
-                game.currentScene?.add(object);
-                setOpenModal(false);
-            };
-
-            const confirm = () => {
-                const group = new Game.Group();
-                const selectedObject = editor.transformControls.object;
-
-                if (!selectedObject) return;
-
-                group.add(object);
-                group.add(selectedObject);
-
-                game.currentScene?.add(group);
-
-                setOpenModal(false);
-            };
-
-            setModalProps(prevState => ({
-                ...prevState,
-                ...generateModalProps({
-                    cancel,
-                    confirm
-                }),
-            }));
-
-            setOpenModal(true);
-        } else {
-            currentScene.add(object);
-        }
+        game.currentScene?.add(camera);
+        transformer.unselect();
+        transformer.select(camera);
     };
 
     const addMisc = (item: typeof miscList[number]) => {
@@ -134,9 +106,9 @@ function Body() {
         miscObject.name = miscObject.type;
 
         game.currentScene?.add(miscObject);
+        transformer.unselect();
+        transformer.select(miscObject);
     };
-
-    const showModal = openModal && Object.keys(modalProps).length > 0;
 
     return (
         <List component="ul">
@@ -174,11 +146,19 @@ function Body() {
                                             );
                                         }
 
+                                        if (list === cameraList) {
+                                            addCamera(
+                                                item as typeof cameraList[number]
+                                            );
+                                        }
+
                                         if (list === miscList) {
                                             addMisc(
                                                 item as typeof miscList[number]
                                             );
                                         }
+
+                                        setShowModal(true);
                                     }}
                                 >
                                     <ListItemIcon
@@ -203,7 +183,18 @@ function Body() {
                 );
             })}
 
-            {showModal && <Modal {...modalProps} />}
+            {showModal && (
+                <Modal
+                    placement="center"
+                    height={170}
+                    header={t("Object added")}
+                    footer={(
+                        <Button onClick={() => setShowModal(false)}>
+                            {t("Ok")}
+                        </Button>
+                    )}
+                />
+            )}
         </List>
     );
 }
