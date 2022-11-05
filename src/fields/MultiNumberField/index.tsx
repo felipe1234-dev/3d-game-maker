@@ -16,11 +16,11 @@ function MultiNumberField(props: FieldProps) {
         ...rest
     } = props;
 
-    const editor = useEditor();
-    const object = getProperty<Object | undefined>(
+    const { editor } = useEditor();
+    const object = editor ? getProperty<Object | undefined>(
         scope,
         editor.transformControls
-    );
+    ) : undefined;
 
     return (
         <FormControl className="MultiNumberField">

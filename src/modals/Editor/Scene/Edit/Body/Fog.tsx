@@ -10,7 +10,7 @@ import { useGame } from "@local/contexts";
 import fogTypes from "@local/consts/editor/types/fog";
 
 function Fog() {
-    const game = useGame();
+    const { game } = useGame();
 
     const [type, setType] = useState<string>("default");
     // Misc
@@ -22,10 +22,8 @@ function Fog() {
     const [density, setDensity] = useState<number>(0.00025);
 
     useEffect(() => {
+        if (!game || !game.currentScene) return;
         const { currentScene } = game;
-        if (!currentScene) {
-            return;
-        }
 
         if (!currentScene.fog) {
             if (currentScene.fog === Game.Scene.DEFAULT_FOG) {
@@ -50,10 +48,8 @@ function Fog() {
     }, [game]);
 
     useEffect(() => {
+        if (!game || !game.currentScene) return;
         const { currentScene } = game;
-        if (!currentScene) {
-            return;
-        }
 
         switch (type) {
             case "none":

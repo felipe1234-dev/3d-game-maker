@@ -21,7 +21,7 @@ import { t } from "@local/i18n";
 import environmentTypes from "@local/consts/editor/types/environment";
 
 function Environment() {
-    const game = useGame();
+    const { game } = useGame();
 
     const [openModal, setOpenModal] = useState(false);
     const [envType, setEnvType] = useState<string>();
@@ -29,12 +29,10 @@ function Environment() {
     const [refract, setRefract] = useState(false);
 
     useEffect(() => {
+        if (!game || !game.currentScene) return;
         const { currentScene } = game;
-        if (!currentScene) {
-            return;
-        }
 
-        if (currentScene.environment instanceof THREE.Texture) {
+        if (currentScene.environment instanceof Game.Texture) {
             const env = currentScene.environment;
 
             if (env.mapping === THREE.UVMapping) {
@@ -60,10 +58,8 @@ function Environment() {
     }, [game]);
 
     useEffect(() => {
+        if (!game || !game.currentScene) return;
         const { currentScene } = game;
-        if (!currentScene) {
-            return;
-        }
 
         switch (envType) {
             case "uvMapping":
@@ -73,25 +69,24 @@ function Environment() {
                 } else {
                     setOpenModal(false);
 
-                    const texture = new THREE.TextureLoader().load(
-                        envImage.url
-                    );
-                    currentScene.environment = texture;
+                    Game.Texture.fromURL(envImage.url).then((texture) => {
+                        texture.name = envImage.title;
+                        texture.userData = { ...envImage };
 
-                    currentScene.environment.name = envImage.title;
-                    currentScene.environment.userData = { ...envImage };
+                        let mappingType = THREE.Texture.DEFAULT_MAPPING;
 
-                    let mappingType = THREE.Texture.DEFAULT_MAPPING;
+                        if (envType === "uvMapping") {
+                            mappingType = THREE.UVMapping;
+                        } else if (envType === "equirectMapping") {
+                            mappingType = refract
+                                ? THREE.EquirectangularRefractionMapping
+                                : THREE.EquirectangularReflectionMapping;
+                        }
 
-                    if (envType === "uvMapping") {
-                        mappingType = THREE.UVMapping;
-                    } else if (envType === "equirectMapping") {
-                        mappingType = refract
-                            ? THREE.EquirectangularRefractionMapping
-                            : THREE.EquirectangularReflectionMapping;
-                    }
+                        texture.mapping = mappingType;
 
-                    currentScene.environment.mapping = mappingType;
+                        currentScene.environment = texture;
+                    });
                 }
                 break;
 

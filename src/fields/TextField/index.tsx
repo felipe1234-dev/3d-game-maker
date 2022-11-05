@@ -26,11 +26,13 @@ function TextField(props: FieldProps & MuiTextFieldProps) {
     const attrPath = attributes[0];
     const label = labels[0];
     const helpText = helpTexts[0];
-    const editor = useEditor();
+    const { editor } = useEditor();
 
     const [value, setValue] = useState<string>("");
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
             editor.transformControls
@@ -39,9 +41,11 @@ function TextField(props: FieldProps & MuiTextFieldProps) {
         if (object) {
             setValue(getProperty<string>(attrPath, object));
         }
-    }, [editor.transformControls.object]);
+    }, [editor?.transformControls.object]);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
             editor.transformControls

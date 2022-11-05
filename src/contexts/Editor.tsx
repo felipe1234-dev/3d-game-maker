@@ -1,25 +1,19 @@
-import React, {
-    useState,
-    useEffect,
-    useContext,
-    createContext,
-} from "react";
+import React, { useState, useContext, createContext } from "react";
 
 import { Editor } from "@local/classes";
-import { useGame } from "@local/contexts";
 
-const EditorContext = createContext<Editor.Core | undefined>(undefined);
+interface EditorValue {
+    editor: Editor.Core | undefined;
+    setEditor: (editor: Editor.Core | undefined) => void;
+}
+
+const EditorContext = createContext<EditorValue | undefined>(undefined);
 
 function EditorProvider(props: { children: React.ReactNode }) {
     const [editor, setEditor] = useState<Editor.Core>();
-    const game = useGame();
-
-    useEffect(() => {
-        setEditor(new Editor.Core(game));
-    }, [game]);
 
     return (
-        <EditorContext.Provider value={editor}>
+        <EditorContext.Provider value={{ editor, setEditor }}>
             {props.children}
         </EditorContext.Provider>
     );

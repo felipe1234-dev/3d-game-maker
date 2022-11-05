@@ -6,8 +6,8 @@ import objectList from "@local/consts/editor/objects/list";
 import objectFields from "@local/consts/editor/objects/fields";
 
 function EditObjectModal() {
-    const editor = useEditor();
-    const object = editor.transformControls.object || null;
+    const { editor } = useEditor();
+    const object = editor?.transformControls.object;
     const objectInfo = objectList.find(
         obj => object instanceof obj.Constructor
     );

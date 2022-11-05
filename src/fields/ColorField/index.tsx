@@ -24,9 +24,11 @@ function ColorField(props: FieldProps) {
     const label = t(labels[0]);
     const attrPath = attributes[0];
     const helpText = t(helpTexts[0]);
-    const editor = useEditor();
+    const { editor } = useEditor();
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<object | undefined | null>(
             scope,
             editor.transformControls
@@ -35,9 +37,11 @@ function ColorField(props: FieldProps) {
         if (object) {
             setColor(getProperty<THREE.Color>(attrPath, object));
         }
-    }, [editor.transformControls.object]);
+    }, [editor?.transformControls.object]);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<object | undefined | null>(
             scope,
             editor.transformControls

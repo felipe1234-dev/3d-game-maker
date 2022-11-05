@@ -39,9 +39,9 @@ interface TreeItemProps {
 }
 
 function TreeItem(props: TreeItemProps) {
-    const editor = useEditor();
-    const transformer = editor.transformControls;
-    const game = useGame();
+    const { editor } = useEditor();
+    const transformer = editor?.transformControls;
+    const { game } = useGame();
 
     const {
         object,
@@ -50,7 +50,7 @@ function TreeItem(props: TreeItemProps) {
         rerenderTreeList
     } = props;
 
-    const selected = transformer.object?.uuid === object.uuid;
+    const selected = transformer?.object?.uuid === object.uuid;
     const childrenOfChildren = getChildrenOfChildren(object).map(child => child.uuid);
     const openDropdown = [
         ...childrenOfChildren,
@@ -69,7 +69,7 @@ function TreeItem(props: TreeItemProps) {
     };
 
     const selectObject = () => {
-        transformer.select(object);
+        transformer?.select(object);
     };
 
     const dragStart = (evt: React.DragEvent) => {
@@ -117,7 +117,7 @@ function TreeItem(props: TreeItemProps) {
     const drop = (evt: React.DragEvent) => {
         evt.preventDefault();
 
-        if (!game.currentScene) {
+        if (!game || !game.currentScene) {
             return;
         }
 

@@ -39,11 +39,8 @@ function GameList() {
             {gameList.map(game => (
                 <Link
                     key={game.uid}
-                    to={`/${lang}/editor`}
-                    state={{
-                        game,
-                        useLoader: true,
-                    }}
+                    to={`/${lang}/editor/${game.uid}`}
+                    state={{ useLoader: true }}
                 >
                     {game.name} - {game.description}
                 </Link>

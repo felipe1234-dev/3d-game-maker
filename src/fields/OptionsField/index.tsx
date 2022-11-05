@@ -20,7 +20,7 @@ function OptionsField(props: FieldProps & TextFieldProps) {
     } = props;
     const attrPath = attributes[0];
     const label = t(labels[0]);
-    const editor = useEditor();
+    const { editor } = useEditor();
 
     const [value, setValue] = useState<any>("");
 
@@ -28,6 +28,8 @@ function OptionsField(props: FieldProps & TextFieldProps) {
     const helpText = t(helpTexts[values.indexOf(value)]);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
             editor.transformControls
@@ -36,9 +38,11 @@ function OptionsField(props: FieldProps & TextFieldProps) {
         if (object) {
             setValue(getProperty<any>(attrPath, object));
         }
-    }, [editor.transformControls.object]);
+    }, [editor?.transformControls.object]);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
             editor.transformControls

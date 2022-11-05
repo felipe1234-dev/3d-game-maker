@@ -1,18 +1,18 @@
+import { Game } from "@local/classes";
 import { useEditor } from "@local/contexts";
 import { Modal } from "@local/components";
 import { t } from "@local/i18n";
 
 import geometryList from "@local/consts/editor/geometries/list";
 import geometryFields from "@local/consts/editor/geometries/fields";
-import * as THREE from "three";
 
 function EditGeometryModal() {
-    const editor = useEditor();
-    const object = editor?.transformControls.object || null;
+    const { editor } = useEditor();
+    const object = editor?.transformControls.object;
     const geometryInfo = geometryList.find(
         geom =>
-            object instanceof THREE.Mesh &&
-            object.geometry.type === geom.Constructor.prototype.constructor.name
+            object instanceof Game.Mesh &&
+            object.geometry instanceof geom.Constructor
     );
 
     const header = `${t(geometryInfo?.label || "Edit geometry")} ${object?.name || ""}`;

@@ -6,11 +6,12 @@ import { useForceUpdate } from "@local/hooks";
 import { t } from "@local/i18n";
 
 function Top() {
-    const editor = useEditor();
-    const showGrids = editor.gridsHelper.visible;
+    const { editor } = useEditor();
+    const showGrids = !!editor?.gridsHelper.visible;
 
     const { forceUpdate } = useForceUpdate();
     const toggleGrids = () => {
+        if (!editor) return;
         editor.gridsHelper.visible = !showGrids;
         forceUpdate();
     };

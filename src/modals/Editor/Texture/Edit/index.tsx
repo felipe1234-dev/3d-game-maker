@@ -7,8 +7,8 @@ import materialList from "@local/consts/editor/materials/list";
 import materialFields from "@local/consts/editor/materials/fields";
 
 function EditTextureModal() {
-    const editor = useEditor();
-    const object = editor.transformControls.object;
+    const { editor } = useEditor();
+    const object = editor?.transformControls.object;
     const materialInfo = materialList.find(
         mat =>
             object instanceof Game.Mesh &&

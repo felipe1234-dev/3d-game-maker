@@ -24,7 +24,7 @@ function Body() {
                 label={t("Name")}
                 variant="outlined"
                 onChange={evt => onChangeName(evt.target.value)}
-                value={metadata.name || ""}
+                value={metadata?.name || ""}
                 sx={{ mb: 2 }}
             />
             <TextField
@@ -32,7 +32,7 @@ function Body() {
                 label={t("Description")}
                 variant="outlined"
                 onChange={evt => onChangeDescription(evt.target.value)}
-                value={metadata.description || ""}
+                value={metadata?.description || ""}
                 minRows={4}
             />
         </>

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
     FormGroup,
     FormControlLabel,
@@ -8,54 +7,27 @@ import {
     Divider,
 } from "@mui/material";
 
+import { Game } from "@local/classes";
 import { useGame } from "@local/contexts";
 import { t } from "@local/i18n";
+import { useForceUpdate } from "@local/hooks";
 
 import shadowTypes from "@local/consts/editor/types/shadow";
 import toneMappingTypes from "@local/consts/editor/types/toneMapping";
 
 function Body() {
-    const game = useGame();
+    const { game } = useGame();
+    const { forceUpdate } = useForceUpdate();
 
-    const [physicallyCorrectLights, setPhysicallyCorrectLights] = useState(
-        game.renderer.physicallyCorrectLights
-    );
+    const handleRendererChange = (
+        callback: (renderer: Game.Renderer) => void = () => { }
+    ) => {
+        if (!game || !game.renderer) return;
 
-    useEffect(() => {
-        game.renderer.physicallyCorrectLights = physicallyCorrectLights;
-    }, [physicallyCorrectLights]);
+        callback(game.renderer);
 
-    const [enableShadows, setEnableShadows] = useState(
-        game.renderer.shadowMap.enabled
-    );
-
-    useEffect(() => {
-        game.renderer.shadowMap.enabled = enableShadows;
-    }, [enableShadows]);
-
-    const [toneMappingExposure, setToneMappingExposure] = useState(
-        game.renderer.toneMappingExposure
-    );
-
-    useEffect(() => {
-        game.renderer.toneMappingExposure = toneMappingExposure;
-    }, [toneMappingExposure]);
-
-    const [toneMappingType, setToneMappingType] = useState(
-        game.renderer.toneMapping
-    );
-
-    useEffect(() => {
-        game.renderer.toneMapping = toneMappingType;
-    }, [toneMappingType]);
-
-    const [shadowMapType, setShadowMapType] = useState(
-        game.renderer.shadowMap.type
-    );
-
-    useEffect(() => {
-        game.renderer.shadowMap.type = shadowMapType;
-    }, [shadowMapType]);
+        forceUpdate();
+    };
 
     return (
         <>
@@ -64,10 +36,14 @@ function Body() {
                     label={t("Physically correct lights")}
                     control={
                         <Checkbox
-                            onChange={evt =>
-                                setPhysicallyCorrectLights(evt.target.checked)
+                            onChange={evt => {
+                                handleRendererChange(renderer => {
+                                    renderer.physicallyCorrectLights = evt.target.checked;
+                                });
+                            }}
+                            checked={
+                                !!game?.renderer?.physicallyCorrectLights
                             }
-                            checked={physicallyCorrectLights}
                         />
                     }
                 />
@@ -77,10 +53,14 @@ function Body() {
                     label={t("Enable shadows")}
                     control={
                         <Checkbox
-                            onChange={evt =>
-                                setEnableShadows(evt.target.checked)
+                            onChange={evt => {
+                                handleRendererChange(renderer => {
+                                    renderer.shadowMap.enabled = evt.target.checked;
+                                });
+                            }}
+                            checked={
+                                !!game?.renderer?.shadowMap.enabled
                             }
-                            checked={enableShadows}
                         />
                     }
                 />
@@ -89,8 +69,14 @@ function Body() {
             <TextField
                 select
                 label={t("Shadow map type")}
-                onChange={evt => setShadowMapType(Number(evt.target.value))}
-                value={shadowMapType}
+                onChange={evt => {
+                    handleRendererChange(renderer => {
+                        renderer.shadowMap.type = Number(evt.target.value);
+                    });
+                }}
+                value={
+                    game?.renderer?.shadowMap.type
+                }
             >
                 {shadowTypes.map(option => (
                     <MenuItem key={option.label} value={option.value}>
@@ -101,10 +87,14 @@ function Body() {
             <Divider />
             <TextField
                 label={t("Tone mapping exposure")}
-                onChange={evt =>
-                    setToneMappingExposure(Number(evt.target.value))
+                onChange={evt => {
+                    handleRendererChange(renderer => {
+                        renderer.toneMappingExposure = Number(evt.target.value);
+                    });
+                }}
+                value={
+                    game?.renderer?.toneMappingExposure
                 }
-                value={toneMappingExposure}
                 inputProps={{
                     type: "number",
                     step: 0.1,
@@ -115,8 +105,14 @@ function Body() {
             <TextField
                 select
                 label={t("Tone mapping type")}
-                onChange={evt => setToneMappingType(Number(evt.target.value))}
-                value={toneMappingType}
+                onChange={evt => {
+                    handleRendererChange(renderer => {
+                        renderer.toneMapping = Number(evt.target.value);
+                    });
+                }}
+                value={
+                    game?.renderer?.toneMapping
+                }
             >
                 {toneMappingTypes.map(option => (
                     <MenuItem key={option.label} value={option.value}>

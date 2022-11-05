@@ -26,13 +26,13 @@ import { t } from "@local/i18n";
 
 function Bottom() {
     const location = useLocation();
-    const editor = useEditor();
-    const game = useGame();
+    const { editor } = useEditor();
+    const { game } = useGame();
     const { forceUpdate } = useForceUpdate();
-    const transformer = editor.transformControls;
+    const transformer = editor?.transformControls;
 
     const zoomSpeed = 50;
-    const selectedObject = transformer.object;
+    const selectedObject = transformer?.object;
     const isMesh = selectedObject instanceof Game.Mesh;
 
     const isSelected = !!selectedObject;
@@ -44,13 +44,13 @@ function Bottom() {
 
     useEffect(() => {
         for (const event of events) {
-            transformer.addEventListener(event, forceUpdate);
+            transformer?.addEventListener(event, forceUpdate);
         }
     }, [game, editor]);
 
     useUnmount(() => {
         for (const event of events) {
-            transformer.removeEventListener(event, forceUpdate);
+            transformer?.removeEventListener(event, forceUpdate);
         }
     });
 
@@ -58,7 +58,7 @@ function Bottom() {
         <Box>
             <Pressable
                 component={IconButton}
-                onMousePress={() => editor.orbitControls.zoomIn()}
+                onMousePress={() => editor?.orbitControls.zoomIn()}
                 ms={zoomSpeed}
             >
                 <Tooltip title={t("Zoom In")} placement="left" arrow>
@@ -67,7 +67,7 @@ function Bottom() {
             </Pressable>
             <Pressable
                 component={IconButton}
-                onMousePress={() => editor.orbitControls.zoomOut()}
+                onMousePress={() => editor?.orbitControls.zoomOut()}
                 ms={zoomSpeed}
             >
                 <Tooltip title={t("Zoom Out")} placement="left" arrow>

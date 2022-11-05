@@ -29,7 +29,7 @@ function RangeField(props: FieldProps & InputProps) {
     const attrPath = attributes[0];
     const label = labels[0];
     const helpText = helpTexts[0];
-    const editor = useEditor();
+    const { editor } = useEditor();
 
     const [value, setValue] = useState<number>(0);
 
@@ -60,6 +60,8 @@ function RangeField(props: FieldProps & InputProps) {
     };
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
             editor.transformControls
@@ -68,9 +70,11 @@ function RangeField(props: FieldProps & InputProps) {
         if (object) {
             setValue(getProperty<number>(attrPath, object));
         }
-    }, [editor.transformControls.object]);
+    }, [editor?.transformControls.object]);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
             editor.transformControls

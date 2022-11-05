@@ -30,9 +30,11 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
     const label = t(labels[0]);
     const attrPath = attributes[0];
     const helpText = t(helpTexts[0]);
-    const editor = useEditor();
+    const { editor } = useEditor();
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<object | undefined>(
             scope,
             editor.transformControls
@@ -41,9 +43,11 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
         if (object) {
             setIsChecked(getProperty<boolean>(attrPath, object));
         }
-    }, [editor.transformControls.object]);
+    }, [editor?.transformControls.object]);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<object | undefined>(
             scope,
             editor.transformControls

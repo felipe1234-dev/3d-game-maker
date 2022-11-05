@@ -24,22 +24,26 @@ function SingleNumberField(props: FieldProps & TextFieldProps) {
     const attrPath = attributes[0];
     const label = t(labels[0]);
     const helpText = t(helpTexts[0]);
-    const editor = useEditor();
+    const { editor } = useEditor();
 
     const [value, setValue] = useState<number>(0);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
-            editor.transformControls
+            editor?.transformControls
         );
 
         if (object) {
             setValue(getProperty<number>(attrPath, object));
         }
-    }, [editor.transformControls.object]);
+    }, [editor?.transformControls.object]);
 
     useEffect(() => {
+        if (!editor) return;
+
         const object = getProperty<Object | undefined>(
             scope,
             editor.transformControls

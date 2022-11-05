@@ -9,16 +9,18 @@ import { t } from "@local/i18n";
 import Body from "./Body";
 
 function EditVerticesModal() {
-    const editor = useEditor();
+    const { editor } = useEditor();
+    const transformer = editor?.transformControls;
 
     useEffect(() => {
-        const { object } = editor.transformControls || {};
+        if (!transformer) return;
+        const { object } = transformer;
         if (!object || !(object instanceof Game.Mesh)) return;
         editor.vertexHelper.select(object);
     }, []);
 
     useUnmount(() => {
-        editor.vertexHelper.unselect();
+        editor?.vertexHelper.unselect();
     });
 
     return (

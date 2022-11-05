@@ -14,26 +14,26 @@ import { useUnmount, useForceUpdate } from "@local/hooks";
 import { t } from "@local/i18n";
 
 function Top() {
-    const editor = useEditor();
-    const transformer = editor.transformControls;
-    const game = useGame();
+    const { editor } = useEditor();
+    const transformer = editor?.transformControls;
+    const { game } = useGame();
     const { forceUpdate } = useForceUpdate();
     const location = useLocation();
 
-    const isDisabled = !transformer.object || transformer.locked;
-    const mode = transformer.mode;
+    const isDisabled = !transformer?.object || transformer?.locked;
+    const mode = transformer?.mode;
 
     const events = ["select", "unselect", "changeMode"];
 
     useEffect(() => {
         for (const event of events) {
-            transformer.addEventListener(event, forceUpdate);
+            transformer?.addEventListener(event, forceUpdate);
         }
     }, [game]);
 
     useUnmount(() => {
         for (const event of events) {
-            transformer.removeEventListener(event, forceUpdate);
+            transformer?.removeEventListener(event, forceUpdate);
         }
     });
 
@@ -43,7 +43,7 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Delete object")}
-                        onClick={() => transformer.delete()}
+                        onClick={() => transformer?.delete()}
                         disabled={isDisabled}
                     >
                         <TrashIcon />
@@ -54,7 +54,7 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Move object")}
-                        onClick={() => transformer.setMode("translate")}
+                        onClick={() => transformer?.setMode("translate")}
                         data-selected={mode === "translate"}
                         disabled={isDisabled}
                     >
@@ -66,7 +66,7 @@ function Top() {
                 <span>
                     <IconButton
                         aria-label={t("Rotate object")}
-                        onClick={() => transformer.setMode("rotate")}
+                        onClick={() => transformer?.setMode("rotate")}
                         data-selected={mode === "rotate"}
                         disabled={isDisabled}
                     >
@@ -84,7 +84,7 @@ function Top() {
                             useLoader: false,
                         }}
                         aria-label={t("Edit vertices")}
-                        data-selected={transformer.locked}
+                        data-selected={transformer?.locked}
                         disabled={isDisabled}
                     >
                         <ShapePolygon width={24} />

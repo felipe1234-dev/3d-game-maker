@@ -11,15 +11,13 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Drag } from "@styled-icons/fluentui-system-filled";
 
 import { stringToColor } from "@local/functions";
-import { useEditor, useGame } from "@local/contexts";
+import { useGame } from "@local/contexts";
 import { Game } from "@local/classes";
 import { t } from "@local/i18n";
 
 function Body() {
     const [expanded, setExpanded] = useState("");
-
-    const game = useGame();
-    const editor = useEditor();
+    const { game } = useGame();
 
     const drag = (evt: React.DragEvent, scene: Game.Scene) => {
         evt.stopPropagation();
@@ -47,7 +45,7 @@ function Body() {
     return (
         <Box className="SceneTree-outliner">
             <List className="SceneTree-outliner-list" component="ul">
-                {game.stages.map(stage => {
+                {(game?.stages || []).map(stage => {
                     const open = expanded === stage.uuid;
 
                     return (
@@ -80,8 +78,7 @@ function Body() {
                             </ListItemButton>
                             <Collapse in={open} timeout="auto" unmountOnExit>
                                 {stage.scenes.map(scene => {
-                                    const selected =
-                                        scene.uuid === game.currentScene?.uuid;
+                                    const selected = scene.uuid === game?.currentScene?.uuid;
 
                                     return (
                                         <ListItemButton

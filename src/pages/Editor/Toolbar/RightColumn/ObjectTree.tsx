@@ -14,9 +14,9 @@ import {
 import TreeItem from "./TreeItem";
 
 function ObjectTree() {
-    const game = useGame();
-    const editor = useEditor();
-    const transformer = editor.transformControls;
+    const { game } = useGame();
+    const { editor } = useEditor();
+    const transformer = editor?.transformControls;
     const { forceUpdate } = useForceUpdate();
 
     const [activeObject, setActiveObject] = useState("");
@@ -29,17 +29,17 @@ function ObjectTree() {
 
     useEffect(() => {
         for (const event of events) {
-            transformer.addEventListener(event, forceUpdate);
+            transformer?.addEventListener(event, forceUpdate);
         }
     }, [game]);
 
     useUnmount(() => {
         for (const event of events) {
-            transformer.removeEventListener(event, forceUpdate);
+            transformer?.removeEventListener(event, forceUpdate);
         }
     });
 
-    const scene = game.current.scene;
+    const scene = game?.current.scene;
     const gameObjects = scene ? getGameObjects(scene) : [];
 
     return (

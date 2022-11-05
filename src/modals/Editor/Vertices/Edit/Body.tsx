@@ -16,17 +16,17 @@ import "@local/styles/fields/MultiNumberField.scss";
 const axes = ["x", "y", "z"] as const;
 
 function Body() {
-    const editor = useEditor();
+    const { editor } = useEditor();
     const { forceUpdate } = useForceUpdate();
-    const {
-        vertexHelper,
-        transformControls: transformer
-    } = editor;
+
+    const vertexHelper = editor?.vertexHelper;
+    const transformer = editor?.transformControls;
 
     const deleteVertex = () => {
         if (
-            transformer.object &&
-            transformer.object instanceof THREE.Mesh
+            vertexHelper &&
+            transformer?.object &&
+            transformer?.object instanceof THREE.Mesh
         ) {
             vertexHelper.deleteVertex(
                 transformer.object
@@ -37,7 +37,7 @@ function Body() {
     };
 
     const addVertex = () => {
-        vertexHelper.addVertex(0, 0, 0);
+        vertexHelper?.addVertex(0, 0, 0);
         forceUpdate();
     };
 
@@ -57,7 +57,7 @@ function Body() {
                     Add
                 </Button>
             </Box>
-            {vertexHelper.vertices.map(vert => (
+            {(vertexHelper?.vertices || []).map(vert => (
                 <FormControl key={vert.uuid} className="MultiNumberField">
                     <FormLabel className="MultiNumberField-label">
                         {vert.name}

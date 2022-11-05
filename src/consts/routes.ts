@@ -54,7 +54,7 @@ const pageRoutes: RouteInfo[] = [
     },
     {
         pageTitle: `Editor - ${app.name}`,
-        path: "/:lang/editor",
+        path: "/:lang/editor/:gameUid",
         Element: EditorPage,
         wrappers: [
             RequireAuth,
@@ -70,7 +70,7 @@ const pageRoutes: RouteInfo[] = [
 const modalRoutes: RouteInfo[] = [
     // Project
     {
-        path: "/:lang/editor/project/edit",
+        path: "/:lang/editor/:gameUid/project/edit",
         Element: EditProjectModal,
         wrappers: [
             RequireAuth
@@ -82,7 +82,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Renderer 
     {
-        path: "/:lang/editor/renderer/edit",
+        path: "/:lang/editor/:gameUid/renderer/edit",
         Element: EditRendererModal,
         wrappers: [
             RequireAuth
@@ -94,7 +94,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Body 
     {
-        path: "/:lang/editor/physics/edit",
+        path: "/:lang/editor/:gameUid/physics/edit",
         Element: EditPhysicsModal,
         wrappers: [
             RequireAuth,
@@ -106,7 +106,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Texture
     {
-        path: "/:lang/editor/texture/edit",
+        path: "/:lang/editor/:gameUid/texture/edit",
         Element: EditTextureModal,
         wrappers: [
             RequireAuth,
@@ -118,7 +118,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Geometry
     {
-        path: "/:lang/editor/geometry/edit",
+        path: "/:lang/editor/:gameUid/geometry/edit",
         Element: EditGeometryModal,
         wrappers: [
             RequireAuth,
@@ -130,7 +130,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Object
     {
-        path: "/:lang/editor/object/add",
+        path: "/:lang/editor/:gameUid/object/add",
         Element: AddObjectModal,
         wrappers: [
             RequireAuth,
@@ -141,7 +141,7 @@ const modalRoutes: RouteInfo[] = [
         ]
     },
     {
-        path: "/:lang/editor/object/edit",
+        path: "/:lang/editor/:gameUid/object/edit",
         Element: EditObjectModal,
         wrappers: [
             RequireAuth,
@@ -153,7 +153,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Scene
     {
-        path: "/:lang/editor/scene/edit",
+        path: "/:lang/editor/:gameUid/scene/edit",
         Element: EditSceneModal,
         wrappers: [
             RequireAuth,
@@ -164,7 +164,7 @@ const modalRoutes: RouteInfo[] = [
         ]
     },
     {
-        path: "/:lang/editor/scene-tree/edit",
+        path: "/:lang/editor/:gameUid/scene-tree/edit",
         Element: EditSceneTreeModal,
         wrappers: [
             RequireAuth,
@@ -176,7 +176,7 @@ const modalRoutes: RouteInfo[] = [
     },
     // Vertices
     {
-        path: "/:lang/editor/vertices/edit",
+        path: "/:lang/editor/:gameUid/vertices/edit",
         Element: EditVerticesModal,
         wrappers: [
             RequireAuth

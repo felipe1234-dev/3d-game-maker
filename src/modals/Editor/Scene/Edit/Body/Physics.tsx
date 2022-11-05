@@ -1,36 +1,31 @@
-import { useState, useEffect } from "react";
-import { TextField, FormControl, FormLabel, FormGroup } from "@mui/material";
-import * as THREE from "three";
+import React from "react";
+import {
+    TextField,
+    FormControl,
+    FormLabel,
+    FormGroup
+} from "@mui/material";
 
 import { useGame } from "@local/contexts";
 import { t } from "@local/i18n";
+import { useForceUpdate } from "@local/hooks";
 
 const axes = ["x", "y", "z"] as const;
 
 function Physics() {
-    const game = useGame();
+    const { game } = useGame();
+    const { forceUpdate } = useForceUpdate();
 
-    const [gravity, setGravity] = useState<THREE.Vector3>(new THREE.Vector3());
+    const handleGravityChange = (
+        evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        axis: typeof axes[number]
+    ) => {
+        if (!game || !game.current.scene) return;
 
-    useEffect(() => {
-        const { currentScene } = game;
-        if (!currentScene) {
-            return;
-        }
+        game.current.scene.physics.gravity[axis] = Number(evt.target.value);
 
-        const { x: gx, y: gy, z: gz } = currentScene.physics.gravity;
-        setGravity(new THREE.Vector3(gx, gy, gz));
-    }, [game]);
-
-    useEffect(() => {
-        const { currentScene } = game;
-        if (!currentScene) {
-            return;
-        }
-
-        const { x: gx, y: gy, z: gz } = gravity;
-        currentScene.physics.gravity.set(gx, gy, gz);
-    }, [gravity]);
+        forceUpdate();
+    };
 
     return (
         <FormControl style={{ paddingTop: 10 }}>
@@ -40,17 +35,12 @@ function Physics() {
             <FormGroup row>
                 {axes.map((axis, i) => (
                     <TextField
-                        key={i}
+                        key={`${axis}-${i}`}
                         label={t(axis.toUpperCase())}
-                        onChange={evt =>
-                            setGravity(prevState => {
-                                prevState[axis] = Number(evt.target.value);
-
-                                const { x, y, z } = prevState;
-                                return new THREE.Vector3(x, y, z);
-                            })
+                        onChange={evt => handleGravityChange(evt, axis)}
+                        value={
+                            game?.current.scene?.physics.gravity[axis] || 0
                         }
-                        value={gravity[axis]}
                         inputProps={{
                             type: "number",
                             step: 0.1,

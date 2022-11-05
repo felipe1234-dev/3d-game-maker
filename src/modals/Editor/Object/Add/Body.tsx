@@ -58,9 +58,9 @@ function generateModalProps(
 }
 
 function Body() {
-    const game = useGame();
-    const editor = useEditor();
-    const transformer = editor.transformControls;
+    const { game } = useGame();
+    const { editor } = useEditor();
+    const transformer = editor?.transformControls;
 
     const [showModal, setShowModal] = useState(false);
     const [expanded, setExpanded] = useState(-1);
@@ -69,9 +69,9 @@ function Body() {
         const light = new item.Constructor();
         light.name = light.type;
 
-        game.currentScene?.add(light);
-        transformer.unselect();
-        transformer.select(light);
+        game?.currentScene?.add(light);
+        transformer?.unselect();
+        transformer?.select(light);
     };
 
     const addShape = (item: typeof shapeList[number]) => {
@@ -87,27 +87,27 @@ function Body() {
         const object = new Game.Mesh(geometry, material);
         object.name = "Mesh";
 
-        game.currentScene?.add(object);
-        transformer.unselect();
-        transformer.select(object);
+        game?.currentScene?.add(object);
+        transformer?.unselect();
+        transformer?.select(object);
     };
 
     const addCamera = (item: typeof cameraList[number]) => {
         const camera = new item.Constructor();
         camera.name = camera.type;
 
-        game.currentScene?.add(camera);
-        transformer.unselect();
-        transformer.select(camera);
+        game?.currentScene?.add(camera);
+        transformer?.unselect();
+        transformer?.select(camera);
     };
 
     const addMisc = (item: typeof miscList[number]) => {
         const miscObject = new item.Constructor();
         miscObject.name = miscObject.type;
 
-        game.currentScene?.add(miscObject);
-        transformer.unselect();
-        transformer.select(miscObject);
+        game?.currentScene?.add(miscObject);
+        transformer?.unselect();
+        transformer?.select(miscObject);
     };
 
     return (

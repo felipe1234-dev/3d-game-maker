@@ -7,8 +7,8 @@ import bodyList from "@local/consts/editor/bodies/list";
 import bodyFields from "@local/consts/editor/bodies/fields";
 
 function EditPhysicsModal() {
-    const editor = useEditor();
-    const object = editor.transformControls.object;
+    const { editor } = useEditor();
+    const object = editor?.transformControls.object;
     const bodyInfo = bodyList.find(
         obj =>
             object instanceof Game.Mesh &&

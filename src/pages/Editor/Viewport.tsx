@@ -9,10 +9,12 @@ function Viewport() {
     const [containerEl, setContainerEl] = useState<HTMLElement | null>(null);
     const [hideTooltip, setHideTooltip] = useState(true);
 
-    const editor = useEditor();
-    const game = useGame();
+    const { editor } = useEditor();
+    const { game } = useGame();
 
     const onResize = () => {
+        if (!editor || !game) return;
+
         editor.camera.aspect =
             game.renderer.canvas.offsetWidth /
             game.renderer.canvas.offsetHeight;
@@ -20,15 +22,21 @@ function Viewport() {
     };
 
     const onPointerMove = () => {
-        const intersections = editor.transformControls.intersects;
+        const intersections = editor?.transformControls.intersects || [];
         setHideTooltip(intersections.length < 1);
     };
 
     useEffect(() => {
+        console.log("Viewport");
+
         if (
             !containerEl ||
             containerEl.innerHTML.length !== 0 ||
-            !game.currentScene
+
+            !game ||
+            !game.currentScene ||
+
+            !editor
         ) return;
 
         editor.camera.position.set(0, 10, 10);
@@ -47,8 +55,11 @@ function Viewport() {
             onPointerMove
         );
 
-        game.renderer.startAnimation(
-            () => { },
+        game.renderer.physicsEnabled = false;
+
+        game.renderer.start(
+            () => {
+            },
             game.currentScene,
             editor.camera
         );
@@ -62,13 +73,13 @@ function Viewport() {
             "resize",
             onResize
         );
-        game.renderer.canvas.removeEventListener(
+        game?.renderer.canvas.removeEventListener(
             "pointermove",
             onPointerMove
         );
     });
 
-    const intersections = editor.transformControls.intersects;
+    const intersections = editor?.transformControls.intersects || [];
     const { object } = intersections[0] || {};
 
     return (
