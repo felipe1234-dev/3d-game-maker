@@ -1,12 +1,30 @@
-import * as THREE from "three";
 import { Game } from "@local/classes";
-import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import {
+    applyObject3DJSON,
+    generateID,
+    parseObjectChildren
+} from "../utils/private";
+import * as THREE from "three";
 
-class GameGroup extends THREE.Group implements Game.Object3D {
+interface GroupOptions {
+    id?: number;
+    uuid?: string;
+}
+
+class Group extends THREE.Group implements Game.Object3D {
+    public readonly type: "Group";
     public helper: THREE.BoxHelper;
 
-    constructor() {
+    constructor(options: GroupOptions = {}) {
+        const {
+            id = generateID(),
+            uuid = THREE.MathUtils.generateUUID()
+        } = options;
         super();
+
+        this.id = id;
+        this.uuid = uuid;
+        this.type = "Group";
 
         this.helper = new THREE.BoxHelper(this);
         this.helper.visible = false;
@@ -34,8 +52,8 @@ class GameGroup extends THREE.Group implements Game.Object3D {
 
     public static fromJSON(
         json: Game.Formats.Group
-    ): GameGroup {
-        const group = new GameGroup();
+    ): Group {
+        const group = new Group();
 
         applyObject3DJSON(group, json);
         parseObjectChildren(group, json);
@@ -44,4 +62,5 @@ class GameGroup extends THREE.Group implements Game.Object3D {
     }
 }
 
-export default GameGroup;
+export default Group;
+export type { GroupOptions };
