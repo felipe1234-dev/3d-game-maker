@@ -138,5 +138,17 @@ export default [
             "frustumCulled",
             "renderOrder"
         ]
+    },
+    {
+        Constructor: Game.PerspectiveCamera,
+        label: "Perspective Camera",
+        attributes: [
+            "type",
+            "name",
+            "uuid",
+            "position",
+            "scale",
+            "rotation"
+        ]
     }
 ];
