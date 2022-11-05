@@ -77,7 +77,7 @@ class Physics extends CANNON.World {
         options.allowSleep = json.allowSleep;
 
         {
-            const broadphase = new CANNON.Broadphase();
+            const broadphase = new CANNON.NaiveBroadphase();
             broadphase.useBoundingBoxes = json.broadphase.useBoundingBoxes;
             broadphase.dirty = json.broadphase.dirty;
 
