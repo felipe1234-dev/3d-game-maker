@@ -98,30 +98,78 @@ class EditorCore {
         });
     }
 
-    public saveGame(
-        callback?: (format: Game.Formats.Game) => void
-    ): void {
-        this.transformControls.unselect();
+    public async saveGame(): Promise<[Game.Formats.Game, File]> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.transformControls.unselect();
 
-        for (const scene of this.game.scenes) {
-            scene.remove(
-                this.transformControls,
-                this.gridsHelper,
-                this.gravityHelper,
-                this.vertexHelper
-            );
-        }
+                for (const scene of this.game.scenes) {
+                    scene.remove(
+                        this.transformControls,
+                        this.gridsHelper,
+                        this.gravityHelper,
+                        this.vertexHelper
+                    );
+                }
 
-        const json = this.game.toJSON();
+                this.game.pause();
 
-        this.game.current.scene?.add(
-            this.transformControls,
-            this.gridsHelper,
-            this.gravityHelper,
-            this.vertexHelper
+                const format = this.game.toJSON();
+
+                const dataURL = this.game.renderer.canvas.toDataURL("image/png", 1.0);
+                const data = await fetch(dataURL)
+                const blob = await data.blob();
+
+                const filename = `${format.uuid}.png`;
+                const file = new File([blob], filename, {
+                    type: "image/png",
+                    lastModified: new Date().getTime()
+                });
+
+                this.game.current.scene?.add(
+                    this.transformControls,
+                    this.gridsHelper,
+                    this.gravityHelper,
+                    this.vertexHelper
+                );
+
+                this.game.unpause();
+
+                resolve([format, file]);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    public start(container: HTMLElement): void {
+        if (!this.game.current.scene) return;
+
+        this.camera.position.set(0, 10, 10);
+        this.orbitControls.update();
+
+        this.game.renderer.setContainer(container);
+
+        this.game.renderer.disablePhysics();
+
+        const onResize = () => {
+            this.camera.aspect =
+                this.game.renderer.canvas.offsetWidth /
+                this.game.renderer.canvas.offsetHeight;
+            this.camera.updateProjectionMatrix();
+        };
+
+        window.addEventListener(
+            "resize",
+            onResize
         );
+        new ResizeObserver(onResize).observe(container);
 
-        if (callback) callback(json);
+        this.game.renderer.start(
+            () => { },
+            this.game.current.scene,
+            this.camera
+        );
     }
 }
 
