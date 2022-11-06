@@ -34,6 +34,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
     public stage?: Game.Stage;
     public physics: GamePhysics;
     public children: (Game.Object3D | THREE.Object3D)[];
+    public cameras: Game.Camera[];
 
     constructor(
         options: SceneOptions = {
@@ -72,7 +73,9 @@ class Scene extends THREE.Scene implements Game.Object3D {
         this.stage = stage;
         this.physics = physics;
 
+        this.cameras = [];
         this.children = [];
+
         for (const object of children) {
             this.add(object);
         }
@@ -116,8 +119,12 @@ class Scene extends THREE.Scene implements Game.Object3D {
         super.add(...objects);
 
         for (const object of objects) {
-            if (object instanceof Game.Mesh) {
-                if (object.body) this.physics.addBody(object.body);
+            if (object instanceof Game.Mesh && object.body) {
+                this.physics.addBody(object.body);
+            }
+
+            if (Game.isCamera(object)) {
+                this.cameras.push(object);
             }
         }
 

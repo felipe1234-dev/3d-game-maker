@@ -19,7 +19,6 @@ class GameCore extends THREE.EventDispatcher {
 
     public stages: Game.Stage[];
     public scenes: Game.Scene[];
-    public cameras: Game.Camera[];
 
     public current: {
         scene?: Game.Scene;
@@ -60,10 +59,6 @@ class GameCore extends THREE.EventDispatcher {
 
         for (const scene of this.scenes) {
             scene.game = this;
-        }
-
-        for (const camera of this.cameras) {
-            camera.game = this;
         }
 
         this.renderer = renderer;

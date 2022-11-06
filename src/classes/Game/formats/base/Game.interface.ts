@@ -7,7 +7,6 @@ interface Game {
     uuid: string;
     stages: Stage[];
     scenes: Scene[];
-    cameras: object[];
     renderer: Renderer;
     current: {
         scene: string;
@@ -30,11 +29,6 @@ function isGame(json: any): json is Game {
     if (!Array.isArray(json.scenes)) return false;
     for (const item of json.scenes) {
         if (!isScene(item)) return false;
-    }
-
-    if (!Array.isArray(json.cameras)) return false;
-    for (const item of json.cameras) {
-        if (!(item instanceof Object)) return false;
     }
 
     if (!isRenderer(json.renderer)) return false;
