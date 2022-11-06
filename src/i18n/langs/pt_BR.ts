@@ -86,6 +86,7 @@ const pt_BR = {
     "Project": "Projeto",
     "Renderer": "Renderizador",
 
+    "Object added": "Objeto adicionado",
 
     // Editor/edit/scene
     "none": "Nenhum",
@@ -190,12 +191,12 @@ const pt_BR = {
 
     // Editor/edit/physics
     "Dynamic": "Dinâmico",
-    "Dynamic bodies are affected by forces, and can have a velocity and move around":
-        "Corpos dinâmicos são afetados por forças, e podem ter uma velocidade e se mover",
+    "Dynamic bodies are affected by forces, can have a velocity and move around":
+        "Corpos dinâmicos são afetados por forças, podem ter uma velocidade e se mover",
 
     "Kinematic": "Cinemático",
-    "Kinematic bodies aren't affected by forces but can have a velocity and move around":
-        "Corpos cinemáticos não são afetados por forças, mas podem ter uma velocidade e se mover",
+    "Kinematic bodies aren't affected by forces (which includes gravity) but can have a velocity and move around":
+        "Corpos cinemáticos não são afetados por forças (o que inclui a gravidade), mas podem ter uma velocidade e se mover",
 
     "Static": "Estático",
     "Static bodies can only be positioned in the world, but aren't affected by forces, have velocity nor can be moved":
@@ -233,7 +234,8 @@ const pt_BR = {
     "Game already exists": "Jogo já existe",
     "You are not allowed to update this game": "Você não tem permissão para editar esse jogo",
     "Please enter a valid email address": "Por favor, preencha com um endereço de email válido",
-
+    "You're trying to update a user who isn't you. Only admins can update data from users other than them.":
+        "Você está tentando atualizar um usuário que não é você. Só administradores podem atualizar dados que não sejam deles.",
 
 
     // Alerts
