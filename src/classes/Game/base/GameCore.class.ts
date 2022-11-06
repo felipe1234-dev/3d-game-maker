@@ -88,6 +88,55 @@ class GameCore extends THREE.EventDispatcher {
         return this.current.camera;
     }
 
+    public start(container: HTMLElement): void {
+        if (
+            !this.current.scene ||
+            !this.current.camera
+        ) return;
+
+        this.renderer.setContainer(container);
+
+        this.renderer.enablePhysics();
+
+        const onResize = () => {
+            if (!this.current.camera) return;
+            if (!(this.current.camera instanceof Game.PerspectiveCamera)) return;
+
+            this.current.camera.aspect =
+                this.renderer.canvas.offsetWidth /
+                this.renderer.canvas.offsetHeight;
+            this.current.camera.updateProjectionMatrix();
+        };
+
+        window.addEventListener(
+            "resize",
+            onResize
+        );
+        new ResizeObserver(onResize).observe(container);
+
+        for (const scene of this.scenes) {
+            const bodies = scene.physics.bodies;
+            for (const body of bodies) {
+                body.needsUpdate = true;
+            }
+        }
+
+        this.renderer.start(
+            () => {
+            },
+            this.current.scene,
+            this.current.camera
+        );
+    }
+
+    public pause(): void {
+        this.renderer.freeze();
+    }
+
+    public unpause(): void {
+        this.renderer.unfreeze();
+    }
+
     public toJSON(): Game.Formats.Game {
         const json: Game.Formats.Game = {
             id: this.id,
