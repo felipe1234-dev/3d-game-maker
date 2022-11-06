@@ -108,7 +108,10 @@ class GameRenderer extends THREE.WebGLRenderer {
     }
 
     public static fromJSON(json: Game.Formats.Renderer): GameRenderer {
-        const renderer = new GameRenderer({ antialias: true });
+        const renderer = new GameRenderer({
+            antialias: true,
+            preserveDrawingBuffer: true
+        });
 
         renderer.autoClear = json.autoClear;
         renderer.autoClearColor = json.autoClearColor;
