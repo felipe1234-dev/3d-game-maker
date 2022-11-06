@@ -8,7 +8,6 @@ interface GameOptions {
 
     scenes?: Game.Scene[];
     stages?: Game.Stage[];
-    cameras?: Game.Camera[];
 
     renderer?: Game.Renderer;
 }
