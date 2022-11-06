@@ -10,6 +10,12 @@ interface GameOptions {
     stages?: Game.Stage[];
 
     renderer?: Game.Renderer;
+
+    current?: {
+        scene?: Game.Scene;
+        stage?: Game.Stage;
+        camera?: Game.Camera;
+    };
 }
 
 class GameCore extends THREE.EventDispatcher {
@@ -35,22 +41,29 @@ class GameCore extends THREE.EventDispatcher {
             uuid = THREE.MathUtils.generateUUID(),
             scenes = [],
             stages = [],
-            cameras = [],
-            renderer = new Game.Renderer({ antialias: true })
+            renderer = new Game.Renderer({ antialias: true }),
+            current = {
+                scene: scenes[0] || undefined,
+                stage: scenes[0]?.stage || undefined
+            },
         } = options;
 
         this.id = id;
         this.uuid = uuid;
 
-        this.current = {
-            scene: scenes[0] || undefined,
-            stage: scenes[0]?.stage || undefined,
-            camera: cameras[0] || undefined,
-        };
-
+        this.current = current;
         this.stages = stages;
         this.scenes = scenes;
-        this.cameras = cameras;
+
+        if (this.current.scene && !this.current.camera) {
+            const camera = this.current.scene.children.find(
+                object => Game.isCamera(object)
+            ) as Game.Camera | undefined;
+
+            if (camera) {
+                this.current.camera = camera;
+            }
+        }
 
         for (const stage of this.stages) {
             stage.game = this;
@@ -81,12 +94,11 @@ class GameCore extends THREE.EventDispatcher {
             uuid: this.uuid,
             stages: this.stages.map(stage => stage.toJSON()),
             scenes: this.scenes.map(scene => scene.toJSON()),
-            cameras: this.cameras.map(camera => camera.toJSON()),
             renderer: this.renderer.toJSON(),
             current: {
                 scene: this.current.scene?.uuid || "",
                 stage: this.current.stage?.uuid || "",
-                camera: this.current.camera?.uuid || ""
+                camera: this.current.camera?.uuid || "",
             }
         };
 
@@ -113,15 +125,26 @@ class GameCore extends THREE.EventDispatcher {
             stages.push(stage);
         }
 
+        const currentScene = scenes.find(scene => scene.uuid === json.current.scene);
+        const currentStage = stages.find(stage => stage.uuid === json.current.stage);
+        const currentCamera = currentScene?.children.find(
+            object => object.uuid === json.current.camera
+        ) as Game.Camera | undefined;
+
         const game = new GameCore({
             id: json.id,
             uuid: json.uuid,
 
             stages,
             scenes,
-            cameras: [], // TODO: Filter cameras and put here
 
             renderer: Game.Renderer.fromJSON(json.renderer),
+
+            current: {
+                scene: currentScene,
+                stage: currentStage,
+                camera: currentCamera,
+            }
         });
 
         return game;
