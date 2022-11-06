@@ -61,7 +61,8 @@ function TestPage() {
                 console.log("Testing", game.uid);
                 console.log("Name", game.name);
                 console.log("Description", game.description);
-                console.log(gameCore);
+                console.log("Format", format);
+                console.log("Instance", gameCore);
             } catch (error) {
                 const err = error as Alert;
                 alert.setSeverity(err.severity);
