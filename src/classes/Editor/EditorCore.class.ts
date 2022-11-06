@@ -60,7 +60,7 @@ class EditorCore {
             this.gravityHelper
         );
 
-        game.addEventListener("changeScene", evt => {
+        game.addEventListener("selectScene", evt => {
             const currentScene = evt.currentScene as Game.Scene | undefined;
             const previousScene = evt.previousScene as Game.Scene | undefined;
             if (!currentScene || !previousScene) return;
@@ -92,7 +92,7 @@ class EditorCore {
         });
 
         game.dispatchEvent({
-            type: "changeScene",
+            type: "selectScene",
             currentScene: game.currentScene,
             previousScene: game.currentScene,
         });

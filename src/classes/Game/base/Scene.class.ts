@@ -92,11 +92,11 @@ class Scene extends THREE.Scene implements Game.Object3D {
         this.game.current.scene = this;
 
         this.dispatchEvent({
-            type: "changeScene",
+            type: "selectScene",
             previousScene
         });
         this.game.dispatchEvent({
-            type: "changeScene",
+            type: "selectScene",
             previousScene,
             currentScene: this,
         });
