@@ -12,56 +12,27 @@ function Viewport() {
     const { editor } = useEditor();
     const { game } = useGame();
 
-    const onResize = () => {
-        if (!editor || !game) return;
-
-        editor.camera.aspect =
-            game.renderer.canvas.offsetWidth /
-            game.renderer.canvas.offsetHeight;
-        editor.camera.updateProjectionMatrix();
-    };
-
     const onPointerMove = () => {
         const intersections = editor?.transformControls.intersects || [];
         setHideTooltip(intersections.length < 1);
     };
 
     useEffect(() => {
-        console.log("Viewport");
-
         if (
             !containerEl ||
             containerEl.innerHTML.length !== 0 ||
 
             !game ||
-            !game.currentScene ||
+            !game.current.scene ||
 
             !editor
         ) return;
 
-        editor.camera.position.set(0, 10, 10);
-        editor.orbitControls.update();
-
-        game.renderer.container = containerEl;
-
-        window.addEventListener(
-            "resize",
-            onResize
-        );
-        new ResizeObserver(onResize).observe(containerEl);
+        editor.start(containerEl);
 
         game.renderer.canvas.addEventListener(
             "pointermove",
             onPointerMove
-        );
-
-        game.renderer.physicsEnabled = false;
-
-        game.renderer.start(
-            () => {
-            },
-            game.currentScene,
-            editor.camera
         );
 
         console.log(editor);
@@ -69,10 +40,6 @@ function Viewport() {
     }, [containerEl, editor, game]);
 
     useUnmount(() => {
-        window.removeEventListener(
-            "resize",
-            onResize
-        );
         game?.renderer.canvas.removeEventListener(
             "pointermove",
             onPointerMove
