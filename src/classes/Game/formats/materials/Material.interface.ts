@@ -162,7 +162,7 @@ function isMaterial(json: any): json is Material {
     for (const [prop, options] of optionalEnums) {
         if (
             json[prop] !== undefined &&
-            options.includes(json[prop])
+            !options.includes(json[prop])
         ) return false;
     }
 
