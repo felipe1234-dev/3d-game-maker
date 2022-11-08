@@ -1,7 +1,6 @@
 import { FirebaseError } from "firebase/app";
-import { 
-    doc, 
-    Firestore,
+import {
+    doc,
     getDoc,
     updateDoc
 } from "firebase/firestore";
@@ -21,11 +20,11 @@ export default function update(uid: string, updates: Partial<User>): Promise<Use
 
         try {
             const docSnap = await getDoc(docRef);
-            
+
             if (docSnap.exists()) {
                 try {
                     const authUser = await auth.currentUser();
-                    
+
                     if (!!authUser) {
                         if (authUser.uid === uid || authUser.admin) {
                             try {
