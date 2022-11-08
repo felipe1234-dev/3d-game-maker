@@ -1,5 +1,5 @@
 import BaseModel from "./BaseModel.model";
-import { validateEmail } from "@local/functions";
+import { validateEmail, validateURL } from "@local/functions";
 
 class User extends BaseModel {
     public photo: string;
@@ -24,6 +24,7 @@ class User extends BaseModel {
         return obj instanceof User || (
             obj && obj instanceof Object &&
             typeof obj.photo === "string" &&
+            (obj.photo === "" || validateURL(obj.photo)) &&
             typeof obj.firstName === "string" &&
             typeof obj.lastName === "string" &&
             typeof obj.email === "string" &&
