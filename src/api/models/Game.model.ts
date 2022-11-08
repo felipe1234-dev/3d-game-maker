@@ -4,6 +4,7 @@ import BaseModel from "./BaseModel.model";
 class Game extends BaseModel {
     public name: string;
     public description: string;
+    public image: string;
     public createdBy: string;
     public url: string;
     public snippet: boolean;
@@ -13,6 +14,7 @@ class Game extends BaseModel {
 
         this.name = "";
         this.description = "";
+        this.image = "";
         this.createdBy = "";
         this.url = "";
         this.snippet = false;
@@ -23,6 +25,8 @@ class Game extends BaseModel {
             obj instanceof Object &&
             typeof obj.name === "string" &&
             typeof obj.description === "string" &&
+            typeof obj.image === "string" &&
+            (obj.image === "" || validateURL(obj.image)) &&
             typeof obj.createdBy === "string" &&
             typeof obj.url === "string" &&
             validateURL(obj.url) &&
