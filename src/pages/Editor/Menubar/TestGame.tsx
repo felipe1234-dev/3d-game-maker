@@ -14,6 +14,7 @@ function TestGame() {
 
     useEffect(() => {
         (async () => {
+            if (!metadata) return;
             const gameUid = metadata.uid;
             if (!gameUid) {
                 setDisabled(true);
@@ -27,18 +28,18 @@ function TestGame() {
 
     const lang = getLang();
     const helpText = disabled ? t("You need to save your game before testing") : undefined;
+    const gameUid = metadata?.uid || "";
 
     return (
         <Helper text={helpText} placement="bottom" arrow>
             <span>
                 <Button
                     component={Link}
-                    to={`/${lang}/test/${metadata.uid}`}
+                    to={`/${lang}/test/${gameUid}`}
+                    state={{ useLoader: true }}
+
                     target="_blank"
                     rel="noopener noreferrer"
-                    state={{
-                        useLoader: true,
-                    }}
 
                     startIcon={<Games width={15} />}
                     disabled={disabled}
