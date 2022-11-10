@@ -40,6 +40,11 @@ $sidebar-width: 250px;
                 opacity: .35;                
             }
         }
+
+        .Mui-disabled {
+            color: $text-color !important;
+            opacity: .5;
+        }
     }
     
     &-viewport {
