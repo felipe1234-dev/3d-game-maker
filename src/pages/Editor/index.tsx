@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { Box } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import {
+    useLocation,
+    useParams,
+    useNavigate
+} from "react-router-dom";
 import * as THREE from "three";
 
 import { auth, games } from "@local/api";
@@ -28,6 +32,7 @@ function EditorPage() {
     const { setGame } = useGame();
     const { updateMetadata } = useMetadata();
     const { gameUid } = useParams();
+    const location = useLocation();
     const navigate = useNavigate();
     const lang = getLang();
 
@@ -46,7 +51,12 @@ function EditorPage() {
                 let gameMetadata: GameMetadata;
 
                 if (gameUid === "new-game" || !gameUid) {
-                    gameMetadata = new GameMetadata();
+                    return navigate("snippets", {
+                        state: {
+                            background: location,
+                            useLoader: false,
+                        }
+                    });
                 } else {
                     const game = await games.byUid(gameUid);
 
