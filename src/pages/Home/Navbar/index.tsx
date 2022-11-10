@@ -1,15 +1,9 @@
-import React from "react";
-import { 
-    AppBar, 
-    Avatar, 
-    Box, 
-    Button, 
-    Toolbar, 
-    IconButton, 
-    Menu, 
-    MenuItem, 
-    Tooltip, 
-    Typography
+import {
+    AppBar,
+    Box,
+    Button,
+    Toolbar,
+    IconButton
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "@local/images/logo.svg";
@@ -19,13 +13,13 @@ function Navbar() {
     const lang = getLang();
 
     return (
-        <AppBar 
-            component="nav" 
-            className="HomePage-navbar" 
+        <AppBar
+            component="nav"
+            className="HomePage-navbar"
             position="fixed"
         >
             <Toolbar>
-                <IconButton 
+                <IconButton
                     edge="start"
                     color="inherit"
                     aria-label="menu"
@@ -37,7 +31,7 @@ function Navbar() {
                 <Button
                     component={Link}
                     className="HomePage-navbar-goToEditor"
-                    to={`/${lang}/editor`}
+                    to={`/${lang}/editor/new-game`}
                 >
                     {t("Create a game")}
                 </Button>
