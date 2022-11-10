@@ -1,4 +1,10 @@
-import { forwardRef, ReactElement, ReactNode, Ref, useState } from "react";
+import {
+    useState,
+    forwardRef,
+    ReactElement,
+    ReactNode,
+    Ref
+} from "react";
 import {
     Slide,
     Dialog,
@@ -39,16 +45,17 @@ const DraggablePaper = (props: PaperProps) => (
 interface ModalProps extends Omit<DialogProps, "open"> {
     className?: string;
     placement?:
-        | "top"
-        | "top-left"
-        | "top-right"
-        | "center"
-        | "center-left"
-        | "center-right"
-        | "bottom"
-        | "bottom-left"
-        | "bottom-right";
+    | "top"
+    | "top-left"
+    | "top-right"
+    | "center"
+    | "center-left"
+    | "center-right"
+    | "bottom"
+    | "bottom-left"
+    | "bottom-right";
     onClose?: () => void;
+    disableClose?: boolean;
     resizable?: boolean;
     draggable?: boolean;
     height?: number;
@@ -61,22 +68,26 @@ interface ModalProps extends Omit<DialogProps, "open"> {
 
 function Modal(props: ModalProps) {
     let {
-        className: customClassName,
-        onClose,
-        placement,
-        resizable,
-        draggable,
-        width: initialWidth,
-        height: initialHeight,
+        className: customClassName = "",
+        onClose = () => {
+            history.back({
+                state: {
+                    useLoader: false,
+                },
+            });
+        },
+        placement = "center",
+        disableClose = false,
+        resizable = false,
+        draggable = false,
+        disableBackdrop = false,
+        width: initialWidth = 300,
+        height: initialHeight = 100,
         header,
         body,
         footer,
-        disableBackdrop,
         ...dialogProps
     } = props;
-
-    customClassName = customClassName ?? "";
-    placement = placement ?? "center";
 
     let className = "Modal " + customClassName;
     className +=
@@ -104,27 +115,21 @@ function Modal(props: ModalProps) {
     const history = useHistory();
 
     const [open, setOpen] = useState(true);
-    const [height, setHeight] = useState(initialHeight ?? 100);
-    const [width, setWidth] = useState(initialWidth ?? 300);
+    const [width, setWidth] = useState(initialWidth);
+    const [height, setHeight] = useState(initialHeight);
 
     const closeModal = (reason: string) => {
+        if (disableClose) {
+            return;
+        }
+
         if (disableBackdrop && reason === "backdropClick") {
             return;
         }
 
         setOpen(false);
 
-        setTimeout(() => {
-            if (onClose) {
-                onClose();
-            } else {
-                history.back({
-                    state: {
-                        useLoader: false,
-                    },
-                });
-            }
-        }, 1000);
+        setTimeout(() => onClose(), 1000);
     };
 
     const Content = () => (
@@ -132,7 +137,7 @@ function Modal(props: ModalProps) {
             {header && (
                 <DialogTitle {...headerProps}>
                     {header}
-                    {disableBackdrop && (
+                    {(disableBackdrop && !disableClose) && (
                         <IconButton
                             className="Modal--backdropDisabled-closeButton"
                             onClick={() => closeModal("closeButtonClick")}
