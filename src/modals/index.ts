@@ -9,3 +9,4 @@ export { default as EditProjectModal } from "./Editor/Project/Edit";
 export { default as EditSceneModal } from "./Editor/Scene/Edit";
 export { default as EditSceneTreeModal } from "./Editor/SceneTree/Edit";
 export { default as EditVerticesModal } from "./Editor/Vertices/Edit";
+export { default as ChooseSnippetsModal } from "./Editor/Snippets";
