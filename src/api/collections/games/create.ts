@@ -18,9 +18,18 @@ import { Game as GameFormat } from "@local/classes/Game/formats";
 import { isAlert } from "@local/functions";
 
 function create(
-    metadata: Partial<GameMetadata>,
-    format: GameFormat
+    options: {
+        imageFile: File,
+        metadata: Partial<GameMetadata>,
+        format: GameFormat
+    }
 ): Promise<GameMetadata> {
+    const {
+        imageFile,
+        metadata,
+        format
+    } = options;
+
     return new Promise(async (resolve, reject) => {
         try {
             const user = await auth.currentUser();
@@ -42,6 +51,7 @@ function create(
             }
 
             delete metadata.uid;
+            delete metadata.image;
             delete metadata.createdAt;
             delete metadata.createdBy;
             delete metadata.url;
@@ -66,17 +76,23 @@ function create(
 
             game.tags = game.tags.map(tag => tag.toLowerCase());
 
-            const file = new File(
+
+            const imageRef = ref(storage, `printscreens/${user.uid}/${imageFile.name}`);
+            await uploadBytes(imageRef, imageFile);
+            const imageUrl = await getDownloadURL(imageRef);
+            game.image = imageUrl;
+
+
+            const formatFile = new File(
                 [stringifyGameJSON(format)],
                 `${game.uid}.json`,
                 { type: "application/json" }
             );
+            const formatRef = ref(storage, `games/${user.uid}/${formatFile.name}`);
+            await uploadBytes(formatRef, formatFile);
+            const formatUrl = await getDownloadURL(formatRef);
+            game.url = formatUrl;
 
-            const storageRef = ref(storage, `games/${user.uid}/${file.name}`);
-            await uploadBytes(storageRef, file);
-
-            const url = await getDownloadURL(storageRef);
-            game.url = url;
 
             await setDoc(docRef, { ...game });
 

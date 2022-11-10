@@ -10,9 +10,18 @@ import { isAlert } from "@local/functions";
 
 function update(
     uid: string,
-    metadata: Partial<GameMetadata>,
-    format?: GameFormat
+    options: {
+        metadata?: Partial<GameMetadata>,
+        format?: GameFormat,
+        imageFile?: File
+    }
 ): Promise<GameMetadata> {
+    const {
+        metadata = {},
+        format,
+        imageFile
+    } = options;
+
     return new Promise(async (resolve, reject) => {
         try {
             const user = await auth.currentUser();
@@ -42,9 +51,18 @@ function update(
             }
 
             delete metadata.uid;
+            delete metadata.image;
             delete metadata.createdAt;
             delete metadata.createdBy;
             delete metadata.url;
+
+            if (imageFile) {
+                const storageRef = ref(storage, `printscreens/${user.uid}/${imageFile.name}`);
+                await uploadBytes(storageRef, imageFile);
+
+                const url = await getDownloadURL(storageRef);
+                metadata.image = url;
+            }
 
             if (format) {
                 const file = new File(
