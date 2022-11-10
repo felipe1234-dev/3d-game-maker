@@ -1,48 +1,76 @@
 import { Button } from "@mui/material";
 import { SaveEdit } from "@styled-icons/fluentui-system-regular";
+import { useNavigate } from "react-router-dom";
 
-import { t } from "@local/i18n";
-import { useMetadata, useEditor, useLoader, useAlert } from "@local/contexts";
+import { t, getLang } from "@local/i18n";
+import {
+    useMetadata,
+    useEditor,
+    useLoader,
+    useAlert
+} from "@local/contexts";
 import { games } from "@local/api";
+import { Game as GameMetadata } from "@local/api/models";
 import { isAlert } from "@local/functions";
 
 function SaveGame() {
     const { metadata, updateMetadata } = useMetadata();
     const { setSeverity, setMessage } = useAlert();
-
-    const editor = useEditor();
+    const { editor } = useEditor();
+    const navigate = useNavigate();
+    const lang = getLang();
     const loader = useLoader();
 
-    const saveGame = () => {
-        editor.saveGame(async (format) => {
-            loader.show();
+    const saveGame = async () => {
+        if (!editor) return;
+        if (!metadata) return;
 
-            try {
-                const gameUid = metadata.uid;
-                if (!gameUid) return;
-                const gameExists = !!(await games.byUid(gameUid));
+        loader.show();
 
-                const newMetadata = gameExists
-                    ? await games.update(format.uuid, metadata, format)
-                    : await games.create(metadata, format);
+        try {
+            const [format, imageFile] = await editor.saveGame();
+            const gameUid = metadata.uid;
+            if (!gameUid) return;
 
-                updateMetadata(newMetadata);
+            const gameExists = !!(await games.byUid(gameUid));
+            let newMetadata: GameMetadata;
 
-                loader.hide();
-
-                setSeverity("success");
-                setMessage(t("Game saved"));
-            } catch (error) {
-                if (isAlert(error)) {
-                    setSeverity(error.severity);
-                    setMessage(t(error.message));
-                } else {
-                    console.error(error);
-                }
-            } finally {
-                loader.hide();
+            if (gameExists) {
+                newMetadata = await games.update(format.uuid, {
+                    imageFile,
+                    metadata,
+                    format
+                });
+            } else {
+                newMetadata = await games.create({
+                    imageFile,
+                    metadata,
+                    format
+                });
             }
-        });
+
+            updateMetadata(newMetadata);
+
+            loader.hide();
+
+            navigate(`/${lang}/editor/${newMetadata.uid}`, {
+                state: {
+                    useLoader: false
+                }
+            });
+
+            setSeverity("success");
+            setMessage(t("Game saved"));
+        } catch (error) {
+            if (isAlert(error)) {
+                setSeverity(error.severity);
+                setMessage(t(error.message));
+            } else {
+                console.error(error);
+            }
+        } finally {
+            loader.hide();
+        }
     };
 
     return (
