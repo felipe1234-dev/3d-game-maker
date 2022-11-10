@@ -102,6 +102,7 @@ class EditorCore {
         return new Promise(async (resolve, reject) => {
             try {
                 this.transformControls.unselect();
+                this.vertexHelper.unselect();
 
                 for (const scene of this.game.scenes) {
                     scene.remove(
@@ -115,16 +116,15 @@ class EditorCore {
                 this.game.pause();
 
                 const format = this.game.toJSON();
-
                 const dataURL = this.game.renderer.canvas.toDataURL("image/png", 1.0);
-                const data = await fetch(dataURL)
+                const data = await fetch(dataURL);
                 const blob = await data.blob();
-
-                const filename = `${format.uuid}.png`;
-                const file = new File([blob], filename, {
+                const file = new File([blob], `${format.uuid}.png`, {
                     type: "image/png",
                     lastModified: new Date().getTime()
                 });
+
+                this.game.unpause();
 
                 this.game.current.scene?.add(
                     this.transformControls,
@@ -132,8 +132,6 @@ class EditorCore {
                     this.gravityHelper,
                     this.vertexHelper
                 );
-
-                this.game.unpause();
 
                 resolve([format, file]);
             } catch (err) {
