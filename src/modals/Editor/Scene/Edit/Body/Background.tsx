@@ -69,12 +69,14 @@ function Background() {
                     Game.Texture.fromURL(bgImage.url).then((texture) => {
                         texture.name = bgImage.title;
                         texture.userData = { ...bgImage };
-                        texture.mapping =
-                            bgType === "uvTexture"
-                                ? THREE.UVMapping
-                                : bgType === "equirectTexture"
-                                    ? THREE.EquirectangularReflectionMapping
-                                    : THREE.Texture.DEFAULT_MAPPING;
+
+                        if (bgType === "uvTexture") {
+                            texture.mapping = THREE.UVMapping;
+                        } else if (bgType === "equirectTexture") {
+                            texture.mapping = THREE.EquirectangularReflectionMapping;
+                        } else {
+                            texture.mapping = Game.Texture.DEFAULT_MAPPING;
+                        }
 
                         currentScene.background = texture;
                     });
