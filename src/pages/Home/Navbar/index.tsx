@@ -6,8 +6,10 @@ import {
     IconButton
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ReactComponent as Logo } from "@local/images/logo.svg";
+
 import { t, getLang } from "@local/i18n";
+import { ReactComponent as Logo } from "@local/images/logo.svg";
+import { SvgIcon } from "@local/components";
 
 function Navbar() {
     const lang = getLang();
@@ -25,7 +27,10 @@ function Navbar() {
                     aria-label="menu"
                     sx={{ mr: 2 }}
                 >
-                    <Logo className="HomePage-navbar-logo" />
+                    <SvgIcon
+                        className="HomePage-navbar-logo"
+                        Svg={Logo}
+                    />
                 </IconButton>
                 <Box sx={{ display: "flex", flexGrow: 1 }} />
                 <Button
