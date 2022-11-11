@@ -15,6 +15,8 @@ export { default as GraphicsEditor } from "./GraphicsEditor";
 export { default as Helper } from "./Helper";
 export type { HelperProps } from "./Helper";
 
+export { default as SvgIcon } from "./SvgIcon";
+
 export { default as MediaModal } from "./MediaModal";
 export type { MediaModalProps } from "./MediaModal";
 
