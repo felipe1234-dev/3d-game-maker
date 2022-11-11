@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Language } from "@styled-icons/ionicons-outline";
 import { CheckCircle } from "@styled-icons/feather";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { langs, getLang } from "@local/i18n";
 
 const labelLang = (lang: string) => lang.replace("_", " ").replace(/\s(\w+)$/, " ($1)");
@@ -17,6 +17,7 @@ function LangSelector() {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
+    const { gameUid } = useParams();
 
     const label = "Language";
     const buttonId = label.toLowerCase() + "-button";
@@ -33,7 +34,7 @@ function LangSelector() {
     };
 
     const changeLang = (lang: string) => {
-        navigate(`/${lang}/editor`, {
+        navigate(`/${lang}/editor/${gameUid}`, {
             state: {
                 useLoader: false
             }
