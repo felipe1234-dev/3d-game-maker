@@ -7,21 +7,24 @@ import {
 } from "react-router-dom";
 import * as THREE from "three";
 
-import { auth, games } from "@local/api";
-import { Game as GameMetadata } from "@local/api/models";
-import { parseGameJSON } from "@local/api/functions";
-import { Game, Editor } from "@local/classes";
 import {
     useGame,
     useMetadata,
     useEditor,
     useAlert
 } from "@local/contexts";
-import { Alert } from "@local/interfaces";
 import { getLang } from "@local/i18n";
+
+import { auth, games } from "@local/api";
+import { Game as GameMetadata } from "@local/api/models";
+import { parseGameJSON } from "@local/api/functions";
+
+import { Game, Editor } from "@local/classes";
+import { Alert } from "@local/interfaces";
 
 import Menubar from "./Menubar";
 import Viewport from "./Viewport";
+import Wallpaper from "./Wallpaper";
 import Toolbar from "./Toolbar";
 
 import "@local/styles/pages/EditorPage.scss";
@@ -29,7 +32,7 @@ import "@local/styles/pages/EditorPage.scss";
 function EditorPage() {
     const alert = useAlert();
     const { setEditor } = useEditor();
-    const { setGame } = useGame();
+    const { game, setGame } = useGame();
     const { updateMetadata } = useMetadata();
     const { gameUid } = useParams();
     const location = useLocation();
@@ -109,7 +112,7 @@ function EditorPage() {
     return (
         <Box component="div" className="Editor">
             <Menubar />
-            <Viewport />
+            {game ? <Viewport /> : <Wallpaper />}
             <Toolbar />
         </Box>
     );
