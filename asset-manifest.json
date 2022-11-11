@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.css": "/3d-game-maker/static/css/main.ce49067e.css",
-    "main.js": "/3d-game-maker/static/js/main.e50d5b09.js",
-    "static/media/logo.svg": "/3d-game-maker/static/media/logo.270e6f78090c780ce0f64c7f503acc54.svg",
+    "main.css": "/3d-game-maker/static/css/main.0158e039.css",
+    "main.js": "/3d-game-maker/static/js/main.94e7f1e4.js",
+    "static/media/logo.svg": "/3d-game-maker/static/media/logo.9a0ed804b62e018389051d530c6774c2.svg",
     "index.html": "/3d-game-maker/index.html",
-    "main.ce49067e.css.map": "/3d-game-maker/static/css/main.ce49067e.css.map",
-    "main.e50d5b09.js.map": "/3d-game-maker/static/js/main.e50d5b09.js.map"
+    "static/media/tetris.svg": "/3d-game-maker/static/media/tetris.ed391333f016bea47d2358071b3166dc.svg",
+    "main.0158e039.css.map": "/3d-game-maker/static/css/main.0158e039.css.map",
+    "main.94e7f1e4.js.map": "/3d-game-maker/static/js/main.94e7f1e4.js.map"
   },
   "entrypoints": [
-    "static/css/main.ce49067e.css",
-    "static/js/main.e50d5b09.js"
+    "static/css/main.0158e039.css",
+    "static/js/main.94e7f1e4.js"
   ]
 }
