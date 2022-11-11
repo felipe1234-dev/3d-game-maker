@@ -74,15 +74,16 @@ class Texture extends THREE.Texture implements Game.Texture {
         params?: Omit<TextureOptions, "image">
     ): Promise<Texture> {
         return new Promise<Texture>((resolve, reject) => {
-            const loader = new THREE.TextureLoader();
-
-            loader.load(
+            const imgLoader = new THREE.ImageLoader();
+            imgLoader.load(
                 url,
-                (texture) => {
-                    const mockTexture = new Texture(params);
-                    mockTexture.source = texture.source;
+                (image) => {
+                    const texture = new Texture(params);
 
-                    resolve(mockTexture);
+                    texture.image = image;
+                    texture.needsUpdate = true;
+
+                    resolve(texture);
                 },
                 undefined,
                 (err) => reject(err)
@@ -93,16 +94,19 @@ class Texture extends THREE.Texture implements Game.Texture {
     public setURL(url: string | null): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (!url) {
-                this.source = new THREE.Source(url);
+                this.image = null;
+                this.needsUpdate = true;
+
                 return resolve();
             }
 
-            const loader = new THREE.TextureLoader();
-
-            loader.load(
+            const imgLoader = new THREE.ImageLoader();
+            imgLoader.load(
                 url,
-                (texture) => {
-                    this.source = texture.source;
+                (image) => {
+                    this.image = image;
+                    this.needsUpdate = true;
+
                     resolve();
                 },
                 undefined,
