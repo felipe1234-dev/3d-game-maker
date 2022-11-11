@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 import { ReactComponent as Logo } from "@local/images/logo.svg";
+import { SvgIcon } from "@local/components";
 import { t, getLang } from "@local/i18n";
 
 import Login from "./Login";
@@ -36,7 +37,10 @@ function AuthPage() {
     return (
         <div className="AuthPage">
             <div className="AuthPage-container">
-                <Logo className="AuthPage-container-logo" />
+                <SvgIcon
+                    className="AuthPage-container-logo"
+                    Svg={Logo}
+                />
                 <Typography
                     component="h1"
                     variant="h5"
