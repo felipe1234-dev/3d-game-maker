@@ -2,6 +2,7 @@ export interface FieldProps {
     scope: "object" | "object.geometry" | "object.material" | "object.body";
     labels: string[];
     attributes: string[];
+    forceUpdate?: () => void;
     step?: number;
     min?: number;
     max?: number;
@@ -15,6 +16,7 @@ export interface FieldProps {
     }>
 }
 
+export { default as MaterialSelector } from "./MaterialSelector";
 export { default as CheckboxField } from "./CheckboxField";
 export { default as ColorField } from "./ColorField";
 export { default as MultiNumberField } from "./MultiNumberField";
