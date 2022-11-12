@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { TextFieldProps } from "@mui/material";
 import {
@@ -7,7 +7,7 @@ import {
     Visibility as VisibilityOnIcon,
     VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router";
+import { useNavigate, Path } from "react-router";
 
 import { auth } from "@local/api";
 import { useAlert } from "@local/contexts";
@@ -15,7 +15,7 @@ import { Alert } from "@local/interfaces";
 import { t } from "@local/i18n";
 
 interface LoginProps {
-    redirect: string;
+    redirect: string | Partial<Path>;
 }
 
 function Login(props: LoginProps) {
@@ -71,8 +71,7 @@ function Login(props: LoginProps) {
     };
 
     return (
-        <Box
-            component="form"
+        <form
             className="AuthPage-container-form"
             onSubmit={onSubmit}
             onChange={onChange}
@@ -129,7 +128,7 @@ function Login(props: LoginProps) {
             >
                 {t("Login")}
             </Button>
-        </Box>
+        </form>
     );
 }
 

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Box } from "@mui/material";
 import {
     useLocation,
     useParams,
@@ -110,11 +109,11 @@ function EditorPage() {
     }, [gameUid]);
 
     return (
-        <Box component="div" className="Editor">
+        <div className="Editor">
             <Menubar />
             {game ? <Viewport /> : <Wallpaper />}
             <Toolbar />
-        </Box>
+        </div>
     );
 }
 

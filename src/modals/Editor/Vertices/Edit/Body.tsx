@@ -42,7 +42,7 @@ function Body() {
     };
 
     return (
-        <div>
+        <>
             <Box
                 sx={{
                     display: "flex",
@@ -85,7 +85,7 @@ function Body() {
                     </FormGroup>
                 </FormControl>
             ))}
-        </div>
+        </>
     );
 }
 

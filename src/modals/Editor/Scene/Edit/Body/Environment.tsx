@@ -97,7 +97,7 @@ function Environment() {
     }, [envType, envImage, refract]);
 
     return (
-        <div style={{ paddingTop: 10 }}>
+        <Box sx={{ paddingTop: 10 }}>
             <TextField
                 select
                 label={t("Environment")}
@@ -178,7 +178,7 @@ function Environment() {
                     }
                 />
             )}
-        </div>
+        </Box>
     );
 }
 

@@ -35,7 +35,7 @@ function GameList() {
     const lang = getLang();
 
     return (
-        <>
+        <div className="HomePage-gameList">
             {gameList.map(game => (
                 <Link
                     key={game.uid}
@@ -45,7 +45,7 @@ function GameList() {
                     {game.name} - {game.description}
                 </Link>
             ))}
-        </>
+        </div>
     );
 }
 

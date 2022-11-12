@@ -42,8 +42,12 @@ function Body() {
         setTimeout(() => setExpanded(scene.stage!.uuid), 500);
     };
 
+    const Circle = (props: { color: string }) => (
+        <Box sx={{ backgroundColor: props.color }} />
+    );
+
     return (
-        <Box className="SceneTree-outliner">
+        <div className="SceneTree-outliner">
             <List className="SceneTree-outliner-list" component="ul">
                 {(game?.stages || []).map(stage => {
                     const open = expanded === stage.uuid;
@@ -53,22 +57,12 @@ function Body() {
                             <ListItemButton
                                 key={stage.uuid}
                                 component="li"
-                                onClick={() =>
-                                    setExpanded(open ? "" : stage.uuid)
-                                }
-                                onDrop={(evt: React.DragEvent) =>
-                                    drop(evt, stage)
-                                }
+                                onClick={() => setExpanded(open ? "" : stage.uuid)}
+                                onDrop={(evt: React.DragEvent) => drop(evt, stage)}
                                 onDragOver={allowDrop}
                             >
                                 <ListItemIcon>
-                                    <Box
-                                        sx={{
-                                            backgroundColor: stringToColor(
-                                                stage.name
-                                            ),
-                                        }}
-                                    />
+                                    <Circle color={stringToColor(stage.name)} />
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={stage.name}
@@ -84,22 +78,13 @@ function Body() {
                                         <ListItemButton
                                             key={scene.uuid}
                                             component="li"
-                                            onDragStart={(
-                                                evt: React.DragEvent
-                                            ) => drag(evt, scene)}
+                                            onDragStart={(evt: React.DragEvent) => drag(evt, scene)}
                                             onClick={() => selectScene(scene)}
                                             selected={selected}
                                             draggable
                                         >
                                             <ListItemIcon>
-                                                <Box
-                                                    sx={{
-                                                        backgroundColor:
-                                                            stringToColor(
-                                                                scene.name
-                                                            ),
-                                                    }}
-                                                />
+                                                <Circle color={stringToColor(scene.name)} />
                                             </ListItemIcon>
                                             <ListItemText
                                                 primary={scene.name}
@@ -114,7 +99,7 @@ function Body() {
                     );
                 })}
             </List>
-        </Box>
+        </div>
     );
 }
 

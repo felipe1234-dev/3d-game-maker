@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Game } from "@local/classes";
@@ -74,9 +73,9 @@ function TestPage() {
     }, []);
 
     return (
-        <Box component="div" className="TestPage">
+        <div className="TestPage">
             <Viewport />
-        </Box>
+        </div>
     );
 }
 

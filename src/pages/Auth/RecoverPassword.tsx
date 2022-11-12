@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 
@@ -51,7 +51,7 @@ function RecoverPassword() {
     };
 
     return (
-        <Box component="form" onSubmit={onSubmit} onChange={onChange}>
+        <form onSubmit={onSubmit} onChange={onChange}>
             <TextField
                 className="AuthPage-container-input"
                 margin="normal"
@@ -74,7 +74,7 @@ function RecoverPassword() {
             >
                 {t("Send password reset email")}
             </Button>
-        </Box>
+        </form>
     );
 }
 

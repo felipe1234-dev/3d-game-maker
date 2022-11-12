@@ -6,7 +6,7 @@ import { users } from "@local/api";
 import { Media, User } from "@local/api/models";
 
 import { useAlert } from "@local/contexts";
-import { useMediaModal } from "../Context";
+import { useMediaModal } from "./Context";
 
 import { Alert } from "@local/interfaces";
 

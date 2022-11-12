@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TextField, MenuItem } from "@mui/material";
+import { Box, TextField, MenuItem } from "@mui/material";
 
 import * as THREE from "three";
 import { ColorInput } from "@local/components";
@@ -73,7 +73,7 @@ function Fog() {
     }, [type, color, near, far, density]);
 
     return (
-        <div style={{ paddingTop: 10 }}>
+        <Box sx={{ paddingTop: 10 }}>
             <TextField
                 select
                 label={t("Fog")}
@@ -123,7 +123,7 @@ function Fog() {
                     }}
                 />
             )}
-        </div>
+        </Box>
     );
 }
 

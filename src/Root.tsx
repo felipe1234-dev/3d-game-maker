@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Box } from "@mui/material";
 import {
     Routes,
     Route,
@@ -43,7 +42,7 @@ function Root() {
 
     return (
         <>
-            <Box component="main">
+            <main>
                 <Routes location={backgroundLocation || pageLocation}>
                     {routes.pages.map((page, i) => (
                         <Route
@@ -90,7 +89,7 @@ function Root() {
                         alert.setSeverity(null);
                     }}
                 />
-            </Box>
+            </main>
 
             <PageLoader hidden={!loader.visible} />
         </>

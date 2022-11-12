@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import {
     VerifiedUser as VerifiedUserIcon,
@@ -129,7 +129,7 @@ function VerifyEmail() {
             {t("Email verified")} <VerifiedUserIcon color="success" />
         </Typography>
     ) : state === "not-verified" ? (
-        <Box className="AuthPage-container-verify">
+        <div className="AuthPage-container-verify">
             <Typography component="h2" variant="h6">
                 {t("Your email is not verified yet")}
             </Typography>
@@ -141,7 +141,7 @@ function VerifyEmail() {
             >
                 {t("Resend Email Verification")}
             </Button>
-        </Box>
+        </div>
     ) : (
         <></>
     );

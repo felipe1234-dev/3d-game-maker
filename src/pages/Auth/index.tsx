@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 import { ReactComponent as Logo } from "@local/images/logo.svg";
+import { isRouteState } from "@local/functions";
 import { SvgIcon } from "@local/components";
 import { t, getLang } from "@local/i18n";
 
@@ -20,10 +21,13 @@ const LOGIN = 0;
 
 function AuthPage() {
     const [tab, setTab] = useState(LOGIN);
-    const { pathname: pathNow } = useLocation();
+    const location = useLocation();
+    const { pathname: pathNow, state } = location;
 
     const lang = getLang();
-    const redirect = `/${lang}/home`;
+    const routeState = isRouteState(state) ? state : {};
+    const defaultRedirect = `/${lang}/home`;
+    const redirect = routeState.from || defaultRedirect;
 
     useEffect(() => {
         const params = new URLSearchParams(
@@ -51,10 +55,7 @@ function AuthPage() {
                 {tab === LOGIN && (
                     <>
                         <Login redirect={redirect} />
-                        <Box
-                            component="footer"
-                            className="AuthPage-container-footer"
-                        >
+                        <footer className="AuthPage-container-footer">
                             <span onClick={() => setTab(REGISTER)}>
                                 {t("Create an account")}
                             </span>
@@ -62,16 +63,13 @@ function AuthPage() {
                             <span onClick={() => setTab(RECOVER)}>
                                 {t("Recover password")}
                             </span>
-                        </Box>
+                        </footer>
                     </>
                 )}
                 {tab === REGISTER && (
                     <>
                         <Register redirect={redirect} />
-                        <Box
-                            component="footer"
-                            className="AuthPage-container-footer"
-                        >
+                        <footer className="AuthPage-container-footer">
                             <span onClick={() => setTab(LOGIN)}>
                                 {t("Already have an account?")}
                             </span>
@@ -79,16 +77,13 @@ function AuthPage() {
                             <span onClick={() => setTab(RECOVER)}>
                                 {t("Recover password")}
                             </span>
-                        </Box>
+                        </footer>
                     </>
                 )}
                 {tab === RECOVER && (
                     <>
                         <RecoverPassword />
-                        <Box
-                            component="footer"
-                            className="AuthPage-container-footer"
-                        >
+                        <footer className="AuthPage-container-footer">
                             <span onClick={() => setTab(LOGIN)}>
                                 {t("Already have an account?")}
                             </span>
@@ -96,7 +91,7 @@ function AuthPage() {
                             <span onClick={() => setTab(REGISTER)}>
                                 {t("Create an account")}
                             </span>
-                        </Box>
+                        </footer>
                     </>
                 )}
                 {tab === VERIFY && <VerifyEmail />}

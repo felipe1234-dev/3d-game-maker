@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, TextField, Divider } from "@mui/material";
+import { TextField, Divider } from "@mui/material";
 import { LoadingButton as Button } from "@mui/lab";
 import { DropzoneArea } from "material-ui-dropzone";
 import { Upload as UploadIcon } from "@styled-icons/bootstrap";
@@ -47,7 +47,7 @@ function Upload() {
     };
 
     return (
-        <Box className="MediaModal-upload">
+        <div className="MediaModal-upload">
             <TextField
                 variant="outlined"
                 label="Title"
@@ -74,7 +74,7 @@ function Upload() {
             >
                 Upload file
             </Button>
-        </Box>
+        </div>
     );
 }
 

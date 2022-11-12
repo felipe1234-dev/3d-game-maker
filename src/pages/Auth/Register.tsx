@@ -12,7 +12,7 @@ import {
     Visibility as VisibilityOnIcon,
     VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Path } from "react-router-dom";
 
 import { useAlert } from "@local/contexts";
 import { validateEmail } from "@local/functions";
@@ -21,7 +21,7 @@ import { auth } from "@local/api";
 import { t } from "@local/i18n";
 
 interface RegisterProps {
-    redirect: string;
+    redirect: string | Partial<Path>;
 }
 
 function Register(props: RegisterProps) {
@@ -107,8 +107,7 @@ function Register(props: RegisterProps) {
     };
 
     return (
-        <Box
-            component="form"
+        <form
             className="AuthPage-container-form"
             onSubmit={onSubmit}
             onChange={onChange}
@@ -187,7 +186,7 @@ function Register(props: RegisterProps) {
             >
                 {t("Register")}
             </Button>
-        </Box>
+        </form>
     );
 }
 

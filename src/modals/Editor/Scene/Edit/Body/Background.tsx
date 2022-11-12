@@ -89,7 +89,7 @@ function Background() {
     }, [bgColor, bgType, bgImage]);
 
     return (
-        <div style={{ paddingTop: 10 }}>
+        <Box sx={{ paddingTop: 10 }}>
             <TextField
                 select
                 label={t("Background")}
@@ -149,7 +149,7 @@ function Background() {
                     folders="textures/equirec"
                 />
             )}
-        </div>
+        </Box>
     );
 }
 
