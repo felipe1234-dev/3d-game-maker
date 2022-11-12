@@ -8,6 +8,7 @@ export interface FieldProps {
     maxLength?: number;
     minLength?: number;
     helpTexts?: string[];
+    readOnly?: boolean;
     options?: Array<{
         label: string;
         value: any;

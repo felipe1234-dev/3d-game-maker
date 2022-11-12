@@ -18,6 +18,7 @@ function SingleNumberField(props: FieldProps & TextFieldProps) {
         min,
         max,
         helpTexts = [],
+        readOnly = false,
         scope,
         ...textFieldProps
     } = props;
@@ -73,6 +74,7 @@ function SingleNumberField(props: FieldProps & TextFieldProps) {
                     step: step || 1,
                     min,
                     max,
+                    readOnly
                 }}
                 {...textFieldProps}
             />

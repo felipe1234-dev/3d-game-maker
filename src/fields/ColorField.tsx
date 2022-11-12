@@ -19,6 +19,7 @@ function ColorField(props: FieldProps) {
         labels,
         attributes,
         helpTexts = [],
+        readOnly = false,
         scope
     } = props;
     const label = t(labels[0]);
@@ -71,6 +72,7 @@ function ColorField(props: FieldProps) {
                         color: hexValue,
                     },
                     value: hexValue,
+                    readOnly
                 }}
             />
         </Helper>

@@ -25,6 +25,7 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
         labels,
         attributes,
         helpTexts = [],
+        readOnly = false,
         scope
     } = props;
     const label = t(labels[0]);
@@ -75,6 +76,7 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
                             checked={isChecked}
                         />
                     }
+                    disabled={readOnly}
                 />
             </Helper>
         </FormGroup>

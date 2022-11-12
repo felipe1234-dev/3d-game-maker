@@ -23,6 +23,7 @@ function RangeField(props: FieldProps & InputProps) {
         min = 0,
         max = 1,
         helpTexts = [],
+        readOnly = false,
         scope,
         ...inputProps
     } = props;
@@ -106,6 +107,7 @@ function RangeField(props: FieldProps & InputProps) {
                     step={step}
                     min={min}
                     max={max}
+                    disabled={readOnly}
                 />
             </Grid>
             <Grid item>
@@ -115,10 +117,11 @@ function RangeField(props: FieldProps & InputProps) {
                     value={value}
                     onBlur={onInputBlur}
                     inputProps={{
+                        type: "number",
                         step,
                         min,
                         max,
-                        type: "number",
+                        readOnly
                     }}
                     {...inputProps}
                 />

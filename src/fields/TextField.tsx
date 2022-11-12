@@ -21,6 +21,7 @@ function TextField(props: FieldProps & MuiTextFieldProps) {
         maxLength,
         helpTexts = [],
         scope,
+        readOnly = false,
         ...textFieldProps
     } = props;
     const attrPath = attributes[0];
@@ -76,6 +77,7 @@ function TextField(props: FieldProps & MuiTextFieldProps) {
                     type: "text",
                     maxLength,
                     minLength,
+                    readOnly
                 }}
 
                 {...textFieldProps}
