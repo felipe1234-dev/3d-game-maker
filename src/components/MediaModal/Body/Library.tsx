@@ -17,8 +17,8 @@ function Library(props: LibraryProps) {
     const { search } = props;
     const tags = search.toLowerCase().split(" ");
 
-    const filteredList = mediaList.filter(item =>
-        tags.some(tag => (tag ? item.tags.includes(tag) : true))
+    const filteredList = mediaList.filter(media =>
+        tags.some(tag => (tag ? media.tags.includes(tag) : true))
     );
 
     return filteredList.length > 0 ? (
@@ -26,19 +26,20 @@ function Library(props: LibraryProps) {
             className="MediaModal-gallery"
             variant="quilted"
             cols={4}
+            gap={8}
             rowHeight={150}
         >
-            {filteredList.map((item, i) => (
+            {filteredList.map(media => (
                 <Tooltip
-                    key={i}
-                    title={item.title + ": " + item.description}
+                    key={media.uid}
+                    title={media.title + ": " + media.description}
                     placement="bottom"
                     arrow
                 >
                     <ImageListItem
                         className={
                             "MediaModal-gallery-media" +
-                            (selectedMedia?.uid === item.uid
+                            (selectedMedia?.uid === media.uid
                                 ? " MediaModal-gallery-media--isSelected"
                                 : "")
                         }
@@ -46,15 +47,19 @@ function Library(props: LibraryProps) {
                         rows={1}
                         onClick={() =>
                             setSelectedMedia(prev => {
-                                if (prev?.uid === item.uid) {
+                                if (prev?.uid === media.uid) {
                                     return undefined;
                                 }
 
-                                return item;
+                                return media;
                             })
                         }
                     >
-                        <img src={item.url} alt={item.title} loading="lazy" />
+                        <img
+                            src={media.url}
+                            alt={media.title}
+                            loading="lazy"
+                        />
                     </ImageListItem>
                 </Tooltip>
             ))}
