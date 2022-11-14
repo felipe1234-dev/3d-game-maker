@@ -31,6 +31,9 @@ function MediaModalProvider(props: { children: React.ReactNode }) {
     useEffect(() => {
         const filter: Filter = {
             where: [],
+            orderBy: [
+                ["createdAt", "desc"]
+            ]
         };
 
         if (folders) {
@@ -40,7 +43,6 @@ function MediaModalProvider(props: { children: React.ReactNode }) {
         gallery
             .list(filter)
             .then(resp => {
-                console.log(filter, resp);
                 setMediaList(resp);
             })
             .catch((error: Alert) => {
