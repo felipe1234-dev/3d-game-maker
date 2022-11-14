@@ -2,4 +2,12 @@
     &:not(:first-child) {
         margin-top: 15px !important;
     }
+
+    &:not(:last-child) {
+        margin-bottom: 15px !important;
+    }
+
+    .MuiInput-root:before {
+        border-bottom: none !important;
+    }
 }
