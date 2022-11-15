@@ -1,5 +1,7 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { GridOn, GridOff } from "@styled-icons/material";
+import { Planet as PlanetFilled } from "@styled-icons/ionicons-sharp";
+import { Planet as PlanetOutline } from "@styled-icons/ionicons-outline";
 
 import { useEditor } from "@local/contexts";
 import { useForceUpdate } from "@local/hooks";
@@ -7,12 +9,20 @@ import { t } from "@local/i18n";
 
 function Top() {
     const { editor } = useEditor();
-    const showGrids = !!editor?.gridsHelper.visible;
-
     const { forceUpdate } = useForceUpdate();
+
+    const showGrids = !!editor?.gridsHelper.visible;
+    const showGravity = !!editor?.gravityHelper.visible;
+
     const toggleGrids = () => {
         if (!editor) return;
         editor.gridsHelper.visible = !showGrids;
+        forceUpdate();
+    };
+
+    const toggleGravity = () => {
+        if (!editor) return;
+        editor.gravityHelper.visible = !showGravity;
         forceUpdate();
     };
 
@@ -21,7 +31,7 @@ function Top() {
     return (
         <Box>
             <Tooltip
-                title={t(showGrids ? "Show grids" : "Hide grids")}
+                title={t(showGrids ? "Hide grids" : "Show grids")}
                 placement="right"
                 arrow
             >
@@ -30,7 +40,22 @@ function Top() {
                         onClick={toggleGrids}
                         sx={{ width: buttonSize, height: buttonSize }}
                     >
-                        {showGrids ? <GridOff /> : <GridOn />}
+                        {showGrids ? <GridOn /> : <GridOff />}
+                    </IconButton>
+                </span>
+            </Tooltip>
+
+            <Tooltip
+                title={t(showGravity ? "Hide gravity" : "Show gravity")}
+                placement="right"
+                arrow
+            >
+                <span style={{ width: "fit-content" }}>
+                    <IconButton
+                        onClick={toggleGravity}
+                        sx={{ width: buttonSize, height: buttonSize }}
+                    >
+                        {showGravity ? <PlanetFilled /> : <PlanetOutline />}
                     </IconButton>
                 </span>
             </Tooltip>
