@@ -100,17 +100,22 @@ const pt_BR = {
 
     // Editor/edit/scene
     "none": "Nenhum",
+    "None": "Nenhum",
     "uvMapping": "Textura UV",
     "equirectMapping": "Equirectangular",
 
     "default": "Padrão",
+    "Default": "Padrão",
     "color": "Cor",
     "uvTexture": "Textura UV",
     "equirectTexture": "Textura Equirectangular",
 
     "Fog": "Neblina",
-    "linear": "Linear",
-    "exponential": "Exponencial",
+    "Linear": "Linear",
+    "Exponential": "Exponencial",
+    "Density": "Densidade",
+    "Near": "Quão perto",
+    "Far": "Quão longe",
 
     "Scene name": "Nome do cenário",
     "The image that all objects in the scene will reflect by default. You can change this for individual objects.":
