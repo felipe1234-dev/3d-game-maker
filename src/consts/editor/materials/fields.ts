@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import {
     MaterialSelector,
     ColorField,
@@ -8,6 +7,7 @@ import {
     RangeField,
     MapField,
 } from "@local/fields";
+import { Game } from "@local/classes";
 
 export default [
     {
@@ -24,15 +24,15 @@ export default [
         options: [
             {
                 label: "Front",
-                value: THREE.FrontSide
+                value: Game.FrontSide
             },
             {
                 label: "Back",
-                value: THREE.BackSide
+                value: Game.BackSide
             },
             {
                 label: "Both",
-                value: THREE.DoubleSide
+                value: Game.DoubleSide
             }
         ],
         helpText: ""
@@ -45,23 +45,23 @@ export default [
         options: [
             {
                 label: "No blending",
-                value: THREE.NoBlending
+                value: Game.NoBlending
             },
             {
                 label: "Normal blending",
-                value: THREE.NormalBlending
+                value: Game.NormalBlending
             },
             {
                 label: "Additive blending",
-                value: THREE.AdditiveBlending
+                value: Game.AdditiveBlending
             },
             {
                 label: "Subtractive blending",
-                value: THREE.SubtractiveBlending
+                value: Game.SubtractiveBlending
             },
             {
                 label: "Multiply blending",
-                value: THREE.MultiplyBlending
+                value: Game.MultiplyBlending
             }
         ]
     },
@@ -220,9 +220,7 @@ export default [
         key: "map",
         Component: MapField,
         attributes: ["map"],
-        labels: ["Map"],
-        "has_refr": false,
-        "has_types": false
+        labels: ["Map"]
     },/*
     {
         Component: "MapField",
