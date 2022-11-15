@@ -21,6 +21,7 @@ export default [
         Component: OptionsField,
         attributes: ["side"],
         labels: ["Render side"],
+        helpText: "",
         options: [
             {
                 label: "Front",
@@ -35,7 +36,6 @@ export default [
                 value: Game.DoubleSide
             }
         ],
-        helpText: ""
     },
     {
         key: "blending",
@@ -162,7 +162,7 @@ export default [
         key: "thickness",
         Component: SingleNumberField,
         attributes: ["thickness"],
-        labels: ["thickness"],
+        labels: ["Thickness"],
     },
     {
         key: "shininess",
@@ -188,7 +188,6 @@ export default [
         min: 0,
         step: 0.01
     },
-
     {
         key: "vertexColors",
         Component: CheckboxField,
@@ -213,188 +212,155 @@ export default [
         attributes: ["depthWrite"],
         labels: ["Depth write"]
     },
-
-
-
     {
         key: "map",
         Component: MapField,
         attributes: ["map"],
-        labels: ["Map"]
-    },/*
-    {
-        Component: "MapField",
-        attributes: [ "envMap" ],
-        labels: "Mapa de Ambiente",
-        "has_refr": true,
-        "has_types": true
+        labels: ["Texture"]
     },
     {
-        Component: "MapField",
-        attributes: [ "matcap" ],
-        labels: "Mapeamento Esférico do Amb.",
-        "has_refr": false,
-        "has_types": false
-    },
-    
-    
-    
-    {
-        Component: "MapField",
-        attributes: [ "lightMap" ],
-        labels: "Mapa de Iluminação",
-        "has_refr": false,
-        "has_types": false
+        key: "envMap",
+        Component: MapField,
+        attributes: ["envMap"],
+        labels: ["Environment"],
     },
     {
+        key: "matcap",
+        Component: MapField,
+        attributes: ["matcap"],
+        labels: ["MatCap Map"],
+    },
+    {
+        key: "lightMap",
+        Component: MapField,
+        attributes: ["lightMap"],
+        labels: ["Light map"],
+    },
+    {
+        key: "lightMapIntensity",
         Component: SingleNumberField,
-        attributes: [ "lightMapIntensity" ],
-        labels: [ "Intensidade" ],
-        max: 1, 
+        attributes: ["lightMapIntensity"],
+        labels: ["Light map intensity"],
+        max: 1,
         min: 0,
         step: 0.01
     },
-    
-    
-    
     {
-        Component: "MapField",
-        attributes: [ "specularMap" ],
-        labels: "Mapa Especular",
-        "has_refr": false,
-        "has_types": false
-    },
-    
-    
-    
-    {
-        Component: "MapField",
-        attributes: [ "aoMap" ],
-        labels: "Mapa de oclusão ambiental",
-        "has_refr": false,
-        "has_types": false
+        key: "specularMap",
+        Component: MapField,
+        attributes: ["specularMap"],
+        labels: ["Specular Map"],
     },
     {
+        key: "aoMap",
+        Component: MapField,
+        attributes: ["aoMap"],
+        labels: ["AO Map"],
+    },
+    {
+        key: "aoMapIntensity",
         Component: SingleNumberField,
-        attributes: [ "aoMapIntensity" ],
-        labels: [ "Intensidade" ],
-        max: 1, 
+        attributes: ["aoMapIntensity"],
+        labels: ["AO Map intensity"],
+        max: 1,
         min: 0,
         step: 0.01
     },
-    
-    
-    
     {
-        Component: "MapField",
-        attributes: [ "emissiveMap" ],
-        labels: "Mapa de Emissão",
-        "has_refr": false,
-        "has_types": false
-    },
-    
-    
-    
-    {
-        Component: "MapField",
-        attributes: [ "displacementMap" ],
-        labels: "Mapa de Deslocamento",
-        "has_refr": false,
-        "has_types": false
+        key: "emissiveMap",
+        Component: MapField,
+        attributes: ["emissiveMap"],
+        labels: ["Emissive Map"],
     },
     {
+        key: "displacementMap",
+        Component: MapField,
+        attributes: ["displacementMap"],
+        labels: ["Displacement Map"],
+    },
+    {
+        key: "displacementBias",
         Component: SingleNumberField,
-        attributes: [ "displacementBias" ],
-        labels: "Viés",
+        attributes: ["displacementBias"],
+        labels: ["Displacement bias"],
     },
     {
+        key: "displacementScale",
         Component: SingleNumberField,
-        attributes: [ "displacementScale" ],
-        labels: [ "Escala" ],
-    },
-    
-    
-    
-    {
-        Component: "MapField",
-        attributes: [ "normalMap" ],
-        labels: "Mapa Normal",
-        "has_refr": false,
-        "has_types": false
+        attributes: ["displacementScale"],
+        labels: ["Displacement scale"],
     },
     {
+        key: "normalMap",
+        Component: MapField,
+        attributes: ["normalMap"],
+        labels: ["Normal Map"],
+    },
+    {
+        key: "normalScale.x",
         Component: SingleNumberField,
-        attributes: "normalScale.x",
-        labels: "Escala (x)",
+        attributes: ["normalScale.x"],
+        labels: ["Normal scale (x)"],
     },
     {
+        key: "normalScale.y",
         Component: SingleNumberField,
-        attributes: "normalScale.y",
-        labels: "Escala (y)",
-    },
-    
-    
-    {
-        Component: "MapField",
-        attributes: [ "clearcoatNormalMap" ],
-        labels: "Mapa Normal do Verniz",
-        "has_refr": false,
-        "has_types": false
+        attributes: ["normalScale.y"],
+        labels: ["Normal scale (y)"],
     },
     {
+        key: "clearcoatNormalMap",
+        Component: MapField,
+        attributes: ["clearcoatNormalMap"],
+        labels: ["Clearcoat normal map"],
+    },
+    {
+        key: "clearcoatNormalScale.x",
         Component: SingleNumberField,
-        attributes: "clearcoatNormalScale.x",
-        labels: "Escala (x)",
-        
+        attributes: ["clearcoatNormalScale.x"],
+        labels: ["Clearcoat normal map (x)"],
+
     },
     {
+        key: "clearcoatNormalScale.y",
         Component: SingleNumberField,
-        attributes: "clearcoatNormalScale.y",
-        labels: "Escala (y)",
-    },
-    
-    
-    {
-        Component: "MapField",
-        attributes: [ "bumpMap" ],
-        labels: "Mapa de Bumping",
-        "has_refr": false,
-        "has_types": false
+        attributes: ["clearcoatNormalScale.y"],
+        labels: ["Clearcoat normal map (y)"],
     },
     {
+        key: "bumpMap",
+        Component: MapField,
+        attributes: ["bumpMap"],
+        labels: ["Bumping map"],
+    },
+    {
+        key: "bumpScale",
         Component: SingleNumberField,
-        attributes: [ "bumpScale" ],
-        labels: [ "Escala" ],
-    },
-    
-    
-    
-    {
-        Component: "MapField",
-        attributes: [ "roughnessMap" ],
-        labels: "Mapa de Aspereza",
-        "has_refr": false,
-        "has_types": false
+        attributes: ["bumpScale"],
+        labels: ["Escala"],
     },
     {
-        Component: "MapField",
-        attributes: [ "metalnessMap" ],
-        labels: "Mapa da Metalicidade",
-        "has_refr": false,
-        "has_types": false
+        key: "roughnessMap",
+        Component: MapField,
+        attributes: ["roughnessMap"],
+        labels: ["Roughness map"],
     },
     {
-        Component: "MapField",
-        attributes: [ "gradientMap" ],
-        labels: "Mapa de Gradiente",
-        "has_refr": false,
-        "has_types": false
+        key: "metalnessMap",
+        Component: MapField,
+        attributes: ["metalnessMap"],
+        labels: ["Metalness map"],
     },
     {
-        Component: "MapField",
-        attributes: [ "alphaMap" ],
-        labels: "Mapa Alfa",
-        "has_refr": false,
-        "has_types": false
-    } */
+        key: "gradientMap",
+        Component: MapField,
+        attributes: ["gradientMap"],
+        labels: ["Gradient map"],
+    },
+    {
+        key: "alphaMap",
+        Component: MapField,
+        attributes: ["alphaMap"],
+        labels: ["Alpha map"],
+    }
 ];
