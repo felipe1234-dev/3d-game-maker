@@ -1,10 +1,15 @@
 import langs from "../langs";
 import getLang from "./getLang";
 
-function translate(key: string) {
+function translate(...texts: string[]): string {
     const lang = getLang();
+    let result = "";
 
-    return langs[lang][key] || key;
+    for (const text of texts) {
+        result += langs[lang][text] || text || "";
+    }
+
+    return result;
 }
 
 export default translate;
