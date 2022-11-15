@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 
+import { Game } from "@local/classes";
 import { useEditor } from "@local/contexts";
 import { FieldProps } from "@local/fields";
-import { Helper } from "@local/components";
+import { Helper, ColorInput } from "@local/components";
 import { getProperty, setProperty } from "@local/functions";
 import { t } from "@local/i18n";
-
-import ColorPicker from "material-ui-color-picker";
-import * as THREE from "three";
 
 import "@local/styles/fields/ColorField.scss";
 
 function ColorField(props: FieldProps) {
     const defaultColor = "#fff";
-    const [color, setColor] = useState(new THREE.Color(defaultColor));
+    const [color, setColor] = useState(new Game.Color(defaultColor));
 
     const {
         labels,
@@ -22,9 +20,9 @@ function ColorField(props: FieldProps) {
         readOnly = false,
         scope
     } = props;
-    const label = t(labels[0]);
+    const label = labels[0];
     const attrPath = attributes[0];
-    const helpText = t(helpTexts[0]);
+    const helpText = helpTexts[0];
     const { editor } = useEditor();
 
     useEffect(() => {
@@ -36,7 +34,7 @@ function ColorField(props: FieldProps) {
         );
 
         if (object) {
-            setColor(getProperty<THREE.Color>(attrPath, object));
+            setColor(getProperty<Game.Color>(attrPath, object));
         }
     }, [editor?.transformControls.object]);
 
@@ -51,7 +49,7 @@ function ColorField(props: FieldProps) {
         if (object) {
             setProperty(attrPath, color, object);
 
-            if (object instanceof THREE.Material) {
+            if (Game.isMaterial(object)) {
                 object.needsUpdate = true;
             }
         }
@@ -60,20 +58,15 @@ function ColorField(props: FieldProps) {
     const hexValue = "#" + color.getHexString();
 
     return (
-        <Helper text={helpText} placement="right" arrow>
-            <ColorPicker
-                className="ColorField"
+        <Helper text={t(helpText)} placement="right" arrow>
+            <ColorInput
                 variant="outlined"
-                label={label}
-                onChange={value => setColor(new THREE.Color(value))}
+
+                className="ColorField"
+                label={t(label)}
+
+                onChange={color => setColor(new Game.Color(color))}
                 value={hexValue}
-                InputProps={{
-                    style: {
-                        color: hexValue,
-                    },
-                    value: hexValue,
-                    readOnly
-                }}
             />
         </Helper>
     );
