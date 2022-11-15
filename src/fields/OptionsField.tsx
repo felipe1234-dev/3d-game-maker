@@ -19,13 +19,13 @@ function OptionsField(props: FieldProps & TextFieldProps) {
         helpTexts = [],
     } = props;
     const attrPath = attributes[0];
-    const label = t(labels[0]);
+    const label = labels[0];
     const { editor } = useEditor();
 
     const [value, setValue] = useState<any>("");
 
     const values = options.map(opt => opt.value);
-    const helpText = t(helpTexts[values.indexOf(value)]);
+    const helpText = helpTexts[values.indexOf(value)];
 
     useEffect(() => {
         if (!editor) return;
@@ -61,11 +61,11 @@ function OptionsField(props: FieldProps & TextFieldProps) {
     }, [value]);
 
     return (
-        <Helper text={helpText} placement="right" arrow>
+        <Helper text={t(helpText)} placement="right" arrow>
             <TextField
                 select
                 className="OptionsField"
-                label={label}
+                label={t(label)}
                 value={value}
                 onChange={evt => setValue(evt.target.value)}
             >
