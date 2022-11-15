@@ -1,8 +1,4 @@
-import {
-    forwardRef,
-    useEffect,
-    useState
-} from "react";
+import { useEffect, useState } from "react";
 import {
     FormGroup,
     FormControlLabel,
@@ -18,7 +14,7 @@ import { t } from "@local/i18n";
 
 import "@local/styles/fields/CheckboxField.scss";
 
-const CheckboxField = forwardRef((props: FieldProps, ref) => {
+function CheckboxField(props: FieldProps) {
     const [isChecked, setIsChecked] = useState(false);
 
     const {
@@ -28,6 +24,7 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
         readOnly = false,
         scope
     } = props;
+
     const label = t(labels[0]);
     const attrPath = attributes[0];
     const helpText = t(helpTexts[0]);
@@ -64,11 +61,12 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
     }, [isChecked]);
 
     return (
-        <FormGroup ref={ref} {...props} className="CheckboxField">
+        <FormGroup className="CheckboxField">
             <Helper text={helpText} placement="right" arrow>
                 <FormControlLabel
                     className="CheckboxField-label"
                     label={label}
+                    disabled={readOnly}
                     control={
                         <Checkbox
                             className="CheckboxField-input"
@@ -76,11 +74,10 @@ const CheckboxField = forwardRef((props: FieldProps, ref) => {
                             checked={isChecked}
                         />
                     }
-                    disabled={readOnly}
                 />
             </Helper>
         </FormGroup>
     );
-});
+}
 
 export default CheckboxField;
