@@ -1,19 +1,26 @@
 import * as THREE from "three";
-import { 
+import {
+    MaterialSelector,
     ColorField,
     CheckboxField,
-    MultiNumberField,
     SingleNumberField,
     OptionsField,
-    RangeField
+    RangeField,
+    MapField,
 } from "@local/fields";
 
 export default [
     {
+        key: "type",
+        Component: MaterialSelector,
+        attributes: [],
+        labels: ["Material type"]
+    },
+    {
         key: "side",
         Component: OptionsField,
-        attributes: [ "side" ],
-        labels: [ "Render side" ],
+        attributes: ["side"],
+        labels: ["Render side"],
         options: [
             {
                 label: "Front",
@@ -33,8 +40,8 @@ export default [
     {
         key: "blending",
         Component: OptionsField,
-        attributes: [ "blending" ],
-        labels: [ "Blending" ],
+        attributes: ["blending"],
+        labels: ["Blending"],
         options: [
             {
                 label: "No blending",
@@ -61,32 +68,32 @@ export default [
     {
         key: "color",
         Component: ColorField,
-        attributes: [ "color" ],
-        labels: [ "Color" ]
+        attributes: ["color"],
+        labels: ["Color"]
     },
     {
         key: "emissive",
         Component: ColorField,
-        attributes: [ "emissive" ],
-        labels: [ "Emission color" ]
+        attributes: ["emissive"],
+        labels: ["Emission color"]
     },
     {
         key: "specularColor",
         Component: ColorField,
-        attributes: [ "specularColor" ],
-        labels: [ "Specular color" ] 
+        attributes: ["specularColor"],
+        labels: ["Specular color"]
     },
     {
         key: "attenuationColor",
         Component: ColorField,
-        attributes: [ "attenuationColor" ],
-        labels: [ "Attenuation color" ]
+        attributes: ["attenuationColor"],
+        labels: ["Attenuation color"]
     },
     {
         key: "emissiveIntensity",
         Component: RangeField,
-        attributes: [ "emissiveIntensity" ],
-        labels: [ "Emissive intensity" ],
+        attributes: ["emissiveIntensity"],
+        labels: ["Emissive intensity"],
         max: 1,
         min: 0,
         step: 0.01
@@ -94,8 +101,8 @@ export default [
     {
         key: "reflectivity",
         Component: RangeField,
-        attributes: [ "reflectivity" ],
-        labels: [ "Reflectivity" ],
+        attributes: ["reflectivity"],
+        labels: ["Reflectivity"],
         max: 1,
         min: 0,
         step: 0.01
@@ -103,8 +110,8 @@ export default [
     {
         key: "roughness",
         Component: RangeField,
-        attributes: [ "roughness" ],
-        labels: [ "Roughness" ],
+        attributes: ["roughness"],
+        labels: ["Roughness"],
         max: 1,
         min: 0,
         step: 0.01
@@ -112,8 +119,8 @@ export default [
     {
         key: "metalness",
         Component: RangeField,
-        attributes: [ "metalness" ],
-        labels: [ "Metalness" ],
+        attributes: ["metalness"],
+        labels: ["Metalness"],
         max: 1,
         min: 0,
         step: 0.01
@@ -121,8 +128,8 @@ export default [
     {
         key: "clearcoat",
         Component: RangeField,
-        attributes: [ "clearcoat" ],
-        labels: [ "Clearcoat" ],
+        attributes: ["clearcoat"],
+        labels: ["Clearcoat"],
         max: 1,
         min: 0,
         step: 0.01
@@ -130,8 +137,8 @@ export default [
     {
         key: "clearcoatRoughness",
         Component: RangeField,
-        attributes: [ "clearcoatRoughness" ],
-        labels: [ "Clearcoat roughness" ],
+        attributes: ["clearcoatRoughness"],
+        labels: ["Clearcoat roughness"],
         max: 1,
         min: 0,
         step: 0.01
@@ -139,8 +146,8 @@ export default [
     {
         key: "transmission",
         Component: RangeField,
-        attributes: [ "transmission" ],
-        labels: [ "Transmission" ],
+        attributes: ["transmission"],
+        labels: ["Transmission"],
         max: 1,
         min: 0,
         step: 0.01
@@ -148,26 +155,26 @@ export default [
     {
         key: "attenuationDistance",
         Component: SingleNumberField,
-        attributes: [ "attenuationDistance" ],
-        labels: [ "Attenuation distance" ],
+        attributes: ["attenuationDistance"],
+        labels: ["Attenuation distance"],
     },
     {
         key: "thickness",
         Component: SingleNumberField,
-        attributes: [ "thickness" ],
-        labels: [ "thickness" ],
+        attributes: ["thickness"],
+        labels: ["thickness"],
     },
     {
         key: "shininess",
         Component: SingleNumberField,
-        attributes: [ "shininess" ],
-        labels: [ "Shininess" ],
+        attributes: ["shininess"],
+        labels: ["Shininess"],
     },
     {
         key: "opacity",
         Component: RangeField,
-        attributes: [ "opacity" ],
-        labels: [ "Opacity" ],
+        attributes: ["opacity"],
+        labels: ["Opacity"],
         max: 1,
         min: 0,
         step: 0.01
@@ -175,58 +182,57 @@ export default [
     {
         key: "alphaTest",
         Component: RangeField,
-        attributes: [ "alphaTest" ],
-        labels: [ "Alpha test" ],
+        attributes: ["alphaTest"],
+        labels: ["Alpha test"],
         max: 1,
         min: 0,
         step: 0.01
     },
-    
-    
-    
+
     {
         key: "vertexColors",
         Component: CheckboxField,
-        attributes: [ "vertexColors" ],
-        labels: [ "Vertex colors" ]
+        attributes: ["vertexColors"],
+        labels: ["Vertex colors"]
     },
     {
         key: "flatShading",
         Component: CheckboxField,
-        attributes: [ "flatShading" ],
-        labels: [ "Flat shading" ]
+        attributes: ["flatShading"],
+        labels: ["Flat shading"]
     },
     {
         key: "depthTest",
         Component: CheckboxField,
-        attributes: [ "depthTest" ],
-        labels: [ "Depth test" ]
+        attributes: ["depthTest"],
+        labels: ["Depth test"]
     },
     {
         key: "depthWrite",
         Component: CheckboxField,
-        attributes: [ "depthWrite" ],
-        labels: [ "Depth write" ]
+        attributes: ["depthWrite"],
+        labels: ["Depth write"]
     },
-    
-    
-    
-    /*{
-        Component: "ImageField",
-        attributes: [ "map" ],
-        labels: [ "labelura" ],
+
+
+
+    {
+        key: "map",
+        Component: MapField,
+        attributes: ["map"],
+        labels: ["Map"],
         "has_refr": false,
         "has_types": false
-    },
+    },/*
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "envMap" ],
         labels: "Mapa de Ambiente",
         "has_refr": true,
         "has_types": true
     },
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "matcap" ],
         labels: "Mapeamento Esférico do Amb.",
         "has_refr": false,
@@ -236,7 +242,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "lightMap" ],
         labels: "Mapa de Iluminação",
         "has_refr": false,
@@ -254,7 +260,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "specularMap" ],
         labels: "Mapa Especular",
         "has_refr": false,
@@ -264,7 +270,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "aoMap" ],
         labels: "Mapa de oclusão ambiental",
         "has_refr": false,
@@ -282,7 +288,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "emissiveMap" ],
         labels: "Mapa de Emissão",
         "has_refr": false,
@@ -292,7 +298,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "displacementMap" ],
         labels: "Mapa de Deslocamento",
         "has_refr": false,
@@ -312,7 +318,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "normalMap" ],
         labels: "Mapa Normal",
         "has_refr": false,
@@ -331,7 +337,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "clearcoatNormalMap" ],
         labels: "Mapa Normal do Verniz",
         "has_refr": false,
@@ -351,7 +357,7 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "bumpMap" ],
         labels: "Mapa de Bumping",
         "has_refr": false,
@@ -366,28 +372,28 @@ export default [
     
     
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "roughnessMap" ],
         labels: "Mapa de Aspereza",
         "has_refr": false,
         "has_types": false
     },
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "metalnessMap" ],
         labels: "Mapa da Metalicidade",
         "has_refr": false,
         "has_types": false
     },
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "gradientMap" ],
         labels: "Mapa de Gradiente",
         "has_refr": false,
         "has_types": false
     },
     {
-        Component: "ImageField",
+        Component: "MapField",
         attributes: [ "alphaMap" ],
         labels: "Mapa Alfa",
         "has_refr": false,

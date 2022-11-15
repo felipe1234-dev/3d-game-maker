@@ -4,11 +4,14 @@ export default [
     {
         Constructor: Game.MeshStandardMaterial,
         label: "3D Standard Material",
+        description: `
+            Physically realistic 3D material. 
+            Note that for best results you should always specify an environment map when using this material.
+        `,
         attributes: [
-            "list",
             "type",
-            "name",
             "uuid",
+            "name",
             "color",
             "side",
             "emissive",
@@ -42,31 +45,35 @@ export default [
     {
         Constructor: Game.MeshPhysicalMaterial,
         label: "Physical Material",
+        description: "",
         attributes: [
-            "list",
             "type",
-            "name",
             "uuid",
+            "name",
             "color",
             "attenuationColor",
             "thickness",
-            "transmission",
             "side",
+            "blending",
+            "map",
+            "clearcoatNormalMap",
+            "emissiveMap",
+            "metalnessMap",
+            "displacementMap",
             "emissive",
+            "transmission",
             "emissiveIntensity",
             "roughness",
             "reflectivity",
             "metalness",
             "clearcoat",
             "clearcoatRoughness",
-            "clearcoatNormalMap",
-            "clearcoatNormalScale.x",
-            "clearcoatNormalScale.y",
-            "flatShading",
-            "vortexColors",
-            "blending",
             "opacity",
             "alphaTest",
+            "clearcoatNormalScale.x",
+            "clearcoatNormalScale.y",
+            "vortexColors",
+            "flatShading",
             "depthTest",
             "depthWrite",
             "alphaMap",
@@ -75,35 +82,54 @@ export default [
             "envMap",
             "lightMap",
             "lightMapIntensity",
-            "emissiveMap",
-            "metalnessMap",
-            "displacementMap",
             "displacementBias",
             "displacementScale",
             "roughnessMap",
             "bumpMap",
             "bumpScale",
-            "map"
         ]
     },
     {
         Constructor: Game.LineBasicMaterial,
         label: "Line Basic Material",
-        attributes: ["type", "name", "uuid"]
+        description: "",
+        attributes: [
+            "type",
+            "uuid",
+            "name",
+            "color",
+            "fog",
+            "linewidth",
+            "linecap",
+            "linejoin"
+        ]
     },
     {
         Constructor: Game.LineDashedMaterial,
         label: "Line Dashed Material",
-        attributes: ["type", "name", "uuid"]
+        description: "",
+        attributes: [
+            "type",
+            "uuid",
+            "name",
+            "color",
+            "fog",
+            "linewidth",
+            "linecap",
+            "linejoin",
+            "dashSize",
+            "gapSize",
+            "scale"
+        ]
     },
     {
         Constructor: Game.MeshBasicMaterial,
         label: "Basic Material",
+        description: "",
         attributes: [
-            "list",
             "type",
-            "name",
             "uuid",
+            "name",
             "side",
             "color",
             "vortexColors",
@@ -126,16 +152,34 @@ export default [
     {
         Constructor: Game.MeshDepthMaterial,
         label: "Depth Material",
-        attributes: ["type", "name", "uuid"]
+        description: "",
+        attributes: [
+            "type",
+            "uuid",
+            "name",
+            "vortexColors",
+            "map",
+            "alphaMap",
+            "displacementMap",
+            "displacementScale",
+            "side",
+            "blending",
+            "opacity",
+            "transparent",
+            "alphaTest",
+            "depthTest",
+            "depthWrite",
+            "wireframe"
+        ]
     },
     {
         Constructor: Game.MeshLambertMaterial,
         label: "Lambert Material",
+        description: "",
         attributes: [
-            "list",
             "type",
-            "name",
             "uuid",
+            "name",
             "color",
             "side",
             "emissive",
@@ -161,11 +205,11 @@ export default [
     {
         Constructor: Game.MeshMatcapMaterial,
         label: "Matcap Material",
+        description: "",
         attributes: [
-            "list",
             "type",
-            "name",
             "uuid",
+            "name",
             "color",
             "side",
             "flatShading",
@@ -191,11 +235,11 @@ export default [
     {
         Constructor: Game.MeshPhongMaterial,
         label: "Blinn-Phong Material",
+        description: "",
         attributes: [
-            "list",
             "type",
-            "name",
             "uuid",
+            "name",
             "color",
             "specular",
             "shininess",
@@ -230,11 +274,11 @@ export default [
     {
         Constructor: Game.MeshToonMaterial,
         label: "Cartoon Material",
+        description: "",
         attributes: [
-            "list",
             "type",
-            "name",
             "uuid",
+            "name",
             "color",
             "side",
             "emissive",
