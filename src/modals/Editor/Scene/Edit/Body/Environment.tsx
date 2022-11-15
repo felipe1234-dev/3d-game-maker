@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
-import {
-    TextField,
-    MenuItem,
-    Checkbox,
-    FormControlLabel,
-    InputAdornment,
-    Box,
-    Button,
-    Typography,
-} from "@mui/material";
+import { TextField, MenuItem, Checkbox, FormControlLabel, InputAdornment } from "@mui/material";
 import { HelpCircle as HelpIcon } from "@styled-icons/feather";
 
 import { useGame } from "@local/contexts";
-import { Helper, MediaModal } from "@local/components";
+import {
+    Helper,
+    MediaPreview,
+    MediaModal
+} from "@local/components";
 import { Media } from "@local/api/models";
 import { Game } from "@local/classes";
 import { t } from "@local/i18n";
@@ -23,7 +18,7 @@ function Environment() {
     const { game } = useGame();
 
     const [openModal, setOpenModal] = useState(false);
-    const [envType, setEnvType] = useState<string>();
+    const [envType, setEnvType] = useState("none");
     const [envImage, setEnvImage] = useState<Media>();
     const [refract, setRefract] = useState(false);
 
@@ -85,6 +80,8 @@ function Environment() {
                         texture.mapping = mappingType;
 
                         currentScene.environment = texture;
+
+                        currentScene.environment.needsUpdate = true;
                     });
                 }
                 break;
@@ -95,59 +92,46 @@ function Environment() {
         }
     }, [envType, envImage, refract]);
 
+    const Help = () => (
+        <InputAdornment position="start">
+            <Helper
+                text={t(
+                    "The image that all objects in the scene will reflect by default. You can change this for individual objects."
+                )}
+                placement="top"
+                arrow
+            >
+                <HelpIcon
+                    style={{ width: 30, cursor: "pointer" }}
+                />
+            </Helper>
+        </InputAdornment>
+    );
+
     return (
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
             <TextField
                 select
                 label={t("Environment")}
                 onChange={evt => setEnvType(evt.target.value)}
-                value={envType ?? "none"}
+                value={envType}
                 InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <Helper
-                                text={t(
-                                    `The image that all objects in the scene will reflect by default. 
-                                    You can change this for individual objects.`
-                                )}
-                                placement="top"
-                                arrow
-                            >
-                                <HelpIcon
-                                    style={{ width: 30, cursor: "pointer" }}
-                                />
-                            </Helper>
-                        </InputAdornment>
-                    ),
+                    startAdornment: <Help />,
                 }}
             >
-                {mappingTypes.map((value, i) => (
-                    <MenuItem key={i} value={value}>
+                {mappingTypes.map(value => (
+                    <MenuItem key={`environment-${value}`} value={value}>
                         {t(value)}
                     </MenuItem>
                 ))}
             </TextField>
 
-            {envType &&
-                ["uvMapping", "equirectMapping"].includes(envType) &&
-                envImage && (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            margin: "10px 0",
-                        }}
-                    >
-                        <Typography variant="subtitle1" component="p">
-                            {envImage.title} ({envImage.mimeType})
-                        </Typography>
-
-                        <Button onClick={() => setOpenModal(true)}>
-                            {t("Change image")}
-                        </Button>
-                    </Box>
-                )}
+            {envImage && ["uvMapping", "equirectMapping"].includes(envType) && (
+                <MediaPreview
+                    onChange={() => setOpenModal(true)}
+                    value={envImage}
+                />
+            )}
 
             {openModal && envType === "uvMapping" && (
                 <MediaModal
@@ -167,7 +151,7 @@ function Environment() {
                 />
             )}
 
-            {envType && !["none", "uvMapping"].includes(envType) && (
+            {!["none", "uvMapping"].includes(envType) && (
                 <FormControlLabel
                     label={t("Refraction")}
                     control={
