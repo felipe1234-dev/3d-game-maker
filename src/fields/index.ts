@@ -25,3 +25,4 @@ export { default as PointsField } from "./PointsField";
 export { default as RangeField } from "./RangeField";
 export { default as SingleNumberField } from "./SingleNumberField";
 export { default as TextField } from "./TextField";
+export { default as MapField } from "./MapField";

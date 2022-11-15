@@ -1,0 +1,25 @@
+.MapField {
+    margin: 25px 0;
+
+    .MuiTextField-root {
+        position: relative;
+
+        img {
+            $factor: 5;
+            $base-width: 50px;
+            $base-height: 30px;
+
+            position: absolute;
+            z-index: 10;
+
+            width: 50px;
+            height: 30px;
+            transition: width 500ms ease-in-out, height 500ms ease-in-out;
+
+            &:hover {
+                width: calc($factor * $base-width);
+                height: calc($factor * $base-height);
+            }
+        }
+    }
+}
