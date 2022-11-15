@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Box, TextField, MenuItem } from "@mui/material";
+import { TextField, MenuItem } from "@mui/material";
 
-import * as THREE from "three";
 import { ColorInput } from "@local/components";
 import { t } from "@local/i18n";
 import { Game } from "@local/classes";
@@ -34,13 +33,13 @@ function Fog() {
         } else {
             setColor("#" + currentScene.fog.color.getHexString());
 
-            if (currentScene.fog instanceof THREE.Fog) {
+            if (currentScene.fog instanceof Game.Fog) {
                 setType("linear");
                 setNear(currentScene.fog.near);
                 setFar(currentScene.fog.far);
             }
 
-            if (currentScene.fog instanceof THREE.FogExp2) {
+            if (currentScene.fog instanceof Game.FogExp2) {
                 setType("exponential");
                 setDensity(currentScene.fog.density);
             }
@@ -58,12 +57,12 @@ function Fog() {
             case "linear":
                 if (!color) return;
 
-                currentScene.fog = new THREE.Fog(color, near, far);
+                currentScene.fog = new Game.Fog(color, near, far);
                 break;
             case "exponential":
                 if (!color) return;
 
-                currentScene.fog = new THREE.FogExp2(color, density);
+                currentScene.fog = new Game.FogExp2(color, density);
                 break;
             case "default":
             default:
@@ -80,9 +79,9 @@ function Fog() {
                 onChange={evt => setType(evt.target.value)}
                 value={type}
             >
-                {fogTypes.map((value, i) => (
-                    <MenuItem key={i} value={value}>
-                        {t(value)}
+                {fogTypes.map(type => (
+                    <MenuItem key={type} value={type}>
+                        {t(type)}
                     </MenuItem>
                 ))}
             </TextField>
@@ -90,6 +89,7 @@ function Fog() {
             {["linear", "exponential"].includes(type) && (
                 <ColorInput
                     variant="outlined"
+                    label={t("Color")}
                     onChange={color => setColor(color)}
                     value={color}
                 />

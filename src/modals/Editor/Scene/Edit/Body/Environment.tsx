@@ -10,7 +10,6 @@ import {
     Typography,
 } from "@mui/material";
 import { HelpCircle as HelpIcon } from "@styled-icons/feather";
-import * as THREE from "three";
 
 import { useGame } from "@local/contexts";
 import { Helper, MediaModal } from "@local/components";
@@ -35,17 +34,17 @@ function Environment() {
         if (currentScene.environment instanceof Game.Texture) {
             const env = currentScene.environment;
 
-            if (env.mapping === THREE.UVMapping) {
+            if (env.mapping === Game.UVMapping) {
                 setEnvType("uvMapping");
             } else if (
                 [
-                    THREE.EquirectangularReflectionMapping,
-                    THREE.EquirectangularRefractionMapping,
+                    Game.EquirectangularReflectionMapping,
+                    Game.EquirectangularRefractionMapping,
                 ].includes(env.mapping)
             ) {
                 setEnvType("equirectMapping");
                 setRefract(
-                    env.mapping === THREE.EquirectangularRefractionMapping
+                    env.mapping === Game.EquirectangularRefractionMapping
                 );
             }
 
@@ -73,14 +72,14 @@ function Environment() {
                         texture.name = envImage.title;
                         texture.userData = { ...envImage };
 
-                        let mappingType = THREE.Texture.DEFAULT_MAPPING;
+                        let mappingType = Game.Texture.DEFAULT_MAPPING;
 
                         if (envType === "uvMapping") {
-                            mappingType = THREE.UVMapping;
+                            mappingType = Game.UVMapping;
                         } else if (envType === "equirectMapping") {
                             mappingType = refract
-                                ? THREE.EquirectangularRefractionMapping
-                                : THREE.EquirectangularReflectionMapping;
+                                ? Game.EquirectangularRefractionMapping
+                                : Game.EquirectangularReflectionMapping;
                         }
 
                         texture.mapping = mappingType;
@@ -108,7 +107,8 @@ function Environment() {
                         <InputAdornment position="start">
                             <Helper
                                 text={t(
-                                    "The image that all objects in the scene will reflect by default. You can change this for individual objects."
+                                    `The image that all objects in the scene will reflect by default. 
+                                    You can change this for individual objects.`
                                 )}
                                 placement="top"
                                 arrow
