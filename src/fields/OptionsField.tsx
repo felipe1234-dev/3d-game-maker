@@ -69,8 +69,8 @@ function OptionsField(props: FieldProps & TextFieldProps) {
                 value={value}
                 onChange={evt => setValue(evt.target.value)}
             >
-                {options.map((option, i) => (
-                    <MenuItem key={i} value={option.value}>
+                {options.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
                         {t(option.label)}
                     </MenuItem>
                 ))}
