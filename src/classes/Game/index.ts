@@ -30,3 +30,40 @@ export * as Utils from "./utils/public";
 
 // Libs/lists
 export * as Libs from "./libs";
+
+export {
+    Fog,
+    FogExp2,
+    Color,
+
+    MathUtils,
+
+    NoToneMapping,
+    LinearToneMapping,
+    ReinhardToneMapping,
+    CineonToneMapping,
+    ACESFilmicToneMapping,
+
+    UVMapping,
+    EquirectangularReflectionMapping,
+    EquirectangularRefractionMapping,
+
+    BasicShadowMap,
+    PCFShadowMap,
+    PCFSoftShadowMap,
+    VSMShadowMap,
+
+    FrontSide,
+    BackSide,
+    DoubleSide,
+
+    NoBlending,
+    NormalBlending,
+    AdditiveBlending,
+    SubtractiveBlending,
+    MultiplyBlending
+} from "three";
+export type {
+    ColorRepresentation,
+    FogBase,
+} from "three";
