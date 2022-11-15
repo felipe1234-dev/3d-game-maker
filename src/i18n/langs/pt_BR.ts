@@ -23,6 +23,7 @@ const pt_BR = {
     "Create a game": "Criar um jogo",
 
 
+
     // Auth
     "Where games come true": "Onde jogos se tornam realidade",
     "Create an account": "Criar uma conta",
@@ -88,6 +89,15 @@ const pt_BR = {
 
     "Object added": "Objeto adicionado",
 
+    "Material type": "Tipo do material",
+
+
+
+    // Editor/edit/vertices
+    "Edit vertices": "Editar vértices",
+
+
+
     // Editor/edit/scene
     "none": "Nenhum",
     "uvMapping": "Textura UV",
@@ -107,6 +117,7 @@ const pt_BR = {
         "A imagem que todos os objetos na cena refletirão por padrão. Você pode alterar isso para os objetos individualmente.",
     "Environment": "Ambiente",
     "Background": "Fundo",
+    "Gravity forces (m/s²)": "Forças gravitacionais (m/s²)",
 
 
 
@@ -191,16 +202,16 @@ const pt_BR = {
 
     // Editor/edit/physics
     "Dynamic": "Dinâmico",
-    "Dynamic bodies are affected by forces, can have a velocity and move around":
+    "Dynamic bodies are affected by forces, and can have a velocity and move around":
         "Corpos dinâmicos são afetados por forças, podem ter uma velocidade e se mover",
 
     "Kinematic": "Cinemático",
-    "Kinematic bodies aren't affected by forces (which includes gravity) but can have a velocity and move around":
+    "Kinematic bodies aren't affected by forces but can have a velocity and move around":
         "Corpos cinemáticos não são afetados por forças (o que inclui a gravidade), mas podem ter uma velocidade e se mover",
 
     "Static": "Estático",
     "Static bodies can only be positioned in the world, but aren't affected by forces, have velocity nor can be moved":
-        "Corpos estáticos só podem ser posicionados no mundo, mas não são afetados por forças, não têm velocidade nem podem ser movidos",
+        "Corpos estáticos só podem ser posicionados no mundo, mas não são afetados por forças (como as gravitacionais), não têm velocidade nem podem ser movidos",
 
     "Linear damping": "Amortecimento linear",
     "How much to damp the body velocity each step. It can go from 0 to 1":
@@ -267,20 +278,7 @@ const pt_BR = {
     "Sphere": "Esfera",
     "Tetrahedron": "Tetraedro",
     "Torus": "Toro",
-    "Torus knot": "Nó toral",
-
-
-
-
-
-
-
-
-
-
-    "Edit vertices": "Editar vértices",
-
-
+    "Torus knot": "Nó toral"
 }
 
 export default pt_BR;
