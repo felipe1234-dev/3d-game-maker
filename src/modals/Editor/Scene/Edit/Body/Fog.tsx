@@ -73,7 +73,7 @@ function Fog() {
     }, [type, color, near, far, density]);
 
     return (
-        <Box sx={{ paddingTop: 10 }}>
+        <div style={{ paddingTop: 10, paddingBottom: 10 }}>
             <TextField
                 select
                 label={t("Fog")}
@@ -123,7 +123,7 @@ function Fog() {
                     }}
                 />
             )}
-        </Box>
+        </div>
     );
 }
 

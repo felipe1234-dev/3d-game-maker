@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Divider, TextField } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 
 import { useGame } from "@local/contexts";
 import { t } from "@local/i18n";
@@ -27,7 +27,7 @@ function Body() {
     const sceneName = game?.current.scene?.name || "";
 
     return (
-        <Box sx={{ paddingTop: 15 }}>
+        <>
             <TextField
                 label={t("Scene name")}
                 onChange={handleSceneNameChange}
@@ -41,7 +41,7 @@ function Body() {
             <Fog />
             <Divider />
             <Physics />
-        </Box>
+        </>
     );
 }
 
