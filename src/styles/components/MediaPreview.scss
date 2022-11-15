@@ -1,0 +1,39 @@
+.MediaPreview {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    &:not(:first-child) {
+        margin-top: 15px;
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 15px;
+    }
+    
+    &-image {
+        $max-size: 200px;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding: 0 10px;
+        max-height: $max-size;
+        
+        img {
+            height: 100%;
+            max-width: $max-size;
+        }
+    }
+
+    &-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+    }
+}
