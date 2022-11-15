@@ -9,6 +9,20 @@ import {
 
 export default [
     {
+        key: "uuid",
+        Component: TextField,
+        attributes: ["uuid"],
+        labels: ["UUID"],
+        readOnly: true
+    },
+    {
+        key: "id",
+        Component: TextField,
+        attributes: ["id"],
+        labels: ["ID"],
+        readOnly: true
+    },
+    {
         key: "name",
         Component: TextField,
         attributes: ["name"],
