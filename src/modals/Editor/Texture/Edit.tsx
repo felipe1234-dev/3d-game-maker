@@ -1,18 +1,20 @@
 import { Game } from "@local/classes";
 import { useEditor } from "@local/contexts";
 import { Modal } from "@local/components";
+import { useForceUpdate } from "@local/hooks";
 import { t } from "@local/i18n";
 
 import materialList from "@local/consts/editor/materials/list";
 import materialFields from "@local/consts/editor/materials/fields";
 
 function EditTextureModal() {
+    const { forceUpdate } = useForceUpdate();
     const { editor } = useEditor();
-    const object = editor?.transformControls.object;
+
+    const transformer = editor?.transformControls;
+    const object = transformer?.object instanceof Game.Mesh ? transformer?.object : undefined;
     const materialInfo = materialList.find(
-        mat =>
-            object instanceof Game.Mesh &&
-            object.material instanceof mat.Constructor
+        mat => object?.material instanceof mat.Constructor
     );
 
     const header = `${t(materialInfo?.label || "Edit material")} ${object?.name || ""}`;
@@ -31,7 +33,11 @@ function EditTextureModal() {
                 const { Component: Field, ...props } = field;
 
                 return (
-                    <Field scope="object.material" {...props} />
+                    <Field
+                        scope="object.material"
+                        forceUpdate={forceUpdate}
+                        {...props}
+                    />
                 );
             })}
         </>
