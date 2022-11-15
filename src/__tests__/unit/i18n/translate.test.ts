@@ -13,4 +13,14 @@ describe("i18n.translate", () => {
 
         expect(translate(textToBeTranslated)).toBe(textToBeTranslated);
     });
+
+    it("should return an empty string if given undefined", () => {
+        expect(translate()).toBe("");
+
+        const text: string[] = [];
+
+        expect(translate(...text)).toBe("");
+
+        expect(translate(text[0])).toBe("");
+    });
 });
