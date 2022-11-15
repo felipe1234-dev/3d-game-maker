@@ -112,7 +112,9 @@ const pt_BR = {
 
     "Fog": "Neblina",
     "Linear": "Linear",
+    "linear": "Linear",
     "Exponential": "Exponencial",
+    "exponential": "Exponencial",
     "Density": "Densidade",
     "Near": "Quão perto",
     "Far": "Quão longe",
