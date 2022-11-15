@@ -1,24 +1,24 @@
-import * as THREE from "three";
+import { Game } from "@local/classes";
 
 export default [
     {
         label: "None",
-        value: THREE.NoToneMapping
+        value: Game.NoToneMapping
     },
     {
         label: "Linear",
-        value: THREE.LinearToneMapping
+        value: Game.LinearToneMapping
     },
     {
         label: "Reinhard",
-        value: THREE.ReinhardToneMapping
+        value: Game.ReinhardToneMapping
     },
     {
         label: "Cineon",
-        value: THREE.CineonToneMapping
+        value: Game.CineonToneMapping
     },
     {
         label: "ACESFilmic",
-        value: THREE.ACESFilmicToneMapping
+        value: Game.ACESFilmicToneMapping
     }
 ];

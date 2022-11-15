@@ -1,20 +1,20 @@
-import * as THREE from "three";
+import { Game } from "@local/classes";
 
 export default [
     {
         label: "Basic",
-        value: THREE.BasicShadowMap
+        value: Game.BasicShadowMap
     },
     {
         label: "PCF",
-        value: THREE.PCFShadowMap
+        value: Game.PCFShadowMap
     },
     {
         label: "PCFSoft",
-        value: THREE.PCFSoftShadowMap
+        value: Game.PCFSoftShadowMap
     },
     {
         label: "VSM",
-        value: THREE.VSMShadowMap
+        value: Game.VSMShadowMap
     }
 ];
