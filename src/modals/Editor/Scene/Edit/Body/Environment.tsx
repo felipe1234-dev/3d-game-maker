@@ -18,7 +18,7 @@ import { Media } from "@local/api/models";
 import { Game } from "@local/classes";
 import { t } from "@local/i18n";
 
-import environmentTypes from "@local/consts/editor/types/environment";
+import mappingTypes from "@local/consts/editor/types/mapping";
 
 function Environment() {
     const { game } = useGame();
@@ -121,7 +121,7 @@ function Environment() {
                     ),
                 }}
             >
-                {environmentTypes.map((value, i) => (
+                {mappingTypes.map((value, i) => (
                     <MenuItem key={i} value={value}>
                         {t(value)}
                     </MenuItem>
