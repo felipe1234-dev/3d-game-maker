@@ -96,11 +96,11 @@ function RangeField(props: FieldProps & InputProps) {
     return (
         <Grid className="RangeField" container spacing={2} alignItems="center">
             <Helper text={t(helpText)} placement="right" arrow>
-                <Grid item>
+                <Grid item xs={12}>
                     {t(label)}
                 </Grid>
             </Helper>
-            <Grid item xs>
+            <Grid item xs={10}>
                 <Slider
                     onChange={onSliderChange}
                     value={value}
@@ -110,7 +110,7 @@ function RangeField(props: FieldProps & InputProps) {
                     disabled={readOnly}
                 />
             </Grid>
-            <Grid item>
+            <Grid item xs={2}>
                 <Input
                     size="small"
                     onChange={onInputChange}
