@@ -155,8 +155,13 @@ export default [
             "uuid",
             "id",
             "position",
+            "rotation",
             "scale",
-            "rotation"
+            "fov",
+            "near",
+            "far",
+            "frustumCulled",
+            "renderOrder"
         ]
     }
 ];

@@ -111,6 +111,27 @@ export default [
         min: 0.00
     },
     {
+        key: "fov",
+        Component: SingleNumberField,
+        attributes: ["fov"],
+        labels: ["Field of View"],
+        step: 0.01
+    },
+    {
+        key: "near",
+        Component: SingleNumberField,
+        attributes: ["near"],
+        labels: ["Near"],
+        step: 0.01
+    },
+    {
+        key: "far",
+        Component: SingleNumberField,
+        attributes: ["far"],
+        labels: ["Far"],
+        step: 0.01
+    },
+    {
         key: "angle",
         Component: RangeField,
         attributes: ["angle"],
