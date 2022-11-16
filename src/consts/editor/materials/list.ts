@@ -4,27 +4,18 @@ export default [
     {
         Constructor: Game.MeshStandardMaterial,
         label: "3D Standard Material",
-        description: `
-            Physically realistic 3D material. 
-            Note that for best results you should always specify an environment map when using this material.
-        `,
+        description:
+            "Physically realistic 3D material. " +
+            "Note that for best results you should always specify an environment map when using this material.",
         attributes: [
             "type",
             "uuid",
             "name",
             "color",
             "side",
-            "emissive",
-            "emissiveIntensity",
-            "roughness",
-            "metalness",
-            "flatShading",
-            "vortexColors",
             "blending",
-            "opacity",
-            "alphaTest",
-            "depthTest",
-            "depthWrite",
+
+            "map",
             "alphaMap",
             "aoMap",
             "aoMapIntensity",
@@ -39,7 +30,18 @@ export default [
             "roughnessMap",
             "bumpMap",
             "bumpScale",
-            "map"
+
+            "emissive",
+            "emissiveIntensity",
+            "roughness",
+            "metalness",
+            "opacity",
+
+            "flatShading",
+            "vortexColors",
+            "alphaTest",
+            "depthTest",
+            "depthWrite",
         ]
     },
     {
@@ -51,15 +53,28 @@ export default [
             "uuid",
             "name",
             "color",
-            "attenuationColor",
-            "thickness",
             "side",
             "blending",
+            "attenuationColor",
+            "thickness",
+
             "map",
+            "envMap",
             "clearcoatNormalMap",
+            "roughnessMap",
             "emissiveMap",
             "metalnessMap",
             "displacementMap",
+            "displacementBias",
+            "displacementScale",
+            "alphaMap",
+            "aoMap",
+            "aoMapIntensity",
+            "lightMap",
+            "lightMapIntensity",
+            "bumpMap",
+            "bumpScale",
+
             "emissive",
             "transmission",
             "emissiveIntensity",
@@ -68,25 +83,14 @@ export default [
             "metalness",
             "clearcoat",
             "clearcoatRoughness",
-            "opacity",
-            "alphaTest",
             "clearcoatNormalScale.x",
             "clearcoatNormalScale.y",
+            "opacity",
+            "alphaTest",
             "vortexColors",
             "flatShading",
             "depthTest",
             "depthWrite",
-            "alphaMap",
-            "aoMap",
-            "aoMapIntensity",
-            "envMap",
-            "lightMap",
-            "lightMapIntensity",
-            "displacementBias",
-            "displacementScale",
-            "roughnessMap",
-            "bumpMap",
-            "bumpScale",
         ]
     },
     {
@@ -130,15 +134,12 @@ export default [
             "type",
             "uuid",
             "name",
-            "side",
             "color",
-            "vortexColors",
-            "opacity",
-            "alphaTest",
-            "depthWrite",
-            "reflectivity",
-            "depthTest",
+            "side",
             "blending",
+
+            "reflectivity",
+
             "map",
             "aoMap",
             "aoMapIntensity",
@@ -146,7 +147,13 @@ export default [
             "alphaMap",
             "lightMap",
             "lightMapIntensity",
-            "specularMap"
+            "specularMap",
+
+            "vortexColors",
+            "opacity",
+            "alphaTest",
+            "depthWrite",
+            "depthTest",
         ]
     },
     {
@@ -157,19 +164,22 @@ export default [
             "type",
             "uuid",
             "name",
-            "vortexColors",
+            "side",
+            "blending",
+
             "map",
             "alphaMap",
             "displacementMap",
             "displacementScale",
-            "side",
-            "blending",
+
             "opacity",
+            "wireframe",
+            "vortexColors",
+
             "transparent",
             "alphaTest",
             "depthTest",
             "depthWrite",
-            "wireframe"
         ]
     },
     {
@@ -182,24 +192,26 @@ export default [
             "name",
             "color",
             "side",
-            "emissive",
-            "emissiveIntensity",
-            "reflectivity",
-            "vortexColors",
             "blending",
-            "opacity",
-            "alphaTest",
-            "depthTest",
-            "depthWrite",
-            "alphaMap",
+
+            "map",
+            "envMap",
             "aoMap",
             "aoMapIntensity",
-            "envMap",
             "lightMap",
             "lightMapIntensity",
             "emissiveMap",
             "specularMap",
-            "map"
+
+            "reflectivity",
+            "opacity",
+            "emissive",
+            "emissiveIntensity",
+            "vortexColors",
+            "alphaTest",
+            "depthTest",
+            "depthWrite",
+            "alphaMap",
         ]
     },
     {
@@ -212,14 +224,9 @@ export default [
             "name",
             "color",
             "side",
-            "flatShading",
-            "vortexColors",
             "blending",
-            "opacity",
-            "alphaTest",
-            "depthTest",
-            "depthWrite",
-            "alphaMap",
+
+            "map",
             "matcap",
             "bumpMap",
             "bumpScale",
@@ -229,7 +236,14 @@ export default [
             "displacementMap",
             "displacementBias",
             "displacementScale",
-            "map"
+            "alphaMap",
+
+            "flatShading",
+            "vortexColors",
+            "opacity",
+            "alphaTest",
+            "depthTest",
+            "depthWrite",
         ]
     },
     {
@@ -241,23 +255,21 @@ export default [
             "uuid",
             "name",
             "color",
+            "side",
+            "blending",
+
             "specular",
             "shininess",
-            "side",
             "emissive",
             "emissiveIntensity",
             "reflectivity",
             "flatShading",
-            "vortexColors",
-            "blending",
-            "opacity",
-            "alphaTest",
-            "depthTest",
-            "depthWrite",
+
+            "map",
             "alphaMap",
+            "envMap",
             "aoMap",
             "aoMapIntensity",
-            "envMap",
             "emissiveMap",
             "displacementMap",
             "displacementBias",
@@ -268,7 +280,12 @@ export default [
             "specularMap",
             "bumpMap",
             "bumpScale",
-            "map"
+
+            "vortexColors",
+            "opacity",
+            "alphaTest",
+            "depthTest",
+            "depthWrite",
         ]
     },
     {
@@ -281,15 +298,17 @@ export default [
             "name",
             "color",
             "side",
+            "blending",
+
             "emissive",
             "emissiveIntensity",
             "vortexColors",
-            "blending",
             "opacity",
             "alphaTest",
             "depthTest",
             "depthWrite",
-            "alphaMap",
+
+            "map",
             "aoMap",
             "aoMapIntensity",
             "emissiveMap",
@@ -304,7 +323,7 @@ export default [
             "gradientMap",
             "bumpMap",
             "bumpScale",
-            "map"
+            "alphaMap",
         ]
     }
 ];
