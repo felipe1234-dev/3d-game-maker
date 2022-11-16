@@ -65,6 +65,34 @@ function Body() {
     const [showModal, setShowModal] = useState(false);
     const [expanded, setExpanded] = useState(-1);
 
+    const addObject = (item: any, list: any[]) => {
+        if (list === lightList) {
+            addLight(
+                item as typeof lightList[number]
+            );
+        }
+
+        if (list === shapeList) {
+            addShape(
+                item as typeof shapeList[number]
+            );
+        }
+
+        if (list === cameraList) {
+            addCamera(
+                item as typeof cameraList[number]
+            );
+        }
+
+        if (list === miscList) {
+            addMisc(
+                item as typeof miscList[number]
+            );
+        }
+
+        setShowModal(true);
+    };
+
     const addLight = (item: typeof lightList[number]) => {
         const light = new item.Constructor();
         light.name = light.type;
@@ -133,33 +161,7 @@ function Body() {
                                 <ListItemButton
                                     key={`${item.label}-${i}`}
                                     component="li"
-                                    onClick={() => {
-                                        if (list === lightList) {
-                                            addLight(
-                                                item as typeof lightList[number]
-                                            );
-                                        }
-
-                                        if (list === shapeList) {
-                                            addShape(
-                                                item as typeof shapeList[number]
-                                            );
-                                        }
-
-                                        if (list === cameraList) {
-                                            addCamera(
-                                                item as typeof cameraList[number]
-                                            );
-                                        }
-
-                                        if (list === miscList) {
-                                            addMisc(
-                                                item as typeof miscList[number]
-                                            );
-                                        }
-
-                                        setShowModal(true);
-                                    }}
+                                    onClick={() => addObject(item, list)}
                                 >
                                     <ListItemIcon
                                         sx={{ justifyContent: "flex-end" }}
@@ -186,7 +188,7 @@ function Body() {
             {showModal && (
                 <Modal
                     placement="center"
-                    height={170}
+                    height={130}
                     header={t("Object added")}
                     footer={(
                         <Button onClick={() => setShowModal(false)}>
