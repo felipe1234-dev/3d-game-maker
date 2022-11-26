@@ -1,10 +1,14 @@
 import { Body } from "./Body.interface";
+import { Object3D, isObject3D } from "./Object3D.interface";
 import { Source, isSource } from "./Source.interface";
 import { Texture, isTexture } from "../textures/Texture.interface";
 import { Geometry, isGeometry } from "../geometries/Geometry.interface";
 import { Material, isMaterial } from "../materials/Material.interface";
 
 interface Meta {
+    objects?: {
+        [uuid: string]: Object3D["object"];
+    };
     geometries?: {
         [uuid: string]: Geometry;
     };
@@ -36,6 +40,14 @@ interface Meta {
 
 function isMeta(json: any): json is Meta {
     if (!(json instanceof Object)) return false;
+
+    if (json.objects) {
+        const objects = Object.values(json.objects);
+
+        for (const object of objects) {
+            if (!isObject3D({ object })) return false;
+        }
+    }
 
     if (json.geometries) {
         const geometries = Object.values(json.geometries);
