@@ -61,9 +61,32 @@ export {
     NormalBlending,
     AdditiveBlending,
     SubtractiveBlending,
-    MultiplyBlending
+    MultiplyBlending,
+
+    Vector2,
+    Vector3,
+    Vector4,
+    Matrix3,
+
+    Euler,
+    Quaternion,
+    EventDispatcher,
 } from "three";
 export type {
     ColorRepresentation,
     FogBase,
+    Vector,
+    Vector2Tuple,
+    Vector4Tuple,
 } from "three";
+
+export {
+    Material as BodyMaterial,
+    Mat3,
+    Vec3,
+    Quaternion as Quat,
+    Shape
+} from "cannon-es";
+export type {
+    BodyType,
+} from "cannon-es";
