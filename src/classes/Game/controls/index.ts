@@ -1,0 +1,1 @@
+export { default as PointerLockControls } from "./PointerLockControls.class";
