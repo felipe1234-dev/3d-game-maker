@@ -3,6 +3,12 @@ import { Game } from "@local/classes";
 function metaFromObjectJSON(json: Game.Formats.Object3D): Game.Formats.Meta {
     const meta: Game.Formats.Meta = {};
 
+    for (const object of json.object.children || []) {
+        if (!meta.objects) meta.objects = {};
+
+        meta.objects[object.uuid] = object;
+    }
+
     for (const geometry of json.geometries || []) {
         if (!meta.geometries) meta.geometries = {};
 
