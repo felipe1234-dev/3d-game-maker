@@ -12,7 +12,7 @@ import * as CANNON from "cannon-es";
 
 class Mesh extends THREE.Mesh implements Game.Object3D {
     public readonly type: "Mesh";
-    public body?: Game.Body;
+    public body: Game.Body;
     public helper: Game.Helper;
 
     constructor(
@@ -80,21 +80,19 @@ class Mesh extends THREE.Mesh implements Game.Object3D {
             this.body = body;
         }
 
-        if (body) {
-            const result = threeToCannon(this);
-            const defaultShape = result?.shape || undefined;
+        const result = threeToCannon(this);
+        const defaultShape = result?.shape || undefined;
 
-            const { x: px, y: py, z: pz } = this.position;
-            const { x: qx, y: qy, z: qz, w } = this.quaternion;
+        const { x: px, y: py, z: pz } = this.position;
+        const { x: qx, y: qy, z: qz, w } = this.quaternion;
 
-            body.mesh = this;
-            if (body.shapes.length === 0 && defaultShape)
-                body.addShape(defaultShape);
-            body.position.set(px, py, pz);
-            body.quaternion.set(qx, qy, qz, w);
+        body.mesh = this;
+        if (body.shapes.length === 0 && defaultShape)
+            body.addShape(defaultShape);
+        body.position.set(px, py, pz);
+        body.quaternion.set(qx, qy, qz, w);
 
-            this.body = body;
-        }
+        this.body = body;
 
         this.position = new Proxy(this.position, {
             set: (
