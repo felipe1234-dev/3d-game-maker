@@ -8,6 +8,9 @@ class GameRenderer extends THREE.WebGLRenderer {
     protected animationCallback?: () => void;
     protected animationId?: number;
 
+    public timeStep = 1 / 60;
+    public lastCallTime = performance.now() / 1000;
+
     public get canvas(): HTMLCanvasElement {
         return this.domElement;
     }
@@ -63,8 +66,17 @@ class GameRenderer extends THREE.WebGLRenderer {
     ): void {
         const animate = () => {
             if (!this.frozen) {
+
                 if (this.physicsEnabled) {
-                    scene.physics.fixedStep();
+                    const time = performance.now() / 1000;
+                    const delta = time - this.lastCallTime;
+                    this.lastCallTime = time;
+
+                    scene.physics.fixedStep(this.timeStep, delta);
+
+                    for (const control of scene.controls) {
+                        control.update(delta);
+                    }
 
                     for (const child of scene.children) {
                         if (child instanceof Game.Mesh) {
