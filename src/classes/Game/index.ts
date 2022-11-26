@@ -22,6 +22,9 @@ export * from "./misc";
 // Models
 export * from "./models";
 
+// Controls
+export * from "./controls";
+
 // Formats
 export * as Formats from "./formats";
 
