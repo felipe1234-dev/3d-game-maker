@@ -12,9 +12,10 @@ interface SceneOptions {
     uuid?: string;
     name: string;
 
-    background?: THREE.Color | THREE.Texture | null;
-    environment?: THREE.Texture | null;
-    fog?: THREE.FogBase | null;
+    background?: Game.Color | Game.Texture | null;
+    environment?: Game.Texture | null;
+    fog?: Game.FogBase | null;
+    controls?: Game.Controls[];
 
     game?: Game.Core;
     stage?: Game.Stage;
@@ -24,7 +25,7 @@ interface SceneOptions {
 }
 
 class Scene extends THREE.Scene implements Game.Object3D {
-    static DEFAULT_BACKGROUND: THREE.Color = new THREE.Color("#444");
+    static DEFAULT_BACKGROUND: Game.Color = new Game.Color("#444");
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
     static DEFAULT_PHYSICS: GamePhysics = new GamePhysics();
@@ -34,7 +35,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
     public stage?: Game.Stage;
     public physics: GamePhysics;
     public children: (Game.Object3D | THREE.Object3D)[];
-    public cameras: Game.Camera[];
+    public controls: Game.Controls[];
 
     constructor(
         options: SceneOptions = {
@@ -52,6 +53,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
             background = Scene.DEFAULT_BACKGROUND,
             environment = Scene.DEFAULT_ENVIRONMENT,
             fog = Scene.DEFAULT_FOG,
+            controls = [],
 
             game,
             physics = Scene.DEFAULT_PHYSICS,
@@ -73,12 +75,29 @@ class Scene extends THREE.Scene implements Game.Object3D {
         this.stage = stage;
         this.physics = physics;
 
-        this.cameras = [];
         this.children = [];
 
         for (const object of children) {
-            this.add(object);
+            this.addObject(object);
         }
+
+        this.controls = [];
+
+        for (const control of controls) {
+            this.addControls(control);
+        }
+    }
+
+    public get cameras(): Game.Camera[] {
+        const cameras: Game.Camera[] = [];
+
+        for (const child of this.children) {
+            if (Game.isCamera(child)) {
+                cameras.push(child);
+            }
+        }
+
+        return cameras;
     }
 
     public select(): void {
@@ -115,27 +134,6 @@ class Scene extends THREE.Scene implements Game.Object3D {
         return clone;
     }
 
-    public override add(...objects: (Game.Object3D | THREE.Object3D)[]): this {
-        super.add(...objects);
-
-        for (const object of objects) {
-            if (object instanceof Game.Mesh && object.body) {
-                this.physics.addBody(object.body);
-            }
-
-            if (Game.isCamera(object)) {
-                this.cameras.push(object);
-            }
-        }
-
-        this.dispatchEvent({
-            type: "addObjects",
-            objects: [...objects],
-        });
-
-        return this;
-    }
-
     public override getObjectByProperty(
         name: string,
         value: any
@@ -161,6 +159,29 @@ class Scene extends THREE.Scene implements Game.Object3D {
         return super.getObjectByName(name) as Game.Object3D | undefined;
     }
 
+    public override add(
+        ...objects: (Game.Object3D | THREE.Object3D)[]
+    ): this {
+        for (const object of objects) {
+            const alreadyAdded = !!this.getObjectByUuid(object.uuid);
+
+            if (alreadyAdded) continue;
+
+            if (object instanceof Game.Mesh && object.body) {
+                this.physics.addBody(object.body);
+            }
+
+            super.add(object);
+        }
+
+        this.dispatchEvent({
+            type: "addObjects",
+            objects: [...objects],
+        });
+
+        return this;
+    }
+
     public override remove(
         ...objects: (Game.Object3D | THREE.Object3D)[]
     ): this {
@@ -180,6 +201,24 @@ class Scene extends THREE.Scene implements Game.Object3D {
         return this;
     }
 
+    public addObject(
+        ...objects: (Game.Object3D | THREE.Object3D)[]
+    ): this {
+        return this.add(...objects);
+    }
+
+    public removeObject(
+        ...objects: (Game.Object3D | THREE.Object3D)[]
+    ): this {
+        return this.remove(...objects);
+    }
+
+    public addControls(controls: Game.Controls): void {
+        this.controls.push(controls);
+
+        this.addObject(controls.mesh, controls.camera);
+    }
+
     public override toJSON(): Game.Formats.Scene {
         const obj = super.toJSON();
         delete obj.metadata;
@@ -195,6 +234,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
 
         json.bodies = this.physics.bodies.map(body => body.toJSON());
         json.object.physics = this.physics.toJSON();
+        json.object.controls = this.controls.map(control => control.toJSON());
 
         return json;
     }
@@ -212,8 +252,8 @@ class Scene extends THREE.Scene implements Game.Object3D {
         const bgIsTexture = typeof json.object.background === "string";
 
         if (bgIsColor) {
-            const color = json.object.background as THREE.ColorRepresentation;
-            scene.background = new THREE.Color(color);
+            const color = json.object.background as Game.ColorRepresentation;
+            scene.background = new Game.Color(color);
         } else if (bgIsTexture) {
             const textureJSON = json.textures?.find(
                 texture => texture.uuid === json.object.background
@@ -248,10 +288,28 @@ class Scene extends THREE.Scene implements Game.Object3D {
         if (json.object.fog) {
             if (json.object.fog.type === "Fog") {
                 const { color, near, far } = json.object.fog;
-                scene.fog = new THREE.Fog(color, near, far);
+                scene.fog = new Game.Fog(color, near, far);
             } else if (json.object.fog.type === "FogExp2") {
                 const { color, density } = json.object.fog;
-                scene.fog = new THREE.FogExp2(color, density);
+                scene.fog = new Game.FogExp2(color, density);
+            }
+        }
+
+        const metaObjects = meta.objects;
+        if (metaObjects) {
+            for (const controlJson of json.object.controls || []) {
+                let control: Game.Controls | undefined = undefined;
+
+                for (const type of Game.Libs.controls) {
+                    if (Game.Formats[`is${type}`](controlJson)) {
+                        control = Game[type].fromJSON(controlJson, { 
+                            objects: metaObjects, 
+                            ...meta 
+                        });
+                    }
+                }
+
+                if (control) scene.addControls(control);
             }
         }
 

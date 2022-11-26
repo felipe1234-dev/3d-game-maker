@@ -1,5 +1,6 @@
 import { Physics, isPhysics } from "./Physics.interface";
 import { Object3D, isObject3D } from "./Object3D.interface";
+import { Controls, isControls } from "../controls";
 
 interface Scene extends Object3D {
     object: Object3D["object"] & {
@@ -23,6 +24,7 @@ interface Scene extends Object3D {
             color: number;
             density: number;
         };
+        controls?: Controls[]
     };
 }
 
@@ -58,7 +60,7 @@ function isScene(json: any): json is Scene {
     }
 
     if ("background" in object) {
-        if (["string", "number"].includes(typeof object.background))
+        if (!["string", "number"].includes(typeof object.background))
             return false;
     }
 
@@ -71,7 +73,16 @@ function isScene(json: any): json is Scene {
             if (typeof object.fog.far !== "number") return false;
         } else if (object.type === "FogExp2") {
             if (typeof object.fog.density !== "number") return false;
+        } else {
+            return false;
         }
+    }
+
+    if ("controls" in object) {
+        if (!Array.isArray(object.controls)) return false;
+        if (
+            object.controls.some((item: any) => !isControls(item))
+        ) return false;
     }
 
     if (!Array.isArray(object.children)) return false;
