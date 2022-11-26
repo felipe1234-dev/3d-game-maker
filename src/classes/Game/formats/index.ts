@@ -19,5 +19,8 @@ export * from "./cameras";
 // Lights
 export * from "./lights";
 
+// Controls
+export * from "./controls";
+
 // Misc
 export * from "./misc";
