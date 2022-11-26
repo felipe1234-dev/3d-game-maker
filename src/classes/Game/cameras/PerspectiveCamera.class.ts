@@ -18,7 +18,6 @@ interface PerspectiveCameraOptions {
 class PerspectiveCamera extends THREE.PerspectiveCamera implements Game.Camera {
     public readonly type: "PerspectiveCamera";
     public helper: THREE.CameraHelper;
-    public game?: Game.Core;
 
     constructor(
         options: PerspectiveCameraOptions = {}

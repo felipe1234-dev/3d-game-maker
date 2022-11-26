@@ -4,7 +4,6 @@ import * as THREE from "three";
 
 interface Camera extends Object3D {
     type: typeof Game.Libs.cameras[number];
-    game?: Game.Core;
     matrixWorldInverse: THREE.Matrix4;
     projectionMatrix: THREE.Matrix4;
     projectionMatrixInverse: THREE.Matrix4;
