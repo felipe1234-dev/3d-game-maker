@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import * as CANNON from "cannon-es";
 import { Game } from "@local/classes";
 import { generateID } from "../utils/private";
@@ -11,22 +10,22 @@ interface BodyOptions {
     collisionFilterGroup?: number;
     collisionFilterMask?: number;
     collisionResponse?: boolean;
-    position?: CANNON.Vec3;
-    velocity?: CANNON.Vec3;
+    position?: Game.Vec3;
+    velocity?: Game.Vec3;
     mass?: number;
-    material?: CANNON.Material;
+    material?: Game.BodyMaterial;
     linearDamping?: number;
-    type?: CANNON.BodyType;
+    type?: Game.BodyType;
     allowSleep?: boolean;
     sleepSpeedLimit?: number;
     sleepTimeLimit?: number;
-    quaternion?: CANNON.Quaternion;
-    angularVelocity?: CANNON.Vec3;
+    quaternion?: Game.Quat;
+    angularVelocity?: Game.Vec3;
     fixedRotation?: boolean;
     angularDamping?: number;
-    linearFactor?: CANNON.Vec3;
-    angularFactor?: CANNON.Vec3;
-    shape?: CANNON.Shape;
+    linearFactor?: Game.Vec3;
+    angularFactor?: Game.Vec3;
+    shape?: Game.Shape;
     isTrigger?: boolean;
 }
 
@@ -38,7 +37,7 @@ class Body extends CANNON.Body {
     constructor(options: BodyOptions = {}) {
         const {
             id = generateID(),
-            uuid = THREE.MathUtils.generateUUID(),
+            uuid = Game.MathUtils.generateUUID(),
             mesh,
             ...rest
         } = options;
@@ -57,10 +56,10 @@ class Body extends CANNON.Body {
         // Copy properties from Mesh
 
         const { x: px, y: py, z: pz } = this.mesh.position;
-        this.position.copy(new CANNON.Vec3(px, py, pz));
+        this.position.copy(new Game.Vec3(px, py, pz));
 
         const { x: qx, y: qy, z: qz, w } = this.mesh.quaternion;
-        this.quaternion.copy(new CANNON.Quaternion(qx, qy, qz, w));
+        this.quaternion.copy(new Game.Quat(qx, qy, qz, w));
 
         for (const shape of this.shapes) {
             this.removeShape(shape);
@@ -129,36 +128,36 @@ class Body extends CANNON.Body {
 
         {
             const [x, y, z] = position;
-            options.position = new CANNON.Vec3(x, y, z);
+            options.position = new Game.Vec3(x, y, z);
         }
 
         {
             const [x, y, z] = velocity;
-            options.velocity = new CANNON.Vec3(x, y, z);
+            options.velocity = new Game.Vec3(x, y, z);
         }
 
         if (material) {
-            options.material = new CANNON.Material(material);
+            options.material = new Game.BodyMaterial(material);
         }
 
         {
             const [x, y, z, w] = quaternion;
-            options.quaternion = new CANNON.Quaternion(x, y, z, w);
+            options.quaternion = new Game.Quat(x, y, z, w);
         }
 
         {
             const [x, y, z] = angularVelocity;
-            options.angularVelocity = new CANNON.Vec3(x, y, z);
+            options.angularVelocity = new Game.Vec3(x, y, z);
         }
 
         {
             const [x, y, z] = linearFactor;
-            options.linearFactor = new CANNON.Vec3(x, y, z);
+            options.linearFactor = new Game.Vec3(x, y, z);
         }
 
         {
             const [x, y, z] = angularFactor;
-            options.angularFactor = new CANNON.Vec3(x, y, z);
+            options.angularFactor = new Game.Vec3(x, y, z);
         }
 
         return new Body(options);
