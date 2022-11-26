@@ -12,7 +12,7 @@ interface SceneOptions {
     uuid?: string;
     name: string;
 
-    background?: Game.Color | Game.Texture | null;
+    background?: THREE.Color | Game.Texture | null;
     environment?: Game.Texture | null;
     fog?: Game.FogBase | null;
     controls?: Game.Controls[];
@@ -25,7 +25,7 @@ interface SceneOptions {
 }
 
 class Scene extends THREE.Scene implements Game.Object3D {
-    static DEFAULT_BACKGROUND: Game.Color = new Game.Color("#444");
+    static DEFAULT_BACKGROUND: THREE.Color = new THREE.Color("#444");
     static DEFAULT_ENVIRONMENT: null = null;
     static DEFAULT_FOG: null = null;
     static DEFAULT_PHYSICS: GamePhysics = new GamePhysics();
@@ -252,8 +252,8 @@ class Scene extends THREE.Scene implements Game.Object3D {
         const bgIsTexture = typeof json.object.background === "string";
 
         if (bgIsColor) {
-            const color = json.object.background as Game.ColorRepresentation;
-            scene.background = new Game.Color(color);
+            const color = json.object.background as THREE.ColorRepresentation;
+            scene.background = new THREE.Color(color);
         } else if (bgIsTexture) {
             const textureJSON = json.textures?.find(
                 texture => texture.uuid === json.object.background
@@ -302,9 +302,9 @@ class Scene extends THREE.Scene implements Game.Object3D {
 
                 for (const type of Game.Libs.controls) {
                     if (Game.Formats[`is${type}`](controlJson)) {
-                        control = Game[type].fromJSON(controlJson, { 
-                            objects: metaObjects, 
-                            ...meta 
+                        control = Game[type].fromJSON(controlJson, {
+                            objects: metaObjects,
+                            ...meta
                         });
                     }
                 }
