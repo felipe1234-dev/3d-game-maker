@@ -1,5 +1,6 @@
 import { Game } from "@local/classes";
 import { generateID, metaToMetaAsArray } from "../utils/private";
+import { Person, FirstPerson, SecondPerson, ThirdPerson } from "./index";
 import * as THREE from "three";
 
 const lookEvent = { type: "look" };
@@ -11,17 +12,11 @@ const jumpEvent = { type: "jump" };
 
 const PI_2 = Math.PI / 2;
 
-const FIRST_PERSON = 1;
-const SECOND_PERSON = 2;
-const THIRD_PERSON = 3;
-
 const MIN_F1_ANGLE = 0;
 const MAX_F1_ANGLE = Math.PI;
 
 const MIN_F23_ANGLE = -6;
 const MAX_F23_ANGLE = 6;
-
-type Person = typeof FIRST_PERSON | typeof SECOND_PERSON | typeof THIRD_PERSON;
 
 class PointerLockControls extends THREE.EventDispatcher implements Game.Controls {
     public id: number;
@@ -37,9 +32,9 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
     protected moveLeft: boolean;
     protected moveRight: boolean;
     protected jumps: number;
-    protected person: Person;
     protected prevPosition: Game.Vector3;
 
+    public person: Person;
     public jumpVelocity: number;
     public enableJump: boolean;
     public doubleJump: boolean;
@@ -68,10 +63,10 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         this.moveBackward = false;
         this.moveLeft = false;
         this.moveRight = false;
-        this.person = FIRST_PERSON;
         this.jumps = 0;
         this.prevPosition = mesh.position.clone();
 
+        this.person = FirstPerson;
         this.enableJump = true;
         this.jumpVelocity = 10;
         this.doubleJump = false;
@@ -85,30 +80,30 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
     public set firstPerson(bool: boolean) {
         if (!bool) return;
 
-        this.person = FIRST_PERSON;
+        this.person = FirstPerson;
     }
 
     public get firstPerson(): boolean {
-        return this.person === FIRST_PERSON;
+        return this.person === FirstPerson;
     }
 
     public set secondPerson(bool: boolean) {
         if (!bool) return;
 
-        this.person = SECOND_PERSON;
+        this.person = SecondPerson;
     }
 
     public get secondPerson(): boolean {
-        return this.person === SECOND_PERSON;
+        return this.person === SecondPerson;
     }
 
     public set thirdPerson(bool: boolean) {
         if (!bool) return;
-        this.person = THIRD_PERSON;
+        this.person = ThirdPerson;
     }
 
     public get thirdPerson(): boolean {
-        return this.person === THIRD_PERSON;
+        return this.person === ThirdPerson;
     }
 
     public get canJump(): boolean {
