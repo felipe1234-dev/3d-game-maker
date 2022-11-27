@@ -1,69 +1,47 @@
 import { useState } from "react";
-import {
-    Box,
-    Button,
-    Collapse,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-} from "@mui/material";
+import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Flashlight } from "@styled-icons/fluentui-system-filled";
-import { Shapes } from "@styled-icons/fa-solid";
 import { CameraVideo as Camera, Tools } from "@styled-icons/bootstrap";
 import { GameController as Controls } from "@styled-icons/ionicons-solid";
-import * as THREE from "three";
+import { Flashlight } from "@styled-icons/fluentui-system-filled";
+import { Shapes } from "@styled-icons/fa-solid";
 
 import { Game } from "@local/classes";
 import { useEditor, useGame } from "@local/contexts";
 import { stringToColor } from "@local/functions";
-import { Modal, ModalProps } from "@local/components";
 import { t } from "@local/i18n";
 
 import miscList from "@local/consts/editor/aliases/misc/list";
 import lightList from "@local/consts/editor/aliases/lights/list";
 import shapeList from "@local/consts/editor/aliases/shapes/list";
 import cameraList from "@local/consts/editor/aliases/cameras/list";
+import controlList from "@local/consts/editor/controls/list";
+
+import ObjectAdded from "./ObjectAdded";
+import AddPointerLock from "./AddPointerLock";
 
 const categories = [
     { label: "Misc", Icon: Tools, list: miscList },
     { label: "Lights", Icon: Flashlight, list: lightList },
     { label: "Shapes", Icon: Shapes, list: shapeList },
     { label: "Cameras", Icon: Camera, list: cameraList },
-    { label: "Controls", Icon: Controls, list: [] },
+    { label: "Controls", Icon: Controls, list: controlList },
 ];
-
-function generateModalProps(
-    props: {
-        cancel: () => void;
-        confirm: () => void;
-    }
-): ModalProps {
-    return ({
-        placement: "center",
-        height: 170,
-        header: t("Group this object with the currently selected one?"),
-        footer: (
-            <>
-                <Button onClick={props.cancel}>
-                    {t("No")}
-                </Button>
-                <Button onClick={props.confirm}>
-                    {t("Yes")}
-                </Button>
-            </>
-        ),
-    })
-}
 
 function Body() {
     const { game } = useGame();
     const { editor } = useEditor();
     const transformer = editor?.transformControls;
 
-    const [showModal, setShowModal] = useState(false);
+    const [modal, setModal] = useState<string>();
     const [expanded, setExpanded] = useState(-1);
+
+    const hideModal = () => {
+        setModal(undefined);
+    };
+    const showModal = (modalName: string) => {
+        setModal(modalName);
+    };
 
     const addObject = (item: any, list: any[]) => {
         if (list === lightList) {
@@ -90,7 +68,11 @@ function Body() {
             );
         }
 
-        setShowModal(true);
+        if (list === controlList) {
+            addControls(
+                item as typeof controlList[number]
+            );
+        }
     };
 
     const addLight = (item: typeof lightList[number]) => {
@@ -100,6 +82,8 @@ function Body() {
         game?.currentScene?.add(light);
         transformer?.unselect();
         transformer?.select(light);
+
+        showModal("objectAdded");
     };
 
     const addShape = (item: typeof shapeList[number]) => {
@@ -108,7 +92,7 @@ function Body() {
 
         const material = new Game.MeshPhysicalMaterial({
             color: stringToColor(item.label),
-            side: THREE.DoubleSide,
+            side: Game.DoubleSide,
         });
         material.name = "MeshBasicMaterial";
 
@@ -118,6 +102,8 @@ function Body() {
         game?.currentScene?.add(object);
         transformer?.unselect();
         transformer?.select(object);
+
+        showModal("objectAdded");
     };
 
     const addCamera = (item: typeof cameraList[number]) => {
@@ -127,6 +113,8 @@ function Body() {
         game?.currentScene?.add(camera);
         transformer?.unselect();
         transformer?.select(camera);
+
+        showModal("objectAdded");
     };
 
     const addMisc = (item: typeof miscList[number]) => {
@@ -136,6 +124,16 @@ function Body() {
         game?.currentScene?.add(miscObject);
         transformer?.unselect();
         transformer?.select(miscObject);
+
+        showModal("objectAdded");
+    };
+
+    const addControls = (item: typeof controlList[number]) => {
+        const { Constructor } = item;
+
+        if (Constructor === Game.PointerLockControls) {
+            showModal("addPointerLock");
+        }
     };
 
     return (
@@ -143,59 +141,52 @@ function Body() {
             {categories.map(({ label, Icon, list }, i) => {
                 const open = expanded === i;
 
-                return (
-                    <>
-                        <ListItemButton
-                            key={`${label}-${i}`}
-                            component="li"
-                            onClick={() => setExpanded(open ? -1 : i)}
-                        >
-                            <ListItemIcon>
-                                <Icon width={30} />
-                            </ListItemIcon>
-                            <ListItemText primary={t(label)} />
-                            {open ? <ExpandLess /> : <ExpandMore />}
-                        </ListItemButton>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                            {list.map((item, i) => (
-                                <ListItemButton
-                                    key={`${item.label}-${i}`}
-                                    component="li"
-                                    onClick={() => addObject(item, list)}
+                return (<>
+                    <ListItemButton
+                        key={`${label}-${i}`}
+                        component="li"
+                        onClick={() => setExpanded(open ? -1 : i)}
+                    >
+                        <ListItemIcon>
+                            <Icon width={30} />
+                        </ListItemIcon>
+                        <ListItemText primary={t(label)} />
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        {list.map((item, i) => (
+                            <ListItemButton
+                                key={`${item.label}-${i}`}
+                                component="li"
+                                onClick={() => addObject(item, list)}
+                            >
+                                <ListItemIcon
+                                    sx={{ justifyContent: "flex-end" }}
                                 >
-                                    <ListItemIcon
-                                        sx={{ justifyContent: "flex-end" }}
-                                    >
-                                        <Box
-                                            sx={{
-                                                borderRadius: "50%",
-                                                backgroundColor: stringToColor(
-                                                    item.label
-                                                ),
-                                                width: 10,
-                                                height: 10,
-                                            }}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText primary={t(item.label)} />
-                                </ListItemButton>
-                            ))}
-                        </Collapse>
-                    </>
-                );
+                                    <Box
+                                        sx={{
+                                            borderRadius: "50%",
+                                            backgroundColor: stringToColor(
+                                                item.label
+                                            ),
+                                            width: 10,
+                                            height: 10,
+                                        }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText primary={t(item.label)} />
+                            </ListItemButton>
+                        ))}
+                    </Collapse>
+                </>);
             })}
 
-            {showModal && (
-                <Modal
-                    placement="center"
-                    height={130}
-                    header={t("Object added")}
-                    footer={(
-                        <Button onClick={() => setShowModal(false)}>
-                            {t("Ok")}
-                        </Button>
-                    )}
-                />
+            {modal === "objectAdded" && <ObjectAdded onHide={hideModal} />}
+            {modal === "addPointerLock" && (
+                <AddPointerLock onHide={() => {
+                    hideModal();
+                    showModal("objectAdded");
+                }} />
             )}
         </List>
     );
