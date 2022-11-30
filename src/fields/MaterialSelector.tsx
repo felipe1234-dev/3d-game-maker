@@ -6,7 +6,6 @@ import {
 } from "@mui/material";
 
 import { Game } from "@local/classes";
-import { useEditor } from "@local/contexts";
 import { Helper } from "@local/components";
 import { FieldProps } from "@local/fields";
 import { t } from "@local/i18n";
@@ -23,15 +22,13 @@ const cache: {
 
 function MaterialSelector(props: FieldProps & TextFieldProps) {
     const {
+        object,
         labels,
-        forceUpdate = () => { }
+        forceUpdate = () => { },
+        onChange = () => { }
     } = props;
 
     const label = labels[0];
-
-    const { editor } = useEditor();
-    const transformer = editor?.transformControls;
-    const object = transformer?.object;
 
     const options = materialList.map(material => ({
         key: String(Math.random()),
@@ -47,22 +44,21 @@ function MaterialSelector(props: FieldProps & TextFieldProps) {
     const helpText = selectedOption?.help || "";
 
     useEffect(() => {
-        if (!object) return;
         if (!(object instanceof Game.Mesh)) return;
         if (!Game.isMaterial(object.material)) return;
 
         setValue(object.material.type);
-    }, [transformer, object]);
+    }, [object]);
 
     useEffect(() => {
         if (!selectedOption || !object) return;
         if (!(object instanceof Game.Mesh)) return;
 
-        const material = object.material;
+        const mesh = object;
+        const material = mesh.material;
         if (!Game.isMaterial(material)) return;
 
         const { Constructor } = selectedOption;
-
         if (material instanceof Constructor) return;
 
         if (!cache[object.uuid]) {
@@ -80,6 +76,7 @@ function MaterialSelector(props: FieldProps & TextFieldProps) {
         }
 
         forceUpdate();
+        onChange();
     }, [value]);
 
     return (

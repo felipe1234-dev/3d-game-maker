@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { Game } from "@local/classes";
-import { useEditor } from "@local/contexts";
 import { FieldProps } from "@local/fields";
 import { Helper, ColorInput } from "@local/components";
 import { getProperty, setProperty } from "@local/functions";
@@ -14,45 +13,26 @@ function ColorField(props: FieldProps) {
     const [color, setColor] = useState(new Game.Color(defaultColor));
 
     const {
+        object,
         labels,
         attributes,
+        onChange = () => { },
         helpTexts = [],
         readOnly = false,
-        scope
     } = props;
     const label = labels[0];
     const attrPath = attributes[0];
     const helpText = helpTexts[0];
-    const { editor } = useEditor();
 
     useEffect(() => {
-        if (!editor) return;
-
-        const object = getProperty<object | undefined | null>(
-            scope,
-            editor.transformControls
+        setColor(
+            getProperty<Game.Color>(attrPath, object)
         );
-
-        if (object) {
-            setColor(getProperty<Game.Color>(attrPath, object));
-        }
-    }, [editor?.transformControls.object]);
+    }, [object]);
 
     useEffect(() => {
-        if (!editor) return;
-
-        const object = getProperty<object | undefined | null>(
-            scope,
-            editor.transformControls
-        );
-
-        if (object) {
-            setProperty(attrPath, color, object);
-
-            if (Game.isMaterial(object)) {
-                object.needsUpdate = true;
-            }
-        }
+        setProperty(attrPath, color, object);
+        onChange();
     }, [color]);
 
     const hexValue = "#" + color.getHexString();

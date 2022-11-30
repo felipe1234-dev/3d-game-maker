@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { 
+import {
     TextField,
     SingleNumberField,
     CheckboxField,
@@ -51,6 +51,7 @@ export default [
         Component: SingleNumberField,
         attributes: ["movementVelocity"],
         labels: ["Movement Velocity"],
+        step: 0.1,
     },
     {
         key: "sensitivity",
@@ -64,19 +65,19 @@ export default [
         key: "person",
         Component: OptionsField,
         attributes: ["person"],
-        labels: ["Person"],
+        labels: ["Camera"],
         helpText: "",
         options: [
             {
-                label: "First",
+                label: "First person",
                 value: Game.FirstPerson
             },
             {
-                label: "Second",
+                label: "Second person",
                 value: Game.SecondPerson
             },
             {
-                label: "Third",
+                label: "Third person",
                 value: Game.ThirdPerson
             }
         ],

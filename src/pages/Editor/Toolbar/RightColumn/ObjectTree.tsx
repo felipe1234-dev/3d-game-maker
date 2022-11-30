@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
-import { List } from "@mui/material";
+import { Divider, List } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 
 import { getGameObjects } from "@local/functions";
-import {
-    useForceUpdate,
-    useUnmount
-} from "@local/hooks";
-import {
-    useGame,
-    useEditor
-} from "@local/contexts";
+import { useForceUpdate, useUnmount } from "@local/hooks";
+import { useGame, useEditor } from "@local/contexts";
 
 import TreeItem from "./TreeItem";
 
 function ObjectTree() {
+    const [activeObject, setActiveObject] = useState("");
+
+    const location = useLocation();
     const { game } = useGame();
     const { editor } = useEditor();
-    const transformer = editor?.transformControls;
     const { forceUpdate } = useForceUpdate();
 
-    const [activeObject, setActiveObject] = useState("");
+    const transformer = editor?.transformControls;
+    const scene = game?.current.scene;
+    const gameObjects = scene ? getGameObjects(scene) : [];
+    const controls = scene?.controls || [];
 
     const events = [
         "select",
@@ -39,11 +39,23 @@ function ObjectTree() {
         }
     });
 
-    const scene = game?.current.scene;
-    const gameObjects = scene ? getGameObjects(scene) : [];
-
     return (
         <List className="ObjectTree-list" component="ul">
+            {controls.length > 0 && (<>
+                {controls.map(control => (
+                    <Link
+                        key={control.uuid}
+                        to={`controls/edit/${control.uuid}`}
+                        state={{
+                            background: location,
+                            useLoader: false,
+                        }}
+                    >
+                        {control.name}
+                    </Link>
+                ))}
+                <Divider />
+            </>)}
             {gameObjects.map(object => (
                 <TreeItem
                     key={object.uuid}

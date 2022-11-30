@@ -6,10 +6,6 @@ import { useGame } from "@local/contexts";
 import { Modal } from "@local/components";
 import { t } from "@local/i18n";
 
-function getMeshes(scene: Game.Scene): Game.Mesh[] {
-    return scene.children.filter(child => child instanceof Game.Mesh) as Game.Mesh[];
-}
-
 interface AddControlDialogProps {
     onHide: () => void;
 }
@@ -22,15 +18,15 @@ function AddControlDialog(props: AddControlDialogProps) {
     const scene = game?.current.scene;
 
     const cameras = scene?.cameras || [];
-    const meshes = scene ? getMeshes(scene) : [];
+    const meshes = scene?.meshes || [];
 
     const handleSelectCamera = (evt: React.ChangeEvent<HTMLInputElement>) => {
         if (!scene) return;
 
         const cameraUuid = evt.target.value;
-        const camera = scene.getObjectByUuid(cameraUuid);
+        const camera = scene.getCameraByUuid(cameraUuid);
 
-        if (Game.isCamera(camera)) {
+        if (camera) {
             setSelectedCamera(camera);
         }
     };

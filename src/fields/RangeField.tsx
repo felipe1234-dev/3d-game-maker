@@ -6,8 +6,6 @@ import {
     InputProps
 } from "@mui/material";
 
-import { Game } from "@local/classes";
-import { useEditor } from "@local/contexts";
 import { getProperty, setProperty } from "@local/functions";
 import { Helper } from "@local/components";
 import { FieldProps } from "@local/fields";
@@ -17,20 +15,20 @@ import "@local/styles/fields/RangeField.scss";
 
 function RangeField(props: FieldProps & InputProps) {
     const {
+        object,
         attributes,
         labels,
+        onChange = () => { },
         step,
         min = 0,
         max = 1,
         helpTexts = [],
         readOnly = false,
-        scope,
         ...inputProps
     } = props;
     const attrPath = attributes[0];
     const label = labels[0];
     const helpText = helpTexts[0];
-    const { editor } = useEditor();
 
     const [value, setValue] = useState<number>(0);
 
@@ -61,36 +59,14 @@ function RangeField(props: FieldProps & InputProps) {
     };
 
     useEffect(() => {
-        if (!editor) return;
-
-        const object = getProperty<Object | undefined>(
-            scope,
-            editor.transformControls
+        setValue(
+            getProperty<number>(attrPath, object)
         );
-
-        if (object) {
-            setValue(getProperty<number>(attrPath, object));
-        }
-    }, [editor?.transformControls.object]);
+    }, [object]);
 
     useEffect(() => {
-        if (!editor) return;
-
-        const object = getProperty<Object | undefined>(
-            scope,
-            editor.transformControls
-        );
-        const helper = editor.transformControls.helper || null;
-
-        if (object) {
-            setProperty(attrPath, value, object);
-
-            if (Game.isMaterial(object)) {
-                object.needsUpdate = true;
-            }
-
-            helper?.update();
-        }
+        setProperty(attrPath, value, object);
+        onChange();
     }, [value]);
 
     return (

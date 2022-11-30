@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import { TextField, TextFieldProps, MenuItem, FormControlLabel, Checkbox } from "@mui/material";
+import {
+    TextField,
+    TextFieldProps,
+    MenuItem,
+    FormControlLabel,
+    Checkbox
+} from "@mui/material";
 
 import { Game } from "@local/classes";
 import { getProperty, setProperty } from "@local/functions";
-import { useEditor } from "@local/contexts";
+import { MediaModal, MediaPreview } from "@local/components";
 import { Media } from "@local/api/models";
 import { FieldProps } from "@local/fields";
-import { MediaModal, MediaPreview } from "@local/components";
 import { t } from "@local/i18n";
 
 import mappingTypes from "@local/consts/editor/types/mapping";
@@ -15,8 +20,10 @@ import "@local/styles/fields/MapField.scss";
 
 function MapField(props: FieldProps & TextFieldProps) {
     const {
+        object,
         attributes,
-        labels
+        labels,
+        onChange = () => { }
     } = props;
 
     const label = labels[0];
@@ -27,15 +34,11 @@ function MapField(props: FieldProps & TextFieldProps) {
     const [type, setType] = useState("none");
     const [refract, setRefract] = useState(false);
 
-    const { editor } = useEditor();
-    const transformer = editor?.transformControls;
-    const object = transformer?.object;
-
     useEffect(() => {
-        if (!editor || !(object instanceof Game.Mesh)) return;
-        if (!Game.isMaterial(object.material)) return;
+        if (!Game.isMaterial(object)) return;
 
-        const texture = getProperty<Game.Texture | null>(attrPath, object.material);
+        const material = object;
+        const texture = getProperty<Game.Texture | null>(attrPath, material);
 
         if (!texture) {
             setType("none");
@@ -60,13 +63,12 @@ function MapField(props: FieldProps & TextFieldProps) {
                 setImage(texture.userData);
             }
         }
-    }, [editor, object]);
+    }, [object]);
 
     useEffect(() => {
-        if (!editor || !(object instanceof Game.Mesh)) return;
-        if (!Game.isMaterial(object.material)) return;
+        if (!Game.isMaterial(object)) return;
 
-        const material = object.material;
+        const material = object;
 
         switch (type) {
             case "uvMapping":
@@ -102,6 +104,8 @@ function MapField(props: FieldProps & TextFieldProps) {
                 setProperty(attrPath, null, material);
                 break;
         }
+
+        onChange();
     }, [type, image, refract]);
 
     return (

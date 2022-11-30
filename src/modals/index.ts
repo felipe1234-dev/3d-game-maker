@@ -1,4 +1,5 @@
 // Editor
+export { default as EditControlsModal } from "./Editor/Controls/Edit";
 export { default as EditTextureModal } from "./Editor/Texture/Edit";
 export { default as EditGeometryModal } from "./Editor/Geometry/Edit";
 export { default as EditObjectModal } from "./Editor/Object/Edit";

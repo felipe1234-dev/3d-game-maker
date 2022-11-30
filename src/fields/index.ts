@@ -1,7 +1,10 @@
+import { Game } from "@local/classes";
+
 export interface FieldProps {
-    scope: "object" | "object.geometry" | "object.material" | "object.body";
+    object: any;
     labels: string[];
     attributes: string[];
+    onChange?: () => void;
     forceUpdate?: () => void;
     step?: number;
     min?: number;

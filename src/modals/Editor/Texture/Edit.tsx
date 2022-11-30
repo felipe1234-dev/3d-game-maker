@@ -1,7 +1,10 @@
+import React from "react";
+
 import { Game } from "@local/classes";
-import { useEditor } from "@local/contexts";
 import { Modal } from "@local/components";
+import { useEditor } from "@local/contexts";
 import { useForceUpdate } from "@local/hooks";
+import { MaterialSelector } from "@local/fields";
 import { t } from "@local/i18n";
 
 import materialList from "@local/consts/editor/materials/list";
@@ -12,36 +15,57 @@ function EditTextureModal() {
     const { editor } = useEditor();
 
     const transformer = editor?.transformControls;
-    const object = transformer?.object instanceof Game.Mesh ? transformer?.object : undefined;
+    const object = transformer?.object instanceof Game.Mesh ? transformer.object : undefined;
+    const material = Game.isMaterial(object?.material) ? object?.material : undefined;
     const materialInfo = materialList.find(
-        mat => object?.material instanceof mat.Constructor
+        mat => material instanceof mat.Constructor
     );
+
+    const handleUpdateMaterial = () => {
+        if (!material) return;
+        material.needsUpdate = true;
+    };
 
     const header = `${t(materialInfo?.label || "Edit material")} ${object?.name || ""}`;
 
-    const body = (
-        <>
-            {(materialInfo?.attributes || []).map((attr, i) => {
-                const field = materialFields.find(
-                    field => field.key === attr
-                );
+    const body = material && (<>
+        {(materialInfo?.attributes || []).map((attr, i) => {
+            const field = materialFields.find(
+                field => field.key === attr
+            );
 
-                if (!field) {
-                    return <></>;
-                }
+            if (!field) {
+                return <></>;
+            }
 
-                const { Component: Field, ...props } = field;
+            const { Component, ...props } = field;
+            const key = `${field.key}-${i}-${material.uuid}`;
 
+            if (Component === MaterialSelector) {
                 return (
-                    <Field
-                        scope="object.material"
+                    <React.Fragment key={key}>
+                        <Component
+                            object={object}
+                            forceUpdate={forceUpdate}
+                            onChange={handleUpdateMaterial}
+                            {...props}
+                        />
+                    </React.Fragment>
+                );
+            }
+
+            return (
+                <React.Fragment key={key}>
+                    <Component
+                        object={material}
                         forceUpdate={forceUpdate}
+                        onChange={handleUpdateMaterial}
                         {...props}
                     />
-                );
-            })}
-        </>
-    );
+                </React.Fragment>
+            );
+        })}
+    </>);
 
     return (
         <Modal

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Game } from "@local/classes";
 import { useEditor } from "@local/contexts";
 import { Modal } from "@local/components";
@@ -8,32 +10,41 @@ import geometryFields from "@local/consts/editor/geometries/fields";
 
 function EditGeometryModal() {
     const { editor } = useEditor();
-    const object = editor?.transformControls.object;
+
+    const transformer = editor?.transformControls;
+    const object = transformer?.object instanceof Game.Mesh ? transformer.object : undefined;
+    const geometry = object?.geometry;
     const geometryInfo = geometryList.find(
-        geom =>
-            object instanceof Game.Mesh &&
-            object.geometry instanceof geom.Constructor
+        geom => geometry instanceof geom.Constructor
     );
 
     const header = `${t(geometryInfo?.label || "Edit geometry")} ${object?.name || ""}`;
 
-    const body = (
-        <>
-            {(geometryInfo?.attributes || []).map((attr, i) => {
-                const field = geometryFields.find(
-                    field => field.key === attr
-                );
+    const body = (geometry && transformer) && (<>
+        {(geometryInfo?.attributes || []).map((attr, i) => {
+            const field = geometryFields.find(
+                field => field.key === attr
+            );
 
-                if (!field) {
-                    return <></>;
-                }
+            if (!field) {
+                return <></>;
+            }
 
-                const { Component: Field, ...props } = field;
+            const { Component, ...props } = field;
 
-                return <Field scope="object.geometry" {...props} />;
-            })}
-        </>
-    );
+            const key = `${field.key}-${i}-${geometry.uuid}`;
+
+            return (
+                <React.Fragment key={key}>
+                    <Component
+                        object={geometry}
+                        onChange={() => transformer.helper?.update()}
+                        {...props}
+                    />
+                </React.Fragment>
+            );
+        })}
+    </>);
 
     return (
         <Modal

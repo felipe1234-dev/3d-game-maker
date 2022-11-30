@@ -15,7 +15,8 @@ import {
     EditVerticesModal,
     EditRendererModal,
     EditPhysicsModal,
-    ChooseSnippetsModal
+    ChooseSnippetsModal,
+    EditControlsModal
 } from "@local/modals";
 import {
     GameProvider,
@@ -191,6 +192,18 @@ const modalRoutes: RouteInfo[] = [
     {
         path: "/:lang/editor/:gameUid/snippets",
         Element: ChooseSnippetsModal,
+        wrappers: [
+            RequireAuth
+        ],
+        providers: [
+            GameProvider,
+            EditorProvider
+        ]
+    },
+    // Controls
+    {
+        path: "/:lang/editor/:gameUid/controls/edit/:controlUuid",
+        Element: EditControlsModal,
         wrappers: [
             RequireAuth
         ],
