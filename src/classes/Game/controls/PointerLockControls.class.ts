@@ -51,7 +51,7 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
 
         this.id = generateID();
         this.uuid = Game.MathUtils.generateUUID();
-        this.name = "";
+        this.name = "PointerLockControls";
         this.type = "PointerLockControls";
 
         this.camera = camera;
@@ -244,16 +244,17 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         }
     }
 
+    protected onCollide = (): void => {
+        this.jumps = 0;
+    }
+
     public connect(): void {
         document.addEventListener("mousemove", this.onMouseMove);
         document.addEventListener("pointerlockchange", this.onPointerlockChange);
         document.addEventListener("pointerlockerror", this.onPointerlockError);
         document.addEventListener("keydown", this.onKeyDown);
         document.addEventListener("keyup", this.onKeyUp);
-
-        this.mesh.body?.addEventListener("collide", () => {
-            this.jumps = 0;
-        });
+        this.mesh.body?.addEventListener("collide", this.onCollide);
 
         this.dispatchEvent(connectEvent);
     }
@@ -264,6 +265,7 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         document.removeEventListener("pointerlockerror", this.onPointerlockError);
         document.removeEventListener("keydown", this.onKeyDown);
         document.removeEventListener("keyup", this.onKeyUp);
+        this.mesh.body?.removeEventListener("collide", this.onCollide);
 
         this.dispatchEvent(disconnectEvent);
     }
