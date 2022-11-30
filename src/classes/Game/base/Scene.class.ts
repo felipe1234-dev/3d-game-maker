@@ -100,6 +100,18 @@ class Scene extends THREE.Scene implements Game.Object3D {
         return cameras;
     }
 
+    public get meshes(): Game.Mesh[] {
+        const meshes: Game.Mesh[] = [];
+
+        for (const child of this.children) {
+            if (child instanceof Game.Mesh) {
+                meshes.push(child);
+            }
+        }
+
+        return meshes;
+    }
+
     public select(): void {
         if (!this.game) {
             return;
@@ -133,6 +145,8 @@ class Scene extends THREE.Scene implements Game.Object3D {
 
         return clone;
     }
+
+    // Objects
 
     public override getObjectByProperty(
         name: string,
@@ -213,11 +227,89 @@ class Scene extends THREE.Scene implements Game.Object3D {
         return this.remove(...objects);
     }
 
-    public addControls(controls: Game.Controls): void {
-        this.controls.push(controls);
+    // Controls
 
-        this.addObject(controls.mesh, controls.camera);
+    public addControls(
+        ...controls: Game.Controls[]
+    ): void {
+        for (const control of controls) {
+            this.controls.push(control);
+            this.addObject(control.mesh, control.camera);
+        }
     }
+
+    public removeControls(
+        ...controls: Game.Controls[]
+    ): void {
+        for (const control of controls) {
+            control.disconnect();
+        }
+
+        const controlsUuids = controls.map(control => control.uuid);
+        this.controls = this.controls.filter(control => !controlsUuids.includes(control.uuid));
+    }
+
+    public getControlsByProperty(
+        name: string,
+        value: any
+    ): Game.Controls | undefined {
+        return this.controls.find(control => (
+            // @ts-ignore
+            control[name] === value
+        ));
+    }
+
+    public getControlsByUuid(uuid: string): Game.Controls | undefined {
+        return this.getControlsByProperty("uuid", uuid);
+    }
+
+    public getControlsById(id: number): Game.Controls | undefined {
+        return this.getControlsByProperty("id", id);
+    }
+
+    public getControlsByName(name: string): Game.Controls | undefined {
+        return this.getControlsByProperty("name", name);
+    }
+
+    // Cameras
+
+    public addCamera(
+        ...cameras: Game.Camera[]
+    ): void {
+        for (const camera of cameras) {
+            this.addObject(camera);
+        }
+    }
+
+    public removeCamera(
+        ...cameras: Game.Camera[]
+    ): void {
+        for (const camera of cameras) {
+            this.removeObject(camera);
+        }
+    }
+
+    public getCameraByProperty(
+        name: string,
+        value: any
+    ): Game.Camera | undefined {
+        const object = this.getObjectByProperty(name, value);
+        return Game.isCamera(object) ? object : undefined;
+    }
+
+    public getCameraByUuid(uuid: string): Game.Camera | undefined {
+        return this.getCameraByProperty("uuid", uuid);
+    }
+
+    public getCameraById(id: number): Game.Camera | undefined {
+        return this.getCameraByProperty("id", id);
+    }
+
+    public getCameraByName(name: string): Game.Camera | undefined {
+        return this.getCameraByProperty("name", name);
+    }
+
+    // Conversions
 
     public override toJSON(): Game.Formats.Scene {
         const obj = super.toJSON();
