@@ -1,25 +1,33 @@
 import { useEffect, useState } from "react";
-import { Divider, List } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { List } from "@mui/material";
 
+import { Game } from "@local/classes";
 import { getGameObjects } from "@local/functions";
 import { useForceUpdate, useUnmount } from "@local/hooks";
 import { useGame, useEditor } from "@local/contexts";
 
-import TreeItem from "./TreeItem";
+import ObjectItem from "./ObjectItem";
+import ControlItem from "./ControlItem";
 
 function ObjectTree() {
     const [activeObject, setActiveObject] = useState("");
 
-    const location = useLocation();
     const { game } = useGame();
     const { editor } = useEditor();
     const { forceUpdate } = useForceUpdate();
 
     const transformer = editor?.transformControls;
     const scene = game?.current.scene;
-    const gameObjects = scene ? getGameObjects(scene) : [];
     const controls = scene?.controls || [];
+
+    const controlsChildren = controls.reduce((children, control) => {
+        children.push(...control.children);
+        return children;
+    }, [] as Game.Object3D[]);
+    const controlsChildrenUuids = controlsChildren.map(child => child.uuid);
+    const gameObjects = (scene ? getGameObjects(scene) : []).filter(
+        object => !controlsChildrenUuids.includes(object.uuid)
+    );
 
     const events = [
         "select",
@@ -43,21 +51,19 @@ function ObjectTree() {
         <List className="ObjectTree-list" component="ul">
             {controls.length > 0 && (<>
                 {controls.map(control => (
-                    <Link
+                    <ControlItem
                         key={control.uuid}
-                        to={`controls/edit/${control.uuid}`}
-                        state={{
-                            background: location,
-                            useLoader: false,
-                        }}
-                    >
-                        {control.name}
-                    </Link>
+                        control={control}
+
+                        activeObject={activeObject}
+                        setActiveObject={setActiveObject}
+
+                        rerenderTreeList={forceUpdate}
+                    />
                 ))}
-                <Divider />
             </>)}
             {gameObjects.map(object => (
-                <TreeItem
+                <ObjectItem
                     key={object.uuid}
                     object={object}
 

@@ -10,3 +10,4 @@ export { default as stringToAvatar } from "./stringToAvatar";
 export { default as stringToColor } from "./stringToColor";
 export { default as validateURL } from "./validateURL";
 export { default as validateEmail } from "./validateEmail";
+export { default as getChildrenOfChildren } from "./getChildrenOfChildren";

@@ -224,13 +224,27 @@ $sidebar-width: 250px;
                 justify-content: flex-end;
                 margin: 0 15px;
     
-                div:first-child {
-                    width: 15px;
-                    margin-right: 10px;
-                    cursor: pointer;
+                .MuiButtonBase-root {
+                    background-color: transparent;
+                    width: 20px;
+                    height: 20px;
 
+                    &:hover {
+                        background-color: transparent !important;
+                    }
+                    
                     svg { 
                         color: $text-color;
+                    }
+
+                    &:first-child {
+                        margin-left: 20px;
+                        margin-right: 10px;
+                    }
+
+                    &:last-child {
+                        margin-left: 10px;
+                        margin-right: 20px;
                     }
                 }
     

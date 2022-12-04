@@ -6,6 +6,7 @@ import {
     ListItemIcon,
     ListItemText,
     Divider,
+    IconButton
 } from "@mui/material";
 import { Plus } from "@styled-icons/boxicons-regular";
 import { Minus } from "@styled-icons/heroicons-outline";
@@ -13,7 +14,8 @@ import { Minus } from "@styled-icons/heroicons-outline";
 import { Game } from "@local/classes";
 import {
     stringToColor,
-    getGameObjects
+    getGameObjects,
+    getChildrenOfChildren
 } from "@local/functions";
 import {
     useEditor,
@@ -21,24 +23,14 @@ import {
 } from "@local/contexts";
 import { t } from "@local/i18n";
 
-function getChildrenOfChildren(object: Game.Object3D) {
-    return getGameObjects(object).reduce((childList, child) => {
-        const children = getChildrenOfChildren(child);
-
-        childList.push(child, ...children);
-
-        return childList;
-    }, [] as Game.Object3D[]);
-}
-
-interface TreeItemProps {
+interface ObjectItemProps {
     object: Game.Object3D;
     setActiveObject: (uuid: string) => void;
     activeObject: string;
     rerenderTreeList: () => void;
 }
 
-function TreeItem(props: TreeItemProps) {
+function ObjectItem(props: ObjectItemProps) {
     const { editor } = useEditor();
     const transformer = editor?.transformControls;
     const { game } = useGame();
@@ -123,17 +115,30 @@ function TreeItem(props: TreeItemProps) {
 
         const childUuid = evt.dataTransfer.getData("child-uuid");
         const child = game.currentScene.getObjectByUuid(childUuid);
+        const parent = object;
+
+        console.log("child", child);
+        console.log("parent", parent);
 
         if (!child) {
             return;
         }
 
-        const objIsParent = child.parent?.uuid === object.uuid;
+        if (child.uuid === parent.uuid) {
+            return;
+        }
 
-        if (objIsParent) {
-            object.parent?.add(child);
+        const alreadyAdded = child.parent?.uuid === parent.uuid;
+        console.log("alreadyAdded", alreadyAdded);
+
+        if (alreadyAdded) {
+            const parentOfParent = parent.parent;
+            if (!parentOfParent) return;
+
+            parent.remove(child);
+            parentOfParent.add(child);
         } else {
-            object.add(child);
+            parent.add(child);
         }
 
         rerenderTreeList();
@@ -160,7 +165,7 @@ function TreeItem(props: TreeItemProps) {
                 draggable
             >
                 <ListItemIcon>
-                    <div onClick={toggleCollapser}>
+                    <IconButton onClick={toggleCollapser}>
                         {gameObjects.length > 0 && (
                             openDropdown ? (
                                 <Minus width={15} />
@@ -168,7 +173,7 @@ function TreeItem(props: TreeItemProps) {
                                 <Plus width={15} />
                             )
                         )}
-                    </div>
+                    </IconButton>
                     <Box
                         sx={{
                             backgroundColor: stringToColor(object.name || object.type),
@@ -183,7 +188,7 @@ function TreeItem(props: TreeItemProps) {
             {gameObjects.length > 0 && (
                 <Collapse in={openDropdown} timeout="auto" unmountOnExit>
                     {gameObjects.map(child => (
-                        <TreeItem
+                        <ObjectItem
                             key={child.uuid}
                             object={child}
                             setActiveObject={setActiveObject}
@@ -198,4 +203,4 @@ function TreeItem(props: TreeItemProps) {
     );
 }
 
-export default TreeItem;
+export default ObjectItem;
