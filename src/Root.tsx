@@ -5,9 +5,14 @@ import {
     useLocation,
     Location,
 } from "react-router-dom";
-import { AlertMessage, PageLoader, Composer } from "@local/components";
+import { 
+    AlertMessage, 
+    PageLoader, 
+    Composer 
+} from "@local/components";
 import { useAlert, useLoader } from "@local/contexts";
 import { isRouteState } from "@local/functions";
+import { useBgLocation } from "@local/hooks";
 
 import routes from "@local/consts/routes";
 
@@ -16,18 +21,15 @@ function Root() {
     const alert = useAlert();
 
     const pageLocation = useLocation();
-    const { pathname: pathNow, state } = pageLocation;
+    const { pathname: pathNow } = pageLocation;
+    const { 
+        background: backgroundLocation, 
+        useLoader: usePageLoader 
+    } = useBgLocation();
 
-    let backgroundLocation: Location | null = null;
-    let enablePageLoader: boolean = true;
-
-    if (isRouteState(state)) {
-        backgroundLocation = state.background ?? null;
-        enablePageLoader = state.useLoader ?? false;
-    }
 
     useEffect(() => {
-        if (enablePageLoader) {
+        if (usePageLoader) {
             loader.show();
         } else {
             loader.hide();
