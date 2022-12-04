@@ -6,12 +6,12 @@ import {
     ListItemIcon,
     ListItemText,
     Divider,
-    IconButton
+    IconButton,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Plus } from "@styled-icons/boxicons-regular";
 import { Minus } from "@styled-icons/heroicons-outline";
-import { PlugDisconnected } from "@styled-icons/fluentui-system-regular";
+import { Trash } from "@styled-icons/bootstrap";
 
 import { Game } from "@local/classes";
 import { useGame } from "@local/contexts";
@@ -74,9 +74,11 @@ function ControlItem(props: ControlItemProps) {
         });
     };
 
-    const deleteControl = () => {
+    const deleteControl = (evt: React.MouseEvent) => {
         if (!game?.current.scene) return;
         game.current.scene.removeControls(control);
+
+        evt.stopPropagation();
     };
 
     useEffect(() => {
@@ -96,14 +98,17 @@ function ControlItem(props: ControlItemProps) {
                 selected={selected}
             >
                 <ListItemIcon>
-                    <IconButton onClick={toggleCollapser}>
-                        {gameObjects.length > 0 && (
-                            openDropdown ? (
+                    {gameObjects.length > 0 && (
+                        <IconButton onClick={toggleCollapser}>
+                            {openDropdown ? (
                                 <Minus width={15} />
                             ) : (
                                 <Plus width={15} />
-                            )
-                        )}
+                            )}
+                        </IconButton>
+                    )}
+                    <IconButton onClick={deleteControl}>
+                        <Trash width={15} />
                     </IconButton>
                     <Box sx={{
                         backgroundColor: stringToColor(control.name || control.type),
@@ -113,9 +118,6 @@ function ControlItem(props: ControlItemProps) {
                     primary={control.name || t("No name")}
                     secondary={t(control.type)}
                 />
-                <IconButton onClick={deleteControl}>
-                    <PlugDisconnected width={15} />
-                </IconButton>
             </ListItemButton>
             {gameObjects.length > 0 && (
                 <Collapse in={openDropdown} timeout="auto" unmountOnExit>

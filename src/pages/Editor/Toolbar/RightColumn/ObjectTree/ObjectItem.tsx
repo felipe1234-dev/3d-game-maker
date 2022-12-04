@@ -165,15 +165,15 @@ function ObjectItem(props: ObjectItemProps) {
                 draggable
             >
                 <ListItemIcon>
-                    <IconButton onClick={toggleCollapser}>
-                        {gameObjects.length > 0 && (
-                            openDropdown ? (
+                    {gameObjects.length > 0 && (
+                        <IconButton onClick={toggleCollapser}>
+                            {openDropdown ? (
                                 <Minus width={15} />
                             ) : (
                                 <Plus width={15} />
-                            )
-                        )}
-                    </IconButton>
+                            )}
+                        </IconButton>
+                    )}
                     <Box
                         sx={{
                             backgroundColor: stringToColor(object.name || object.type),
