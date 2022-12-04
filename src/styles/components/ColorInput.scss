@@ -1,1 +1,9 @@
-.ColorInput {}
+.ColorInput {
+    &-square {
+        min-height: 30px;
+        min-width: 30px;
+        border-radius: 8px;
+        border: 2px solid #e9ebf0;
+        margin-right: 8px;
+    }
+}

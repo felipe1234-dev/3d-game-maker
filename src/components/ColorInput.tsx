@@ -26,14 +26,12 @@ function ColorInput(props: ColorInputProps) {
             InputProps={{
                 value,
                 startAdornment: (
-                    <div style={{
-                        minHeight: 30,
-                        minWidth: 30,
-                        borderRadius: 8,
-                        border: '2px solid #e9ebf0',
-                        marginRight: 8,
-                        backgroundColor: value,
-                    }} />
+                    <div 
+                        className="ColorInput-square"
+                        style={{
+                            backgroundColor: value,
+                        }} 
+                    />
                 ),
             }}
         />
