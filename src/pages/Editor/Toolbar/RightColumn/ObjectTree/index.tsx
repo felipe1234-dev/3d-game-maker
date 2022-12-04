@@ -5,6 +5,7 @@ import { Game } from "@local/classes";
 import { getGameObjects } from "@local/functions";
 import { useForceUpdate, useUnmount } from "@local/hooks";
 import { useGame, useEditor } from "@local/contexts";
+import { t } from "@local/i18n";
 
 import ObjectItem from "./ObjectItem";
 import ControlItem from "./ControlItem";
@@ -49,19 +50,20 @@ function ObjectTree() {
 
     return (
         <List className="ObjectTree-list" component="ul">
-            {controls.length > 0 && (<>
-                {controls.map(control => (
-                    <ControlItem
-                        key={control.uuid}
-                        control={control}
+            <p className="ObjectTree-list-help">
+                {t("Click on objects to edit them or drag them inside another object to add it as a child")}
+            </p>
+            {controls.map(control => (
+                <ControlItem
+                    key={control.uuid}
+                    control={control}
 
-                        activeObject={activeObject}
-                        setActiveObject={setActiveObject}
+                    activeObject={activeObject}
+                    setActiveObject={setActiveObject}
 
-                        rerenderTreeList={forceUpdate}
-                    />
-                ))}
-            </>)}
+                    rerenderTreeList={forceUpdate}
+                />
+            ))}
             {gameObjects.map(object => (
                 <ObjectItem
                     key={object.uuid}
