@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { applyObject3DJSON, parseObjectChildren } from "../utils/private";
+import { applyObject3DJSON, parseObjectChildren } from "../utils";
 import * as THREE from "three";
 
 class Object3D extends THREE.Object3D implements Game.Object3D {

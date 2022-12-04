@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { applyBaseGeometryJSON } from "../utils/private";
+import { applyBaseGeometryJSON } from "../utils";
 import * as THREE from "three";
 
 class TorusGeometry extends THREE.TorusGeometry implements Game.Geometry {

@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { applyBaseMaterialJSON } from "../utils/private";
+import { applyBaseMaterialJSON } from "../utils";
 import LineBasicMaterial from "./LineBasicMaterial.class";
 import * as THREE from "three";
 

@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { bufferAttributeFromJSON } from "@local/classes/Game/utils/private";
+import { bufferAttributeFromJSON } from "@local/classes/Game/utils";
 import * as THREE from "three";
 
 describe("bufferAttributeFromJSON.function", () => {

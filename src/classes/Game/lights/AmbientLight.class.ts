@@ -3,7 +3,7 @@ import {
     applyObject3DJSON,
     generateID,
     parseObjectChildren
-} from "../utils/private";
+} from "../utils";
 import * as THREE from "three";
 interface AmbientLightOptions {
     id?: number;

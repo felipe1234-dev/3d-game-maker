@@ -1,4 +1,4 @@
-import { generateID } from "@local/classes/Game/utils/private";
+import { generateID } from "@local/classes/Game/utils";
 
 describe("generateID.function", () => {
     it("should always return unique IDs", () => {

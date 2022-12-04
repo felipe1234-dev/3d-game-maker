@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { applyBaseGeometryJSON } from "@local/classes/Game/utils/private";
+import { applyBaseGeometryJSON } from "@local/classes/Game/utils";
 import * as THREE from "three";
 
 describe("Testing private utils", () => {

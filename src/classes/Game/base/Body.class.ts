@@ -1,6 +1,6 @@
 import * as CANNON from "cannon-es";
 import { Game } from "@local/classes";
-import { generateID } from "../utils/private";
+import { generateID } from "../utils";
 import { threeToCannon } from "three-to-cannon";
 
 interface BodyOptions {

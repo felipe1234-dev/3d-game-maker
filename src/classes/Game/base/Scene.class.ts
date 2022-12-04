@@ -3,7 +3,7 @@ import {
     generateID,
     metaFromObjectJSON,
     parseObjectChildren
-} from "../utils/private";
+} from "../utils";
 import GamePhysics from "./Physics.class";
 import * as THREE from "three";
 

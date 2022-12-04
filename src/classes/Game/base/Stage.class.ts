@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { generateID } from "../utils/private";
+import { generateID } from "../utils";
 import * as THREE from "three";
 
 interface StageOptions {

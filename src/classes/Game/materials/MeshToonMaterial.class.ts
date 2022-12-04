@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { applyBaseMaterialJSON } from "../utils/private";
+import { applyBaseMaterialJSON } from "../utils";
 import * as THREE from "three";
 
 class MeshToonMaterial extends THREE.MeshToonMaterial implements Game.Material {

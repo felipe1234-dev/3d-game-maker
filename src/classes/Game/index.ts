@@ -29,7 +29,7 @@ export * from "./controls";
 export * as Formats from "./formats";
 
 // Utils
-export * as Utils from "./utils/public";
+export * as Utils from "./utils";
 
 // Libs/lists
 export * as Libs from "./libs";

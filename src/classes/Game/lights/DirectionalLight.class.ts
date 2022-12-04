@@ -4,7 +4,7 @@ import {
     generateID,
     applyObject3DJSON,
     parseObjectChildren
-} from "../utils/private";
+} from "../utils";
 
 interface DirectionalLightOptions {
     id?: number;

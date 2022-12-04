@@ -6,7 +6,7 @@ import {
     parseObjectChildren,
     applyObject3DJSON,
     metaFromObjectJSON
-} from "../utils/private";
+} from "../utils";
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
 

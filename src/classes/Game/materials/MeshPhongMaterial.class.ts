@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
 import * as THREE from "three";
-import { applyBaseMaterialJSON } from "../utils/private";
+import { applyBaseMaterialJSON } from "../utils";
 
 class MeshPhongMaterial extends THREE.MeshPhongMaterial implements Game.Material {
     public readonly type: "MeshPhongMaterial" = "MeshPhongMaterial";

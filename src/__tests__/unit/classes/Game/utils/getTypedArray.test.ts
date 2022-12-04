@@ -1,4 +1,4 @@
-import { getTypedArray } from "@local/classes/Game/utils/private";
+import { getTypedArray } from "@local/classes/Game/utils";
 
 describe("getTypedArray.function", () => {
     it("should return the correct class instance for the type parameter", () => {

@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { applyBaseGeometryJSON } from "../utils/private";
+import { applyBaseGeometryJSON } from "../utils";
 import * as THREE from "three";
 
 class PlaneGeometry extends THREE.PlaneGeometry implements Game.Geometry {

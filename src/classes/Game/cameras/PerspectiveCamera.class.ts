@@ -3,7 +3,7 @@ import {
     generateID,
     applyObject3DJSON,
     parseObjectChildren
-} from "../utils/private";
+} from "../utils";
 import * as THREE from "three";
 
 interface PerspectiveCameraOptions {

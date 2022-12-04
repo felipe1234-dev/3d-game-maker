@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { applyObject3DJSON } from "@local/classes/Game/utils/private";
+import { applyObject3DJSON } from "@local/classes/Game/utils";
 
 describe("applyObject3DJSON.function", () => {
     it("should correctly apply all the properties", () => {
