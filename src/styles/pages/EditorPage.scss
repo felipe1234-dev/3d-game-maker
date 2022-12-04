@@ -206,10 +206,17 @@ $sidebar-width: 250px;
             margin: 0 !important;
             padding-left: 0 !important;
             background-color: transparent !important;
-            cursor: move !important;
-
+            
             &:hover {
                 background-color: rgba($info, .1) !important;
+            }
+            
+            &:not([draggable]), &[draggable="false"] {
+                cursor: default;
+            }
+
+            &[draggable]:not([draggable="false"]) {
+                cursor: move;
             }
 
             &--dragging {
