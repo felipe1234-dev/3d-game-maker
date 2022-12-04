@@ -63,12 +63,16 @@ const pt_BR = {
 
     "Show grids": "Mostrar grades",
     "Hide grids": "Esconder grades",
+    "Show gravity": "Mostrar gravidade",
+    "Hide gravity": "Esconder gravidade",
 
     "Zoom In": "Mais zoom",
     "Zoom Out": "Menos zoom",
 
     "Object tree": "Árvore de objetos",
     "Scene tree": "Árvore de cenários",
+    "Click on objects to edit them or drag them inside another object to add it as a child":
+        "Clique nos objetos para editá-los ou arraste para dentro de outro objeto para adicioná-lo como filho",
 
     "Scene": "Cenário",
     "Stage": "Fase",
@@ -96,6 +100,19 @@ const pt_BR = {
     // Editor/edit/vertices
     "Edit vertices": "Editar vértices",
 
+
+    // Editor/edit/controls 
+    "Jump Velocity": "Velocidade do Pulo",
+    "Enable Jump": "Habilitar pulo",
+    "Double Jump": "Pulo duplo",
+    "Movement Velocity": "Velocidade do Movimento",
+    "Sensitivity": "Sensibilidade",
+    "First person": "Primeira pessoa",
+    "Second person": "Segunda pessoa",
+    "Third person": "Terceira pessoa",
+
+    // Editor/add/controls
+    "Choose a camera and a mesh": "Escolha uma câmera e uma malha",
 
 
     // Editor/edit/scene
@@ -154,6 +171,7 @@ const pt_BR = {
     "Free shape": "Formato livre",
     "Group this object with the currently selected one?":
         "Agrupar esse objeto com o atualmente selecionado?",
+
 
 
 
@@ -287,13 +305,18 @@ const pt_BR = {
 
     // Lights
     "Ambient light": "Luz de ambiente",
+    "AmbientLight": "Luz de ambiente",
     "Directional light": "Luz direcional",
+    "DirectionalLight": "Luz direcional",
     "Hemisphere light": "Luz de hemisfério",
+    "HemisphereLight": "Luz de hemisfério",
     "Point light": "Ponto de luz",
+    "PointLight": "Ponto de luz",
     "Spotlight": "Holofote",
 
 
     // Geometries
+    "Geometry": "Geometria",
     "Cube": "Cubo",
     "Cylinder": "Cilindro",
     "Circle": "Círculo",
@@ -306,7 +329,14 @@ const pt_BR = {
     "Sphere": "Esfera",
     "Tetrahedron": "Tetraedro",
     "Torus": "Toro",
-    "Torus knot": "Nó toral"
+    "Torus knot": "Nó toral",
+
+    // Cameras
+    "Camera": "Câmera",
+    "Perspective Camera": "Câmera de Perspectiva",
+
+    // Controls
+    "Pointer Lock Controls": "Controle de bloqueio do ponteiro"
 }
 
 export default pt_BR;
