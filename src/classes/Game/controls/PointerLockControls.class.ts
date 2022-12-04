@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { generateID, metaToMetaAsArray } from "../utils/private";
+import { generateID, metaToMetaAsArray } from "../utils";
 import { Person, FirstPerson, SecondPerson, ThirdPerson } from "./index";
 import * as THREE from "three";
 
@@ -9,6 +9,13 @@ const unlockEvent = { type: "unlock" };
 const disconnectEvent = { type: "disconnect" };
 const connectEvent = { type: "connect" };
 const jumpEvent = { type: "jump" };
+const doubleJumpEvent = { type: "doubleJump" };
+const moveEvent = { type: "move" };
+const moveLeftEvent = { type: "moveLeft" };
+const moveRightEvent = { type: "moveRight" };
+const moveForwardEvent = { type: "moveForward" };
+const moveBackwardEvent = { type: "moveBackward" };
+const updateEvent = { type: "update" };
 
 const PI_2 = Math.PI / 2;
 
@@ -35,10 +42,19 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
     protected jumps: number;
     protected prevPosition: Game.Vector3;
 
+    public keys: {
+        jump: string[];
+        moveForward: string[];
+        moveBackward: string[];
+        moveLeft: string[];
+        moveRight: string[];
+    };
+
     public person: Person;
     public jumpVelocity: number;
     public enableJump: boolean;
     public doubleJump: boolean;
+    public enableMove: boolean;
     public movementVelocity: number;
     public sensitivity: number;
 
@@ -68,15 +84,22 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         this.jumps = 0;
         this.prevPosition = mesh.position.clone();
 
+        this.keys = {
+            jump: [" "],
+            moveForward: ["ArrowUp", "w"],
+            moveBackward: ["ArrowDown", "s"],
+            moveLeft: ["ArrowLeft", "a"],
+            moveRight: ["ArrowRight", "d"],
+        };
+
         this.person = FirstPerson;
         this.enableJump = true;
         this.jumpVelocity = 10;
         this.doubleJump = false;
+        this.enableMove = true;
         this.movementVelocity = 0.2;
 
         this.sensitivity = 1.0;
-
-        this.connect();
     }
 
     public set firstPerson(bool: boolean) {
@@ -117,12 +140,21 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         );
     }
 
+    public get isMoving(): boolean {
+        return (
+            this.moveForward || this.moveBackward ||
+            this.moveLeft || this.moveRight
+        );
+    }
+
     public lock(): void {
         document.body.requestPointerLock();
+        this.dispatchEvent(lockEvent);
     }
 
     public unlock(): void {
         document.exitPointerLock();
+        this.dispatchEvent(unlockEvent);
     }
 
     public jump(velocity?: number): void {
@@ -131,7 +163,11 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         this.mesh.body.velocity.y = velocity || this.jumpVelocity;
         this.jumps++;
 
-        this.dispatchEvent(jumpEvent);
+        if (this.jumps >= 2) {
+            this.dispatchEvent(doubleJumpEvent);
+        } else {
+            this.dispatchEvent(jumpEvent);
+        }
     }
 
     protected onPointerlockChange = (): void => {
@@ -189,60 +225,48 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
     }
 
     protected onKeyDown = (event: KeyboardEvent): void => {
-        switch (event.code) {
-            case "KeyW":
-            case "ArrowUp":
-                this.moveForward = true;
-                break;
+        const key = event.key;
 
-            case "KeyA":
-            case "ArrowLeft":
-                this.moveLeft = true;
-                break;
+        if (this.keys.jump.includes(key)) {
+            this.jump();
+        }
 
-            case "KeyS":
-            case "ArrowDown":
-                this.moveBackward = true;
-                break;
+        if (!this.enableMove) return;
 
-            case "KeyD":
-            case "ArrowRight":
-                this.moveRight = true;
-                break;
+        if (this.keys.moveForward.includes(key)) {
+            this.moveForward = true;
+        }
 
-            case "Space":
-                this.jump();
-                break;
+        if (this.keys.moveBackward.includes(key)) {
+            this.moveBackward = true;
+        }
 
-            default:
-                break;
+        if (this.keys.moveLeft.includes(key)) {
+            this.moveLeft = true;
+        }
+
+        if (this.keys.moveRight.includes(key)) {
+            this.moveRight = true;
         }
     }
 
     protected onKeyUp = (event: KeyboardEvent): void => {
-        switch (event.code) {
-            case "KeyW":
-            case "ArrowUp":
-                this.moveForward = false;
-                break;
+        const key = event.key;
 
-            case "KeyA":
-            case "ArrowLeft":
-                this.moveLeft = false;
-                break;
+        if (this.keys.moveForward.includes(key)) {
+            this.moveForward = false;
+        }
 
-            case "KeyS":
-            case "ArrowDown":
-                this.moveBackward = false;
-                break;
+        if (this.keys.moveBackward.includes(key)) {
+            this.moveBackward = false;
+        }
 
-            case "KeyD":
-            case "ArrowRight":
-                this.moveRight = false;
-                break;
+        if (this.keys.moveLeft.includes(key)) {
+            this.moveLeft = false;
+        }
 
-            default:
-                break;
+        if (this.keys.moveRight.includes(key)) {
+            this.moveRight = false;
         }
     }
 
@@ -282,16 +306,24 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
 
         if (this.moveForward) {
             inputVelocity.z = -this.movementVelocity * delta;
+            this.dispatchEvent(moveForwardEvent);
         }
         if (this.moveBackward) {
             inputVelocity.z = this.movementVelocity * delta;
+            this.dispatchEvent(moveBackwardEvent);
         }
 
         if (this.moveLeft) {
             inputVelocity.x = -this.movementVelocity * delta;
+            this.dispatchEvent(moveLeftEvent);
         }
         if (this.moveRight) {
             inputVelocity.x = this.movementVelocity * delta;
+            this.dispatchEvent(moveRightEvent);
+        }
+
+        if (this.isMoving) {
+            this.dispatchEvent(moveEvent);
         }
 
         const euler = new Game.Euler(0, 0, 0, "XYZ");
@@ -319,6 +351,8 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         }
 
         this.prevPosition = this.mesh.position.clone();
+
+        this.dispatchEvent(updateEvent);
     }
 
     public static fromJSON(
@@ -369,6 +403,8 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         controls.jumpVelocity = json.jumpVelocity;
         controls.doubleJump = json.doubleJump;
         controls.enableJump = json.enableJump;
+        controls.enableMove = json.enableMove;
+        controls.keys = json.keys;
 
         return controls;
     }
@@ -386,7 +422,9 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
             movementVelocity: this.movementVelocity,
             jumpVelocity: this.jumpVelocity,
             doubleJump: this.doubleJump,
-            enableJump: this.enableJump
+            enableJump: this.enableJump,
+            enableMove: this.enableMove,
+            keys: this.keys
         };
     }
 }
