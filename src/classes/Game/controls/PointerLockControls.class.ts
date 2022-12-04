@@ -24,8 +24,9 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
     public name: string;
     public readonly type: "PointerLockControls";
 
-    public camera: Game.Camera;
-    public mesh: Game.Mesh;
+    public readonly camera: Game.Camera;
+    public readonly mesh: Game.Mesh;
+    public readonly children: Game.Object3D[];
 
     protected moveForward: boolean;
     protected moveBackward: boolean;
@@ -56,6 +57,7 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
 
         this.camera = camera;
         this.mesh = mesh;
+        this.children = [mesh, camera];
 
         this.isLocked = false;
 
