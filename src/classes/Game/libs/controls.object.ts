@@ -1,5 +1,4 @@
 const controls = [
-    "PointerLockControls",
     "ClassicalControls",
     "RotationControls",
 ] as const;

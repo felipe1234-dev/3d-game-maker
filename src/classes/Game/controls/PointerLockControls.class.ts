@@ -12,7 +12,7 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
     public id: number;
     public uuid: string;
     public name: string;
-    public readonly type: typeof Game.Libs.controls[number];
+    public readonly type: any;
 
     public readonly camera: Game.Camera;
     public readonly mesh: Game.Mesh;
@@ -21,7 +21,7 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
     public sensitivity: number;
     public isLocked: boolean;
 
-    constructor(
+    protected constructor(
         camera: Game.Camera,
         mesh: Game.Mesh
     ) {
