@@ -1,9 +1,11 @@
 import { Game } from "@local/classes";
+import { metaToMetaAsArray } from "../utils";
+import PointerLockControls from "./PointerLockControls.class";
 
 const disconnectEvent = { type: "disconnect" };
 const connectEvent = { type: "connect" };
 
-class RotationControls extends Game.PointerLockControls implements Game.Controls {
+class RotationControls extends PointerLockControls implements Game.Controls {
     public readonly type: "RotationControls";
     protected readonly cursor: Game.BaseObject3D;
 
@@ -17,7 +19,7 @@ class RotationControls extends Game.PointerLockControls implements Game.Controls
 
     protected onMouseMove = (event: MouseEvent): void => {
         if (!this.isLocked) return;
-        
+
         const movementX = event.movementX || 0;
         const movementY = event.movementY || 0;
 
@@ -50,6 +52,48 @@ class RotationControls extends Game.PointerLockControls implements Game.Controls
         document.removeEventListener("pointerlockerror", this.onPointerlockError);
         document.removeEventListener("mousemove", this.onMouseMove);
         this.dispatchEvent(disconnectEvent);
+    }
+
+    public static override fromJSON(
+        json: Game.Formats.RotationControls,
+        meta: Game.Formats.Meta & {
+            objects: {
+                [uuid: string]: Game.Formats.Object3D["object"]
+            }
+        }
+    ): RotationControls | undefined {
+        const cameraUid = json.camera;
+        const cameraJson = {
+            ...metaToMetaAsArray(meta),
+            object: meta.objects[cameraUid]
+        };
+        let camera: Game.Camera | undefined = undefined;
+
+        for (const type of Game.Libs.cameras) {
+            if (Game.Formats[`is${type}`](cameraJson)) {
+                // @ts-ignore
+                camera = Game[type].fromJSON(cameraJson);
+            }
+        }
+
+        if (!camera) return undefined;
+
+        const meshUid = json.mesh;
+        const meshJson = {
+            ...metaToMetaAsArray(meta),
+            object: meta.objects[meshUid]
+        };
+        let mesh: Game.Mesh | undefined = undefined;
+
+        if (Game.Formats.isMesh(meshJson)) {
+            mesh = Game.Mesh.fromJSON(meshJson);
+        }
+
+        if (!mesh) return undefined;
+
+        const controls = new RotationControls(camera, mesh);
+
+        return controls;
     }
 
     public override toJSON(): Game.Formats.RotationControls {
