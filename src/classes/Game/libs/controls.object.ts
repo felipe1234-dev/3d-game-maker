@@ -1,5 +1,7 @@
 const controls = [
-    "PointerLockControls"
+    "PointerLockControls",
+    "ClassicalControls",
+    "RotationControls",
 ] as const;
 
 export default controls;
