@@ -34,13 +34,15 @@ function Body() {
     const transformer = editor?.transformControls;
 
     const [modal, setModal] = useState<string>();
+    const [modalProps, setModalProps] = useState({});
     const [expanded, setExpanded] = useState(-1);
 
     const hideModal = () => {
         setModal(undefined);
     };
-    const showModal = (modalName: string) => {
+    const showModal = (modalName: string, props: any = {}) => {
         setModal(modalName);
+        setModalProps(props);
     };
 
     const addObject = (item: any, list: any[]) => {
@@ -131,8 +133,8 @@ function Body() {
     const addControls = (item: typeof controlList[number]) => {
         const { Constructor } = item;
 
-        if (Constructor === Game.PointerLockControls) {
-            showModal("addPointerLock");
+        if (Constructor.prototype instanceof Game.PointerLockControls) {
+            showModal("addPointerLock", { item });
         }
     };
 
@@ -183,10 +185,13 @@ function Body() {
 
             {modal === "objectAdded" && <ObjectAdded onHide={hideModal} />}
             {modal === "addPointerLock" && (
-                <AddPointerLock onHide={() => {
-                    hideModal();
-                    showModal("objectAdded");
-                }} />
+                <AddPointerLock 
+                    onHide={() => {
+                        hideModal();
+                        showModal("objectAdded");
+                    }}
+                    {...modalProps}
+                />
             )}
         </List>
     );

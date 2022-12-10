@@ -6,11 +6,16 @@ import { useGame } from "@local/contexts";
 import { Modal } from "@local/components";
 import { t } from "@local/i18n";
 
+import controlList from "@local/consts/editor/controls/list";
+
 interface AddControlDialogProps {
     onHide: () => void;
+    item?: typeof controlList[number]
 }
 
 function AddControlDialog(props: AddControlDialogProps) {
+    const { Constructor } = props.item || {};
+
     const [selectedCamera, setSelectedCamera] = useState<Game.Camera>();
     const [selectedMesh, setSelectedMesh] = useState<Game.Mesh>();
 
@@ -44,14 +49,17 @@ function AddControlDialog(props: AddControlDialogProps) {
 
     const handleAddPointerLock = () => {
         if (
+            !Constructor ||
             !selectedCamera ||
             !selectedMesh ||
             !scene
         ) return;
+        if (!(Constructor.prototype instanceof Game.PointerLockControls)) return;
 
         const camera = selectedCamera;
         const mesh = selectedMesh;
-        const controls = new Game.PointerLockControls(camera, mesh);
+        // @ts-ignore
+        const controls = new Constructor(camera, mesh);
 
         scene.addControls(controls);
         props.onHide();
