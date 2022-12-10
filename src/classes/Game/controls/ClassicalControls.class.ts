@@ -1,6 +1,7 @@
 import { Game } from "@local/classes";
 import { metaToMetaAsArray } from "../utils";
 import { Person, FirstPerson, SecondPerson, ThirdPerson } from "./index";
+import PointerLockControls from "./PointerLockControls.class";
 
 const lookEvent = { type: "look" };
 const disconnectEvent = { type: "disconnect" };
@@ -76,7 +77,7 @@ const MAX_F1_ANGLE = Math.PI;
 const MIN_F23_ANGLE = -6;
 const MAX_F23_ANGLE = 6;
 
-class ClassicalControls extends Game.PointerLockControls implements Game.Controls {
+class ClassicalControls extends PointerLockControls implements Game.Controls {
     public readonly type: "ClassicalControls";
 
     protected moveForward: boolean;
