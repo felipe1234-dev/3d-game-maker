@@ -40,3 +40,6 @@ export type { RequireAuthProps } from "./RequireAuth";
 
 export { default as ResizableDrawer } from "./ResizableDrawer";
 export type { ResizableDrawerProps } from "./ResizableDrawer";
+
+export { default as GameList } from "./GameList";
+export type { GameListProps } from "./GameList";
