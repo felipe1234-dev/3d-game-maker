@@ -64,6 +64,10 @@ class GameRenderer extends THREE.WebGLRenderer {
         scene: Game.Scene,
         camera: Game.Camera
     ): void {
+        for (const control of scene.controls) {
+            control.connect();
+        }
+
         const animate = () => {
             if (!this.frozen) {
 
