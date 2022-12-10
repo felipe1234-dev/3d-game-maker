@@ -2,8 +2,8 @@ import { Game } from "@local/classes";
 
 export default [
     {
-        Constructor: Game.PointerLockControls,
-        label: "Pointer Lock Controls",
+        Constructor: Game.ClassicControls,
+        label: "Classical Controls",
         attributes: [
             "type",
             "name",
@@ -14,6 +14,17 @@ export default [
             "enableJump",
             "doubleJump",
             "movementVelocity",
+            "sensitivity",
+        ]
+    },
+    {
+        Constructor: Game.RotationControls,
+        label: "Rotation Controls",
+        attributes: [
+            "type",
+            "name",
+            "uuid",
+            "id",
             "sensitivity",
         ]
     }
