@@ -2,7 +2,7 @@ import { Game } from "@local/classes";
 
 export default [
     {
-        Constructor: Game.ClassicControls,
+        Constructor: Game.ClassicalControls,
         label: "Classical Controls",
         attributes: [
             "type",
