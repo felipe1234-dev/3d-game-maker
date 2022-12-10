@@ -394,6 +394,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
 
                 for (const type of Game.Libs.controls) {
                     if (Game.Formats[`is${type}`](controlJson)) {
+                        // @ts-ignore
                         control = Game[type].fromJSON(controlJson, {
                             objects: metaObjects,
                             ...meta
