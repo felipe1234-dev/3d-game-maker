@@ -4,8 +4,9 @@ import PointerLockControls from "./PointerLockControls.class";
 
 const disconnectEvent = { type: "disconnect" };
 const connectEvent = { type: "connect" };
+const rotateEvent = { type: "rotate" };
 
-class RotationControls extends PointerLockControls implements Game.Controls {
+class RotationControls extends PointerLockControls {
     public readonly type: "RotationControls";
     protected readonly cursor: Game.BaseObject3D;
 
@@ -19,6 +20,8 @@ class RotationControls extends PointerLockControls implements Game.Controls {
 
     protected onMouseMove = (event: MouseEvent): void => {
         if (!this.isLocked) return;
+
+        console.log("rotate")
 
         const movementX = event.movementX || 0;
         const movementY = event.movementY || 0;
@@ -36,8 +39,11 @@ class RotationControls extends PointerLockControls implements Game.Controls {
         //vector.x = Math.max(MIN_F23_ANGLE, Math.min(MAX_F23_ANGLE, vector.x));
 
         cursorPosition.copy(vector);
-
         this.mesh.lookAt(cursorPosition);
+
+        console.log("cursorPosition", cursorPosition);
+
+        this.dispatchEvent(rotateEvent);
     }
 
     public override connect(): void {
