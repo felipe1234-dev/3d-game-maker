@@ -77,7 +77,7 @@ const MAX_F1_ANGLE = Math.PI;
 const MIN_F23_ANGLE = -6;
 const MAX_F23_ANGLE = 6;
 
-class ClassicalControls extends PointerLockControls implements Game.Controls {
+class ClassicalControls extends PointerLockControls {
     public readonly type: "ClassicalControls";
 
     protected moveForward: boolean;
@@ -355,22 +355,22 @@ class ClassicalControls extends PointerLockControls implements Game.Controls {
 
         this.mesh.body.velocity.x += inputVelocity.x;
         this.mesh.body.velocity.z += inputVelocity.z;
-
+        const [prevX, prevY, prevZ] = this.prevPosition.toArray();
+        const [currX, currY, currZ] = this.mesh.position.toArray();
+        
+        const attachedObjects = this.children.filter(child => child !== this.mesh);
+        for (const child of attachedObjects) {
+            child.position.x += currX - prevX;
+            child.position.y += currY - prevY;
+            child.position.z += currZ - prevZ;
+        }
+        
         const cameraPosition = this.camera.position;
-
         if (this.firstPerson) {
             cameraPosition.copy(this.mesh.position);
-        } else if (this.secondPerson || this.thirdPerson) {
-            const [prevX, prevY, prevZ] = this.prevPosition.toArray();
-            const [currX, currY, currZ] = this.mesh.position.toArray();
-
-            cameraPosition.x += currX - prevX;
-            cameraPosition.y += currY - prevY;
-            cameraPosition.z += currZ - prevZ;
         }
 
         this.prevPosition = this.mesh.position.clone();
-
         this.dispatchEvent(updateEvent(delta));
     }
 
