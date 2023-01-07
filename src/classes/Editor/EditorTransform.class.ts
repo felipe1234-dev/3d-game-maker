@@ -209,11 +209,7 @@ class EditorTransform extends ThreeControls.TransformControls {
             return;
         }
 
-        if (
-            !this.intersected &&
-            this.object &&
-            this.helper
-        ) {
+        if (this.object && this.helper) {
             this.unselect();
         }
 
