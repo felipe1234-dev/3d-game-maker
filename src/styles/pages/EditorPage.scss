@@ -253,15 +253,15 @@ $sidebar-width: 250px;
                     svg { 
                         color: $text-color;
                     }
-
-                    &:first-child {
-                        margin-left: 41px;
-                    }
-
+                    
                     &:last-of-type {
                         margin-right: 10px;
                         margin-left: 5px;
                     } 
+                    
+                    &:first-child {
+                        margin-left: 41px;
+                    }
                 }
     
                 .MuiBox-root {
