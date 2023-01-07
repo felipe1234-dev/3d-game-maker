@@ -1,6 +1,6 @@
 import { Game } from "@local/classes";
-import { generateID, metaToMetaAsArray } from "../utils";
-import * as THREE from "three";
+import { metaToMetaAsArray } from "../utils";
+import BaseControls from "./BaseControls.class";
 
 const lockEvent = { type: "lock" };
 const unlockEvent = { type: "unlock" };
@@ -8,15 +8,8 @@ const disconnectEvent = { type: "disconnect" };
 const connectEvent = { type: "connect" };
 const updateEvent = (delta: number) => ({ type: "update", delta });
 
-class PointerLockControls extends THREE.EventDispatcher implements Game.Controls {
-    public id: number;
-    public uuid: string;
-    public name: string;
-    public readonly type: any;
-
-    public readonly camera: Game.Camera;
-    public readonly mesh: Game.Mesh;
-    public readonly children: Game.Object3D[];
+class PointerLockControls extends BaseControls {
+    public readonly type: typeof Game.Libs.controls[number];
 
     public sensitivity: number;
     public isLocked: boolean;
@@ -25,16 +18,10 @@ class PointerLockControls extends THREE.EventDispatcher implements Game.Controls
         camera: Game.Camera,
         mesh: Game.Mesh
     ) {
-        super();
+        super(camera, mesh);
 
-        this.id = generateID();
-        this.uuid = Game.MathUtils.generateUUID();
         this.name = "PointerLockControls";
         this.type = "PointerLockControls";
-
-        this.camera = camera;
-        this.mesh = mesh;
-        this.children = [mesh, camera];
 
         this.sensitivity = 1.0;
         this.isLocked = false;
