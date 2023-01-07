@@ -117,9 +117,6 @@ function ObjectItem(props: ObjectItemProps) {
         const child = game.currentScene.getObjectByUuid(childUuid);
         const parent = object;
 
-        console.log("child", child);
-        console.log("parent", parent);
-
         if (!child) {
             return;
         }
@@ -129,7 +126,6 @@ function ObjectItem(props: ObjectItemProps) {
         }
 
         const alreadyAdded = child.parent?.uuid === parent.uuid;
-        console.log("alreadyAdded", alreadyAdded);
 
         if (alreadyAdded) {
             const parentOfParent = parent.parent;
