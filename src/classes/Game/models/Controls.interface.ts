@@ -8,6 +8,8 @@ interface Controls {
     camera: Game.Camera;
     mesh: Game.Mesh;
     children: Game.Object3D[];
+    add: (...objects: Game.Object3D[]) => void;
+    remove: (...objects: Game.Object3D[]) => void;
     connect: () => void;
     disconnect: () => void;
     update: (delta: number) => void;
