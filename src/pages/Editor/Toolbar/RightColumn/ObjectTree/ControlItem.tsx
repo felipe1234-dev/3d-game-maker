@@ -79,6 +79,7 @@ function ControlItem(props: ControlItemProps) {
         game.current.scene.removeControls(control);
 
         evt.stopPropagation();
+        rerenderTreeList();
     };
 
     useEffect(() => {
