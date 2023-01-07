@@ -6,6 +6,7 @@ interface Controls {
     type: typeof Game.Libs.controls[number];
     name: string;
     camera: string;
+    mesh: string;
 }
 
 function isControls(json: any): json is Controls {
@@ -15,6 +16,7 @@ function isControls(json: any): json is Controls {
     if (!Game.Libs.controls.includes(json.type)) return false;
     if (typeof json.name !== "string") return false;
     if (typeof json.camera !== "string") return false;
+    if (typeof json.mesh !== "string") return false;
 
     return true;
 }
