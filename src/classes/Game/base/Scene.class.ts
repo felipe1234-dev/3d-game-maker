@@ -205,6 +205,13 @@ class Scene extends THREE.Scene implements Game.Object3D {
             if (object instanceof Game.Mesh) {
                 if (object.body) this.physics.removeBody(object.body);
             }
+
+            for (const control of this.controls) {
+                const childUuids = control.children.map(child => child.uuid);
+                if (childUuids.includes(object.uuid)) {
+                    this.removeControls(control);
+                }
+            }
         }
 
         this.dispatchEvent({
