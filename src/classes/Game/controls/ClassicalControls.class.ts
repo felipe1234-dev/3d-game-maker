@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { metaToMetaAsArray } from "../utils";
+import { applyObject3DJSON } from "../utils";
 import { Person, FirstPerson, SecondPerson, ThirdPerson } from "./index";
 import PointerLockControls from "./PointerLockControls.class";
 
@@ -126,7 +126,7 @@ class ClassicalControls extends PointerLockControls {
             moveRight: ["ArrowRight", "d"],
         };
 
-        this.person = FirstPerson;
+        this.person = SecondPerson;
         this.enableJump = true;
         this.jumpVelocity = 10;
         this.doubleJump = false;
@@ -374,56 +374,24 @@ class ClassicalControls extends PointerLockControls {
         this.dispatchEvent(updateEvent(delta));
     }
 
-    public static override fromJSON(
-        json: Game.Formats.ClassicalControls,
-        meta: Game.Formats.Meta & {
-            objects: {
-                [uuid: string]: Game.Formats.Object3D["object"]
-            }
-        }
-    ): ClassicalControls | undefined {
-        const cameraUid = json.camera;
-        const cameraJson = {
-            ...metaToMetaAsArray(meta),
-            object: meta.objects[cameraUid]
-        };
-        let camera: Game.Camera | undefined = undefined;
+    public static override fromJSON(json: Game.Formats.ClassicalControls): ClassicalControls {
+        const pointerLockControls = PointerLockControls.fromJSON(json);
+        const controls = new ClassicalControls(pointerLockControls.camera, pointerLockControls.mesh);
 
-        for (const type of Game.Libs.cameras) {
-            if (Game.Formats[`is${type}`](cameraJson)) {
-                // @ts-ignore
-                camera = Game[type].fromJSON(cameraJson);
-            }
+        applyObject3DJSON(controls, json);
+
+        for (const child of pointerLockControls.children) {
+            controls.add(child);
         }
 
-        if (!camera) return undefined;
-
-        const meshUid = json.mesh;
-        const meshJson = {
-            ...metaToMetaAsArray(meta),
-            object: meta.objects[meshUid]
-        };
-        let mesh: Game.Mesh | undefined = undefined;
-
-        if (Game.Formats.isMesh(meshJson)) {
-            mesh = Game.Mesh.fromJSON(meshJson);
-        }
-
-        if (!mesh) return undefined;
-
-        const controls = new ClassicalControls(camera, mesh);
-
-        controls.id = json.id;
-        controls.uuid = json.uuid;
-        controls.name = json.name;
-        controls.person = json.person;
-        controls.sensitivity = json.sensitivity;
-        controls.movementVelocity = json.movementVelocity;
-        controls.jumpVelocity = json.jumpVelocity;
-        controls.doubleJump = json.doubleJump;
-        controls.enableJump = json.enableJump;
-        controls.enableMove = json.enableMove;
-        controls.keys = json.keys;
+        controls.person = json.object.person;
+        controls.sensitivity = json.object.sensitivity;
+        controls.movementVelocity = json.object.movementVelocity;
+        controls.jumpVelocity = json.object.jumpVelocity;
+        controls.doubleJump = json.object.doubleJump;
+        controls.enableJump = json.object.enableJump;
+        controls.enableMove = json.object.enableMove;
+        controls.keys = json.object.keys;
 
         return controls;
     }
@@ -433,13 +401,16 @@ class ClassicalControls extends PointerLockControls {
 
         return {
             ...json,
-            person: this.person,
-            movementVelocity: this.movementVelocity,
-            jumpVelocity: this.jumpVelocity,
-            doubleJump: this.doubleJump,
-            enableJump: this.enableJump,
-            enableMove: this.enableMove,
-            keys: this.keys
+            object: {
+                ...json.object,
+                person: this.person,
+                movementVelocity: this.movementVelocity,
+                jumpVelocity: this.jumpVelocity,
+                doubleJump: this.doubleJump,
+                enableJump: this.enableJump,
+                enableMove: this.enableMove,
+                keys: this.keys
+            }
         };
     }
 }

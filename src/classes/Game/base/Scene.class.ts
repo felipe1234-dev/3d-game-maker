@@ -35,7 +35,6 @@ class Scene extends THREE.Scene implements Game.Object3D {
     public stage?: Game.Stage;
     public physics: GamePhysics;
     public children: (Game.Object3D | THREE.Object3D)[];
-    public controls: Game.Controls[];
 
     constructor(
         options: SceneOptions = {
@@ -81,8 +80,6 @@ class Scene extends THREE.Scene implements Game.Object3D {
             this.addObject(object);
         }
 
-        this.controls = [];
-
         for (const control of controls) {
             this.addControls(control);
         }
@@ -110,6 +107,18 @@ class Scene extends THREE.Scene implements Game.Object3D {
         }
 
         return meshes;
+    }
+
+    public get controls(): Game.Controls[] {
+        const controls: Game.Controls[] = [];
+
+        for (const child of this.children) {
+            if (Game.isControls(child)) {
+                controls.push(child);
+            }
+        }
+
+        return controls;
     }
 
     public select(): void {
@@ -209,7 +218,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
             for (const control of this.controls) {
                 const childUuids = control.children.map(child => child.uuid);
                 if (childUuids.includes(object.uuid)) {
-                    this.removeControls(control);
+                    control.remove(object);
                 }
             }
         }
@@ -239,10 +248,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
     public addControls(
         ...controls: Game.Controls[]
     ): void {
-        for (const control of controls) {
-            this.controls.push(control);
-            this.addObject(control.mesh, control.camera);
-        }
+        this.add(...controls);
     }
 
     public removeControls(
@@ -251,9 +257,7 @@ class Scene extends THREE.Scene implements Game.Object3D {
         for (const control of controls) {
             control.disconnect();
         }
-
-        const controlsUuids = controls.map(control => control.uuid);
-        this.controls = this.controls.filter(control => !controlsUuids.includes(control.uuid));
+        this.remove(...controls);
     }
 
     public getControlsByProperty(
@@ -283,17 +287,13 @@ class Scene extends THREE.Scene implements Game.Object3D {
     public addCamera(
         ...cameras: Game.Camera[]
     ): void {
-        for (const camera of cameras) {
-            this.addObject(camera);
-        }
+        this.add(...cameras);
     }
 
     public removeCamera(
         ...cameras: Game.Camera[]
     ): void {
-        for (const camera of cameras) {
-            this.removeObject(camera);
-        }
+        this.remove(...cameras);
     }
 
     public getCameraByProperty(
@@ -333,7 +333,6 @@ class Scene extends THREE.Scene implements Game.Object3D {
 
         json.bodies = this.physics.bodies.map(body => body.toJSON());
         json.object.physics = this.physics.toJSON();
-        json.object.controls = this.controls.map(control => control.toJSON());
 
         return json;
     }
@@ -391,25 +390,6 @@ class Scene extends THREE.Scene implements Game.Object3D {
             } else if (json.object.fog.type === "FogExp2") {
                 const { color, density } = json.object.fog;
                 scene.fog = new Game.FogExp2(color, density);
-            }
-        }
-
-        const metaObjects = meta.objects;
-        if (metaObjects) {
-            for (const controlJson of json.object.controls || []) {
-                let control: Game.Controls | undefined = undefined;
-
-                for (const type of Game.Libs.controls) {
-                    if (Game.Formats[`is${type}`](controlJson)) {
-                        // @ts-ignore
-                        control = Game[type].fromJSON(controlJson, {
-                            objects: metaObjects,
-                            ...meta
-                        });
-                    }
-                }
-
-                if (control) scene.addControls(control);
             }
         }
 

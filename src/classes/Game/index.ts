@@ -74,6 +74,16 @@ export {
     Euler,
     Quaternion,
     EventDispatcher,
+    
+    BoxHelper,
+    AxesHelper,
+    Box3Helper,
+    GridHelper,
+    PolarGridHelper,
+    ArrowHelper,
+    CameraHelper,
+    SkeletonHelper,
+    PointLightHelper
 } from "three";
 export type {
     ColorRepresentation,
@@ -88,8 +98,9 @@ export {
     Mat3,
     Vec3,
     Quaternion as Quat,
-    Shape
+    Shape,
+    BODY_TYPES
 } from "cannon-es";
 export type {
-    BodyType,
+    BodyType
 } from "cannon-es";

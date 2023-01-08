@@ -1,6 +1,5 @@
 import { threeToCannon } from "three-to-cannon";
 import { Game } from "@local/classes";
-import { Body } from "../base";
 import {
     generateID,
     parseObjectChildren,

@@ -13,12 +13,12 @@ interface GroupOptions {
 
 class Group extends THREE.Group implements Game.Object3D {
     public readonly type: "Group";
-    public helper: THREE.BoxHelper;
+    public helper: Game.Helper;
 
     constructor(options: GroupOptions = {}) {
         const {
             id = generateID(),
-            uuid = THREE.MathUtils.generateUUID()
+            uuid = Game.MathUtils.generateUUID()
         } = options;
         super();
 
@@ -26,7 +26,7 @@ class Group extends THREE.Group implements Game.Object3D {
         this.uuid = uuid;
         this.type = "Group";
 
-        this.helper = new THREE.BoxHelper(this);
+        this.helper = new Game.BoxHelper(this);
         this.helper.visible = false;
     }
 

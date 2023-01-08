@@ -1,5 +1,5 @@
 import { Game } from "@local/classes";
-import { metaToMetaAsArray } from "../utils";
+import { applyObject3DJSON } from "../utils";
 import PointerLockControls from "./PointerLockControls.class";
 
 const disconnectEvent = { type: "disconnect" };
@@ -8,40 +8,29 @@ const rotateEvent = { type: "rotate" };
 
 class RotationControls extends PointerLockControls {
     public readonly type: "RotationControls";
-    protected readonly cursor: Game.BaseObject3D;
 
     constructor(camera: Game.Camera, mesh: Game.Mesh) {
         super(camera, mesh);
 
         this.name = "RotationControls";
         this.type = "RotationControls";
-        this.cursor = new Game.BaseObject3D();
     }
 
     protected onMouseMove = (event: MouseEvent): void => {
         if (!this.isLocked) return;
 
-        console.log("rotate")
-
         const movementX = event.movementX || 0;
         const movementY = event.movementY || 0;
 
-        const cursorPosition = this.cursor.position;
-        const rotationFactor = 0.02;
+        const rotationFactor = 0.002;
 
-        const vector = new Game.Vector3();
-        vector.copy(cursorPosition);
+        const euler = new Game.Euler();
+        euler.setFromQuaternion(this.mesh.quaternion);
 
-        vector.y -= movementY * rotationFactor * this.sensitivity;
-        //vector.y = Math.max(MIN_F23_ANGLE, Math.min(MAX_F23_ANGLE, vector.y));
+        euler.y -= movementX * rotationFactor * this.sensitivity;
+        euler.x -= movementY * rotationFactor * this.sensitivity;
 
-        vector.x -= movementX * rotationFactor * this.sensitivity;
-        //vector.x = Math.max(MIN_F23_ANGLE, Math.min(MAX_F23_ANGLE, vector.x));
-
-        cursorPosition.copy(vector);
-        this.mesh.lookAt(cursorPosition);
-
-        console.log("cursorPosition", cursorPosition);
+        this.mesh.quaternion.setFromEuler(euler);
 
         this.dispatchEvent(rotateEvent);
     }
@@ -60,44 +49,15 @@ class RotationControls extends PointerLockControls {
         this.dispatchEvent(disconnectEvent);
     }
 
-    public static override fromJSON(
-        json: Game.Formats.RotationControls,
-        meta: Game.Formats.Meta & {
-            objects: {
-                [uuid: string]: Game.Formats.Object3D["object"]
-            }
+    public static override fromJSON(json: Game.Formats.RotationControls): RotationControls {
+        const pointerLockControls = PointerLockControls.fromJSON(json);        
+        const controls = new RotationControls(pointerLockControls.camera, pointerLockControls.mesh);
+
+        applyObject3DJSON(controls, json);
+        
+        for (const child of pointerLockControls.children) {
+            controls.add(child);
         }
-    ): RotationControls | undefined {
-        const cameraUid = json.camera;
-        const cameraJson = {
-            ...metaToMetaAsArray(meta),
-            object: meta.objects[cameraUid]
-        };
-        let camera: Game.Camera | undefined = undefined;
-
-        for (const type of Game.Libs.cameras) {
-            if (Game.Formats[`is${type}`](cameraJson)) {
-                // @ts-ignore
-                camera = Game[type].fromJSON(cameraJson);
-            }
-        }
-
-        if (!camera) return undefined;
-
-        const meshUid = json.mesh;
-        const meshJson = {
-            ...metaToMetaAsArray(meta),
-            object: meta.objects[meshUid]
-        };
-        let mesh: Game.Mesh | undefined = undefined;
-
-        if (Game.Formats.isMesh(meshJson)) {
-            mesh = Game.Mesh.fromJSON(meshJson);
-        }
-
-        if (!mesh) return undefined;
-
-        const controls = new RotationControls(camera, mesh);
 
         return controls;
     }
