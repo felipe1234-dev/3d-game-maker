@@ -8,6 +8,8 @@ import { db } from "@local/api";
 function byUid(uid: string): Promise<Media | undefined> {
     return new Promise(async (resolve, reject) => {
         try {
+            if (!uid) resolve(undefined);
+
             const docRef = doc(db, `${collectionName}/${uid}`);
             const docSnap = await getDoc(docRef);
 
