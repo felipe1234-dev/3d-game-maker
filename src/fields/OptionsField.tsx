@@ -20,7 +20,7 @@ function OptionsField(props: FieldProps & TextFieldProps) {
     const attrPath = attributes[0];
     const label = labels[0];
 
-    const [value, setValue] = useState<any>("");
+    const [value, setValue] = useState<any>();
 
     const values = options.map(opt => opt.value);
     const helpText = helpTexts[values.indexOf(value)];
