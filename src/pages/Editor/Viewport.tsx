@@ -35,8 +35,8 @@ function Viewport() {
             onPointerMove
         );
 
-        console.log(editor);
-        console.log(game);
+        console.log("Editor", editor);
+        console.log("Game", game);
     }, [containerEl, editor, game]);
 
     useUnmount(() => {
@@ -46,8 +46,9 @@ function Viewport() {
         );
     });
 
-    const intersections = editor?.transformControls.intersects || [];
-    const { object } = intersections[0] || {};
+    const transformer = editor?.transformControls;
+    const intersected = transformer?.intersected; 
+    const object = intersected?.object;
 
     return (
         <CursorTooltip

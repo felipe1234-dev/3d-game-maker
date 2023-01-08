@@ -100,6 +100,8 @@ function EditorPage() {
 
                 const editorCore = new Editor.Core(gameCore);
                 setEditor(editorCore);
+
+                console.log("Format", format);
             } catch (error) {
                 const err = error as Alert;
                 alert.setSeverity(err.severity);
