@@ -9,26 +9,20 @@ import { useMetadata } from "@local/contexts";
 import { t, getLang } from "@local/i18n";
 
 function TestGame() {
-    const [disabled, setDisabled] = useState(false);
     const { metadata } = useMetadata();
+    const [gameExists, setGameExists] = useState(false);
+
+    const lang = getLang();
+    const gameUid = metadata?.uid || "";
+    const disabled = !gameUid || !gameExists;
+    const helpText = disabled ? t("You need to save your game before testing") : undefined;
 
     useEffect(() => {
         (async () => {
-            if (!metadata) return;
-            const gameUid = metadata.uid;
-            if (!gameUid) {
-                setDisabled(true);
-                return;
-            }
-
-            const gameWasSaved = !!(await games.byUid(gameUid));
-            setDisabled(!gameWasSaved);
+            const exists = !!(await games.byUid(gameUid));
+            setGameExists(exists);
         })();
-    }, [metadata]);
-
-    const lang = getLang();
-    const helpText = disabled ? t("You need to save your game before testing") : undefined;
-    const gameUid = metadata?.uid || "";
+    }, [gameUid]);
 
     return (
         <Helper text={helpText} placement="bottom" arrow>
