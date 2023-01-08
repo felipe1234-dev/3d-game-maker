@@ -1,0 +1,13 @@
+diff --git a/node_modules/@remix-run/router/dist/history.d.ts b/node_modules/@remix-run/router/dist/history.d.ts
+index b6b0b22..e1695d6 100644
+--- a/node_modules/@remix-run/router/dist/history.d.ts
++++ b/node_modules/@remix-run/router/dist/history.d.ts
+@@ -80,7 +80,7 @@ export interface Listener {
+  * `history.push` or `history.replace`. May be either a URL or the pieces of a
+  * URL path.
+  */
+-export declare type To = string | Partial<Path>;
++export declare type To = string | number | Partial<Path>;
+ /**
+  * A history is an interface to the navigation stack. The history serves as the
+  * source of truth for the current location, as well as provides a set of

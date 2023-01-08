@@ -1,0 +1,39 @@
+diff --git a/node_modules/three-to-cannon/README.md b/node_modules/three-to-cannon/README.md
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/src/index.d.ts b/node_modules/three-to-cannon/dist/src/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/src/utils.d.ts b/node_modules/three-to-cannon/dist/src/utils.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.cjs b/node_modules/three-to-cannon/dist/three-to-cannon.cjs
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.cjs.map b/node_modules/three-to-cannon/dist/three-to-cannon.cjs.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.esm.js b/node_modules/three-to-cannon/dist/three-to-cannon.esm.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.esm.js.map b/node_modules/three-to-cannon/dist/three-to-cannon.esm.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.modern.js b/node_modules/three-to-cannon/dist/three-to-cannon.modern.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.modern.js.map b/node_modules/three-to-cannon/dist/three-to-cannon.modern.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.umd.js b/node_modules/three-to-cannon/dist/three-to-cannon.umd.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/dist/three-to-cannon.umd.js.map b/node_modules/three-to-cannon/dist/three-to-cannon.umd.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/lib/ConvexHull.d.ts b/node_modules/three-to-cannon/lib/ConvexHull.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/three-to-cannon/lib/ConvexHull.js b/node_modules/three-to-cannon/lib/ConvexHull.js
+old mode 100644
+new mode 100755
