@@ -47,18 +47,13 @@ function SaveGame() {
                     metadata,
                     format
                 });
+                
+                navigate(`/${lang}/editor/${newMetadata.uid}`, {
+                    state: { useLoader: true }
+                });
             }
 
             updateMetadata(newMetadata);
-
-            loader.hide();
-
-            navigate(`/${lang}/editor/${newMetadata.uid}`, {
-                state: {
-                    useLoader: false
-                }
-            });
-
             setSeverity("success");
             setMessage(t("Game saved"));
         } catch (error) {
